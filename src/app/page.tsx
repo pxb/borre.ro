@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
 import { HeroMark } from "@/components/hero/mark";
+import { WorkField } from "@/components/work-field";
 import { evidence, pillars, site } from "@/content/site";
 
 export default function Home() {
@@ -53,7 +54,8 @@ export default function Home() {
         </dl>
       </section>
 
-      <section className="border-t border-rule py-20">
+      <section className="relative isolate border-t border-rule py-20">
+        <WorkField />
         <h2 className="font-mono text-xs uppercase tracking-widest text-ink-faint">
           Selected work
         </h2>

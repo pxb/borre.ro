@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, type ThreeElements } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { crossVoxels } from "./voxels";
@@ -15,58 +15,6 @@ function useReducedMotion() {
     return () => mq.removeEventListener("change", on);
   }, []);
   return reduced;
-}
-
-/* A soft field behind the mark. Cheap fragment shader, no extra dependency. */
-const gradientVertex = /* glsl */ `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const gradientFragment = /* glsl */ `
-  varying vec2 vUv;
-  uniform float uTime;
-  uniform vec3 uAccent;
-
-  void main() {
-    vec2 p = vUv - 0.5;
-    float d = length(p) * 2.1;
-    float wave = 0.5 + 0.5 * sin(uTime * 0.18 + p.x * 2.4 + p.y * 1.7);
-    float glow = smoothstep(0.55, 0.0, d) * (0.26 + 0.32 * wave);
-    gl_FragColor = vec4(uAccent, glow * 0.34);
-  }
-`;
-
-function GradientField({ reduced }: { reduced: boolean }) {
-  const mat = useRef<THREE.ShaderMaterial>(null);
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uAccent: { value: new THREE.Color("#d8452a") },
-    }),
-    [],
-  );
-  useFrame((state) => {
-    if (!reduced && mat.current) {
-      mat.current.uniforms.uTime.value = state.clock.elapsedTime;
-    }
-  });
-  return (
-    <mesh position={[0, 0, -6]}>
-      <planeGeometry args={[24, 24]} />
-      <shaderMaterial
-        ref={mat}
-        uniforms={uniforms}
-        vertexShader={gradientVertex}
-        fragmentShader={gradientFragment}
-        transparent
-        depthWrite={false}
-      />
-    </mesh>
-  );
 }
 
 function Mark({ reduced }: { reduced: boolean }) {
@@ -102,7 +50,7 @@ function Mark({ reduced }: { reduced: boolean }) {
         castShadow={false}
       >
         <boxGeometry args={[0.86, 0.86, 0.86]} />
-        <meshStandardMaterial color="#14161a" roughness={0.55} metalness={0.05} flatShading />
+        <meshStandardMaterial color="#5a6470" roughness={0.95} metalness={0} flatShading />
       </instancedMesh>
     </group>
   );
@@ -119,10 +67,10 @@ export default function MarkScene() {
       style={{ width: "100%", height: "100%" }}
       aria-hidden="true"
     >
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[6, 10, 6]} intensity={1.5} />
-      <directionalLight position={[-8, 2, -4]} intensity={0.5} />
-      <GradientField reduced={reduced} />
+      <ambientLight intensity={0.22} />
+      <directionalLight position={[4, 14, 3]} intensity={2.6} />
+      <directionalLight position={[-10, 1, 7]} intensity={1.1} />
+      <directionalLight position={[9, 0, -7]} intensity={0.45} />
       <Mark reduced={reduced} />
     </Canvas>
   );

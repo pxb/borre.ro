@@ -6,7 +6,7 @@ export const site = {
   headline: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:
     "I work out where AI actually pays in a business, build that part, and then run it. Sometimes that is teaching a team to use the tools properly. Sometimes it is a system that finds and researches your next customers. It starts with finding out where the money is going.",
-  email: "hello@borre.ro",
+  email: "pedro@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedroborrero/",
 };
 
@@ -27,7 +27,7 @@ export type CaseStudy = {
 export const work: CaseStudy[] = [
   {
     slug: "context-engine",
-    title: "The company brain",
+    title: "Context Engine",
     tagline: "Your CRM knows your deals. It does not know your business.",
     problem: [
       "The CRM held the deals. Everything that mattered sat somewhere else: call recordings, old proposals, email threads, and a few people's heads.",
@@ -58,8 +58,8 @@ export const work: CaseStudy[] = [
   },
   {
     slug: "prospecting-loop",
-    title: "From 86,000 companies to 17 worth phoning",
-    tagline: "A list is not a pipeline. Timing is.",
+    title: "Prospecting Loop",
+    tagline: "From 86,000 companies to 17 worth phoning.",
     problem: [
       "Buying a list of local companies gets you thousands of names and no reason to call any of them today.",
       "The reps were spending their week researching instead of selling, and still opening calls with nothing to say.",
@@ -90,7 +90,7 @@ export const work: CaseStudy[] = [
   },
   {
     slug: "lead-research",
-    title: "Research that shows its sources",
+    title: "Lead Research",
     tagline: "A name in, a briefed salesperson out.",
     problem: [
       "Every new enquiry meant half an hour of someone digging through Companies House, the company website and LinkedIn before they could have a sensible conversation.",
@@ -120,8 +120,8 @@ export const work: CaseStudy[] = [
   },
   {
     slug: "post-call",
-    title: "The follow-up writes itself, then waits",
-    tagline: "Fast enough to matter, never sent behind your back.",
+    title: "Post-call Follow-up",
+    tagline: "The follow-up writes itself, then waits for a human.",
     problem: [
       "Good calls were going cold because the follow-up took two days to write, and the notes never made it into the CRM at all.",
     ],
@@ -205,7 +205,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: "company-brain",
-    name: "A place for what the company knows",
+    name: "Context Engine",
     what: "One store for the proposals, calls, documents and decisions that currently live in people's heads and inboxes. Your team and your tools can both ask it questions, and every answer shows where it came from.",
     forWho: "Businesses where one or two people are the only ones who know how things work.",
     price: "From £5,000",
