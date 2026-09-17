@@ -44,12 +44,12 @@ export function Funnel() {
   }, []);
 
   return (
-    <div ref={ref} className="rounded-2xl border border-white/10 bg-neutral-950/80 p-6 sm:p-8">
-      <div className="flex flex-col gap-1 pb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+    <div ref={ref} className="border-t border-rule pt-6">
+      <div className="flex flex-col gap-1 pb-4">
+        <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">
           One week of prospecting
         </p>
-        <p className="text-sm text-neutral-400">
+        <p className="text-sm text-ink-soft">
           Select a step to see what happens at that point.
         </p>
       </div>
@@ -62,22 +62,22 @@ export function Funnel() {
               key={stage.label}
               onClick={() => setActive(i)}
               aria-pressed={isActive}
-              className="group grid grid-cols-[1fr_auto] items-center gap-4 rounded-lg px-3 py-3 text-left transition-colors hover:bg-white/5"
+              className="group grid grid-cols-[1fr_auto] items-center gap-6 py-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <div className="min-w-0">
                 <div className="flex items-baseline gap-3">
                   <span
                     className={`truncate text-sm transition-colors ${
-                      isActive ? "text-white" : "text-neutral-400"
+                      isActive ? "text-ink" : "text-ink-soft"
                     }`}
                   >
                     {stage.label}
                   </span>
                 </div>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/5">
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-rule">
                   <div
                     className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                      isActive ? "bg-white" : "bg-neutral-600 group-hover:bg-neutral-500"
+                      isActive ? "bg-accent" : "bg-ink-faint/50 group-hover:bg-ink-faint"
                     }`}
                     style={{
                       width: shown ? `${widths[i]}%` : "0%",
@@ -88,7 +88,7 @@ export function Funnel() {
               </div>
               <span
                 className={`font-mono text-sm tabular-nums transition-colors ${
-                  isActive ? "text-white" : "text-neutral-500"
+                  isActive ? "text-ink" : "text-ink-faint"
                 }`}
               >
                 {format(stage.value, stage.approx)}
@@ -98,14 +98,14 @@ export function Funnel() {
         })}
       </div>
 
-      <div className="mt-6 min-h-20 rounded-xl border border-white/10 bg-black/40 p-4">
-        <p className="font-mono text-xs uppercase tracking-widest text-neutral-500">
+      <div className="mt-6 min-h-20 border-l-2 border-accent pl-4">
+        <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">
           {funnel[active].label}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-neutral-300">{funnel[active].note}</p>
+        <p className="mt-2 text-sm leading-relaxed text-ink-soft">{funnel[active].note}</p>
       </div>
 
-      <p className="mt-4 text-xs text-neutral-600">
+      <p className="mt-6 text-xs text-ink-faint">
         Real figures from a live run, rounded. Companies are never named.
       </p>
     </div>

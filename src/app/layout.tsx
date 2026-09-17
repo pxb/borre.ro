@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -42,23 +46,32 @@ const jsonLd = {
   ],
 };
 
+const nav = [
+  { href: "/work", label: "Work" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about", label: "About" },
+];
+
 function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/60 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="font-mono text-sm tracking-tight text-white">
-          borre<span className="text-neutral-500">.ro</span>
+    <header className="border-b border-rule">
+      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 sm:px-10">
+        <Link
+          href="/"
+          className="font-mono text-sm tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        >
+          borre<span className="text-accent">.ro</span>
         </Link>
-        <div className="flex items-center gap-6 text-sm text-neutral-400">
-          <Link href="/work" className="transition-colors hover:text-white">
-            Work
-          </Link>
-          <Link href="/writing" className="transition-colors hover:text-white">
-            Writing
-          </Link>
-          <Link href="/about" className="transition-colors hover:text-white">
-            About
-          </Link>
+        <div className="flex items-center gap-8 text-sm text-ink-soft">
+          {nav.map((n) => (
+            <Link
+              key={n.href}
+              href={n.href}
+              className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              {n.label}
+            </Link>
+          ))}
         </div>
       </nav>
     </header>
@@ -67,16 +80,19 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="mt-24 border-t border-white/10">
-      <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-10 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
-        <p>{site.name}. Revenue operations, built and run with AI.</p>
-        <div className="flex gap-6">
-          <a href={`mailto:${site.email}`} className="transition-colors hover:text-white">
+    <footer className="mt-32 border-t border-rule">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-12 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-10">
+        <p>{site.name}</p>
+        <div className="flex gap-8">
+          <a
+            href={`mailto:${site.email}`}
+            className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          >
             {site.email}
           </a>
           <a
             href={site.linkedin}
-            className="transition-colors hover:text-white"
+            className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             rel="me noreferrer"
             target="_blank"
           >
@@ -92,9 +108,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-GB"
-      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-black font-sans text-neutral-200">
+      <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
