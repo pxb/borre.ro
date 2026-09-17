@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
-import { pillars, site } from "@/content/site";
+import { evidence, pillars, site } from "@/content/site";
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
       <section className="grid gap-12 py-24 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-20">
         <div>
-          <h1 className="max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.05] tracking-[-0.03em] text-ink">
-            Revenue operations, built and run with AI.
+          <h1 className="max-w-3xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.06] tracking-[-0.03em] text-ink">
+            {site.headline}
           </h1>
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
         </div>
@@ -31,6 +31,22 @@ export default function Home() {
             </a>
           </div>
         </div>
+      </section>
+
+      <section className="border-t border-rule py-16">
+        <dl className="grid gap-10 sm:grid-cols-2">
+          {evidence.map((e) => (
+            <div key={e.stat} className="flex gap-6">
+              <dt className="font-mono text-4xl tabular-nums leading-none text-accent">
+                {e.stat}
+              </dt>
+              <dd className="max-w-xs">
+                <p className="leading-snug text-ink">{e.claim}</p>
+                <p className="mt-2 text-xs text-ink-faint">{e.source}</p>
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section className="border-t border-rule py-20">

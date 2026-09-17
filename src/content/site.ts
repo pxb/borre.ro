@@ -2,9 +2,10 @@ export const site = {
   name: "Pedro Borrero",
   domain: "borre.ro",
   url: "https://borre.ro",
-  role: "Revenue operations, built and run with AI",
+  role: "AI that pays for itself, built and run",
+  headline: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:
-    "I build the systems that find a company its next customers, and then I run them. Sales background, so the work is judged on pipeline, not on how clever the tooling is.",
+    "I work out where AI actually pays in a business, build that part, and then run it. Sometimes that is teaching a team to use the tools properly. Sometimes it is a system that finds and researches your next customers. It starts with finding out where the money is going.",
   email: "hello@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedroborrero/",
 };
@@ -152,15 +153,29 @@ export const funnel = [
 
 export const pillars = [
   {
-    title: "It knows your business",
-    body: "Not just the CRM. The proposals, the calls, the things that were only ever said out loud. In one place you own.",
+    title: "Find where it pays",
+    body: "Start with what is actually costing the business time or deals, not with a tool somebody wants to buy. Most AI spend fails here, before anything is built.",
   },
   {
-    title: "It does the work",
-    body: "Finding companies, researching them, writing the follow-up, updating the CRM. The parts of selling that are not selling.",
+    title: "Build the part that matters",
+    body: "That might be training the team to use Claude properly. It might be somewhere to keep what the company knows. It might be the admin nobody should be doing by hand.",
   },
   {
-    title: "You get the pipeline",
-    body: "Measured in leads, meetings and time back. Reported monthly, in your numbers, so you can tell whether it is worth keeping.",
+    title: "Run it, and show the numbers",
+    body: "Built systems rot if nobody owns them. I run it and report monthly in your numbers, so you can decide whether it is worth keeping.",
+  },
+];
+
+// Public evidence for the opening claim. Both are cited on the site.
+export const evidence = [
+  {
+    stat: "12%",
+    claim: "of UK firms using AI report revenue they can attribute to it",
+    source: "DSIT AI Adoption Research, 2026",
+  },
+  {
+    stat: "40%",
+    claim: "of agentic AI projects are expected to be cancelled by 2027, on unclear business value",
+    source: "Gartner, 2026",
   },
 ];
