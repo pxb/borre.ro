@@ -194,49 +194,49 @@ export const solutions: Solution[] = [
     name: "Where AI actually pays",
     what: "A short review of how the business runs, ending in a written answer to one question: where would this actually make or save money, and where would it not. You keep the document either way.",
     forWho: "Anyone who has bought AI tools and cannot tell whether they are working.",
-    price: "From £750, taken off the price if you go ahead",
+    price: "From £500, taken off the price if you go ahead",
   },
   {
     slug: "process-map",
     name: "Process mapping",
     what: "Before anything is built, work out who does what today, and which of those steps should be handed to software. Most AI spend fails here, by automating a process nobody agreed on.",
     forWho: "Teams where the same job is done three different ways depending on who picks it up.",
-    price: "From £1,500",
+    price: "From £950",
   },
   {
     slug: "company-brain",
     name: "A place for what the company knows",
     what: "One store for the proposals, calls, documents and decisions that currently live in people's heads and inboxes. Your team and your tools can both ask it questions, and every answer shows where it came from.",
     forWho: "Businesses where one or two people are the only ones who know how things work.",
-    price: "From £8,000",
+    price: "From £5,000",
   },
   {
     slug: "workflows",
     name: "Workflows and automations",
     what: "The admin around the actual job. Research before a call, notes and follow-up after it, updating the CRM, chasing the things that get forgotten.",
     forWho: "Teams losing a day a week to work that is necessary but not skilled.",
-    price: "From £3,000 per workflow",
+    price: "From £1,500 per workflow",
   },
   {
     slug: "prospecting",
     name: "Finding your next customers",
     what: "A system that builds the list, watches for companies doing something worth calling about, researches them, and hands your team a reason to make the call.",
     forWho: "Anyone whose pipeline depends on outbound and whose reps are researching instead of selling.",
-    price: "From £8,000, then run monthly",
+    price: "From £5,000, then run monthly",
   },
   {
     slug: "training",
     name: "Getting your team to actually use it",
     what: "Most AI spend fails on adoption, not technology. Sessions with the people who will use it, on their own work, until they are faster with it than without it.",
     forWho: "Companies already paying for Claude or ChatGPT seats that nobody opens.",
-    price: "From £1,500 a day",
+    price: "From £950 a day",
   },
   {
     slug: "run",
     name: "Running it",
     what: "Built systems rot when nobody owns them. I monitor it, fix it when it breaks, extend it, and send a monthly report in your numbers so you can decide whether it is still worth paying for.",
     forWho: "Anyone who has had something built and then watched it quietly stop working.",
-    price: "£3,000 to £4,000 a month",
+    price: "From £1,000 a month",
   },
 ];
 
@@ -248,6 +248,10 @@ export const costNotes = [
   {
     title: "No bundled usage",
     body: "I do not resell you inference at a markup, and I do not sell unlimited anything. Your usage costs what it costs, and you can see it.",
+  },
+  {
+    title: "These are current rates",
+    body: "Early rates while I build up published case studies. They go up, and anyone already on a retainer keeps what they signed at for that work.",
   },
   {
     title: "Priced on the job, not the hour",
