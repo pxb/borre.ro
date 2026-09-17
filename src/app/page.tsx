@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
+import { HeroMark } from "@/components/hero/mark";
 import { evidence, pillars, site } from "@/content/site";
 
 export default function Home() {
@@ -13,6 +14,9 @@ export default function Home() {
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
         </div>
         <div className="flex flex-col justify-end gap-6 lg:items-start">
+          <div className="mb-2 hidden w-full lg:block">
+            <HeroMark />
+          </div>
           <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">
             {site.name}
           </p>
