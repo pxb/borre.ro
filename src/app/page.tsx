@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
 import { HeroMark } from "@/components/hero/mark";
-import { GradientPanel } from "@/components/hero/gradient-panel";
-import { evidence, familiar, pillars, site } from "@/content/site";
+import { HeroGradient } from "@/components/hero/gradient-panel";
+import { evidence, familiar, paradigm, pillars, site } from "@/content/site";
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
-      <section className="grid gap-12 py-24 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-20">
+      <section className="relative isolate grid gap-12 py-24 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-20">
+        <HeroGradient />
         <div>
           <h1 className="max-w-3xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.06] tracking-[-0.03em] text-ink">
             {site.headline}
@@ -16,9 +17,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col justify-end gap-6 lg:items-start">
           <div className="mb-2 hidden w-full lg:block">
-            <GradientPanel>
-              <HeroMark />
-            </GradientPanel>
+            <HeroMark />
           </div>
           <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
             {site.name}
@@ -54,6 +53,30 @@ export default function Home() {
             </div>
           ))}
         </dl>
+      </section>
+
+      <section className="border-t border-rule py-20">
+        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{paradigm.title}</h2>
+        <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">{paradigm.lead}</p>
+        <div className="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-8">
+          {paradigm.parts.map((p, i) => (
+            <div key={p.term} className="relative">
+              {i > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-5 top-1 hidden font-mono text-lg text-accent sm:block"
+                >
+                  &times;
+                </span>
+              ) : null}
+              <h3 className="text-lg font-medium text-ink">{p.term}</h3>
+              <p className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-accent">
+                {p.plain}
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-ink-soft">{p.body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="border-t border-rule py-20">

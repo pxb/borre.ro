@@ -152,6 +152,29 @@ export const funnel = [
   { label: "Researched and worth phoning", value: 17, approx: false, note: "Each one with a reason to call and the evidence behind it." },
 ];
 
+export const paradigm = {
+  title: "Three things, multiplied.",
+  lead:
+    "Any one of these on its own disappoints. That is why most AI spend goes nowhere. They only pay when they are put together.",
+  parts: [
+    {
+      term: "Context",
+      plain: "What your business knows",
+      body: "The proposals, the calls, the decisions, the things only two people remember. Gathered in one place you own, so it can be used rather than searched for.",
+    },
+    {
+      term: "Agents",
+      plain: "Software that does the work",
+      body: "Not a chatbot you have to prompt. Software that researches the company before the call, writes the follow-up after it, and keeps the records straight.",
+    },
+    {
+      term: "Revenue",
+      plain: "The part you can measure",
+      body: "More conversations worth having, less time on admin, a pipeline you can forecast. Reported monthly in your numbers, not mine.",
+    },
+  ],
+};
+
 export const familiar = {
   title: "Sound familiar?",
   items: [
