@@ -150,10 +150,10 @@
   --ink-faint: #8c857c;
   --rule: #d6cfc2;
 
-  /* The gradient owns the vermillion range, so the action colour comes
-     from outside it. Olive carries labels, figures and buttons. */
-  --action: var(--olive);
-  --action-deep: #3f4a2e;
+  /* The wash is cool now, so the action colour is warm. Brick carries
+     labels, figures and buttons; it never appears in the gradient. */
+  --action: var(--brick);
+  --action-deep: var(--brick-deep);
   --accent: var(--action);
   --orange: var(--action);
   --background: var(--paper);

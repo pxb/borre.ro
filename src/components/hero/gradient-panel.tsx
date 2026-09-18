@@ -15,8 +15,10 @@ const ShaderGradient = dynamic(
 const url =
   "https://www.shadergradient.co/customize?animate=on&axesHelper=off" +
   "&bgColor1=%23ede8dd&bgColor2=%23ede8dd&brightness=1.15&cAzimuthAngle=180" +
-  "&cDistance=3.9&cPolarAngle=115&cameraZoom=1&color1=%23d8452a&color2=%23ffb38a" +
-  "&color3=%23ffffff&destination=onCanvas&embedMode=off&envPreset=city&format=gif" +
+  "&cDistance=3.9&cPolarAngle=115&cameraZoom=1" +
+  // Cement into sage. Brick never appears here; it is the element colour.
+  "&color1=%23cfd3bc&color2=%239a968e&color3=%237d8a5c" +
+  "&destination=onCanvas&embedMode=off&envPreset=city&format=gif" +
   "&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1" +
   "&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0" +
   "&reflection=0.1&rotationX=45&rotationY=0&rotationZ=0&shader=defaults&type=waterPlane" +
@@ -27,7 +29,7 @@ export function HeroGradient() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[-50vw] top-[-6rem] bottom-0 -z-10 overflow-hidden opacity-80"
+      className="pointer-events-none absolute inset-x-[-50vw] top-[-6rem] bottom-0 -z-10 overflow-hidden opacity-90"
       style={{
         maskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",
         WebkitMaskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",
