@@ -3,6 +3,9 @@ export const site = {
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI for Humans",
+  headlineBefore: "You have",
+  headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
+  headlineAfter: "AI tools. None of them talk to each other.",
   headline: "You have five AI tools. None of them talk to each other.",
   hook: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:

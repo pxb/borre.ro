@@ -1,32 +1,34 @@
 import Link from "next/link";
 import { HeroMark } from "@/components/hero/mark";
+import { CyclingWord } from "@/components/cycling-word";
 import { HeroGradient } from "@/components/hero/gradient-panel";
 import { evidence, fears, paradigm, site } from "@/content/site";
 
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-slate-deep text-cement">
+      <section className="relative isolate overflow-hidden text-ink">
         <HeroGradient />
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-orange">
               {site.role}
             </p>
-            <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-white">
-              {site.headline}
+            <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">
+              {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
+              {site.headlineAfter}
             </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-cement">{site.summary}</p>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
                 href="/contact"
-                className="btn-orange px-6 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="btn-orange px-6 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Book a free 30-minute review
               </Link>
               <Link
                 href="/work"
-                className="border border-concrete px-6 py-3 text-sm text-cement transition-colors hover:border-cement hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="border border-ink px-6 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 See the work
               </Link>

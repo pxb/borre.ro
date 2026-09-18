@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { axisOf, crossVoxels } from "./voxels";
+import { crossVoxels } from "./voxels";
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -25,20 +25,11 @@ function Mark({ reduced }: { reduced: boolean }) {
   useLayoutEffect(() => {
     if (!ref.current) return;
     const m = new THREE.Matrix4();
-    const c = new THREE.Color();
-    const palette = {
-      context: "#8d9299",
-      agents: "#c9c7c2",
-      revenue: "#d8452a",
-      core: "#39434d",
-    } as const;
     voxels.forEach((v, i) => {
       m.setPosition(v[0], v[1], v[2]);
       ref.current!.setMatrixAt(i, m);
-      ref.current!.setColorAt(i, c.set(palette[axisOf(v[0], v[1], v[2])]));
     });
     ref.current.instanceMatrix.needsUpdate = true;
-    if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
   }, [voxels]);
 
   useFrame((state, delta) => {
@@ -56,10 +47,11 @@ function Mark({ reduced }: { reduced: boolean }) {
       <instancedMesh
         ref={ref}
         args={[undefined as unknown as THREE.BufferGeometry, undefined as unknown as THREE.Material, voxels.length]}
-        castShadow={false}
+        castShadow
+        receiveShadow
       >
-        <boxGeometry args={[0.86, 0.86, 0.86]} />
-        <meshStandardMaterial roughness={0.9} metalness={0} flatShading />
+        <boxGeometry args={[0.88, 0.88, 0.88]} />
+        <meshStandardMaterial color="#b3b0ab" roughness={0.95} metalness={0} />
       </instancedMesh>
     </group>
   );
@@ -73,11 +65,21 @@ export default function MarkScene() {
       camera={{ position: [9, 8, 9], zoom: 34 }}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
+      shadows="soft"
       style={{ width: "100%", height: "100%" }}
       aria-hidden="true"
     >
       <ambientLight intensity={0.22} />
-      <directionalLight position={[4, 14, 3]} intensity={2.6} />
+      <directionalLight
+        position={[6, 14, 5]}
+        intensity={2.4}
+        castShadow
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-left={-8}
+        shadow-camera-right={8}
+        shadow-camera-top={8}
+        shadow-camera-bottom={-8}
+      />
       <directionalLight position={[-10, 1, 7]} intensity={1.1} />
       <directionalLight position={[9, 0, -7]} intensity={0.45} />
       <Mark reduced={reduced} />
