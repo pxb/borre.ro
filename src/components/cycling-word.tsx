@@ -1,21 +1,15 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 /* Cycles a word in place.
-   Hidden copies exist only to measure, so the slot can animate to the
-   active word's width without the headline reflowing. Exactly one word
-   is ever visible, so words never overlap mid-transition.
-   Holds on the first word under reduced motion, and that word is in the HTML. */
+   An invisible copy of the active word sits in normal flow and sets the
+   slot's width and height; the coloured word is painted over it. That
+   keeps the word on its own line, sized to itself, with only ever one
+   word visible. Holds on the first word under reduced motion, and that
+   word is what the server renders. */
 export function CyclingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0);
-  const [width, setWidth] = useState<number | null>(null);
-  const sizers = useRef<(HTMLSpanElement | null)[]>([]);
-
-  useLayoutEffect(() => {
-    const el = sizers.current[index];
-    if (el) setWidth(el.getBoundingClientRect().width);
-  }, [index]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -23,29 +17,15 @@ export function CyclingWord({ words }: { words: string[] }) {
     return () => clearInterval(id);
   }, [words.length]);
 
+  const word = words[index];
+
   return (
-    <span
-      className="relative inline-block align-baseline transition-[width] duration-500 ease-out"
-      style={width ? { width } : undefined}
-    >
-      <span aria-hidden="true" className="invisible block h-0 overflow-hidden">
-        {words.map((w, i) => (
-          <span
-            key={w}
-            ref={(el) => {
-              sizers.current[i] = el;
-            }}
-            className="whitespace-nowrap"
-          >
-            {w}
-          </span>
-        ))}
+    <span className="relative inline-block whitespace-nowrap">
+      <span aria-hidden="true" className="invisible">
+        {word}
       </span>
-      <span
-        key={words[index]}
-        className="cycling-word absolute left-0 top-0 whitespace-nowrap text-brick"
-      >
-        {words[index]}
+      <span key={word} className="cycling-word absolute inset-0 text-brick">
+        {word}
       </span>
     </span>
   );
