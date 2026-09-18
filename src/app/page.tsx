@@ -8,35 +8,38 @@ import { evidence, fears, paradigm, site } from "@/content/site";
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden text-ink">
-        <HeroGradient />
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
+      <section className="text-ink">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
               <RevOps />, built and run
             </p>
-            <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">
+            <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,3.75rem)] font-medium leading-[1.05] tracking-[-0.03em]">
               {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
               {site.headlineAfter}
             </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/contact"
-                className="btn-orange px-6 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                className="btn-orange px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Book a free 30-minute review
               </Link>
               <Link
                 href="/work"
-                className="border-2 border-ink bg-cream px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                className="text-sm text-ink underline decoration-rule decoration-2 underline-offset-8 transition-colors hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Case studies
               </Link>
             </div>
           </div>
-          <div className="hidden lg:block">
-            <HeroMark />
+
+          <div className="relative isolate hidden aspect-square w-full overflow-hidden lg:block">
+            <HeroGradient />
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <HeroMark />
+            </div>
           </div>
         </div>
       </section>

@@ -22,7 +22,7 @@ const Scene = dynamic(() => import("./mark-scene"), {
 
 export function HeroMark() {
   return (
-    <div className="pointer-events-none relative aspect-square w-full max-w-[34rem]">
+    <div className="pointer-events-none relative h-full w-full">
       <Scene />
     </div>
   );

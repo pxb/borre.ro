@@ -88,9 +88,11 @@ Nothing is pure black or pure white. This is a professional portfolio, not a des
 
 ## Grain and gradient
 
-Grain comes from shadergradient's own `grain=on` and **nowhere else**. Never add a CSS noise layer on top: two grain layers stacked read as dirty rather than textured. Tried and reverted.
+**The gradient is contained, never behind body text.** This is the rule that matters, and it was learned the hard way over several rounds. A full-bleed animated wash under paragraphs has no good setting: turn it up and the text is unreadable, turn it down and the page reads grey. Bounded in its own panel it can be as vibrant as it likes, because nothing has to be read through it.
 
-**The wash must never be louder than the accent**, but muting it to grey is the opposite failure and also wrong. Current settings: `brightness=1.3`, container opacity `75%`, mid-saturation colours. If the eye goes to the background before the button it is too loud; if the page reads grey it is too quiet.
+Grain comes from shadergradient's own `grain=on` and **nowhere else**. Never add a CSS noise layer on top: two stacked read as dirty rather than textured. Tried and reverted.
+
+Current settings: `brightness=1.2`, `grain=on`, contained panel beside the copy.
 
 Current wash: sage into grey-green into clay, cool through to warm, sitting just under the vermillion in loudness.
 

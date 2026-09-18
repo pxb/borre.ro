@@ -14,7 +14,7 @@ const ShaderGradient = dynamic(
 /* Light wash in the accent family, so dark ink stays readable on top of it. */
 const url =
   "https://www.shadergradient.co/customize?animate=on&axesHelper=off" +
-  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.3&cAzimuthAngle=180" +
+  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.2&cAzimuthAngle=180" +
   "&cDistance=3.9&cPolarAngle=115&cameraZoom=1" +
   // Sage into muted teal into clay. Cool through to warm. The vermillion
   // accent is deliberately absent here so it never competes with itself.
@@ -30,11 +30,7 @@ export function HeroGradient() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[-50vw] top-[-6rem] bottom-0 -z-10 overflow-hidden opacity-75"
-      style={{
-        maskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",
-        WebkitMaskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",
-      }}
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-sm"
     >
       <ShaderGradientCanvas
         style={{ position: "absolute", inset: 0 }}
