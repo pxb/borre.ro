@@ -64,3 +64,15 @@ Real measured figures, rounded, marked approximate. No per-render randomiser: fu
 ## Repo
 
 Public. No secrets. Commits terse, imperative, impersonal.
+
+## Colour
+
+One accent, used for the mark, the statistics, the primary call to action and nothing else.
+
+**Vermillion `#D8452A`**, defined as `--accent: oklch(0.56 0.2 28)` in `globals.css`. Use the token, not the hex, except where a non-CSS consumer needs it (the WebGL material takes the hex).
+
+Everything else is ink on paper: `--ink` `--ink-soft` `--ink-faint` `--rule` `--paper`. No second accent, no gradients outside the primary call to action.
+
+## Type
+
+Geist sans throughout. Mono is reserved for numbers and code, never for section labels or running text.

@@ -135,7 +135,9 @@
   --ink-faint: oklch(0.62 0.01 260);
   --rule: oklch(0.91 0.004 260);
   --paper: oklch(1 0 0);
+  /* Vermillion. The one accent. #D8452A */
   --accent: oklch(0.56 0.2 28);
+  --accent-hex: #d8452a;
 }
 
 @theme inline {

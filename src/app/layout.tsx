@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { site } from "@/content/site";
+import { MobileNav } from "@/components/mobile-nav";
 
 const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -63,7 +64,8 @@ function Header() {
         >
           borre<span className="text-accent">.ro</span>
         </Link>
-        <div className="flex items-center gap-8 text-sm text-ink-soft">
+        <MobileNav items={nav} />
+        <div className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
           {nav.map((n) => (
             <Link
               key={n.href}

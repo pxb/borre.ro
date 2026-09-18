@@ -17,7 +17,7 @@ export default function Home() {
           <div className="mb-2 hidden w-full lg:block">
             <HeroMark />
           </div>
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">
+          <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
             {site.name}
           </p>
           <div className="flex flex-wrap gap-3">
@@ -54,7 +54,7 @@ export default function Home() {
       </section>
 
       <section className="border-t border-rule py-20">
-        <h2 className="font-mono text-xs uppercase tracking-widest text-ink-faint">
+        <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
           Selected work
         </h2>
         <div className="mt-12">
@@ -75,7 +75,7 @@ export default function Home() {
 
       <section className="border-t border-rule py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-20">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-ink-faint">About</h2>
+          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">About</h2>
           <div>
             <p className="max-w-2xl text-2xl leading-snug tracking-[-0.01em] text-ink">
               Fifteen years selling software. Now I build the systems instead.

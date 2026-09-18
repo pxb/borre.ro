@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Page, Row } from "@/components/section";
+import { Page } from "@/components/section";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { costNotes, solutions } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -16,23 +22,28 @@ export default function Solutions() {
       lead="Most of this starts with the same question. Where would this make or save money, and where would it not."
       crumbs={[{ href: "/", label: "Home" }]}
     >
-      <div>
-        {solutions.map((s) => (
-          <Row key={s.slug} label={s.name}>
-            <p className="max-w-2xl leading-relaxed text-ink">{s.what}</p>
-            <dl className="mt-6 grid gap-6 sm:grid-cols-2">
-              <div>
-                <dt className="text-xs uppercase tracking-wide text-ink-faint">Best for</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-ink-soft">{s.forWho}</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wide text-ink-faint">Cost</dt>
-                <dd className="mt-1 font-mono text-sm text-ink">{s.price}</dd>
-              </div>
-            </dl>
-          </Row>
+      <Accordion type="single" collapsible defaultValue={solutions[0].slug}>
+        {solutions.map((item) => (
+          <AccordionItem key={item.slug} value={item.slug} className="border-rule">
+            <AccordionTrigger className="py-6 text-left text-lg text-ink hover:no-underline">
+              {item.name}
+            </AccordionTrigger>
+            <AccordionContent className="pb-8">
+              <p className="max-w-2xl leading-relaxed text-ink">{item.what}</p>
+              <dl className="mt-6 grid gap-6 sm:grid-cols-2">
+                <div>
+                  <dt className="text-xs uppercase tracking-wide text-ink-faint">Best for</dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-ink-soft">{item.forWho}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-wide text-ink-faint">Cost</dt>
+                  <dd className="mt-1 font-mono text-sm text-ink">{item.price}</dd>
+                </div>
+              </dl>
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
 
       <section className="py-16">
         <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">How the money works</h2>
