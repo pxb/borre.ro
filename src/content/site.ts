@@ -2,11 +2,11 @@ export const site = {
   name: "Pedro Borrero",
   domain: "borre.ro",
   url: "https://borre.ro",
-  role: "AI that pays for itself, built and run",
-  headline: "Make the AI you already pay for earn its keep.",
+  role: "AI for Humans",
+  headline: "You have five AI tools. None of them talk to each other.",
   hook: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:
-    "I find where AI actually pays in a business, build that part, and run it. For founders and sales leaders who bought the tools and never got the outcome.",
+    "We connect the AI a business already pays for, build the part that is missing, and run it. Your people stay in charge of the work.",
   email: "pedro@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedroborrero/",
 };
@@ -165,26 +165,48 @@ export const paradigm = {
     {
       term: "Agents",
       plain: "Software that does the work",
-      body: "Not a chatbot you have to prompt. Software that researches the company before the call, writes the follow-up after it, and keeps the records straight.",
+      body: "Not a chatbot someone has to prompt. Software that researches the company before the call, writes the follow-up after it, and keeps the records straight. Your team reviews and sends.",
     },
     {
       term: "Revenue",
       plain: "The part you can measure",
-      body: "More conversations worth having, less time on admin, a pipeline you can forecast. Reported monthly in your numbers, not mine.",
+      body: "More conversations worth having, less time on admin, a pipeline you can forecast. Reported monthly in your numbers, not ours.",
     },
   ],
 };
 
-export const familiar = {
-  title: "Sound familiar?",
+export const fears = {
+  title: "Why it usually goes nowhere",
   items: [
-    "You are paying for AI licences that nobody opens.",
-    "Your salespeople spend most of the week researching instead of selling.",
-    "Follow-ups go out two days late, if they go out at all.",
-    "Half of how the business works is in one person's head.",
+    {
+      fear: "We do not know where it would even help.",
+      answer: "A named list of where it pays in your business, with the numbers. Or an honest no.",
+      stat: "71%",
+      note: "of businesses have not identified a clear use for AI",
+      href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
+    },
+    {
+      fear: "We have five AI tools and none of them talk.",
+      answer: "One place that knows the business, connected to the tools you already own.",
+      stat: null,
+      note: "ChatGPT here, Copilot there, an AI feature in the CRM, another in accounting",
+      href: null,
+    },
+    {
+      fear: "We got burned by the bill.",
+      answer: "Your accounts, your caps, costs visible. No bundled usage and no markup on what you use.",
+      stat: null,
+      note: "SMBs now ask for hard usage caps in the contract",
+      href: "https://techaisle.com/blog/661-top-10-smb-mid-market-predictions-for-2026-and-beyond",
+    },
+    {
+      fear: "Nobody here knows how.",
+      answer: "We run it, and train your people to direct it rather than be replaced by it.",
+      stat: "60%",
+      note: "cite limited AI skills as the blocker",
+      href: "https://spicyadvisory.com/blog/ai-adoption-uk-smb-guide-2026",
+    },
   ],
-  pivot:
-    "None of this needs more software. It needs someone to work out which part is worth building, and then build it.",
 };
 
 export const pillars = [

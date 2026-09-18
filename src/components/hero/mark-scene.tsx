@@ -27,10 +27,10 @@ function Mark({ reduced }: { reduced: boolean }) {
     const m = new THREE.Matrix4();
     const c = new THREE.Color();
     const palette = {
-      context: "#45566b",
-      agents: "#8a7e76",
+      context: "#8d9299",
+      agents: "#c9c7c2",
       revenue: "#d8452a",
-      core: "#16191f",
+      core: "#39434d",
     } as const;
     voxels.forEach((v, i) => {
       m.setPosition(v[0], v[1], v[2]);

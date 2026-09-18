@@ -128,25 +128,41 @@
     @apply font-sans;
   }
 }
-/* Editorial layer. White page, near-black type, one accent. */
+/* Concrete. Natural greys, off-white paper, off-black text.
+   Orange is a primary here, not an accent: it carries the brand. */
 :root {
-  --ink: oklch(0.17 0.01 260);
-  --ink-soft: oklch(0.44 0.01 260);
-  --ink-faint: oklch(0.62 0.01 260);
-  --rule: oklch(0.91 0.004 260);
-  --paper: oklch(1 0 0);
-  /* Vermillion. The one accent. #D8452A */
-  --accent: oklch(0.56 0.2 28);
-  --accent-hex: #d8452a;
+  --paper: #f4f2ef;
+  --paper-raised: #eae7e2;
+  --cement: #c9c7c2;
+  --concrete: #6b7178;
+  --slate: #39434d;
+  --slate-deep: #232a31;
+  --ink: #1c1e20;
+  --ink-soft: #4a5158;
+  --ink-faint: #7d848b;
+  --rule: #d8d5d0;
+  --orange: #d8452a;
+  --orange-deep: #b8351d;
+
+  /* Kept so existing utilities resolve. */
+  --accent: var(--orange);
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-cement: var(--cement);
+  --color-concrete: var(--concrete);
+  --color-slate: var(--slate);
+  --color-slate-deep: var(--slate-deep);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-rule: var(--rule);
-  --color-paper: var(--paper);
-  --color-accent: var(--accent);
+  --color-orange: var(--orange);
+  --color-accent: var(--orange);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -170,16 +186,20 @@ html {
   100% { background-position: 0% 50%; }
 }
 
-.gradient-surface {
-  background-image: linear-gradient(
-    100deg,
-    oklch(0.56 0.2 28),
-    oklch(0.62 0.19 45),
-    oklch(0.52 0.21 12),
-    oklch(0.56 0.2 28)
-  );
-  background-size: 300% 100%;
-  animation: drift 9s ease-in-out infinite;
+/* Brutalist button: solid, square, no translucency to get lost in. */
+.btn-solid {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+.btn-solid:hover {
+  background-color: var(--slate-deep);
+}
+.btn-orange {
+  background-color: var(--orange);
+  color: #fff;
+}
+.btn-orange:hover {
+  background-color: var(--orange-deep);
 }
 
 @media (prefers-reduced-motion: reduce) {

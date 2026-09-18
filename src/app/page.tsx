@@ -1,146 +1,129 @@
 import Link from "next/link";
-import { Showcase } from "@/components/showcase";
 import { HeroMark } from "@/components/hero/mark";
 import { HeroGradient } from "@/components/hero/gradient-panel";
-import { evidence, familiar, paradigm, pillars, site } from "@/content/site";
+import { evidence, fears, paradigm, site } from "@/content/site";
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-6xl px-6 sm:px-10">
-      <section className="relative isolate grid gap-12 py-24 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-20">
+    <>
+      <section className="relative isolate overflow-hidden bg-slate-deep text-cement">
         <HeroGradient />
-        <div>
-          <h1 className="max-w-3xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.06] tracking-[-0.03em] text-ink">
-            {site.headline}
-          </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
-        </div>
-        <div className="flex flex-col justify-end gap-6 lg:items-start">
-          <div className="mb-2 hidden w-full lg:block">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-orange">
+              {site.role}
+            </p>
+            <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-white">
+              {site.headline}
+            </h1>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-cement">{site.summary}</p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="btn-orange px-6 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Book a free 30-minute review
+              </Link>
+              <Link
+                href="/work"
+                className="border border-concrete px-6 py-3 text-sm text-cement transition-colors hover:border-cement hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                See the work
+              </Link>
+            </div>
+          </div>
+          <div className="hidden lg:block">
             <HeroMark />
           </div>
-          <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
-            {site.name}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="gradient-surface rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),0_8px_24px_-8px_rgba(216,69,42,0.55)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
-              Book a free 30-minute review
-            </Link>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-6 sm:px-10">
+        <section className="border-b border-rule py-16">
+          <dl className="grid gap-10 sm:grid-cols-2">
+            {evidence.map((e) => (
+              <div key={e.stat} className="flex gap-6">
+                <dt className="font-mono text-4xl tabular-nums leading-none text-orange">
+                  {e.stat}
+                </dt>
+                <dd className="max-w-xs">
+                  <p className="leading-snug text-ink">{e.claim}</p>
+                  <a
+                    href={e.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block text-xs text-ink-faint underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-orange"
+                  >
+                    {e.source}
+                  </a>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="border-b border-rule py-20">
+          <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{fears.title}</h2>
+          <div className="mt-12 divide-y divide-rule border-y border-rule">
+            {fears.items.map((f) => (
+              <div
+                key={f.fear}
+                className="grid gap-4 py-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16"
+              >
+                <p className="text-lg leading-snug text-ink">&ldquo;{f.fear}&rdquo;</p>
+                <div>
+                  <p className="leading-relaxed text-ink-soft">{f.answer}</p>
+                  <p className="mt-3 text-xs text-ink-faint">
+                    {f.stat ? <span className="font-mono text-orange">{f.stat} </span> : null}
+                    {f.href ? (
+                      <a
+                        href={f.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-orange"
+                      >
+                        {f.note}
+                      </a>
+                    ) : (
+                      f.note
+                    )}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="border-b border-rule py-20">
+          <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{paradigm.title}</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">{paradigm.lead}</p>
+          <div className="mt-12 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-3">
+            {paradigm.parts.map((part) => (
+              <div key={part.term} className="bg-paper p-8">
+                <h3 className="text-lg font-medium text-ink">{part.term}</h3>
+                <p className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-orange">
+                  {part.plain}
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-ink-soft">{part.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">
+              Four systems, built and running.
+            </h2>
             <Link
               href="/work"
-              className="rounded-full border border-rule px-5 py-2.5 text-sm text-ink-soft transition-colors hover:border-ink hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-orange"
             >
               See the work
             </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="border-t border-rule py-16">
-        <dl className="grid gap-10 sm:grid-cols-2">
-          {evidence.map((e) => (
-            <div key={e.stat} className="flex gap-6">
-              <dt className="font-mono text-4xl tabular-nums leading-none text-accent">
-                {e.stat}
-              </dt>
-              <dd className="max-w-xs">
-                <p className="leading-snug text-ink">{e.claim}</p>
-                <a
-                  href={e.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 inline-block text-xs text-ink-faint underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  {e.source}
-                </a>
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <section className="border-t border-rule py-20">
-        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{paradigm.title}</h2>
-        <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">{paradigm.lead}</p>
-        <div className="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-8">
-          {paradigm.parts.map((p, i) => (
-            <div key={p.term} className="relative">
-              {i > 0 ? (
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-5 top-1 hidden font-mono text-lg text-accent sm:block"
-                >
-                  &times;
-                </span>
-              ) : null}
-              <h3 className="text-lg font-medium text-ink">{p.term}</h3>
-              <p className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-accent">
-                {p.plain}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-ink-soft">{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-rule py-20">
-        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{familiar.title}</h2>
-        <ul className="mt-10 grid gap-x-12 gap-y-6 sm:grid-cols-2">
-          {familiar.items.map((i) => (
-            <li key={i} className="flex gap-3 leading-relaxed text-ink-soft">
-              <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
-              <span>{i}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-10 max-w-2xl text-lg leading-relaxed text-ink">{familiar.pivot}</p>
-      </section>
-
-      <section className="border-t border-rule py-20">
-        <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
-          Selected work
-        </h2>
-        <div className="mt-12">
-          <Showcase />
-        </div>
-      </section>
-
-      <section className="border-t border-rule py-20">
-        <div className="grid gap-12 sm:grid-cols-3">
-          {pillars.map((p) => (
-            <div key={p.title}>
-              <h3 className="text-base text-ink">{p.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-soft">{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-rule py-20">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-20">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">About</h2>
-          <div>
-            <p className="max-w-2xl text-2xl leading-snug tracking-[-0.01em] text-ink">
-              Fifteen years selling software. Now I build the systems instead.
-            </p>
-            <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">
-              Enterprise sales at Canto, Freshworks, SAP, Samsung and BlackBerry. I know what a
-              sales team actually does all day, which is mostly not selling. That is the part
-              worth automating, and it is why this work gets judged on pipeline rather than on
-              the tooling.
-            </p>
-            <a
-              href={`mailto:${site.email}`}
-              className="mt-8 inline-block text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
-              {site.email}
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }
