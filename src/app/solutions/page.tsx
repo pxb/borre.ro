@@ -12,8 +12,9 @@ export const metadata: Metadata = {
 export default function Solutions() {
   return (
     <Page
-      title="What I build."
-      lead="Most of this starts with the same question. Where would this actually make or save money in your business, and where would it not."
+      title="Services."
+      lead="Most of this starts with the same question. Where would this make or save money, and where would it not."
+      crumbs={[{ href: "/", label: "Home" }]}
     >
       <div>
         {solutions.map((s) => (
@@ -21,7 +22,7 @@ export default function Solutions() {
             <p className="max-w-2xl leading-relaxed text-ink">{s.what}</p>
             <dl className="mt-6 grid gap-6 sm:grid-cols-2">
               <div>
-                <dt className="text-xs uppercase tracking-wide text-ink-faint">Who it is for</dt>
+                <dt className="text-xs uppercase tracking-wide text-ink-faint">Best for</dt>
                 <dd className="mt-1 text-sm leading-relaxed text-ink-soft">{s.forWho}</dd>
               </div>
               <div>

@@ -1,9 +1,41 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
-export function Page({ title, lead, children }: { title: string; lead?: string; children: ReactNode }) {
+type Crumb = { href: string; label: string };
+
+export function Page({
+  title,
+  lead,
+  crumbs,
+  children,
+}: {
+  title: string;
+  lead?: string;
+  crumbs?: Crumb[];
+  children: ReactNode;
+}) {
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
-      <header className="border-b border-rule py-16 sm:py-20">
+      <header className="border-b border-rule py-12 sm:py-16">
+        {crumbs?.length ? (
+          <nav aria-label="Breadcrumb" className="mb-8">
+            <ol className="flex flex-wrap items-center gap-2 font-mono text-xs text-ink-faint">
+              {crumbs.map((c) => (
+                <li key={c.href} className="flex items-center gap-2">
+                  <Link
+                    href={c.href}
+                    className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  >
+                    {c.label}
+                  </Link>
+                  <span aria-hidden="true" className="text-rule">
+                    /
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        ) : null}
         <h1 className="max-w-3xl text-[clamp(2rem,4.5vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-ink">
           {title}
         </h1>

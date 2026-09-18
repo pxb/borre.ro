@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <Page title={about.lead}>
+    <Page title={about.lead} crumbs={[{ href: "/", label: "Home" }]}>
       <section className="grid gap-12 py-16 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">{site.name}</p>
         <div className="max-w-2xl space-y-6">

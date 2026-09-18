@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
 import { HeroMark } from "@/components/hero/mark";
-import { WorkField } from "@/components/work-field";
 import { evidence, pillars, site } from "@/content/site";
 
 export default function Home() {
@@ -24,7 +23,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/work"
-              className="rounded-full bg-ink px-5 py-2.5 text-sm text-paper transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="gradient-surface rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),0_8px_24px_-8px_rgba(216,69,42,0.55)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
               See the work
             </Link>
@@ -54,8 +53,7 @@ export default function Home() {
         </dl>
       </section>
 
-      <section className="relative isolate border-t border-rule py-20">
-        <WorkField />
+      <section className="border-t border-rule py-20">
         <h2 className="font-mono text-xs uppercase tracking-widest text-ink-faint">
           Selected work
         </h2>

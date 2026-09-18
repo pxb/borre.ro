@@ -50,7 +50,7 @@ function Mark({ reduced }: { reduced: boolean }) {
         castShadow={false}
       >
         <boxGeometry args={[0.86, 0.86, 0.86]} />
-        <meshStandardMaterial color="#5a6470" roughness={0.95} metalness={0} flatShading />
+        <meshStandardMaterial color="#d8452a" roughness={0.9} metalness={0} flatShading />
       </instancedMesh>
     </group>
   );

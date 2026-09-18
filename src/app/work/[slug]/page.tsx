@@ -39,8 +39,12 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
   if (!c) notFound();
 
   return (
-    <Page title={c.title} lead={c.tagline}>
-      <Row label="The problem">
+    <Page
+      title={c.title}
+      lead={c.tagline}
+      crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Work" }]}
+    >
+      <Row label="Problem">
         <div className="max-w-2xl space-y-4">
           {c.problem.map((p) => (
             <p key={p.slice(0, 24)} className="leading-relaxed text-ink">
@@ -50,13 +54,13 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </div>
       </Row>
 
-      <Row label="What it draws on">
+      <Row label="Sources">
         <div className="max-w-2xl">
           <List items={c.drawsOn} />
         </div>
       </Row>
 
-      <Row label="What it does">
+      <Row label="How it works">
         <div className="max-w-2xl">
           <List items={c.does} />
         </div>
@@ -68,7 +72,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </Row>
       ) : null}
 
-      <Row label="What came back">
+      <Row label="Results">
         <dl className="flex flex-wrap gap-x-12 gap-y-6">
           {c.metrics.map((m) => (
             <div key={m.label}>
@@ -79,7 +83,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </dl>
       </Row>
 
-      <Row label="What it does not do">
+      <Row label="Limits">
         <div className="max-w-2xl">
           <List items={c.limits} />
         </div>

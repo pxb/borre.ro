@@ -11,7 +11,8 @@ export default function Contact() {
   return (
     <Page
       title="Get in touch."
-      lead="Tell me what you have already bought and what it was supposed to do. That is usually enough to work out whether there is anything here worth doing."
+      lead="Tell me what you have already bought and what it was supposed to do. That is usually enough to tell whether there is anything here worth doing."
+      crumbs={[{ href: "/", label: "Home" }]}
     >
       <section className="grid gap-10 py-16 sm:grid-cols-2">
         <div>

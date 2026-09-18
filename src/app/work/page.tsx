@@ -13,6 +13,7 @@ export default function Work() {
     <Page
       title="Four systems, built and running."
       lead="Real figures from live runs, rounded. Clients are not named, and companies shown in demos are invented."
+      crumbs={[{ href: "/", label: "Home" }]}
     >
       <div>
         {work.map((c, i) => (
