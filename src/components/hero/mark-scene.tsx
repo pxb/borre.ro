@@ -51,7 +51,7 @@ function Mark({ reduced }: { reduced: boolean }) {
         receiveShadow
       >
         <boxGeometry args={[0.88, 0.88, 0.88]} />
-        <meshStandardMaterial color="#b3b0ab" roughness={0.95} metalness={0} />
+        <meshStandardMaterial color="#9a968e" roughness={0.98} metalness={0} />
       </instancedMesh>
     </group>
   );

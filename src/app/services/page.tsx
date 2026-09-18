@@ -10,7 +10,7 @@ import {
 import { costNotes, solutions } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Solutions",
+  title: "Services",
   description:
     "What I build: audits, process mapping, a place for what the company knows, workflows, prospecting, training, and running it afterwards.",
 };

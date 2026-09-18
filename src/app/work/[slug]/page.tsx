@@ -42,7 +42,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
     <Page
       title={c.title}
       lead={c.tagline}
-      crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Work" }]}
+      crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Case studies" }]}
     >
       <Row label="Problem">
         <div className="max-w-2xl space-y-4">
@@ -107,7 +107,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           href="/work"
           className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
         >
-          All work
+          All case studies
         </Link>
       </div>
     </Page>

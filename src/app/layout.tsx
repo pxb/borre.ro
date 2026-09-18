@@ -48,8 +48,8 @@ const jsonLd = {
 };
 
 const nav = [
-  { href: "/work", label: "Work" },
-  { href: "/solutions", label: "Solutions" },
+  { href: "/work", label: "Case studies" },
+  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

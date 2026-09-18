@@ -4,7 +4,7 @@ import { Page } from "@/components/section";
 import { work } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Work",
+  title: "Case studies",
   description: "Four systems, built and running. What each one draws on, what it does and what it returned.",
 };
 

@@ -128,41 +128,52 @@
     @apply font-sans;
   }
 }
-/* Concrete. Natural greys, off-white paper, off-black text.
-   Orange is a primary here, not an accent: it carries the brand. */
+/* Barbican. Concrete, cream, and the muted mid-century range from the
+   reference textile: sage, olive, clay, blush, brick. Brick is used
+   sparingly, for one action at a time. Nothing is pure black or white. */
 :root {
-  --paper: #f4f2ef;
-  --paper-raised: #eae7e2;
-  --cement: #c9c7c2;
-  --concrete: #6b7178;
-  --slate: #39434d;
-  --slate-deep: #232a31;
-  --ink: #1c1e20;
-  --ink-soft: #4a5158;
-  --ink-faint: #7d848b;
-  --rule: #d8d5d0;
-  --orange: #d8452a;
-  --orange-deep: #b8351d;
+  --cream: #ede8dd;
+  --cream-deep: #e2dbcc;
+  --concrete: #9a968e;
+  --concrete-mid: #6e6a63;
+  --concrete-deep: #3d3a35;
+  --sage: #7d8a5c;
+  --olive: #5a6440;
+  --clay: #a8603f;
+  --blush: #d8a9ae;
+  --brick: #b23a2e;
+  --brick-deep: #8f2c22;
 
-  /* Kept so existing utilities resolve. */
-  --accent: var(--orange);
+  --paper: var(--cream);
+  --ink: #2a2724;
+  --ink-soft: #5a554e;
+  --ink-faint: #8c857c;
+  --rule: #d6cfc2;
+
+  --accent: var(--brick);
+  --orange: var(--brick);
   --background: var(--paper);
   --foreground: var(--ink);
 }
 
 @theme inline {
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
   --color-paper: var(--paper);
-  --color-paper-raised: var(--paper-raised);
-  --color-cement: var(--cement);
   --color-concrete: var(--concrete);
-  --color-slate: var(--slate);
-  --color-slate-deep: var(--slate-deep);
+  --color-concrete-mid: var(--concrete-mid);
+  --color-concrete-deep: var(--concrete-deep);
+  --color-sage: var(--sage);
+  --color-olive: var(--olive);
+  --color-clay: var(--clay);
+  --color-blush: var(--blush);
+  --color-brick: var(--brick);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-rule: var(--rule);
-  --color-orange: var(--orange);
-  --color-accent: var(--orange);
+  --color-orange: var(--brick);
+  --color-accent: var(--brick);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -195,15 +206,36 @@ html {
   background-color: var(--slate-deep);
 }
 .btn-orange {
-  background-color: var(--orange);
-  color: #fff;
+  background-color: var(--brick);
+  color: var(--cream);
 }
 .btn-orange:hover {
-  background-color: var(--orange-deep);
+  background-color: var(--brick-deep);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .gradient-surface {
+    animation: none;
+  }
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.22em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cycling-word {
+  animation: word-in 420ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cycling-word {
     animation: none;
   }
 }
