@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { crossVoxels } from "./voxels";
+import { sphereVoxels } from "./voxels";
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -20,7 +20,8 @@ function useReducedMotion() {
 function Mark({ reduced }: { reduced: boolean }) {
   const ref = useRef<THREE.InstancedMesh>(null);
   const group = useRef<THREE.Group>(null);
-  const voxels = useMemo(() => crossVoxels(), []);
+  // Swap to crossVoxels() for the three-beam mark.
+  const voxels = useMemo(() => sphereVoxels(4), []);
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -62,7 +63,7 @@ export default function MarkScene() {
   return (
     <Canvas
       orthographic
-      camera={{ position: [9, 8, 9], zoom: 34 }}
+      camera={{ position: [9, 8, 9], zoom: 30 }}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
       shadows="soft"

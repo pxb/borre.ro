@@ -31,3 +31,18 @@ export function crossVoxels(arm = ARM): [number, number, number][] {
   }
   return out;
 }
+
+/* Alternative mark: a voxel sphere. Same generated-not-shipped principle
+   as the cross; swap which one mark-scene calls. */
+export function sphereVoxels(radius = 4): [number, number, number][] {
+  const out: [number, number, number][] = [];
+  const r2 = (radius + 0.35) * (radius + 0.35);
+  for (let x = -radius; x <= radius; x++) {
+    for (let y = -radius; y <= radius; y++) {
+      for (let z = -radius; z <= radius; z++) {
+        if (x * x + y * y + z * z <= r2) out.push([x, y, z]);
+      }
+    }
+  }
+  return out;
+}

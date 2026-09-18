@@ -14,13 +14,13 @@ const ShaderGradient = dynamic(
 /* Light wash in the accent family, so dark ink stays readable on top of it. */
 const url =
   "https://www.shadergradient.co/customize?animate=on&axesHelper=off" +
-  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.0&cAzimuthAngle=180" +
+  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.3&cAzimuthAngle=180" +
   "&cDistance=3.9&cPolarAngle=115&cameraZoom=1" +
   // Sage into muted teal into clay. Cool through to warm. The vermillion
   // accent is deliberately absent here so it never competes with itself.
-  "&color1=%23cdd2b4&color2=%23a3b3ac&color3=%23d9b49c" +
+  "&color1=%23b8c97e&color2=%238fa9a0&color3=%23d9a07a" +
   "&destination=onCanvas&embedMode=off&envPreset=city&format=gif" +
-  "&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1" +
+  "&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1" +
   "&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0" +
   "&reflection=0.1&rotationX=45&rotationY=0&rotationZ=0&shader=defaults&type=waterPlane" +
   "&uAmplitude=0&uDensity=0.9&uFrequency=3.5&uSpeed=0.1&uStrength=1.5&uTime=0&wireframe=false";
@@ -30,7 +30,7 @@ export function HeroGradient() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[-50vw] top-[-6rem] bottom-0 -z-10 overflow-hidden opacity-60"
+      className="pointer-events-none absolute inset-x-[-50vw] top-[-6rem] bottom-0 -z-10 overflow-hidden opacity-75"
       style={{
         maskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",
         WebkitMaskImage: "radial-gradient(ellipse 60% 70% at 55% 45%, black 25%, transparent 100%)",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroMark } from "@/components/hero/mark";
 import { CyclingWord } from "@/components/cycling-word";
+import { RevOps } from "@/components/revops";
 import { HeroGradient } from "@/components/hero/gradient-panel";
 import { evidence, fears, paradigm, site } from "@/content/site";
 
@@ -11,11 +12,8 @@ export default function Home() {
         <HeroGradient />
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-action">
-              {site.role}
-              <span className="ml-3 font-normal normal-case tracking-normal text-ink-faint">
-                {site.discipline}
-              </span>
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
+              <RevOps />, built and run
             </p>
             <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">
               {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
@@ -31,7 +29,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/work"
-                className="border border-ink px-6 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                className="border-2 border-ink bg-cream px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Case studies
               </Link>

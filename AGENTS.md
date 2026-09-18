@@ -88,13 +88,19 @@ Nothing is pure black or pure white. This is a professional portfolio, not a des
 
 ## Grain and gradient
 
-Grain is **off**. shadergradient's own grain was too heavy at this scale, and a CSS noise layer on top of it was worse. Both were tried and reverted.
+Grain comes from shadergradient's own `grain=on` and **nowhere else**. Never add a CSS noise layer on top: two grain layers stacked read as dirty rather than textured. Tried and reverted.
 
-**The wash must never be louder than the accent.** Keep it desaturated, brightness at 1.0 and opacity around 60%. If the eye goes to the background before the button, the wash is wrong.
+**The wash must never be louder than the accent**, but muting it to grey is the opposite failure and also wrong. Current settings: `brightness=1.3`, container opacity `75%`, mid-saturation colours. If the eye goes to the background before the button it is too loud; if the page reads grey it is too quiet.
 
-Current wash: muted sage into grey-green into soft clay, cool through to warm, deliberately quieter than the vermillion.
+Current wash: sage into grey-green into clay, cool through to warm, sitting just under the vermillion in loudness.
 
 Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
+
+## Mark
+
+Generated at runtime from a formula, never shipped as geometry: the reference SVGs are 334KB and 1.5MB. `sphereVoxels(4)` gives 341 instances; `crossVoxels()` gives the three-beam version at 135. Swap the call in `mark-scene.tsx`.
+
+One flat concrete tone with self-shadowing. Not multi-coloured, and never the accent colour.
 
 ## Type
 

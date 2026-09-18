@@ -3,13 +3,12 @@ export const site = {
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI for Humans",
-  discipline: "Revenue operations, built and run",
   headlineBefore: "You have",
   headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
   headlineAfter: "AI tools. None of them talk to each other.",
   headline: "You have five AI tools. None of them talk to each other.",
   summary:
-    "We connect the AI a business already pays for, build the part that is missing, and run it. Revenue operations work, mostly: the research, the follow-up, the record of what the company knows. Your people stay in charge.",
+    "We connect the AI a business already pays for, build the part that is missing, and run it. The research before the call, the follow-up after it, the record of what the company knows. Your people stay in charge.",
   email: "pedro@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };

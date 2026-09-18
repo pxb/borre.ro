@@ -85,7 +85,10 @@ function Footer() {
   return (
     <footer className="mt-32 border-t border-rule">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-12 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-10">
-        <p>{site.name}</p>
+        <p>
+          {site.name}
+          <span className="ml-3 text-ink-faint">{site.role}</span>
+        </p>
         <div className="flex gap-8">
           <a
             href={`mailto:${site.email}`}
