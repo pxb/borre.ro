@@ -22,7 +22,7 @@ export default function Solutions() {
       lead="Most of this starts with the same question. Where would this make or save money, and where would it not."
       crumbs={[{ href: "/", label: "Home" }]}
     >
-      <Accordion type="single" collapsible defaultValue={solutions[0].slug}>
+      <Accordion multiple={false} defaultValue={[solutions[0].slug]}>
         {solutions.map((item) => (
           <AccordionItem key={item.slug} value={item.slug} className="border-rule">
             <AccordionTrigger className="py-6 text-left text-lg text-ink hover:no-underline">
