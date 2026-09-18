@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Showcase } from "@/components/showcase";
 import { HeroMark } from "@/components/hero/mark";
-import { evidence, pillars, site } from "@/content/site";
+import { GradientPanel } from "@/components/hero/gradient-panel";
+import { evidence, familiar, pillars, site } from "@/content/site";
 
 export default function Home() {
   return (
@@ -15,24 +16,26 @@ export default function Home() {
         </div>
         <div className="flex flex-col justify-end gap-6 lg:items-start">
           <div className="mb-2 hidden w-full lg:block">
-            <HeroMark />
+            <GradientPanel>
+              <HeroMark />
+            </GradientPanel>
           </div>
           <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
             {site.name}
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/work"
+              href="/contact"
               className="gradient-surface rounded-full px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),0_8px_24px_-8px_rgba(216,69,42,0.55)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              Book a free 30-minute review
+            </Link>
+            <Link
+              href="/work"
+              className="rounded-full border border-rule px-5 py-2.5 text-sm text-ink-soft transition-colors hover:border-ink hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
               See the work
             </Link>
-            <a
-              href={`mailto:${site.email}`}
-              className="rounded-full border border-rule px-5 py-2.5 text-sm text-ink-soft transition-colors hover:border-ink hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
-              Get in touch
-            </a>
           </div>
         </div>
       </section>
@@ -51,6 +54,19 @@ export default function Home() {
             </div>
           ))}
         </dl>
+      </section>
+
+      <section className="border-t border-rule py-20">
+        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{familiar.title}</h2>
+        <ul className="mt-10 grid gap-x-12 gap-y-6 sm:grid-cols-2">
+          {familiar.items.map((i) => (
+            <li key={i} className="flex gap-3 leading-relaxed text-ink-soft">
+              <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+              <span>{i}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-10 max-w-2xl text-lg leading-relaxed text-ink">{familiar.pivot}</p>
       </section>
 
       <section className="border-t border-rule py-20">

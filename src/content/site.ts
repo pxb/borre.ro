@@ -3,9 +3,10 @@ export const site = {
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI that pays for itself, built and run",
-  headline: "Most companies are now paying for AI. Very few can tell you what it gave back.",
+  headline: "Make the AI you already pay for earn its keep.",
+  hook: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:
-    "I find where AI actually pays in a business, build that part, and run it. Sometimes that means training a team, sometimes a system that finds your next customers.",
+    "I find where AI actually pays in a business, build that part, and run it. For founders and sales leaders who bought the tools and never got the outcome.",
   email: "pedro@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedroborrero/",
 };
@@ -150,6 +151,18 @@ export const funnel = [
   { label: "Right size and type", value: 150, approx: true, note: "Matched back to the profile of customers already won." },
   { label: "Researched and worth phoning", value: 17, approx: false, note: "Each one with a reason to call and the evidence behind it." },
 ];
+
+export const familiar = {
+  title: "Sound familiar?",
+  items: [
+    "You are paying for AI licences that nobody opens.",
+    "Your salespeople spend most of the week researching instead of selling.",
+    "Follow-ups go out two days late, if they go out at all.",
+    "Half of how the business works is in one person's head.",
+  ],
+  pivot:
+    "None of this needs more software. It needs someone to work out which part is worth building, and then build it.",
+};
 
 export const pillars = [
   {
