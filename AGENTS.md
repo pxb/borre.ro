@@ -33,6 +33,7 @@ The rules that bite most here:
 
 Impeccable is installed: https://github.com/pbakaus/impeccable
 
+- `npm run build` before every commit, and check the **exit code**, not the output. The bundler prints "Compiled successfully" before type checking runs, so grepping the log hides a failing build.
 - `npx impeccable detect src/` before every commit. 61 deterministic rules, no API key.
 - `/impeccable critique` and `/impeccable polish` for the subjective layer.
 - A clean detector run is evidence, not proof. It does not judge whether the design is good.
