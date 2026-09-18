@@ -21,7 +21,7 @@ function Mark({ reduced }: { reduced: boolean }) {
   const ref = useRef<THREE.InstancedMesh>(null);
   const group = useRef<THREE.Group>(null);
   // Swap to crossVoxels() for the three-beam mark.
-  const voxels = useMemo(() => sphereVoxels(4), []);
+  const voxels = useMemo(() => sphereVoxels(9), []);
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -63,7 +63,7 @@ export default function MarkScene() {
   return (
     <Canvas
       orthographic
-      camera={{ position: [9, 8, 9], zoom: 30 }}
+      camera={{ position: [9, 8, 9], zoom: 15 }}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
       shadows="soft"
@@ -72,16 +72,16 @@ export default function MarkScene() {
     >
       <ambientLight intensity={0.55} />
       <directionalLight
-        position={[6, 14, 5]}
+        position={[10, 20, 8]}
         intensity={1.5}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0005}
         shadow-normalBias={0.05}
-        shadow-camera-left={-8}
-        shadow-camera-right={8}
-        shadow-camera-top={8}
-        shadow-camera-bottom={-8}
+        shadow-camera-left={-16}
+        shadow-camera-right={16}
+        shadow-camera-top={16}
+        shadow-camera-bottom={-16}
       />
       <directionalLight position={[-10, 1, 7]} intensity={1.1} />
       <directionalLight position={[9, 0, -7]} intensity={0.45} />

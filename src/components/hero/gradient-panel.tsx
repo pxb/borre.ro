@@ -30,7 +30,13 @@ export function HeroGradient() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-sm"
+      className="pointer-events-none absolute inset-x-[-50vw] inset-y-0 -z-10 overflow-hidden opacity-70"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent 34%, rgba(0,0,0,0.55) 52%, black 68%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 34%, rgba(0,0,0,0.55) 52%, black 68%)",
+      }}
     >
       <ShaderGradientCanvas
         style={{ position: "absolute", inset: 0 }}

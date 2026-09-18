@@ -8,7 +8,8 @@ import { evidence, fears, paradigm, site } from "@/content/site";
 export default function Home() {
   return (
     <>
-      <section className="text-ink">
+      <section className="relative isolate overflow-hidden text-ink">
+        <HeroGradient />
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
@@ -35,11 +36,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative isolate hidden aspect-square w-full overflow-hidden lg:block">
-            <HeroGradient />
-            <div className="absolute inset-0 flex items-center justify-center p-6">
-              <HeroMark />
-            </div>
+          <div className="hidden aspect-square w-full lg:block">
+            <HeroMark />
           </div>
         </div>
       </section>
