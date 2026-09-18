@@ -13,6 +13,9 @@ export default function Home() {
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-action">
               {site.role}
+              <span className="ml-3 font-normal normal-case tracking-normal text-ink-faint">
+                {site.discipline}
+              </span>
             </p>
             <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">
               {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
@@ -30,7 +33,7 @@ export default function Home() {
                 href="/work"
                 className="border border-ink px-6 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
-                See the work
+                Case studies
               </Link>
             </div>
           </div>
@@ -97,7 +100,12 @@ export default function Home() {
         </section>
 
         <section className="border-b border-rule py-20">
-          <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{paradigm.title}</h2>
+          <h2 className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
+            <span className="text-4xl font-medium tracking-[-0.02em] text-ink">
+              {paradigm.title}
+            </span>
+            <span className="font-mono text-sm text-action">{paradigm.subtitle}</span>
+          </h2>
           <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">{paradigm.lead}</p>
           <div className="mt-12 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-3">
             {paradigm.parts.map((part) => (
@@ -121,7 +129,7 @@ export default function Home() {
               href="/work"
               className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-action"
             >
-              See the work
+              Case studies
             </Link>
           </div>
         </section>

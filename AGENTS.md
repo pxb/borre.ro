@@ -88,9 +88,11 @@ Nothing is pure black or pure white. This is a professional portfolio, not a des
 
 ## Grain and gradient
 
-The hero wash is shadergradient with `grain=on`. **Use only that grain.** Do not add a CSS noise layer on top; two grain layers stacked read as distracting rather than textured. This was tried and reverted.
+Grain is **off**. shadergradient's own grain was too heavy at this scale, and a CSS noise layer on top of it was worse. Both were tried and reverted.
 
-Current wash: sage into muted teal into clay, cool through to warm.
+**The wash must never be louder than the accent.** Keep it desaturated, brightness at 1.0 and opacity around 60%. If the eye goes to the background before the button, the wash is wrong.
+
+Current wash: muted sage into grey-green into soft clay, cool through to warm, deliberately quieter than the vermillion.
 
 Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
 

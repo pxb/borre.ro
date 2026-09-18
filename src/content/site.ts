@@ -3,15 +3,15 @@ export const site = {
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI for Humans",
+  discipline: "Revenue operations, built and run",
   headlineBefore: "You have",
   headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
   headlineAfter: "AI tools. None of them talk to each other.",
   headline: "You have five AI tools. None of them talk to each other.",
-  hook: "Most companies are now paying for AI. Very few can tell you what it gave back.",
   summary:
-    "We connect the AI a business already pays for, build the part that is missing, and run it. Your people stay in charge of the work.",
+    "We connect the AI a business already pays for, build the part that is missing, and run it. Revenue operations work, mostly: the research, the follow-up, the record of what the company knows. Your people stay in charge.",
   email: "pedro@borre.ro",
-  linkedin: "https://www.linkedin.com/in/pedroborrero/",
+  linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
 export type Metric = { value: string; label: string };
@@ -156,9 +156,10 @@ export const funnel = [
 ];
 
 export const paradigm = {
-  title: "Three things, multiplied.",
+  title: "AI³",
+  subtitle: "Context × Agents × Evals",
   lead:
-    "Any one of these on its own disappoints. That is why most AI spend goes nowhere. They only pay when they are multiplied together.",
+    "Three things, multiplied rather than added. Any one on its own disappoints, which is why most AI spend disappoints. They only pay together.",
   parts: [
     {
       term: "Context",
@@ -179,7 +180,7 @@ export const paradigm = {
 };
 
 export const fears = {
-  title: "Why it usually goes nowhere",
+  title: "What gets in the way",
   items: [
     {
       fear: "We do not know where it would even help.",
