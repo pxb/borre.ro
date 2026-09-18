@@ -150,8 +150,12 @@
   --ink-faint: #8c857c;
   --rule: #d6cfc2;
 
-  --accent: var(--brick);
-  --orange: var(--brick);
+  /* The gradient owns the vermillion range, so the action colour comes
+     from outside it. Olive carries labels, figures and buttons. */
+  --action: var(--olive);
+  --action-deep: #3f4a2e;
+  --accent: var(--action);
+  --orange: var(--action);
   --background: var(--paper);
   --foreground: var(--ink);
 }
@@ -172,8 +176,9 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-rule: var(--rule);
-  --color-orange: var(--brick);
-  --color-accent: var(--brick);
+  --color-action: var(--action);
+  --color-orange: var(--action);
+  --color-accent: var(--action);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -206,11 +211,11 @@ html {
   background-color: var(--slate-deep);
 }
 .btn-orange {
-  background-color: var(--brick);
+  background-color: var(--action);
   color: var(--cream);
 }
 .btn-orange:hover {
-  background-color: var(--brick-deep);
+  background-color: var(--action-deep);
 }
 
 @media (prefers-reduced-motion: reduce) {

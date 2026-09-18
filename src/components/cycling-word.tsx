@@ -24,7 +24,7 @@ export function CyclingWord({ words }: { words: string[] }) {
       <span aria-hidden="true" className="invisible">
         {word}
       </span>
-      <span key={word} className="cycling-word absolute inset-0 text-brick">
+      <span key={word} className="cycling-word absolute inset-0 text-action">
         {word}
       </span>
     </span>

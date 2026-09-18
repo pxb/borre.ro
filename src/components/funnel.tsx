@@ -77,7 +77,7 @@ export function Funnel() {
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-rule">
                   <div
                     className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                      isActive ? "bg-accent" : "bg-ink-faint/50 group-hover:bg-ink-faint"
+                      isActive ? "bg-action" : "bg-ink-faint/50 group-hover:bg-ink-faint"
                     }`}
                     style={{
                       width: shown ? `${widths[i]}%` : "0%",

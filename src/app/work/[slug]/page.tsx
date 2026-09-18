@@ -25,7 +25,7 @@ function List({ items }: { items: string[] }) {
     <ul className="space-y-3">
       {items.map((i) => (
         <li key={i} className="flex gap-3 leading-relaxed text-ink-soft">
-          <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+          <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-action" />
           <span>{i}</span>
         </li>
       ))}
@@ -94,7 +94,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           {c.stack.map((s) => (
             <li
               key={s}
-              className="rounded-full border border-rule px-3 py-1 font-mono text-xs text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
+              className="rounded-full border border-rule px-3 py-1 font-mono text-xs text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
             >
               {s}
             </li>
@@ -105,7 +105,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       <div className="py-16">
         <Link
           href="/work"
-          className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
+          className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
         >
           All case studies
         </Link>
