@@ -21,7 +21,7 @@ export default function About() {
           <p className="pt-4">
             <a
               href={`mailto:${site.email}`}
-              className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
+              className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
             >
               {site.email}
             </a>

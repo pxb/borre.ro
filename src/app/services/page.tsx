@@ -24,8 +24,8 @@ export default function Solutions() {
     >
       <Accordion multiple={false} defaultValue={[solutions[0].slug]}>
         {solutions.map((item) => (
-          <AccordionItem key={item.slug} value={item.slug} className="border-rule">
-            <AccordionTrigger className="py-6 text-left text-lg text-ink hover:no-underline">
+          <AccordionItem key={item.slug} value={item.slug} className="border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick">
+            <AccordionTrigger className="py-6 text-left text-lg text-ink hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick">
               {item.name}
             </AccordionTrigger>
             <AccordionContent className="pb-8">
@@ -58,7 +58,7 @@ export default function Solutions() {
         <p className="mt-12">
           <Link
             href="/contact"
-            className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
+            className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
           >
             Talk about which of these applies
           </Link>

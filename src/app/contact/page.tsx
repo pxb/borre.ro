@@ -19,7 +19,7 @@ export default function Contact() {
           <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">Email</h2>
           <a
             href={`mailto:${site.email}`}
-            className="mt-3 block text-xl text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
+            className="mt-3 block text-xl text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
           >
             {site.email}
           </a>
@@ -30,7 +30,7 @@ export default function Contact() {
             href={site.linkedin}
             target="_blank"
             rel="me noreferrer"
-            className="mt-3 block text-xl text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
+            className="mt-3 block text-xl text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
           >
             Pedro Borrero
           </a>

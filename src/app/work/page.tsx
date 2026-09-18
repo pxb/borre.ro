@@ -20,7 +20,7 @@ export default function Work() {
           <Link
             key={c.slug}
             href={`/work/${c.slug}`}
-            className="group grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16"
+            className="group grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
           >
             <span className="font-mono text-xs tabular-nums text-ink-faint">
               {String(i + 1).padStart(2, "0")}

@@ -94,7 +94,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           {c.stack.map((s) => (
             <li
               key={s}
-              className="rounded-full border border-rule px-3 py-1 font-mono text-xs text-ink-soft"
+              className="rounded-full border border-rule px-3 py-1 font-mono text-xs text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
             >
               {s}
             </li>
@@ -105,7 +105,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       <div className="py-16">
         <Link
           href="/work"
-          className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent"
+          className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brick"
         >
           All case studies
         </Link>

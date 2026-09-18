@@ -158,7 +158,7 @@ export const funnel = [
 export const paradigm = {
   title: "Three things, multiplied.",
   lead:
-    "Any one of these on its own disappoints. That is why most AI spend goes nowhere. They only pay when they are put together.",
+    "Any one of these on its own disappoints. That is why most AI spend goes nowhere. They only pay when they are multiplied together.",
   parts: [
     {
       term: "Context",
@@ -171,9 +171,9 @@ export const paradigm = {
       body: "Not a chatbot someone has to prompt. Software that researches the company before the call, writes the follow-up after it, and keeps the records straight. Your team reviews and sends.",
     },
     {
-      term: "Revenue",
-      plain: "The part you can measure",
-      body: "More conversations worth having, less time on admin, a pipeline you can forecast. Reported monthly in your numbers, not ours.",
+      term: "Evals",
+      plain: "Proof it worked",
+      body: "Every system is measured against what it was supposed to do, and reported monthly in your numbers. This is the part most AI projects skip, and the reason so many of them get quietly switched off.",
     },
   ],
 };
