@@ -68,33 +68,25 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-Barbican. Concrete, cream and a muted mid-century range. Nothing is pure black or pure white. Brick is the one action colour and appears once per view, never as a wash.
+Three colours. Nothing else.
 
 | Token | Hex | Use |
 |---|---|---|
-| `--cream` | `#EDE8DD` | page |
-| `--ink` | `#2A2724` | headings and body |
-| `--ink-soft` | `#5A554E` | secondary text |
-| `--ink-faint` | `#8C857C` | labels and captions |
-| `--rule` | `#D6CFC2` | borders |
-| `--concrete` | `#9A968E` | the mark |
-| `--concrete-mid` | `#6E6A63` | |
-| `--concrete-deep` | `#3D3A35` | |
-| `--sage` | `#7D8A5C` | gradient |
-| `--olive` | `#5A6440` | |
-| `--clay` | `#A8603F` | gradient |
-| `--blush` | `#D8A9AE` | sparingly |
-| `--brick` | `#B23A2E` | one primary action, statistics |
+| `--cream` | `#F2EDE4` | page |
+| `--ink` | `#16120F` | headings, body, anything sitting on the wash |
+| `--vermillion` | `#F4441E` | one primary action, and the figures on cream |
 
-Use the tokens, never the hex, except where a non-CSS consumer needs it: the WebGL material and the shadergradient URL both take hex.
+Supporting tones, not colours in their own right: `--ink-soft` `#4A423C`, `--ink-faint` `#857C73`, `--rule` `#D9D1C4`, `--concrete` `#9A9289` (the mark), `--clay` `#9A5A3C` (mid-stop in the wash only).
 
-The mark is one flat concrete tone with self-shadowing. It is not multi-coloured and it is not the accent.
+The rule that keeps it out of trouble: **contrast comes from value, not from a second hue.** Elements over the vermillion wash are near-black. Vermillion is reserved for one action per view and for figures on cream. Never orange on orange.
+
+Nothing is pure black or pure white.
 
 ## Grain and gradient
 
-The hero wash is shadergradient with `grain=on`. A second CSS grain layer (`.grain-overlay`) sits over the whole hero at **4.5% opacity**, so the texture reads on the cream as well as inside the canvas. 3-5% reads as warmth; 20% looks like a 2014 filter, so do not raise it.
+The hero wash is shadergradient with `grain=on`. **Use only that grain.** Do not add a CSS noise layer on top; two grain layers stacked read as distracting rather than textured. This was tried and reverted.
 
-The wash and the elements on it come from **opposite temperatures**, and the action colour never appears in the gradient. Currently: sage into blush in the wash, brick on top. Green and dusty pink are complements and both appear in the reference textile.
+Current wash: vermillion into clay into cream. Elements on it are near-black.
 
 Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
 

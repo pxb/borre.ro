@@ -128,34 +128,25 @@
     @apply font-sans;
   }
 }
-/* Barbican. Concrete, cream, and the muted mid-century range from the
-   reference textile: sage, olive, clay, blush, brick. Brick is used
-   sparingly, for one action at a time. Nothing is pure black or white. */
+/* Three colours. Vermillion, near-black, cream.
+   Black on orange is the contrast; the accent never fights itself. */
 :root {
-  --cream: #ede8dd;
-  --cream-deep: #e2dbcc;
-  --concrete: #9a968e;
-  --concrete-mid: #6e6a63;
-  --concrete-deep: #3d3a35;
-  --sage: #7d8a5c;
-  --olive: #5a6440;
-  --clay: #a8603f;
-  --blush: #d8a9ae;
-  --brick: #b23a2e;
-  --brick-deep: #8f2c22;
+  --cream: #f2ede4;
+  --cream-deep: #e6dfd2;
+  --vermillion: #f4441e;
+  --vermillion-deep: #cc3312;
+  --clay: #9a5a3c;
+  --ink: #16120f;
+  --ink-soft: #4a423c;
+  --ink-faint: #857c73;
+  --rule: #d9d1c4;
+  --concrete: #9a9289;
 
-  --paper: var(--cream);
-  --ink: #2a2724;
-  --ink-soft: #5a554e;
-  --ink-faint: #8c857c;
-  --rule: #d6cfc2;
-
-  /* The wash is cool now, so the action colour is warm. Brick carries
-     labels, figures and buttons; it never appears in the gradient. */
-  --action: var(--brick);
-  --action-deep: var(--brick-deep);
+  --action: var(--vermillion);
+  --action-deep: var(--vermillion-deep);
   --accent: var(--action);
   --orange: var(--action);
+  --paper: var(--cream);
   --background: var(--paper);
   --foreground: var(--ink);
 }
@@ -164,14 +155,9 @@
   --color-cream: var(--cream);
   --color-cream-deep: var(--cream-deep);
   --color-paper: var(--paper);
-  --color-concrete: var(--concrete);
-  --color-concrete-mid: var(--concrete-mid);
-  --color-concrete-deep: var(--concrete-deep);
-  --color-sage: var(--sage);
-  --color-olive: var(--olive);
+  --color-vermillion: var(--vermillion);
   --color-clay: var(--clay);
-  --color-blush: var(--blush);
-  --color-brick: var(--brick);
+  --color-concrete: var(--concrete);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
@@ -179,6 +165,7 @@
   --color-action: var(--action);
   --color-orange: var(--action);
   --color-accent: var(--action);
+  --color-brick: var(--vermillion);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -245,13 +232,3 @@ html {
   }
 }
 
-/* Film grain. 3-5% reads as warmth; more looks like a filter. */
-.grain-overlay::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-}
