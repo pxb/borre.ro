@@ -205,14 +205,16 @@ export const pillars = [
 // Public evidence for the opening claim. Both are cited on the site.
 export const evidence = [
   {
-    stat: "12%",
-    claim: "of UK firms using AI report revenue they can attribute to it",
-    source: "DSIT AI Adoption Research, 2026",
+    stat: "71%",
+    claim: "of businesses have not identified a clear use for AI in their organisation",
+    source: "techUK AI adoption report, 2026",
+    href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
   },
   {
     stat: "40%",
     claim: "of agentic AI projects are expected to be cancelled by 2027, on unclear business value",
     source: "Gartner, 2026",
+    href: "https://www.gartner.com/en/articles/context-engineering",
   },
 ];
 

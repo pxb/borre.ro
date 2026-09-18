@@ -48,7 +48,14 @@ export default function Home() {
               </dt>
               <dd className="max-w-xs">
                 <p className="leading-snug text-ink">{e.claim}</p>
-                <p className="mt-2 text-xs text-ink-faint">{e.source}</p>
+                <a
+                  href={e.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block text-xs text-ink-faint underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {e.source}
+                </a>
               </dd>
             </div>
           ))}

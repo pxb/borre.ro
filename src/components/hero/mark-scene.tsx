@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { crossVoxels } from "./voxels";
+import { axisOf, crossVoxels } from "./voxels";
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -25,11 +25,20 @@ function Mark({ reduced }: { reduced: boolean }) {
   useLayoutEffect(() => {
     if (!ref.current) return;
     const m = new THREE.Matrix4();
+    const c = new THREE.Color();
+    const palette = {
+      context: "#45566b",
+      agents: "#8a7e76",
+      revenue: "#d8452a",
+      core: "#16191f",
+    } as const;
     voxels.forEach((v, i) => {
       m.setPosition(v[0], v[1], v[2]);
       ref.current!.setMatrixAt(i, m);
+      ref.current!.setColorAt(i, c.set(palette[axisOf(v[0], v[1], v[2])]));
     });
     ref.current.instanceMatrix.needsUpdate = true;
+    if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
   }, [voxels]);
 
   useFrame((state, delta) => {
@@ -50,7 +59,7 @@ function Mark({ reduced }: { reduced: boolean }) {
         castShadow={false}
       >
         <boxGeometry args={[0.86, 0.86, 0.86]} />
-        <meshStandardMaterial color="#d8452a" roughness={0.9} metalness={0} flatShading />
+        <meshStandardMaterial roughness={0.9} metalness={0} flatShading />
       </instancedMesh>
     </group>
   );
