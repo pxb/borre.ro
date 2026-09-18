@@ -90,6 +90,14 @@ Use the tokens, never the hex, except where a non-CSS consumer needs it: the Web
 
 The mark is one flat concrete tone with self-shadowing. It is not multi-coloured and it is not the accent.
 
+## Grain and gradient
+
+The hero wash is shadergradient with `grain=on`. A second CSS grain layer (`.grain-overlay`) sits over the whole hero at **4.5% opacity**, so the texture reads on the cream as well as inside the canvas. 3-5% reads as warmth; 20% looks like a 2014 filter, so do not raise it.
+
+The wash and the elements on it come from **opposite temperatures**, and the action colour never appears in the gradient. Currently: sage into blush in the wash, brick on top. Green and dusty pink are complements and both appear in the reference textile.
+
+Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
+
 ## Type
 
 Geist sans throughout. Mono is reserved for numbers and code, never for section labels or running text.

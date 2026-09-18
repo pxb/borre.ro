@@ -14,12 +14,13 @@ const ShaderGradient = dynamic(
 /* Light wash in the accent family, so dark ink stays readable on top of it. */
 const url =
   "https://www.shadergradient.co/customize?animate=on&axesHelper=off" +
-  "&bgColor1=%23ede8dd&bgColor2=%23ede8dd&brightness=1.15&cAzimuthAngle=180" +
+  "&bgColor1=%23ede8dd&bgColor2=%23ede8dd&brightness=1.35&cAzimuthAngle=180" +
   "&cDistance=3.9&cPolarAngle=115&cameraZoom=1" +
-  // Cement into sage. Brick never appears here; it is the element colour.
-  "&color1=%23cfd3bc&color2=%239a968e&color3=%237d8a5c" +
+  // Sage into blush: green and dusty pink are complements and both sit in
+  // the reference textile. Brick never appears here; it is the element colour.
+  "&color1=%23a8bd72&color2=%237d8a5c&color3=%23e0a3ad" +
   "&destination=onCanvas&embedMode=off&envPreset=city&format=gif" +
-  "&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1" +
+  "&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1" +
   "&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0" +
   "&reflection=0.1&rotationX=45&rotationY=0&rotationZ=0&shader=defaults&type=waterPlane" +
   "&uAmplitude=0&uDensity=0.9&uFrequency=3.5&uSpeed=0.1&uStrength=1.5&uTime=0&wireframe=false";

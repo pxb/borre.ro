@@ -7,7 +7,7 @@ import { evidence, fears, paradigm, site } from "@/content/site";
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden text-ink">
+      <section className="grain-overlay relative isolate overflow-hidden text-ink">
         <HeroGradient />
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
           <div>
