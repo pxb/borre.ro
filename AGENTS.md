@@ -68,11 +68,27 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-One accent, used for the mark, the statistics, the primary call to action and nothing else.
+Barbican. Concrete, cream and a muted mid-century range. Nothing is pure black or pure white. Brick is the one action colour and appears once per view, never as a wash.
 
-**Vermillion `#D8452A`**, defined as `--accent: oklch(0.56 0.2 28)` in `globals.css`. Use the token, not the hex, except where a non-CSS consumer needs it (the WebGL material takes the hex).
+| Token | Hex | Use |
+|---|---|---|
+| `--cream` | `#EDE8DD` | page |
+| `--ink` | `#2A2724` | headings and body |
+| `--ink-soft` | `#5A554E` | secondary text |
+| `--ink-faint` | `#8C857C` | labels and captions |
+| `--rule` | `#D6CFC2` | borders |
+| `--concrete` | `#9A968E` | the mark |
+| `--concrete-mid` | `#6E6A63` | |
+| `--concrete-deep` | `#3D3A35` | |
+| `--sage` | `#7D8A5C` | gradient |
+| `--olive` | `#5A6440` | |
+| `--clay` | `#A8603F` | gradient |
+| `--blush` | `#D8A9AE` | sparingly |
+| `--brick` | `#B23A2E` | one primary action, statistics |
 
-Everything else is ink on paper: `--ink` `--ink-soft` `--ink-faint` `--rule` `--paper`. No second accent, no gradients outside the primary call to action.
+Use the tokens, never the hex, except where a non-CSS consumer needs it: the WebGL material and the shadergradient URL both take hex.
+
+The mark is one flat concrete tone with self-shadowing. It is not multi-coloured and it is not the accent.
 
 ## Type
 

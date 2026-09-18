@@ -212,20 +212,6 @@ export const fears = {
   ],
 };
 
-export const pillars = [
-  {
-    title: "Find where it pays",
-    body: "Start with what is costing the business time or deals, not with a tool somebody wants to buy.",
-  },
-  {
-    title: "Build the part that matters",
-    body: "Training the team to use Claude properly, somewhere to keep what the company knows, or the admin nobody should be doing by hand.",
-  },
-  {
-    title: "Run it, and show the numbers",
-    body: "Built systems rot if nobody owns them. I run it and report monthly in your numbers.",
-  },
-];
 
 // Public evidence for the opening claim. Both are cited on the site.
 export const evidence = [
