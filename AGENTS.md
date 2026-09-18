@@ -68,25 +68,29 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-Three colours. Nothing else.
+Barbican, simplified. Cream page, warm near-black type, one vermillion accent. Settled 2026-09-18 after several rounds; do not reopen without a reason.
 
 | Token | Hex | Use |
 |---|---|---|
 | `--cream` | `#F2EDE4` | page |
-| `--ink` | `#16120F` | headings, body, anything sitting on the wash |
-| `--vermillion` | `#F4441E` | one primary action, and the figures on cream |
+| `--ink` | `#1F1C19` | headings and body |
+| `--vermillion` | `#D8452A` | **accent only**: one primary action per view, the eyebrow label, the cycled word, the figures |
 
-Supporting tones, not colours in their own right: `--ink-soft` `#4A423C`, `--ink-faint` `#857C73`, `--rule` `#D9D1C4`, `--concrete` `#9A9289` (the mark), `--clay` `#9A5A3C` (mid-stop in the wash only).
+Supporting: `--ink-soft` `#4E4741`, `--ink-faint` `#877E74`, `--rule` `#D9D1C4`, `--concrete` `#9A9289` (the mark).
 
-The rule that keeps it out of trouble: **contrast comes from value, not from a second hue.** Elements over the vermillion wash are near-black. Vermillion is reserved for one action per view and for figures on cream. Never orange on orange.
+Wash only, never used as type or UI colour: `--sage` `#C3CF8E`, `--sea` `#7FA39A`, `--clay` `#D98F6A`.
 
-Nothing is pure black or pure white.
+Two rules that keep it out of trouble:
+- **The accent never appears in the wash.** That is what caused orange-on-orange.
+- **The wash colours never appear as type or UI.** That is what caused sage-on-vermillion.
+
+Nothing is pure black or pure white. This is a professional portfolio, not a design study: restraint wins over novelty.
 
 ## Grain and gradient
 
 The hero wash is shadergradient with `grain=on`. **Use only that grain.** Do not add a CSS noise layer on top; two grain layers stacked read as distracting rather than textured. This was tried and reverted.
 
-Current wash: vermillion into clay into cream. Elements on it are near-black.
+Current wash: sage into muted teal into clay, cool through to warm.
 
 Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
 

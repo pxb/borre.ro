@@ -128,19 +128,26 @@
     @apply font-sans;
   }
 }
-/* Three colours. Vermillion, near-black, cream.
-   Black on orange is the contrast; the accent never fights itself. */
+/* Barbican, simplified. Cream page, warm near-black type, one vermillion
+   accent. The wash carries sage, muted teal and clay; the accent never
+   appears in the wash and the wash never appears in the type. */
 :root {
   --cream: #f2ede4;
   --cream-deep: #e6dfd2;
-  --vermillion: #f4441e;
-  --vermillion-deep: #cc3312;
-  --clay: #9a5a3c;
-  --ink: #16120f;
-  --ink-soft: #4a423c;
-  --ink-faint: #857c73;
+  --ink: #1f1c19;
+  --ink-soft: #4e4741;
+  --ink-faint: #877e74;
   --rule: #d9d1c4;
   --concrete: #9a9289;
+
+  /* Wash only. */
+  --sage: #c3cf8e;
+  --sea: #7fa39a;
+  --clay: #d98f6a;
+
+  /* Accent only. */
+  --vermillion: #d8452a;
+  --vermillion-deep: #b2341d;
 
   --action: var(--vermillion);
   --action-deep: var(--vermillion-deep);
@@ -155,13 +162,15 @@
   --color-cream: var(--cream);
   --color-cream-deep: var(--cream-deep);
   --color-paper: var(--paper);
-  --color-vermillion: var(--vermillion);
-  --color-clay: var(--clay);
-  --color-concrete: var(--concrete);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-rule: var(--rule);
+  --color-concrete: var(--concrete);
+  --color-sage: var(--sage);
+  --color-sea: var(--sea);
+  --color-clay: var(--clay);
+  --color-vermillion: var(--vermillion);
   --color-action: var(--action);
   --color-orange: var(--action);
   --color-accent: var(--action);

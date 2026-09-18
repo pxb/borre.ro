@@ -11,7 +11,7 @@ export default function Home() {
         <HeroGradient />
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center lg:gap-16">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-action">
               {site.role}
             </p>
             <h1 className="mt-6 max-w-2xl text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">

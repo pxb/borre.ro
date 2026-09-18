@@ -14,11 +14,11 @@ const ShaderGradient = dynamic(
 /* Light wash in the accent family, so dark ink stays readable on top of it. */
 const url =
   "https://www.shadergradient.co/customize?animate=on&axesHelper=off" +
-  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.35&cAzimuthAngle=180" +
+  "&bgColor1=%23f2ede4&bgColor2=%23f2ede4&brightness=1.25&cAzimuthAngle=180" +
   "&cDistance=3.9&cPolarAngle=115&cameraZoom=1" +
-  // Vermillion through clay into cream. Elements on top are near-black,
-  // so the contrast comes from value, not from a second hue.
-  "&color1=%23f4441e&color2=%239a5a3c&color3=%23f2ede4" +
+  // Sage into muted teal into clay. Cool through to warm. The vermillion
+  // accent is deliberately absent here so it never competes with itself.
+  "&color1=%23c3cf8e&color2=%237fa39a&color3=%23d98f6a" +
   "&destination=onCanvas&embedMode=off&envPreset=city&format=gif" +
   "&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1" +
   "&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0" +
