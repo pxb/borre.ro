@@ -106,4 +106,24 @@ One flat concrete tone with self-shadowing. Not multi-coloured, and never the ac
 
 ## Type
 
-Geist sans throughout. Mono is reserved for numbers and code, never for section labels or running text.
+**Archivo** throughout, **Martian Mono** for numbers and code. Chosen 2026-09-21 after impeccable's
+`overused-font` rule fired on every route.
+
+Geist was the previous face and it was the problem, not a matter of taste: it is Vercel's own
+typeface and the first code example in Next's own font documentation, so every project that follows
+the official guide ships it. The detector's full overused list is in
+`.claude/skills/impeccable/scripts/data/font-index.json`: DM Sans, Figtree, Fraunces, Geist, Inter,
+Manrope, Montserrat, Outfit, Plus Jakarta, Poppins, Roboto, Sora, Space Grotesk. Any future change
+must avoid all of them, and Roboto Mono is out too because the rule matches on `roboto`.
+
+Archivo has a real width axis (62 to 125), loaded via `axes: ["wdth"]`. Use it:
+
+| Role | Width | Where |
+|---|---|---|
+| Display | `font-stretch: 118%` | `h1` and `.display`, applied in globals.css |
+| Reading | 100%, the default | everything else |
+| Mono | `font-stretch: 88%` | figures and code, so the mono does not compete with expanded headings |
+
+Never fake expanded with `letter-spacing`. The axis exists; use it.
+
+Mono is still reserved for numbers and code, never for section labels or running text.
