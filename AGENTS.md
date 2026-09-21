@@ -86,17 +86,36 @@ Two rules that keep it out of trouble:
 
 Nothing is pure black or pure white. This is a professional portfolio, not a design study: restraint wins over novelty.
 
-## Grain and gradient
+## Backdrop
 
-**The gradient is contained, never behind body text.** This is the rule that matters, and it was learned the hard way over several rounds. A full-bleed animated wash under paragraphs has no good setting: turn it up and the text is unreadable, turn it down and the page reads grey. Bounded in its own panel it can be as vibrant as it likes, because nothing has to be read through it.
+**Vanta NET, bounded inside a framed panel.** Shipped 2026-09-21, replacing a shadergradient wash.
 
-Grain is **off** (2026-09-21). If it is ever turned back on it comes from shadergradient's own `grain=on` and nowhere else. Never add a CSS noise layer on top: two stacked read as dirty rather than textured, and on a saturated wash the combination reads as astroturf. Both tried and reverted.
+The rule that survived every round: **a backdrop is bounded, never behind body text.** A full-bleed
+animated wash under paragraphs has no good setting. Turn it up and the text is unreadable, turn it
+down and the page reads grey, and every edge then needs a mask that leaves a seam. Three separate
+seam artifacts were shipped and reverted trying to solve that: a hard bottom edge, two crossing
+linear fades meeting at a visible corner, and a radial mask clipped mid-fade at 0.678 opacity.
 
-Current settings: `brightness=1.1`, `grain=off`, contained panel beside the copy, faded out at the bottom of the hero so it does not end on a hard edge against the cream.
+Inside a frame none of that applies. The edge is deliberate, so it is a border rather than an
+artifact, and nothing has to be read through the effect. Pedro's framing, which is the better one:
+a gradient "works best as a bounded element. Like a frame, a highlight, a carousel."
 
-Current wash: a single green in three shades, `#4a6b52` into `#7d9b7a` into `#bcc9b4`. Natural greens are far less chromatic than screen greens, which is the mistake made repeatedly here: every version that read wrong was too saturated, not too dark or too light. Reach for saturation before brightness.
+NET over the other Vanta effects because it argues the headline. The site says the tools do not talk
+to each other; a mesh of points finding each other is the thing being sold. Pick effects that carry
+the argument, not effects that decorate.
 
-Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
+Settings live in `src/components/hero/net-panel.tsx`. Lines are `ink`, ground is `cream`.
+**The accent never appears in the backdrop**, which is what caused orange-on-orange. The backdrop
+colours never appear as type or UI, which is what caused sage-on-vermillion. Both rules still hold.
+
+`touchControls` is off: drag on a phone fights the page scroll. Reduced motion gets a real variant,
+the static frame with no animation and no WebGL context created at all.
+
+Tried and reverted, do not re-propose:
+- A CSS noise layer stacked on the shader's own grain. Two grains read as dirty.
+- Four wash colour attempts, each rejected. The recurring error was too much **saturation**, not
+  wrong lightness. Natural colours are far less chromatic than screen colours.
+- A dark hero band.
 
 ## Mark
 

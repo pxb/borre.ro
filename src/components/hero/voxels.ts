@@ -1,3 +1,10 @@
+/*
+ * PARKED 2026-09-21, not mounted anywhere. Kept deliberately, do not delete.
+ *
+ * The voxel mark was the hero's right-hand element until Vanta NET replaced it.
+ * Pedro: "Let's remove the sphere for now but don't lose the code."
+ * Baserow #571 carries the reasoning and the conditions for bringing it back.
+ */
 // The mark: three orthogonal 3x3 beams fused into one solid.
 // A cross that is also a cube. Generated, never shipped as geometry.
 export const ARM = 3;

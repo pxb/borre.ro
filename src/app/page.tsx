@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { HeroMark } from "@/components/hero/mark";
+import { NetPanel } from "@/components/hero/net-panel";
 import { CyclingWord } from "@/components/cycling-word";
 import { RevOps } from "@/components/revops";
-import { HeroGradient } from "@/components/hero/gradient-panel";
 import { evidence, fears, paradigm, site, work } from "@/content/site";
 
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden text-ink">
-        <HeroGradient />
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
+      <section className="relative isolate text-ink">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-14">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
               <RevOps />, built and run
@@ -36,9 +34,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden aspect-square w-full lg:block">
-            <HeroMark />
-          </div>
+          {/* Shown on every width. The backdrop used to be desktop-only, which
+              left phones with no identity at all. */}
+          <NetPanel className="h-56 w-full sm:h-72 lg:h-[26rem]" />
         </div>
       </section>
 
