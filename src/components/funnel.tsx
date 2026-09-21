@@ -46,7 +46,7 @@ export function Funnel() {
   return (
     <div ref={ref} className="border-t border-rule pt-6">
       <div className="flex flex-col gap-1 pb-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
+        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
           One week of prospecting
         </p>
         <p className="text-sm text-ink-soft">
@@ -77,7 +77,7 @@ export function Funnel() {
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-rule">
                   <div
                     className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                      isActive ? "bg-action" : "bg-ink-faint/50 group-hover:bg-ink-faint"
+                      isActive ? "bg-action" : "bg-ink-soft/40 group-hover:bg-ink-soft"
                     }`}
                     style={{
                       width: shown ? `${widths[i]}%` : "0%",
@@ -88,7 +88,7 @@ export function Funnel() {
               </div>
               <span
                 className={`font-mono text-sm tabular-nums transition-colors ${
-                  isActive ? "text-ink" : "text-ink-faint"
+                  isActive ? "text-ink" : "text-ink-soft"
                 }`}
               >
                 {format(stage.value, stage.approx)}
@@ -99,13 +99,13 @@ export function Funnel() {
       </div>
 
       <div className="mt-6 min-h-20 border-l-2 border-accent pl-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-faint">
+        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
           {funnel[active].label}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">{funnel[active].note}</p>
       </div>
 
-      <p className="mt-6 text-xs text-ink-faint">
+      <p className="mt-6 text-xs text-ink-soft">
         Real figures from a live run, rounded. Companies are never named.
       </p>
     </div>

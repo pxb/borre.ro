@@ -84,7 +84,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
               >
                 {m.value}
               </dt>
-              <dd className="mt-1 max-w-[16rem] text-sm leading-snug text-ink-faint">{m.label}</dd>
+              <dd className="mt-1 max-w-[16rem] text-sm leading-snug text-ink-soft">{m.label}</dd>
             </div>
           ))}
         </dl>

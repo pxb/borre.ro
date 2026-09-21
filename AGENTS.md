@@ -68,23 +68,49 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-Barbican, simplified. Cream page, warm near-black type, one vermillion accent. Settled 2026-09-18 after several rounds; do not reopen without a reason.
+**Five colours. Nothing else is a colour.** Settled 2026-09-21. Every ratio below was computed
+against paper, not estimated.
 
-| Token | Hex | Use |
-|---|---|---|
-| `--cream` | `#F2EDE4` | page |
-| `--ink` | `#1F1C19` | headings and body |
-| `--vermillion` | `#D8452A` | **accent only**: one primary action per view, the eyebrow label, the cycled word, the figures |
+| # | Token | Hex | Role | On paper |
+|---|---|---|---|---|
+| 1 | `--paper` | `#F2EDE4` | the page ground | — |
+| 2 | `--ink` | `#1F1C19` | primary type | 15.9:1 |
+| 3 | `--ink-soft` | `#5C554D` | secondary type, labels, captions | 6.3:1 |
+| 4 | `--accent` | `#B2341D` | CTA ground, figures, the wordmark | 5.3:1 both ways |
+| 5 | `--blush` | `#D9A6A0` | backdrop linework **only** | decorative |
 
-Supporting: `--ink-soft` `#4E4741`, `--ink-faint` `#877E74`, `--rule` `#D9D1C4`, `--concrete` `#9A9289` (the mark).
+`--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#9A2B17` is the
+accent's hover state.
 
-Wash only, never used as type or UI colour: `--sage` `#C3CF8E`, `--sea` `#7FA39A`, `--clay` `#D98F6A`.
+**The accent was deepened from `#D8452A`, and this is not reversible on taste.** The old value
+measured **3.75:1**, which fails AA as normal text and fails as a button ground with paper text on
+it. `#B2341D` measures 5.29:1 in both roles. A palette whose primary button fails contrast is not
+a palette.
 
-Two rules that keep it out of trouble:
-- **The accent never appears in the wash.** That is what caused orange-on-orange.
-- **The wash colours never appear as type or UI.** That is what caused sage-on-vermillion.
+**Retired, do not reintroduce:** `--ink-faint` `#877E74` (3.42:1, failed AA and was the dominant
+body colour on the work pages), `--concrete`, `--cream-deep`, and the wash trio `--sage`, `--sea`,
+`--clay`.
 
-Nothing is pure black or pure white. This is a professional portfolio, not a design study: restraint wins over novelty.
+### One accent role per scale
+
+The accent appeared 19 times on the homepage across every scale and role, so it stopped reading as
+emphasis. The rule that fixed it:
+
+| Scale | Accent? |
+|---|---|
+| Solid ground | Yes, the primary CTA, **once per view** |
+| Large text, 24px and up | Yes, figures only |
+| Body and small text, 14px and under | **No.** It also fails AA at these sizes |
+| Backdrop linework | Blush only, never the accent |
+
+Named exceptions, all large or brand: the `.ro` wordmark, the **R** and **O** of Revenue
+Operations, the cycling word in the headline.
+
+Contrast and hierarchy turned out to be the same problem here: every element demoted under this
+rule was small text that was already failing AA.
+
+**The blush never appears as type. The accent never appears in the backdrop.** The first rule is
+what stopped sage-on-vermillion; the second is what stopped orange-on-orange.
 
 ## Backdrop
 

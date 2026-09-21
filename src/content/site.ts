@@ -5,7 +5,7 @@ export const site = {
   role: "AI for Humans",
   headlineBefore: "You have",
   headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
-  headlineAfter: "AI tools. None of them talk to each other.",
+  headlineAfter: "AI tools. None of them talk to each other.",
   headline: "You have five AI tools. None of them talk to each other.",
   summary:
     "We connect the AI a business already pays for, build the part that is missing, and run it. The research before the call, the follow-up after it, the record of what the company knows. Your people stay in charge.",

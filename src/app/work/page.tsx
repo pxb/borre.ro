@@ -23,7 +23,7 @@ export default function Work() {
             href={`/work/${c.slug}`}
             className="group grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
           >
-            <span className="font-mono text-xs tabular-nums text-ink-faint">
+            <span className="font-mono text-xs tabular-nums text-ink-soft">
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="min-w-0">
@@ -41,7 +41,7 @@ export default function Work() {
                     >
                       {m.value}
                     </dt>
-                    <dd className="text-xs text-ink-faint">{m.label}</dd>
+                    <dd className="text-xs text-ink-soft">{m.label}</dd>
                   </div>
                 ))}
               </dl>

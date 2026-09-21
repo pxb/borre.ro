@@ -141,53 +141,46 @@
     font-stretch: 88%;
   }
 }
-/* Barbican, simplified. Cream page, warm near-black type, one vermillion
-   accent. The wash carries sage, muted teal and clay; the accent never
-   appears in the wash and the wash never appears in the type. */
+/* FIVE COLOURS. Every ratio below is measured against paper, not estimated.
+   Nothing outside this list may be used as a colour. */
 :root {
-  --cream: #f2ede4;
-  --cream-deep: #e6dfd2;
+  /* 1. Paper   the page ground */
+  --paper: #f2ede4;
+  /* 2. Ink     primary type                       15.9:1 on paper */
   --ink: #1f1c19;
-  --ink-soft: #4e4741;
-  --ink-faint: #877e74;
+  /* 3. Ink-soft  secondary type, labels, captions  6.3:1 on paper */
+  --ink-soft: #5c554d;
+  /* 4. Accent  CTA ground, figures, the wordmark   5.3:1 both ways.
+        Deepened from #d8452a, which measured 3.75:1 and failed AA as a
+        button ground and as normal text. */
+  --accent: #b2341d;
+  --accent-deep: #9a2b17;
+  /* 5. Blush   backdrop linework ONLY, never type.
+        Hue 6.3deg and 43% saturation, against the accent's 9.3deg and 69%:
+        pinker and far quieter, so it stops competing with the copy. */
+  --blush: #d9a6a0;
+
+  /* Not a colour. A hairline weight. */
   --rule: #d9d1c4;
-  --concrete: #9a9289;
 
-  /* Wash only. */
-  --sage: #c3cf8e;
-  --sea: #7fa39a;
-  --clay: #d98f6a;
-
-  /* Accent only. */
-  --vermillion: #d8452a;
-  --vermillion-deep: #b2341d;
-
-  --action: var(--vermillion);
-  --action-deep: var(--vermillion-deep);
-  --accent: var(--action);
-  --orange: var(--action);
-  --paper: var(--cream);
   --background: var(--paper);
   --foreground: var(--ink);
+  /* Kept so existing utility names keep resolving. */
+  --cream: var(--paper);
+  --action: var(--accent);
+  --action-deep: var(--accent-deep);
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-cream-deep: var(--cream-deep);
   --color-paper: var(--paper);
+  --color-cream: var(--paper);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
-  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-action: var(--accent);
+  --color-blush: var(--blush);
   --color-rule: var(--rule);
-  --color-concrete: var(--concrete);
-  --color-sage: var(--sage);
-  --color-sea: var(--sea);
-  --color-clay: var(--clay);
-  --color-vermillion: var(--vermillion);
-  --color-action: var(--action);
-  --color-orange: var(--action);
-  --color-accent: var(--action);
-  --color-brick: var(--vermillion);
 }
 
 @media (prefers-reduced-motion: reduce) {

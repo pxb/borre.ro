@@ -32,11 +32,11 @@ export default function Solutions() {
               <p className="max-w-2xl leading-relaxed text-ink">{item.what}</p>
               <dl className="mt-6 grid gap-6 sm:grid-cols-2">
                 <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink-faint">Best for</dt>
+                  <dt className="text-xs uppercase tracking-wide text-ink-soft">Best for</dt>
                   <dd className="mt-1 text-sm leading-relaxed text-ink-soft">{item.forWho}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink-faint">Cost</dt>
+                  <dt className="text-xs uppercase tracking-wide text-ink-soft">Cost</dt>
                   <dd className="mt-1 font-mono text-sm text-ink">{item.price}</dd>
                 </div>
               </dl>

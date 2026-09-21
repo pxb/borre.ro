@@ -10,6 +10,10 @@ type VantaEffect = { destroy: () => void; resize?: () => void };
  * Parameters are Pedro's, from the vantajs.com customiser, with only the two
  * colours moved onto the site palette. Do not substitute your own.
  *
+ * Lines are BLUSH, not the accent. At accent strength the dots were
+ * distracting and made the copy harder to read. Blush is the only palette
+ * colour allowed in the backdrop, and it is never used as type.
+ *
  * There is deliberately NO mask and NO border. The net paints its own
  * background in the page's cream, so the canvas has no visible edge to fade
  * out, and the whole class of seam artifacts that plagued the old wash simply
@@ -58,7 +62,8 @@ export function NetBackdrop() {
         minWidth: 200.0,
         scale: 1.0,
         scaleMobile: 1.0,
-        color: 0xd8452a, // vermillion, the site's accent
+        color: 0xd9a6a0, // blush. Quieter than the accent on purpose: at
+        // full accent strength the dots competed with the copy.
         backgroundColor: 0xf2ede4, // cream, identical to the page
         points: 13.0,
         maxDistance: 16.0,
