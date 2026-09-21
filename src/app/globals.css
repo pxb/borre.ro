@@ -150,15 +150,16 @@
   --ink: #1f1c19;
   /* 3. Ink-soft  secondary type, labels, captions  6.3:1 on paper */
   --ink-soft: #5c554d;
-  /* 4. Accent  CTA ground, figures, the wordmark   5.3:1 both ways.
-        Deepened from #d8452a, which measured 3.75:1 and failed AA as a
-        button ground and as normal text. */
-  --accent: #b2341d;
-  --accent-deep: #9a2b17;
-  /* 5. Blush   backdrop linework ONLY, never type.
-        Hue 6.3deg and 43% saturation, against the accent's 9.3deg and 69%:
-        pinker and far quieter, so it stops competing with the copy. */
-  --blush: #d9a6a0;
+  /* 4. Accent  CTA ground, figures, the wordmark   5.2:1 both ways.
+        Softened from #b2341d: saturation 72% -> 58.5% with the contrast
+        essentially unchanged. Both are deepened from the original #d8452a,
+        which measured 3.75:1 and failed AA as a button ground. */
+  --accent: #a8402c;
+  --accent-deep: #8f3524;
+  /* 5. Olive   backdrop linework, and available as a quiet second accent.
+        Hue 87deg at 20% saturation, so it sits away from the brick rather
+        than competing with it, and measures 6.1:1 so it is safe as type. */
+  --olive: #4f5d3e;
 
   /* Not a colour. A hairline weight. */
   --rule: #d9d1c4;
@@ -179,7 +180,7 @@
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
   --color-action: var(--accent);
-  --color-blush: var(--blush);
+  --color-olive: var(--olive);
   --color-rule: var(--rule);
 }
 

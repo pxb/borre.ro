@@ -10,9 +10,16 @@ type VantaEffect = { destroy: () => void; resize?: () => void };
  * Parameters are Pedro's, from the vantajs.com customiser, with only the two
  * colours moved onto the site palette. Do not substitute your own.
  *
- * Lines are BLUSH, not the accent. At accent strength the dots were
- * distracting and made the copy harder to read. Blush is the only palette
- * colour allowed in the backdrop, and it is never used as type.
+ * Lines are OLIVE, not the accent. At accent strength the dots were
+ * distracting and made the copy harder to read, and a pink read wrong against
+ * the brick. Olive sits far enough round the wheel to stop competing.
+ *
+ * Dots are forced WHITE after init. Vanta exposes a single `color` for both,
+ * but it builds the dots as lit MeshLambertMaterial spheres and the lines as a
+ * transparent LineBasicMaterial using vertex colours, so the dots always render
+ * darker than the lines. Overriding the material on effect.points is the only
+ * way to split them. Keeping Lambert rather than Basic means the spheres still
+ * catch the light and stay visible on cream instead of disappearing.
  *
  * There is deliberately NO mask and NO border. The net paints its own
  * background in the page's cream, so the canvas has no visible edge to fade
@@ -62,14 +69,17 @@ export function NetBackdrop() {
         minWidth: 200.0,
         scale: 1.0,
         scaleMobile: 1.0,
-        color: 0xd9a6a0, // blush. Quieter than the accent on purpose: at
-        // full accent strength the dots competed with the copy.
+        color: 0x4f5d3e, // olive
         backgroundColor: 0xf2ede4, // cream, identical to the page
         points: 13.0,
         maxDistance: 16.0,
         spacing: 15.0,
         showDots: true,
       });
+      // Dots to white. See the note above: Vanta has no separate dot colour.
+      const fx = effect.current as VantaEffect & { points?: { material?: { color?: { set: (c: number) => void } } }[] };
+      fx.points?.forEach((pt) => pt.material?.color?.set(0xffffff));
+
       setReady(true);
     })();
 

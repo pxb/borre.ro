@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { NetBackdrop } from "@/components/hero/net-backdrop";
 import { CyclingWord } from "@/components/cycling-word";
-import { RevOps } from "@/components/revops";
 import { evidence, fears, paradigm, site, work } from "@/content/site";
 import { isFigure } from "@/lib/is-figure";
 
@@ -15,10 +14,7 @@ export default function Home() {
               to stack in one column, which made four items of decreasing size
               and no second focal point. */}
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
-              <RevOps />, built and run
-            </p>
-            <h1 className="mt-6 text-[clamp(2.25rem,4.6vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em]">
+            <h1 className="text-[clamp(2.25rem,4.6vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em]">
               {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
               {site.headlineAfter}
             </h1>

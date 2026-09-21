@@ -76,16 +76,17 @@ against paper, not estimated.
 | 1 | `--paper` | `#F2EDE4` | the page ground | — |
 | 2 | `--ink` | `#1F1C19` | primary type | 15.9:1 |
 | 3 | `--ink-soft` | `#5C554D` | secondary type, labels, captions | 6.3:1 |
-| 4 | `--accent` | `#B2341D` | CTA ground, figures, the wordmark | 5.3:1 both ways |
-| 5 | `--blush` | `#D9A6A0` | backdrop linework **only** | decorative |
+| 4 | `--accent` | `#A8402C` | CTA ground, figures, the wordmark | 5.2:1 both ways |
+| 5 | `--olive` | `#4F5D3E` | backdrop linework, quiet second accent | 6.1:1 |
 
-`--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#9A2B17` is the
+`--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#8F3524` is the
 accent's hover state.
 
-**The accent was deepened from `#D8452A`, and this is not reversible on taste.** The old value
-measured **3.75:1**, which fails AA as normal text and fails as a button ground with paper text on
-it. `#B2341D` measures 5.29:1 in both roles. A palette whose primary button fails contrast is not
-a palette.
+**The accent may be softened but never lightened past AA.** The original `#D8452A` measured
+**3.75:1**, failing as normal text and as a button ground with paper on it. `#B2341D` fixed that at
+5.29:1, then softened to `#A8402C`: saturation 72% to 58.5% with contrast effectively unchanged at
+5.24:1. Soften by dropping **saturation**, not lightness. A palette whose primary button fails
+contrast is not a palette.
 
 **Retired, do not reintroduce:** `--ink-faint` `#877E74` (3.42:1, failed AA and was the dominant
 body colour on the work pages), `--concrete`, `--cream-deep`, and the wash trio `--sage`, `--sea`,
@@ -101,7 +102,7 @@ emphasis. The rule that fixed it:
 | Solid ground | Yes, the primary CTA, **once per view** |
 | Large text, 24px and up | Yes, figures only |
 | Body and small text, 14px and under | **No.** It also fails AA at these sizes |
-| Backdrop linework | Blush only, never the accent |
+| Backdrop linework | Olive only, never the accent. Dots are white |
 
 Named exceptions, all large or brand: the `.ro` wordmark, the **R** and **O** of Revenue
 Operations, the cycling word in the headline.
@@ -109,7 +110,7 @@ Operations, the cycling word in the headline.
 Contrast and hierarchy turned out to be the same problem here: every element demoted under this
 rule was small text that was already failing AA.
 
-**The blush never appears as type. The accent never appears in the backdrop.** The first rule is
+**The accent never appears in the backdrop.** The first rule is
 what stopped sage-on-vermillion; the second is what stopped orange-on-orange.
 
 ## Backdrop
@@ -136,6 +137,13 @@ NET over the other effects for two reasons. It argues the headline: the site say
 talk to each other, and a mesh finding its connections is the thing being sold. And WAVES is a
 full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
 surface and it renders as a flat block. Verified twice.
+
+**Measured, and it changes how to think about this:** the line colour is very nearly a no-op. Vanta
+draws lines as a `transparent` `LineBasicMaterial` with per-segment vertex colours that fade with
+distance, so over a warm cream ground any hue washes out to warm grey. Sampling the full rendered
+hero, **0 of 50,217 line pixels had more green than red** with the lines set to olive `#4F5D3E`.
+The **dots** are the only part that carries colour, because they are opaque lit spheres. So if the
+backdrop needs to read as a colour, change the dots, not the lines.
 
 Settings live in `src/components/hero/net-backdrop.tsx`. `mouseControls` is on, so the element must
 NOT carry `pointer-events-none` or it stops receiving mousemove. Reduced motion gets a real variant:

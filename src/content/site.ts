@@ -3,6 +3,9 @@ export const site = {
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI for Humans",
+  // The eyebrow that carried this was dropped from the hero, so the phrase
+  // does its work in the page title and the structured data instead.
+  tagline: "AI and Revenue Operations",
   headlineBefore: "You have",
   headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
   headlineAfter: "AI tools. None of them talk to each other.",

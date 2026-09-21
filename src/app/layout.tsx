@@ -22,7 +22,7 @@ const martianMono = Martian_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} · ${site.role}`,
+    default: `${site.name} · ${site.tagline}`,
     template: `%s · ${site.name}`,
   },
   description: site.summary,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: site.url,
-    title: `${site.name} · ${site.role}`,
+    title: `${site.name} · ${site.tagline}`,
     description: site.summary,
     siteName: site.domain,
   },
