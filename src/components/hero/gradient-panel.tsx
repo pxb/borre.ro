@@ -25,16 +25,18 @@ const url =
   "&reflection=0.1&rotationX=45&rotationY=0&rotationZ=0&shader=defaults&type=waterPlane" +
   "&uAmplitude=0&uDensity=0.9&uFrequency=3.5&uSpeed=0.1&uStrength=1.5&uTime=0&wireframe=false";
 
+/* A single radial falloff. Two separate linear fades, one to the left and one
+   to the bottom, crossed at the lower left corner and the seam was visible. */
+const FALLOFF =
+  "radial-gradient(115% 100% at 78% 42%, black 0%, black 34%, transparent 78%)";
+
 /* Spans the whole hero band, bleeding past the content column. */
 export function HeroGradient() {
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-y-0 left-[34%] right-[-18vw] -z-10 overflow-hidden opacity-85"
-      style={{
-        maskImage: "linear-gradient(to right, transparent 0%, black 34%)",
-        WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 34%)",
-      }}
+      style={{ maskImage: FALLOFF, WebkitMaskImage: FALLOFF }}
     >
       <ShaderGradientCanvas
         style={{ position: "absolute", inset: 0 }}

@@ -194,16 +194,16 @@ export const fears = {
     {
       fear: "We have five AI tools and none of them talk.",
       answer: "One place that knows the business, connected to the tools you already own.",
-      stat: null,
-      note: "ChatGPT here, Copilot there, an AI feature in the CRM, another in accounting",
-      href: null,
+      stat: "78%",
+      note: "of organisations say they are struggling to connect AI to the systems they already run (Zapier, October 2025)",
+      href: "https://zapier.com/blog/ai-resistance-survey/",
     },
     {
       fear: "We got burned by the bill.",
       answer: "Your accounts, your caps, costs visible. No bundled usage and no markup on what you use.",
-      stat: null,
-      note: "SMBs now ask for hard usage caps in the contract",
-      href: "https://techaisle.com/blog/661-top-10-smb-mid-market-predictions-for-2026-and-beyond",
+      stat: "47%",
+      note: "of organisations spent more on AI than they had budgeted (Futurum Group, September 2026)",
+      href: "https://futurumgroup.com/press-release/46-9-of-enterprises-report-ai-spend-over-budget-in-2h-2026/",
     },
     {
       fear: "Nobody here knows how.",

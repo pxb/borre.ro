@@ -3,18 +3,13 @@ import { HeroMark } from "@/components/hero/mark";
 import { CyclingWord } from "@/components/cycling-word";
 import { RevOps } from "@/components/revops";
 import { HeroGradient } from "@/components/hero/gradient-panel";
-import { evidence, fears, paradigm, site } from "@/content/site";
+import { evidence, fears, paradigm, site, work } from "@/content/site";
 
 export default function Home() {
   return (
     <>
       <section className="relative isolate overflow-hidden text-ink">
         <HeroGradient />
-        {/* The wash ended on a hard edge against the cream below. Fade it out. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-paper"
-        />
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
@@ -139,11 +134,35 @@ export default function Home() {
             </h2>
             <Link
               href="/work"
-              className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-action"
+              className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
-              Case studies
+              All case studies
             </Link>
           </div>
+          <ul className="mt-12 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2">
+            {work.map((w) => (
+              <li key={w.slug} className="flex bg-paper">
+                <Link
+                  href={`/work/${w.slug}`}
+                  className="group flex w-full flex-col p-8 transition-colors hover:bg-cream-deep focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+                >
+                  <h3 className="text-lg font-medium text-ink">{w.title}</h3>
+                  <p className="mt-2 leading-snug text-ink-soft">{w.tagline}</p>
+                  <div className="mt-8 flex items-baseline gap-3 border-t border-rule pt-6">
+                    <span className="font-mono text-2xl tabular-nums leading-none text-action">
+                      {w.metrics[0].value}
+                    </span>
+                    <span className="text-sm leading-snug text-ink-soft">
+                      {w.metrics[0].label}
+                    </span>
+                  </div>
+                  <span className="mt-auto pt-6 text-sm text-ink underline decoration-rule underline-offset-8 transition-colors group-hover:decoration-action">
+                    Read the case study
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       </div>
     </>
