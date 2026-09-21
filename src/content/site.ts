@@ -184,8 +184,8 @@ export const fears = {
     {
       fear: "We do not know where it would even help.",
       answer: "A named list of where it pays in your business, with the numbers. Or an honest no.",
-      stat: "71%",
-      note: "of businesses have not identified a clear use for AI",
+      stat: "25%",
+      note: "of UK businesses are unsure of the return on investment",
       href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
     },
     {
@@ -205,9 +205,9 @@ export const fears = {
     {
       fear: "Nobody here knows how.",
       answer: "We run it, and train your people to direct it rather than be replaced by it.",
-      stat: "60%",
-      note: "cite limited AI skills as the blocker",
-      href: "https://spicyadvisory.com/blog/ai-adoption-uk-smb-guide-2026",
+      stat: "27%",
+      note: "of small businesses name lack of expertise as the barrier",
+      href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
     },
   ],
 };
@@ -216,15 +216,15 @@ export const fears = {
 // Public evidence for the opening claim. Both are cited on the site.
 export const evidence = [
   {
-    stat: "71%",
-    claim: "of businesses have not identified a clear use for AI in their organisation",
-    source: "techUK AI adoption report, 2026",
+    stat: "35%",
+    claim: "of UK businesses say the biggest barrier to using AI is not having the expertise",
+    source: "ANS and YouGov, via techUK, 2025",
     href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
   },
   {
     stat: "40%",
     claim: "of agentic AI projects are expected to be cancelled by 2027, on unclear business value",
-    source: "Gartner, 2026",
+    source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
   },
 ];
