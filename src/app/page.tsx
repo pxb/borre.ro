@@ -10,6 +10,11 @@ export default function Home() {
     <>
       <section className="relative isolate overflow-hidden text-ink">
         <HeroGradient />
+        {/* The wash ended on a hard edge against the cream below. Fade it out. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-paper"
+        />
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
@@ -43,7 +48,7 @@ export default function Home() {
       </section>
 
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <section className="border-b border-rule py-16">
+        <section className="border-b border-rule py-20">
           <dl className="grid gap-10 sm:grid-cols-2">
             {evidence.map((e) => (
               <div key={e.stat} className="flex gap-6">
@@ -64,10 +69,8 @@ export default function Home() {
               </div>
             ))}
           </dl>
-        </section>
 
-        <section className="border-b border-rule py-20">
-          <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{fears.title}</h2>
+          <h2 className="mt-20 text-2xl font-medium tracking-[-0.01em] text-ink">{fears.title}</h2>
           <div className="mt-12 divide-y divide-rule border-y border-rule">
             {fears.items.map((f) => (
               <div
@@ -95,6 +98,16 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-xl leading-relaxed text-ink-soft">{fears.close}</p>
+            <Link
+              href="/contact"
+              className="shrink-0 border-2 border-ink bg-cream px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+            >
+              {fears.cta}
+            </Link>
           </div>
         </section>
 

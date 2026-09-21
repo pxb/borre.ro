@@ -179,7 +179,10 @@ export const paradigm = {
 };
 
 export const fears = {
-  title: "What gets in the way",
+  title: "What people tell us",
+  close:
+    "None of this is unusual, and none of it needs a big programme to fix. It starts with working out where this would actually pay.",
+  cta: "Book a free 30-minute review",
   items: [
     {
       fear: "We do not know where it would even help.",
