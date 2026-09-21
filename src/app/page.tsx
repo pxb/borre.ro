@@ -29,7 +29,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/work"
-                className="text-sm text-ink underline decoration-rule decoration-2 underline-offset-8 transition-colors hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                className="border-2 border-ink bg-cream px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Case studies
               </Link>

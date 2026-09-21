@@ -51,8 +51,8 @@ function Mark({ reduced }: { reduced: boolean }) {
         castShadow
         receiveShadow
       >
-        <boxGeometry args={[0.92, 0.92, 0.92]} />
-        <meshStandardMaterial color="#efe9de" roughness={0.9} metalness={0} />
+        <boxGeometry args={[0.84, 0.84, 0.84]} />
+        <meshStandardMaterial color="#8c867c" roughness={0.75} metalness={0.05} flatShading />
       </instancedMesh>
     </group>
   );
@@ -70,10 +70,10 @@ export default function MarkScene() {
       style={{ width: "100%", height: "100%" }}
       aria-hidden="true"
     >
-      <ambientLight intensity={0.55} />
+      <ambientLight intensity={0.3} />
       <directionalLight
         position={[10, 20, 8]}
-        intensity={1.5}
+        intensity={2.2}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0005}
