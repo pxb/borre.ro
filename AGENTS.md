@@ -77,7 +77,7 @@ against paper, not estimated.
 | 2 | `--ink` | `#1F1C19` | primary type | 15.9:1 |
 | 3 | `--ink-soft` | `#5C554D` | secondary type, labels, captions | 6.3:1 |
 | 4 | `--accent` | `#A8402C` | CTA ground, figures, the wordmark | 5.2:1 both ways |
-| 5 | `--olive` | `#4F5D3E` | backdrop linework, quiet second accent | 6.1:1 |
+| 5 | `--olive` | `#4F5D3E` | **second accent, used sparingly**: the small uppercase labels, and nothing else | 6.1:1 |
 
 `--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#8F3524` is the
 accent's hover state.
@@ -102,7 +102,7 @@ emphasis. The rule that fixed it:
 | Solid ground | Yes, the primary CTA, **once per view** |
 | Large text, 24px and up | Yes, figures only |
 | Body and small text, 14px and under | **No.** It also fails AA at these sizes |
-| Backdrop linework | Olive only, never the accent. Dots are white |
+| Backdrop | White tracery only. **Neither accent goes in here** |
 
 Named exceptions, all large or brand: the `.ro` wordmark, the **R** and **O** of Revenue
 Operations, the cycling word in the headline.
@@ -138,7 +138,11 @@ talk to each other, and a mesh finding its connections is the thing being sold. 
 full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
 surface and it renders as a flat block. Verified twice.
 
-**Measured, and it changes how to think about this:** the line colour is very nearly a no-op. Vanta
+The backdrop is WHITE lines and dots. Cream is not white, so white reads as a light web
+lifted off the page rather than a tint laid over it. Three coloured backdrops were tried and every
+one competed with the copy.
+
+**Measured, and it is why colour does not belong here:** the line colour is very nearly a no-op. Vanta
 draws lines as a `transparent` `LineBasicMaterial` with per-segment vertex colours that fade with
 distance, so over a warm cream ground any hue washes out to warm grey. Sampling the full rendered
 hero, **0 of 50,217 line pixels had more green than red** with the lines set to olive `#4F5D3E`.

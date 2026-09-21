@@ -17,7 +17,7 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
         <Menu className="size-5" aria-hidden="true" />
       </SheetTrigger>
       <SheetContent side="right" className="w-72 bg-paper">
-        <SheetTitle className="px-6 pt-6 text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
+        <SheetTitle className="px-6 pt-6 text-xs font-medium uppercase tracking-[0.1em] text-olive">
           Menu
         </SheetTitle>
         <nav className="mt-4 flex flex-col px-6">

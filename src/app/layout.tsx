@@ -68,15 +68,20 @@ const nav = [
 function Header() {
   return (
     <header className="border-b border-rule">
-      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 sm:px-10">
+      <nav className="mx-auto flex h-20 max-w-6xl items-center px-6 sm:px-10">
         <Link
           href="/"
           className="font-mono text-sm tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
           borre<span className="text-accent">.ro</span>
         </Link>
+        {/* The hero eyebrow was dropped, so the category line lives here where
+            it reads as an identifier rather than a chip above the headline. */}
+        <p className="ml-5 hidden border-l border-rule pl-5 text-xs font-medium uppercase tracking-[0.1em] text-olive lg:block">
+          {site.tagline}
+        </p>
         <MobileNav items={nav} />
-        <div className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
+        <div className="ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
           {nav.map((n) => (
             <Link
               key={n.href}

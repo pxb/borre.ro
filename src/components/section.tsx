@@ -49,7 +49,7 @@ export function Page({
 export function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">
-      <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">{label}</h2>
+      <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-olive">{label}</h2>
       <div className="min-w-0">{children}</div>
     </div>
   );
