@@ -77,7 +77,7 @@ function Header() {
         </Link>
         {/* The hero eyebrow was dropped, so the category line lives here where
             it reads as an identifier rather than a chip above the headline. */}
-        <p className="ml-5 hidden border-l border-rule pl-5 text-xs font-medium uppercase tracking-[0.1em] text-olive lg:block">
+        <p className="ml-3 border-l border-rule pl-3 text-[0.625rem] font-medium uppercase tracking-[0.1em] text-ink-soft sm:ml-5 sm:pl-5 sm:text-xs">
           {site.tagline}
         </p>
         <MobileNav items={nav} />

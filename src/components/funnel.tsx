@@ -46,7 +46,7 @@ export function Funnel() {
   return (
     <div ref={ref} className="border-t border-rule pt-6">
       <div className="flex flex-col gap-1 pb-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-olive">
+        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
           One week of prospecting
         </p>
         <p className="text-sm text-ink-soft">
@@ -99,7 +99,7 @@ export function Funnel() {
       </div>
 
       <div className="mt-6 min-h-20 border-l-2 border-accent pl-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-olive">
+        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
           {funnel[active].label}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">{funnel[active].note}</p>

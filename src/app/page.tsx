@@ -115,7 +115,7 @@ export default function Home() {
             {paradigm.parts.map((part) => (
               <div key={part.term} className="bg-paper p-8">
                 <h3 className="text-lg font-medium text-ink">{part.term}</h3>
-                <p className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-olive">
+                <p className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
                   {part.plain}
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-ink-soft">{part.body}</p>

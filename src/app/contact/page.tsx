@@ -16,7 +16,7 @@ export default function Contact() {
     >
       <section className="grid gap-10 py-16 sm:grid-cols-2">
         <div>
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-olive">Email</h2>
+          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">Email</h2>
           <a
             href={`mailto:${site.email}`}
             className="mt-3 block text-xl text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
@@ -25,7 +25,7 @@ export default function Contact() {
           </a>
         </div>
         <div>
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-olive">LinkedIn</h2>
+          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">LinkedIn</h2>
           <a
             href={site.linkedin}
             target="_blank"

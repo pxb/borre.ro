@@ -68,7 +68,7 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-**Five colours. Nothing else is a colour.** Settled 2026-09-21. Every ratio below was computed
+**Four colours. Nothing else is a colour.** Settled 2026-09-21. Every ratio below was computed
 against paper, not estimated.
 
 | # | Token | Hex | Role | On paper |
@@ -77,7 +77,11 @@ against paper, not estimated.
 | 2 | `--ink` | `#1F1C19` | primary type | 15.9:1 |
 | 3 | `--ink-soft` | `#5C554D` | secondary type, labels, captions | 6.3:1 |
 | 4 | `--accent` | `#A8402C` | CTA ground, figures, the wordmark | 5.2:1 both ways |
-| 5 | `--olive` | `#4F5D3E` | **second accent, used sparingly**: the small uppercase labels, and nothing else | 6.1:1 |
+
+**A fifth colour was tried twice and rejected twice**, both times olive `#4F5D3E`: first as
+backdrop linework, where it was measurably invisible (0 of 50,217 line pixels read green), then as a
+second accent on the small uppercase labels, where Pedro's verdict was that it was distracting and
+looked wrong. Do not propose a fifth colour without a specific job for it that the four cannot do.
 
 `--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#8F3524` is the
 accent's hover state.
@@ -102,10 +106,10 @@ emphasis. The rule that fixed it:
 | Solid ground | Yes, the primary CTA, **once per view** |
 | Large text, 24px and up | Yes, figures only |
 | Body and small text, 14px and under | **No.** It also fails AA at these sizes |
-| Backdrop | White tracery only. **Neither accent goes in here** |
+| Backdrop | White tracery only. **The accent does not go in here** |
 
-Named exceptions, all large or brand: the `.ro` wordmark, the **R** and **O** of Revenue
-Operations, the cycling word in the headline.
+Named exceptions, all large or brand: the `.ro` wordmark and the cycling word in the headline.
+The **R** and **O** highlight went with the hero eyebrow.
 
 Contrast and hierarchy turned out to be the same problem here: every element demoted under this
 rule was small text that was already failing AA.

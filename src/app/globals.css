@@ -156,10 +156,9 @@
         which measured 3.75:1 and failed AA as a button ground. */
   --accent: #a8402c;
   --accent-deep: #8f3524;
-  /* 5. Olive   backdrop linework, and available as a quiet second accent.
-        Hue 87deg at 20% saturation, so it sits away from the brick rather
-        than competing with it, and measures 6.1:1 so it is safe as type. */
-  --olive: #4f5d3e;
+  /* A fifth colour was tried twice, as backdrop linework and then as a second
+     accent on the small labels, and rejected both times. The palette is four.
+     See AGENTS.md before proposing a fifth. */
 
   /* Not a colour. A hairline weight. */
   --rule: #d9d1c4;
@@ -180,7 +179,6 @@
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
   --color-action: var(--accent);
-  --color-olive: var(--olive);
   --color-rule: var(--rule);
 }
 
