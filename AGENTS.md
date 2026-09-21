@@ -90,11 +90,11 @@ Nothing is pure black or pure white. This is a professional portfolio, not a des
 
 **The gradient is contained, never behind body text.** This is the rule that matters, and it was learned the hard way over several rounds. A full-bleed animated wash under paragraphs has no good setting: turn it up and the text is unreadable, turn it down and the page reads grey. Bounded in its own panel it can be as vibrant as it likes, because nothing has to be read through it.
 
-Grain comes from shadergradient's own `grain=on` and **nowhere else**. Never add a CSS noise layer on top: two stacked read as dirty rather than textured. Tried and reverted.
+Grain is **off** (2026-09-21). If it is ever turned back on it comes from shadergradient's own `grain=on` and nowhere else. Never add a CSS noise layer on top: two stacked read as dirty rather than textured, and on a saturated wash the combination reads as astroturf. Both tried and reverted.
 
-Current settings: `brightness=1.2`, `grain=on`, contained panel beside the copy.
+Current settings: `brightness=1.1`, `grain=off`, contained panel beside the copy, faded out at the bottom of the hero so it does not end on a hard edge against the cream.
 
-Current wash: sage into grey-green into clay, cool through to warm, sitting just under the vermillion in loudness.
+Current wash: a single green in three shades, `#4a6b52` into `#7d9b7a` into `#bcc9b4`. Natural greens are far less chromatic than screen greens, which is the mistake made repeatedly here: every version that read wrong was too saturated, not too dark or too light. Reach for saturation before brightness.
 
 Gradient colours live in a URL built by string concatenation, so a naive find-and-replace across the whole url will silently match nothing. Rewrite the colour line whole and assert the new hex values are present.
 
