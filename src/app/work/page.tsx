@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isFigure } from "@/lib/is-figure";
 import Link from "next/link";
 import { Page } from "@/components/section";
 import { work } from "@/content/site";
@@ -33,7 +34,13 @@ export default function Work() {
               <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
                 {c.metrics.map((m) => (
                   <div key={m.label}>
-                    <dt className="font-mono text-lg tabular-nums text-ink">{m.value}</dt>
+                    <dt
+                      className={`text-lg text-ink ${
+                        isFigure(m.value) ? "font-mono tabular-nums" : "font-medium"
+                      }`}
+                    >
+                      {m.value}
+                    </dt>
                     <dd className="text-xs text-ink-faint">{m.label}</dd>
                   </div>
                 ))}

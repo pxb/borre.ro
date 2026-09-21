@@ -88,34 +88,41 @@ Nothing is pure black or pure white. This is a professional portfolio, not a des
 
 ## Backdrop
 
-**Vanta NET, bounded inside a framed panel.** Shipped 2026-09-21, replacing a shadergradient wash.
+**Vanta NET, full bleed behind the hero.** Shipped 2026-09-21, replacing a shadergradient wash.
 
-The rule that survived every round: **a backdrop is bounded, never behind body text.** A full-bleed
-animated wash under paragraphs has no good setting. Turn it up and the text is unreadable, turn it
-down and the page reads grey, and every edge then needs a mask that leaves a seam. Three separate
-seam artifacts were shipped and reverted trying to solve that: a hard bottom edge, two crossing
-linear fades meeting at a visible corner, and a radial mask clipped mid-fade at 0.678 opacity.
+Parameters are Pedro's, taken from the vantajs.com customiser, with only the two colours moved onto
+the site palette: vermillion lines on cream. **Do not substitute your own parameters.** A bounded,
+inverted, dark-panel variant was built and rejected: it read as a logo rather than a backdrop, lost
+the dots entirely, and ignored the spec it was given.
 
-Inside a frame none of that applies. The edge is deliberate, so it is a border rather than an
-artifact, and nothing has to be read through the effect. Pedro's framing, which is the better one:
-a gradient "works best as a bounded element. Like a frame, a highlight, a carousel."
+**There is no mask and no border, and that is the point.** The net paints its own background in the
+page's exact cream, so the canvas has no visible edge and the entire class of seam artifact simply
+does not arise. Three separate seams were shipped and reverted fighting this on the old wash: a hard
+bottom edge, two crossing linear fades meeting at a corner, and a radial mask clipped mid-fade at
+0.678 opacity. Matching the background beats masking the edge.
 
-NET over the other Vanta effects because it argues the headline. The site says the tools do not talk
-to each other; a mesh of points finding each other is the thing being sold. Pick effects that carry
-the argument, not effects that decorate.
+**The containment rule was learned on a wash, and does not transfer to linework.** A saturated colour
+wash under paragraphs has no readable setting. Fine lines on a light ground cover a tiny fraction of
+the area and never sit as a block behind a letterform, so copy stays readable on top. Do not cite the
+old rule to argue against linework.
 
-Settings live in `src/components/hero/net-panel.tsx`. Lines are `ink`, ground is `cream`.
-**The accent never appears in the backdrop**, which is what caused orange-on-orange. The backdrop
-colours never appear as type or UI, which is what caused sage-on-vermillion. Both rules still hold.
+NET over the other effects for two reasons. It argues the headline: the site says the tools do not
+talk to each other, and a mesh finding its connections is the thing being sold. And WAVES is a
+full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
+surface and it renders as a flat block. Verified twice.
 
-`touchControls` is off: drag on a phone fights the page scroll. Reduced motion gets a real variant,
-the static frame with no animation and no WebGL context created at all.
+Settings live in `src/components/hero/net-backdrop.tsx`. `mouseControls` is on, so the element must
+NOT carry `pointer-events-none` or it stops receiving mousemove. Reduced motion gets a real variant:
+plain cream, no WebGL context created at all.
+
+Known and open: at 375px the net is denser relative to the text than on desktop, because the world
+scale is fixed and the viewport is narrower. Readable, but busy. `scaleMobile` is the lever.
 
 Tried and reverted, do not re-propose:
 - A CSS noise layer stacked on the shader's own grain. Two grains read as dirty.
 - Four wash colour attempts, each rejected. The recurring error was too much **saturation**, not
   wrong lightness. Natural colours are far less chromatic than screen colours.
-- A dark hero band.
+- A dark hero band, and a dark bounded NET panel.
 
 ## Mark
 

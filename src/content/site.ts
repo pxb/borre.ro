@@ -111,7 +111,7 @@ export const work: CaseStudy[] = [
       "Writes it into the CRM as a note, ready for the call",
     ],
     metrics: [
-      { value: "30-60 min", label: "of manual research removed per lead" },
+      { value: "30 to 60 min", label: "of manual research removed per lead" },
       { value: "Every claim", label: "carries a source link" },
       { value: "2 checks", label: "before any contact is used" },
     ],

@@ -1,14 +1,16 @@
 import Link from "next/link";
-import { NetPanel } from "@/components/hero/net-panel";
+import { NetBackdrop } from "@/components/hero/net-backdrop";
 import { CyclingWord } from "@/components/cycling-word";
 import { RevOps } from "@/components/revops";
 import { evidence, fears, paradigm, site, work } from "@/content/site";
+import { isFigure } from "@/lib/is-figure";
 
 export default function Home() {
   return (
     <>
       <section className="relative isolate text-ink">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-14">
+        <NetBackdrop />
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 sm:py-32">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink-soft">
               <RevOps />, built and run
@@ -33,15 +35,11 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          {/* Shown on every width. The backdrop used to be desktop-only, which
-              left phones with no identity at all. */}
-          <NetPanel className="h-56 w-full sm:h-72 lg:h-[26rem]" />
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <section className="border-b border-rule py-20">
+        <section className="border-b border-rule pb-20 pt-14">
           <dl className="grid gap-10 sm:grid-cols-2">
             {evidence.map((e) => (
               <div key={e.stat} className="flex gap-6">
@@ -147,7 +145,11 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-ink">{w.title}</h3>
                   <p className="mt-2 leading-snug text-ink-soft">{w.tagline}</p>
                   <div className="mt-8 flex items-baseline gap-3 border-t border-rule pt-6">
-                    <span className="font-mono text-2xl tabular-nums leading-none text-action">
+                    <span
+                      className={`text-2xl leading-none text-action ${
+                        isFigure(w.metrics[0].value) ? "font-mono tabular-nums" : "font-medium"
+                      }`}
+                    >
                       {w.metrics[0].value}
                     </span>
                     <span className="text-sm leading-snug text-ink-soft">

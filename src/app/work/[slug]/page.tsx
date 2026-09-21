@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isFigure } from "@/lib/is-figure";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
@@ -76,7 +77,13 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         <dl className="flex flex-wrap gap-x-12 gap-y-6">
           {c.metrics.map((m) => (
             <div key={m.label}>
-              <dt className="font-mono text-3xl tabular-nums text-ink">{m.value}</dt>
+              <dt
+                className={`text-3xl text-ink ${
+                  isFigure(m.value) ? "font-mono tabular-nums" : "font-medium"
+                }`}
+              >
+                {m.value}
+              </dt>
               <dd className="mt-1 max-w-[16rem] text-sm leading-snug text-ink-faint">{m.label}</dd>
             </div>
           ))}
