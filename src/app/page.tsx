@@ -15,8 +15,14 @@ export default function Home() {
               and no second focal point. */}
           <div>
             <h1 className="text-[clamp(2.25rem,4.6vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em]">
-              {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
-              {site.headlineAfter}
+              {/* Assistive tech reads one stable sentence; the animated version
+                  is hidden from it so the heading does not mutate under a
+                  screen reader six times a minute (#566). */}
+              <span className="sr-only">{site.headline}</span>
+              <span aria-hidden="true">
+                {site.headlineBefore} <CyclingWord words={site.headlineCounts} />{" "}
+                {site.headlineAfter}
+              </span>
             </h1>
           </div>
           <div className="lg:pb-2">

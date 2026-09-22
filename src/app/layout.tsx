@@ -109,7 +109,7 @@ function FooterCol({
       <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-ink">{title}</h2>
       <ul className="mt-5 space-y-3 text-sm">
         {links.map((l) => (
-          <li key={l.href}>
+          <li key={l.label}>
             <Link
               href={l.href}
               className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
@@ -247,12 +247,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${archivo.variable} ${martianMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
+        <a
+          href="#main-content"
+          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-50 focus-visible:border-2 focus-visible:border-ink focus-visible:bg-paper focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-medium focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          Skip to content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
