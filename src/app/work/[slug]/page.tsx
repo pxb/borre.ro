@@ -3,7 +3,7 @@ import { isFigure } from "@/lib/is-figure";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
-import { Funnel } from "@/components/funnel";
+import { ProspectingDemo } from "@/components/demo/prospecting-demo";
 import { serviceFor, work } from "@/content/site";
 
 export function generateStaticParams() {
@@ -46,6 +46,12 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       lead={c.tagline}
       crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Case studies" }]}
     >
+      {c.slug === "prospecting-loop" ? (
+        <section className="border-b border-rule py-10">
+          <ProspectingDemo />
+        </section>
+      ) : null}
+
       <Row label="Problem">
         <div className="max-w-2xl space-y-4">
           {c.problem.map((p) => (
@@ -68,11 +74,6 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </div>
       </Row>
 
-      {c.slug === "prospecting-loop" ? (
-        <Row label="One week">
-          <Funnel />
-        </Row>
-      ) : null}
 
       <Row label="Your team's role">
         <div className="max-w-2xl">

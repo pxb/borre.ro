@@ -163,15 +163,6 @@ export const work: CaseStudy[] = [
   },
 ];
 
-// The shape of one week, not a count. `value` only sizes the bars; no figure is
-// shown, because output depends on team size, ICP and area (Pedro, 2026-09-23).
-export const funnel: { label: string; value: number; shown?: string; note: string }[] = [
-  { label: "Every company in the area", value: 86000, note: "Every active company in the patch, straight from the official register." },
-  { label: "Trading from real premises", value: 50000, note: "Drops the ones registered at an accountant's address rather than a real one." },
-  { label: "Doing something worth calling about", value: 270, note: "For example, a company advertising for a salesperson has just told you it has budget to grow." },
-  { label: "Right size and type", value: 150, note: "Matched back to the profile of customers already won." },
-  { label: "Researched and worth phoning", value: 17, note: "Each one comes with a reason to call and the evidence behind it. How many depends on your team's capacity, your ideal customer and the area covered." },
-];
 
 // Public evidence for the opening claim. Each source was fetched and checked (#565).
 export const evidence = [
