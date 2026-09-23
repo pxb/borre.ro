@@ -4,6 +4,17 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
+import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
+import { WorkflowDemo } from "@/components/demo/workflow-demo";
+import { leadEnrichmentRun, postCallRun } from "@/content/demo-showcases";
+
+// The interactive piece for each case study, shown full width under Solution.
+const SHOWCASE: Record<string, () => React.ReactNode> = {
+  "context-engine": () => <ContextEngineDemo />,
+  "prospecting-loop": () => <ProspectingDemo />,
+  "lead-research": () => <WorkflowDemo run={leadEnrichmentRun} title="Inbound lead enrichment" />,
+  "post-call": () => <WorkflowDemo run={postCallRun} title="Post-call follow-up" />,
+};
 import { serviceFor, work } from "@/content/site";
 
 export function generateStaticParams() {
@@ -89,10 +100,8 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       </Row>
 
       {/* The demo is part of the solution, full width so the product has room. */}
-      {c.slug === "prospecting-loop" ? (
-        <section className="border-b border-rule pt-2 pb-12">
-          <ProspectingDemo />
-        </section>
+      {SHOWCASE[c.slug] ? (
+        <section className="border-b border-rule pt-2 pb-12">{SHOWCASE[c.slug]()}</section>
       ) : null}
 
       <Row label="Results">
