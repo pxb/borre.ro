@@ -85,6 +85,11 @@ backdrop linework, where it was measurably invisible (0 of 50,217 line pixels re
 second accent on the small uppercase labels, where Pedro's verdict was that it was distracting and
 looked wrong. Do not propose a fifth colour without a specific job for it that the four cannot do.
 
+**One scoped exception: the prospecting portal demo** (`src/components/demo/`). It keeps the real
+product's own design system (`portal.css`, scoped to `.portal`, brown accent for the invented client)
+so it reads as a product sitting on the page. Pedro, 2026-09-23: on the site's palette "it just blends
+into the page and gets lost". Nothing outside `.portal` may use those tokens.
+
 `--rule` `#D9D1C4` is not a colour, it is a hairline weight. `--accent-deep` `#8F3524` is the
 accent's hover state.
 

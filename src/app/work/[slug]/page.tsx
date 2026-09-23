@@ -46,13 +46,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       lead={c.tagline}
       crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Case studies" }]}
     >
-      {c.slug === "prospecting-loop" ? (
-        <section className="border-b border-rule py-10">
-          <ProspectingDemo />
-        </section>
-      ) : null}
-
-      <Row label="Problem">
+      <Row label="Challenge">
         <div className="max-w-2xl space-y-4">
           {c.problem.map((p) => (
             <p key={p.slice(0, 24)} className="leading-relaxed text-ink">
@@ -62,24 +56,41 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </div>
       </Row>
 
-      <Row label="Sources">
-        <div className="max-w-2xl">
-          <List items={c.drawsOn} />
-        </div>
-      </Row>
-
-      <Row label="How it works">
-        <div className="max-w-2xl">
+      <Row label="Solution">
+        <div className="max-w-2xl space-y-6">
           <List items={c.does} />
+          {c.involved.map((p) => (
+            <p key={p.slice(0, 24)} className="leading-relaxed text-ink">
+              {p}
+            </p>
+          ))}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink-soft">
+            <ul className="flex flex-wrap gap-2">
+              {c.stack.map((s) => (
+                <li key={s} className="border border-rule px-2.5 py-0.5 text-xs">
+                  {s}
+                </li>
+              ))}
+            </ul>
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services#${service.slug}`}
+                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              >
+                {service.name}, {service.price.charAt(0).toLowerCase() + service.price.slice(1)}
+              </Link>
+            ))}
+          </div>
         </div>
       </Row>
 
-
-      <Row label="Your team's role">
-        <div className="max-w-2xl">
-          <List items={c.involved} />
-        </div>
-      </Row>
+      {/* The demo is part of the solution, full width so the product has room. */}
+      {c.slug === "prospecting-loop" ? (
+        <section className="border-b border-rule pt-2 pb-12">
+          <ProspectingDemo />
+        </section>
+      ) : null}
 
       <Row label="Results">
         <dl className="flex flex-wrap gap-x-12 gap-y-6">
@@ -98,39 +109,17 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </dl>
       </Row>
 
-      <Row label="Runs on">
-        <ul className="flex flex-wrap gap-2">
-          {c.stack.map((s) => (
-            <li
-              key={s}
-              className="rounded-full border border-rule px-3 py-1 font-mono text-xs text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
-            >
-              {s}
-            </li>
-          ))}
-        </ul>
-      </Row>
-
-      {services.length ? (
-        <Row label={services.length > 1 ? "Services" : "Service"}>
-          <ul className="space-y-2">
-            {services.map((service) => (
-              <li key={service.slug} className="leading-relaxed text-ink">
-                <Link
-                  href={`/services#${service.slug}`}
-                  className="underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                >
-                  {service.name}
-                </Link>
-                <span className="text-ink-soft">
-                  , {service.price.charAt(0).toLowerCase() + service.price.slice(1)}
-                </span>
-              </li>
-            ))}
-          </ul>
+      {/* Only real, attributable quotes. None yet: Insight's waits on #562. */}
+      {c.testimonial ? (
+        <Row label="Testimonial">
+          <figure className="max-w-2xl">
+            <blockquote className="text-xl leading-snug text-ink">{c.testimonial.quote}</blockquote>
+            <figcaption className="mt-3 text-sm text-ink-soft">
+              {c.testimonial.name}, {c.testimonial.role}
+            </figcaption>
+          </figure>
         </Row>
       ) : null}
-
     </Page>
   );
 }

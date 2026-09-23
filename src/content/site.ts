@@ -47,6 +47,8 @@ export type CaseStudy = {
   involved: string[]; // how the team stays involved: the controls, stated as what they do
   stack: string[];
   services: string[]; // the ServiceCategories that deliver it, so the two cannot drift
+  // A real client quote only, with permission. Never invented (#562).
+  testimonial?: { quote: string; name: string; role: string };
 };
 
 export const work: CaseStudy[] = [

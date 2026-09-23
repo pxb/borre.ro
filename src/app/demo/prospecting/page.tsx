@@ -14,7 +14,6 @@ export default function ProspectingDemoPage() {
   return (
     <Page
       title="Prospecting portal demo."
-      lead="An invented coffee roaster and invented prospects, on the same portal we build for clients."
       crumbs={[
         { href: "/", label: "Home" },
         { href: "/work/prospecting-loop", label: "Case study" },
