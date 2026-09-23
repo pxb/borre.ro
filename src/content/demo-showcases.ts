@@ -83,10 +83,35 @@ export const ceBonnet = [
 
 // ---------------------------------------------------------------- Workflows
 
+// The systems a workflow touches. `kind` groups them for colour: business
+// systems the team already uses, outside data sources, the intelligence layer,
+// and people.
+export type SystemId =
+  | "hubspot" | "outlook" | "sharepoint"
+  | "companies-house" | "website" | "bcorp" | "hunter" | "linkedin" | "fireflies"
+  | "context-engine" | "claude"
+  | "rep";
+export const systems: Record<SystemId, { name: string; mark: string; kind: "business" | "data" | "intel" | "people" }> = {
+  hubspot: { name: "HubSpot", mark: "HS", kind: "business" },
+  outlook: { name: "Outlook", mark: "OL", kind: "business" },
+  sharepoint: { name: "SharePoint", mark: "SP", kind: "business" },
+  "companies-house": { name: "Companies House", mark: "CH", kind: "data" },
+  website: { name: "Company website", mark: "WEB", kind: "data" },
+  bcorp: { name: "B Corp directory", mark: "B", kind: "data" },
+  hunter: { name: "Hunter", mark: "HU", kind: "data" },
+  linkedin: { name: "LinkedIn", mark: "IN", kind: "data" },
+  fireflies: { name: "Fireflies", mark: "FF", kind: "data" },
+  "context-engine": { name: "Context Engine", mark: "CE", kind: "intel" },
+  claude: { name: "AI model", mark: "AI", kind: "intel" },
+  rep: { name: "The rep", mark: "YOU", kind: "people" },
+};
+export type Touch = { sys: SystemId; mode: "read" | "write" | "ai" | "approve" };
+
 export type FlowNode = {
   id: string;
   title: string;
   system: string;
+  touches: Touch[];
   found: string; // what the step produced in this run
   gate?: boolean; // the run stops here until the visitor approves
 };
@@ -106,36 +131,42 @@ export const leadEnrichmentRun: FlowRun = {
       id: "trigger",
       title: "New lead in HubSpot",
       system: "HubSpot · Outlook",
+      touches: [{ sys: "outlook", mode: "read" }, { sys: "hubspot", mode: "read" }],
       found: "Sophie Lang, Studio Manager at Orrin Architects, logged from Outlook at 09:12.",
     },
     {
       id: "match",
       title: "Match the company",
       system: "Companies House",
+      touches: [{ sys: "companies-house", mode: "read" }],
       found: "Orrin Architects, active since 2011. One trading entity, no parent group.",
     },
     {
       id: "research",
       title: "Ownership, filings and signals",
       system: "Companies House · website · B Corp directory",
+      touches: [{ sys: "companies-house", mode: "read" }, { sys: "website", mode: "read" }, { sys: "bcorp", mode: "read" }, { sys: "claude", mode: "ai" }],
       found: "Two directors. Six roles advertised this month. Not B Corp certified; a carbon-reduction pledge on the website.",
     },
     {
       id: "qualify",
       title: "Qualify against the ICP",
       system: "Context Engine",
+      touches: [{ sys: "context-engine", mode: "read" }, { sys: "claude", mode: "ai" }],
       found: "Fit 3.8 out of 5. Design studio of about 40 staff with weekly client reviews, five minutes from the roastery.",
     },
     {
       id: "contact",
       title: "Check the contact",
       system: "Hunter · LinkedIn",
+      touches: [{ sys: "hunter", mode: "read" }, { sys: "linkedin", mode: "read" }],
       found: "Email deliverable. Still in the role, per LinkedIn and the company website.",
     },
     {
       id: "note",
       title: "Write the research note",
       system: "HubSpot",
+      touches: [{ sys: "hubspot", mode: "write" }, { sys: "context-engine", mode: "write" }],
       found: "Research note on Sophie's contact with eight linked sources, ready at 09:21.",
     },
   ],
@@ -150,30 +181,35 @@ export const postCallRun: FlowRun = {
       id: "stage",
       title: "Deal moves stage",
       system: "HubSpot",
+      touches: [{ sys: "hubspot", mode: "read" }],
       found: "Copperfield lobby relaunch moved from Discovery and Qualification to Needs Analysis at 14:40.",
     },
     {
       id: "transcript",
       title: "Fetch the call transcript",
       system: "Fireflies",
+      touches: [{ sys: "fireflies", mode: "read" }, { sys: "hubspot", mode: "read" }],
       found: "42-minute call with Marco Bellini, matched to the right deal and contact.",
     },
     {
       id: "history",
       title: "Pull the account history",
       system: "Context Engine",
+      touches: [{ sys: "context-engine", mode: "read" }],
       found: "Two earlier calls, the June tasting notes and the three-hotel quote.",
     },
     {
       id: "draft",
       title: "Draft the outputs",
-      system: "Claude",
+      system: "AI model",
+      touches: [{ sys: "claude", mode: "ai" }, { sys: "context-engine", mode: "read" }],
       found: "Commercial note, follow-up in Tom's voice, a brief for the roasting team and three proposed CRM updates.",
     },
     {
       id: "approve",
       title: "Rep approves",
       system: "Tom Hartley",
+      touches: [{ sys: "rep", mode: "approve" }],
       found: "Tom read the drafts, changed one line in the follow-up and approved.",
       gate: true,
     },
@@ -181,6 +217,7 @@ export const postCallRun: FlowRun = {
       id: "handoff",
       title: "Handoff",
       system: "Outlook · SharePoint · HubSpot",
+      touches: [{ sys: "outlook", mode: "write" }, { sys: "sharepoint", mode: "write" }, { sys: "hubspot", mode: "write" }],
       found: "Follow-up saved as an Outlook draft, project folder created in SharePoint, notes and next steps written to the deal.",
     },
   ],

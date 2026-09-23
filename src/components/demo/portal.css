@@ -913,3 +913,108 @@
     animation: none;
   }
 }
+
+/* ---- System tiles: what each step touches (#573) ---- */
+.portal .sys {
+  --k: var(--p-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--k);
+  position: relative;
+  flex: none;
+}
+.portal .sys.k-business { --k: #c08552; }
+.portal .sys.k-data { --k: #4f6b78; }
+.portal .sys.k-intel { --k: var(--p-accent); }
+.portal .sys.k-people { --k: var(--p-warn); }
+.portal .sys .m {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--p-surface);
+  color: var(--p-ink);
+  border: 1px solid var(--p-hairline);
+  font-size: 8px;
+  line-height: 11px;
+  text-align: center;
+}
+.portal .wf-node .tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+.portal .wf-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius-card);
+  background: var(--p-surface);
+}
+.portal .wf-sys {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 9px 4px 4px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--p-faint);
+  border: 1px solid transparent;
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s, opacity 0.3s;
+}
+.portal .wf-sys .sys {
+  opacity: 0.35;
+  transition: opacity 0.3s, box-shadow 0.3s;
+}
+.portal .wf-sys.used {
+  color: var(--p-ink);
+}
+.portal .wf-sys.used .sys {
+  opacity: 1;
+}
+.portal .wf-sys.live {
+  color: var(--p-ink);
+  background: var(--p-sunk);
+  border-color: var(--p-hairline);
+}
+.portal .wf-sys.live .sys {
+  opacity: 1;
+  box-shadow: 0 0 0 3px var(--p-accent-soft);
+}
+.portal .wf-sys .io {
+  font-size: 11px;
+  color: var(--p-muted);
+}
+.portal .wf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--p-muted);
+}
+.portal .wf-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.portal .wf-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
