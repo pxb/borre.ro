@@ -6,14 +6,14 @@ import { work } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Case studies",
-  description: "Four systems, built and running. What each one draws on, what it does and what it returned.",
+  description: "Four AI systems built from real client work: what each one draws on, what it does and what it delivered.",
 };
 
 export default function Work() {
   return (
     <Page
-      title="Four systems, built and running."
-      lead="Real figures from live runs, rounded. Clients are not named, and companies shown in demos are invented."
+      title="Built from real client work."
+      lead="Each one started as a job someone was doing by hand."
       crumbs={[{ href: "/", label: "Home" }]}
     >
       <div>
@@ -49,6 +49,9 @@ export default function Work() {
           </Link>
         ))}
       </div>
+      <p className="pt-10 text-xs text-ink-soft">
+        Figures are rounded. Client names are kept private and demo companies are invented.
+      </p>
     </Page>
   );
 }

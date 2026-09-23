@@ -1,68 +1,77 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Page } from "@/components/section";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { costNotes, solutions } from "@/content/site";
+import { Reveal } from "@/components/motion-bits";
+import { costNotes, proofFor, serviceCategories } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "What I build: audits, process mapping, a place for what the company knows, workflows, prospecting, training, and running it afterwards.",
+    "AI services for small and medium-sized UK businesses, with prices: training and setup, a Context Engine, agentic workflows, custom apps and dashboards, and a full agentic platform.",
 };
 
-export default function Solutions() {
+export default function Services() {
   return (
     <Page
-      title="Services."
-      lead="Most of this starts with the same question. Where would this make or save money, and where would it not."
+      title="Five ways we can help."
+      lead="Not sure where to start? Book a call and we'll suggest one."
       crumbs={[{ href: "/", label: "Home" }]}
     >
-      <Accordion multiple={false} defaultValue={[solutions[0].slug]}>
-        {solutions.map((item) => (
-          <AccordionItem key={item.slug} value={item.slug} className="border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">
-            <AccordionTrigger className="py-6 text-left text-lg text-ink hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">
-              {item.name}
-            </AccordionTrigger>
-            <AccordionContent className="pb-8">
-              <p className="max-w-2xl leading-relaxed text-ink">{item.what}</p>
-              <dl className="mt-6 grid gap-6 sm:grid-cols-2">
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink-soft">Best for</dt>
-                  <dd className="mt-1 text-sm leading-relaxed text-ink-soft">{item.forWho}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink-soft">Cost</dt>
-                  <dd className="mt-1 font-mono text-sm text-ink">{item.price}</dd>
-                </div>
-              </dl>
-            </AccordionContent>
-          </AccordionItem>
+      <div className="border-t border-rule">
+        {serviceCategories.map((s) => (
+          <Reveal key={s.slug}>
+            <section
+              id={s.slug}
+              className="grid scroll-mt-28 gap-x-12 gap-y-4 border-b border-rule py-10 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_auto] lg:items-baseline">
+              <h2 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h2>
+              <div className="max-w-xl">
+                <p className="leading-relaxed text-ink-soft">{s.what}</p>
+                <ul className="mt-5 space-y-2">
+                  {s.includes.map((i) => (
+                    <li key={i} className="flex gap-3 text-sm leading-relaxed text-ink">
+                      <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-soft" />
+                      <span>{i}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 max-w-md text-xs leading-relaxed text-ink-soft">
+                  {s.under}
+                </p>
+                {proofFor(s.slug).length ? (
+                  <p className="mt-3 text-sm text-ink-soft">
+                    {proofFor(s.slug).map((w, i) => (
+                      <span key={w.slug}>
+                        {i ? " · " : ""}
+                        <Link
+                          href={`/work/${w.slug}`}
+                          className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                        >
+                          {w.title} &rarr;
+                        </Link>
+                      </span>
+                    ))}
+                  </p>
+                ) : null}
+              </div>
+              <div className="lg:text-right">
+                <p className="whitespace-nowrap text-sm font-medium text-ink">{s.price}</p>
+                <p className="mt-1 max-w-[14rem] text-sm text-ink-soft lg:ml-auto">{s.duration}</p>
+              </div>
+            </section>
+          </Reveal>
         ))}
-      </Accordion>
+      </div>
 
       <section className="py-16">
-        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">How the money works</h2>
-        <div className="mt-10 grid gap-10 sm:grid-cols-3">
+        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Pricing</h2>
+        <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {costNotes.map((c) => (
             <div key={c.title}>
-              <h3 className="text-base text-ink">{c.title}</h3>
+              <h3 className="text-base font-medium text-ink">{c.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">{c.body}</p>
             </div>
           ))}
         </div>
-        <p className="mt-12">
-          <Link
-            href="/contact"
-            className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
-          >
-            Talk about which of these applies
-          </Link>
-        </p>
       </section>
     </Page>
   );

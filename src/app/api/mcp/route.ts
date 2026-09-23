@@ -1,4 +1,4 @@
-import { about, site, solutions, work } from "@/content/site";
+import { about, serviceCategories, site, work } from "@/content/site";
 
 /* Minimal MCP server over HTTP, read-only.
    Lets an agent query the case studies directly instead of scraping the pages. */
@@ -9,13 +9,13 @@ const TOOLS = [
   {
     name: "list_work",
     description:
-      "List Pedro Borrero's case studies: AI and revenue systems he has built and runs. Returns slug, title, summary and headline results.",
+      "List the practice's case studies: AI and revenue systems built from real client work. Returns slug, title, summary and headline results.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   {
     name: "get_work",
     description:
-      "Get the full detail of one case study by slug, including the problem, what it draws on, what it does, measured results, limitations and stack.",
+      "Get the full detail of one case study by slug, including the problem, what it draws on, what it does, results, how the client team stays involved, the stack and the service that delivers it.",
     inputSchema: {
       type: "object",
       properties: { slug: { type: "string", description: "Case study slug from list_work" } },
@@ -26,7 +26,7 @@ const TOOLS = [
   {
     name: "list_solutions",
     description:
-      "List the services offered, what each one is, who it suits and what it costs.",
+      "List the services offered, what each one is, the technical detail and what it costs.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
 ];
@@ -96,7 +96,12 @@ export async function POST(request: Request) {
       return result(id, text({ ...found, url: `${site.url}/work/${found.slug}` }));
     }
 
-    if (name === "list_solutions") return result(id, text(solutions));
+    if (name === "list_solutions") {
+      return result(
+        id,
+        text(serviceCategories.map((s) => ({ ...s, url: `${site.url}/services#${s.slug}` }))),
+      );
+    }
 
     return failure(id, -32602, `Unknown tool: ${name}`);
   }

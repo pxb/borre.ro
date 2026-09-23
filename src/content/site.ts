@@ -1,18 +1,36 @@
 export const site = {
-  name: "Pedro Borrero",
+  name: "borre.ro",
+  founder: "Pedro Borrero",
   domain: "borre.ro",
   url: "https://borre.ro",
   role: "AI for Humans",
   // The eyebrow that carried this was dropped from the hero, so the phrase
   // does its work in the page title and the structured data instead.
   tagline: "AI and Revenue Operations",
-  headlineBefore: "You have",
   headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
-  headlineAfter: "AI tools. None of them talk to each other.",
-  headline: "You have five AI tools. None of them talk to each other.",
+  // One headline per visit, picked before first paint (see HeroHeadline). The
+  // first is what renders without JavaScript. `{n}` is the cycling count.
+  headlines: [
+    "You have {n} AI tools. None of them talk to each other.",
+    "You have {n} AI tools. None of them know your business.",
+    "You pay for {n} AI tools and your team still does the work by hand.",
+    "{N} AI tools, and your team still copies and pastes between them.",
+  ],
+  // The line that sat under the headline, now the Problem slide's opener,
+  // extended to name the tools people search for.
+  recognition:
+    "ChatGPT here, Claude there, Copilot in Office, Gemini in Google, an AI feature in the CRM and another in accounting.",
   summary:
-    "We connect the AI a business already pays for, build the part that is missing, and run it. The research before the call, the follow-up after it, the record of what the company knows. Your people stay in charge.",
-  email: "pedro@borre.ro",
+    "We build and run the systems that take busywork off small and medium-sized UK businesses, using the tools you already pay for. Your team signs off everything before a customer sees it.",
+  // One offer name, repeated everywhere a CTA points at /contact.
+  cta: "Book a free 30-minute call",
+  ctaLine: "What's slowing your team down?",
+  ctaNote: "Book a free 30-minute call and we'll tell you what we'd do first.",
+  // Cal.com booking link. Empty = /contact falls back to email.
+  booking: "pedro-borrero-a4yjyv/30min",
+  // No public email until pedro@borre.ro works (Google Workspace, Pedro's to-do).
+  // Empty hides every email link; the calendar is the way in meanwhile.
+  email: "",
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
@@ -26,18 +44,19 @@ export type CaseStudy = {
   drawsOn: string[];
   does: string[];
   metrics: Metric[];
-  limits: string[];
+  involved: string[]; // how the team stays involved: the controls, stated as what they do
   stack: string[];
+  services: string[]; // the ServiceCategories that deliver it, so the two cannot drift
 };
 
 export const work: CaseStudy[] = [
   {
     slug: "context-engine",
     title: "Context Engine",
-    tagline: "Your CRM knows your deals. It does not know your business.",
+    tagline: "One place your team can ask about any customer, deal or past conversation.",
     problem: [
-      "The CRM held the deals. Everything that mattered sat somewhere else: call recordings, old proposals, email threads, and a few people's heads.",
-      "Nobody could answer a simple question like which customers had gone quiet, or what had been promised on a call six months ago, without asking the one person who remembered.",
+      "The CRM had the deals, but everything else that mattered was in call recordings, old proposals, email threads and a few people's heads.",
+      "Answering a simple question, like which customers had gone quiet or what was promised on a call six months ago, meant finding the one person who remembered.",
     ],
     drawsOn: [
       "Documents and proposals",
@@ -48,27 +67,26 @@ export const work: CaseStudy[] = [
     does: [
       "Answers questions about customers and deals in plain language",
       "Shows where every answer came from, so it can be checked",
-      "Remembers what it has been told and improves as it is used",
-      "Only repeats facts a human has approved, so it does not drift",
+      "Learns more as the team adds to it",
+      "Repeats only what someone on the team has signed off as correct",
     ],
     metrics: [
       { value: "~£900k", label: "of pipeline surfaced from one question" },
       { value: "1 day", label: "from their data to a working demo" },
-      { value: "Next day", label: "the deal closed" },
     ],
-    limits: [
-      "It answers and drafts. It does not act on its own.",
-      "It is only as good as the material it is given, which is why someone has to curate it.",
+    involved: [
+      "Your team decides what material it can rely on, and approves anything it drafts before it's used.",
     ],
-    stack: ["Postgres", "n8n", "HubSpot", "Claude"],
+    stack: ["HubSpot", "Claude", "Postgres", "n8n"],
+    services: ["context-engine"],
   },
   {
     slug: "prospecting-loop",
-    title: "Prospecting Loop",
-    tagline: "From 86,000 companies to 17 worth phoning.",
+    title: "Finding customers worth calling",
+    tagline: "A short list each week of local companies worth phoning, with a reason to call each one.",
     problem: [
-      "Buying a list of local companies gets you thousands of names and no reason to call any of them today.",
-      "The reps were spending their week researching instead of selling, and still opening calls with nothing to say.",
+      "A bought list gave the team thousands of local company names without any reason to call one of them today.",
+      "The sales team spent their week researching, and still opened calls with nothing specific to say.",
     ],
     drawsOn: [
       "What a good customer has looked like before",
@@ -77,149 +95,85 @@ export const work: CaseStudy[] = [
       "The pitch that works for each type of business",
     ],
     does: [
-      "Builds the full list of companies in the area",
-      "Cuts it to the ones that actually fit on size and type",
+      "Builds the full list of companies in the area from the official register",
+      "Cuts it to the ones that fit on size and type",
       "Watches for the ones that just did something worth calling about",
-      "Researches those, and writes the reason to call with the evidence attached",
+      "Researches those and writes the reason to call, with the evidence attached",
     ],
     metrics: [
-      { value: "17", label: "researched leads a week, with evidence" },
-      { value: "~86,000", label: "companies narrowed automatically" },
-      { value: "Minutes", label: "of research per lead, not an hour" },
+      { value: "A short list", label: "each week, sized to your team and market" },
+      { value: "Minutes", label: "of research per lead" },
     ],
-    limits: [
-      "Around 15 to 17 a week is the honest ceiling. More needs a second signal, not a wider map.",
-      "Contact details for the very smallest firms are still a wall.",
-      "It writes the brief. A human writes the email and makes the call.",
+    involved: [
+      "Your team writes the email and makes the call, working from the brief it prepares.",
+      "Contact details for the very smallest firms still need a person to find them.",
     ],
-    stack: ["Companies House", "Postgres", "n8n", "React"],
+    stack: ["Companies House", "HubSpot", "Postgres", "n8n", "React"],
+    services: ["agentic-workflows", "apps-dashboards"],
   },
   {
     slug: "lead-research",
-    title: "Lead Research",
-    tagline: "A name in, a briefed salesperson out.",
+    title: "Lead research",
+    tagline: "Give it a company name and your salesperson has a researched brief before the call.",
     problem: [
-      "Every new enquiry meant half an hour of someone digging through Companies House, the company website and LinkedIn before they could have a sensible conversation.",
-      "Half of it was wrong by the time it was used, and none of it was written down anywhere useful.",
+      "Every new enquiry meant someone digging through Companies House, the company website and LinkedIn before they could have a sensible conversation.",
+      "Much of it was out of date by the time it was used, and it was rarely written down anywhere useful.",
     ],
-    drawsOn: [
-      "Official company records",
-      "The company's own website",
-      "Group and ownership structure",
-    ],
+    drawsOn: ["Official company records", "The company's own website", "Group and ownership structure"],
     does: [
-      "Works out which company you actually mean, including which one in a group",
+      "Works out which company you mean, including which one in a group",
       "Pulls who owns it, who runs it and what they have been doing",
       "Puts a link next to every claim so it can be checked",
-      "Writes it into the CRM as a note, ready for the call",
+      "Writes it up as a note, ready for the call",
     ],
     metrics: [
-      { value: "30 to 60 min", label: "of manual research removed per lead" },
+      { value: "20 to 40 min", label: "of manual research saved per lead, estimated" },
       { value: "Every claim", label: "carries a source link" },
       { value: "2 checks", label: "before any contact is used" },
     ],
-    limits: [
-      "Anything the model suggests is checked against an official source, or it does not ship.",
-      "Contacts are verified twice: that the address works, and that the person is still in the role.",
+    involved: [
+      "Everything the AI suggests is checked against an official record before it reaches anyone.",
+      "Each contact is checked to make sure the email address works and the person is still in the role.",
     ],
-    stack: ["Companies House", "n8n", "HubSpot"],
+    stack: ["HubSpot", "Companies House", "n8n"],
+    services: ["agentic-workflows"],
   },
   {
     slug: "post-call",
-    title: "Post-call Follow-up",
-    tagline: "The follow-up writes itself, then waits for a human.",
+    title: "Post-call follow-up",
+    tagline: "The follow-up is ready while the call is still fresh.",
     problem: [
-      "Good calls were going cold because the follow-up took two days to write, and the notes never made it into the CRM at all.",
+      "Good calls were going cold while the follow-up waited for someone to have time to write it, and the notes rarely made it into the CRM.",
     ],
     drawsOn: ["The call recording", "What was agreed on the call", "How the team writes"],
     does: [
       "Reads the call and pulls out what was agreed and what happens next",
       "Drafts the follow-up email in the team's own voice",
-      "Writes the notes and the next steps into the CRM",
-      "Puts all of it in front of a human before anything moves",
+      "Prepares the call notes and next steps for the CRM",
+      "Puts all of it in front of the team to review",
     ],
     metrics: [
-      { value: "Minutes", label: "to a drafted follow-up, not days" },
-      { value: "0", label: "emails sent without a human" },
+      { value: "Every call", label: "gets a summary, a drafted email and an action list, ready to review" },
     ],
-    limits: [
-      "It drafts. It never sends. That is deliberate, and it is the reason people trust it.",
+    involved: [
+      "Your team checks the draft and sends it themselves.",
     ],
-    stack: ["Fireflies", "n8n", "HubSpot", "Claude"],
+    stack: ["HubSpot", "Fireflies", "Claude", "n8n"],
+    services: ["agentic-workflows"],
   },
 ];
 
-export const funnel = [
-  { label: "Companies in the area", value: 86000, approx: true, note: "Every active company in the patch, straight from the official register." },
-  { label: "Trading from real premises", value: 50000, approx: true, note: "Drops the ones registered at an accountant's address rather than a real one." },
-  { label: "Hiring a salesperson now", value: 270, approx: true, note: "A company advertising a sales role has just published its budget and its intent." },
-  { label: "Right size and type", value: 150, approx: true, note: "Matched back to the profile of customers already won." },
-  { label: "Researched and worth phoning", value: 17, approx: false, note: "Each one with a reason to call and the evidence behind it." },
+// The shape of one week, not a count. `value` only sizes the bars; no figure is
+// shown, because output depends on team size, ICP and area (Pedro, 2026-09-23).
+export const funnel: { label: string; value: number; shown?: string; note: string }[] = [
+  { label: "Every company in the area", value: 86000, note: "Every active company in the patch, straight from the official register." },
+  { label: "Trading from real premises", value: 50000, note: "Drops the ones registered at an accountant's address rather than a real one." },
+  { label: "Doing something worth calling about", value: 270, note: "For example, a company advertising for a salesperson has just told you it has budget to grow." },
+  { label: "Right size and type", value: 150, note: "Matched back to the profile of customers already won." },
+  { label: "Researched and worth phoning", value: 17, note: "Each one comes with a reason to call and the evidence behind it. How many depends on your team's capacity, your ideal customer and the area covered." },
 ];
 
-export const paradigm = {
-  title: "AI³",
-  subtitle: "Context × Agents × Evals",
-  lead:
-    "Three things, multiplied rather than added. Any one on its own disappoints, which is why most AI spend disappoints. They only pay together.",
-  parts: [
-    {
-      term: "Context",
-      plain: "What your business knows",
-      body: "The proposals, the calls, the decisions, the things only two people remember. Gathered in one place you own, so it can be used rather than searched for.",
-    },
-    {
-      term: "Agents",
-      plain: "Software that does the work",
-      body: "Not a chatbot someone has to prompt. Software that researches the company before the call, writes the follow-up after it, and keeps the records straight. Your team reviews and sends.",
-    },
-    {
-      term: "Evals",
-      plain: "Proof it worked",
-      body: "Every system is measured against what it was supposed to do, and reported monthly in your numbers. This is the part most AI projects skip, and the reason so many of them get quietly switched off.",
-    },
-  ],
-};
-
-export const fears = {
-  title: "What people tell us",
-  close:
-    "None of this is unusual, and none of it needs a big programme to fix. It starts with working out where this would actually pay.",
-  cta: "Book a free 30-minute review",
-  items: [
-    {
-      fear: "We do not know where it would even help.",
-      answer: "A named list of where it pays in your business, with the numbers. Or an honest no.",
-      stat: "25%",
-      note: "of UK businesses are unsure of the return on investment",
-      href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
-    },
-    {
-      fear: "We have five AI tools and none of them talk.",
-      answer: "One place that knows the business, connected to the tools you already own.",
-      stat: "78%",
-      note: "of organisations say they are struggling to connect AI to the systems they already run (Zapier, October 2025)",
-      href: "https://zapier.com/blog/ai-resistance-survey/",
-    },
-    {
-      fear: "We got burned by the bill.",
-      answer: "Your accounts, your caps, costs visible. No bundled usage and no markup on what you use.",
-      stat: "47%",
-      note: "of organisations spent more on AI than they had budgeted (Futurum Group, September 2026)",
-      href: "https://futurumgroup.com/press-release/46-9-of-enterprises-report-ai-spend-over-budget-in-2h-2026/",
-    },
-    {
-      fear: "Nobody here knows how.",
-      answer: "We run it, and train your people to direct it rather than be replaced by it.",
-      stat: "27%",
-      note: "of small businesses name lack of expertise as the barrier",
-      href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
-    },
-  ],
-};
-
-
-// Public evidence for the opening claim. Both are cited on the site.
+// Public evidence for the opening claim. Each source was fetched and checked (#565).
 export const evidence = [
   {
     stat: "35%",
@@ -229,95 +183,132 @@ export const evidence = [
   },
   {
     stat: "40%",
-    claim: "of agentic AI projects are expected to be cancelled by 2027, on unclear business value",
+    claim: "of AI agent projects are expected to be cancelled by 2027, over unclear business value",
     source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
-  },
-];
-
-export type Solution = {
-  slug: string;
-  name: string;
-  what: string;
-  forWho: string;
-  price: string;
-};
-
-export const solutions: Solution[] = [
-  {
-    slug: "audit",
-    name: "Where AI actually pays",
-    what: "A short review of how the business runs, ending in a written answer to one question: where would this make or save money. You keep the document either way.",
-    forWho: "Anyone who has bought AI tools and cannot tell whether they are working.",
-    price: "From £500, taken off the price if you go ahead",
-  },
-  {
-    slug: "process-map",
-    name: "Process mapping",
-    what: "Who does what today, and which of those steps should be handed to software. Most AI spend fails here, automating a process nobody had agreed on.",
-    forWho: "Teams where the same job is done three different ways depending on who picks it up.",
-    price: "From £950",
-  },
-  {
-    slug: "company-brain",
-    name: "Context Engine",
-    what: "One store for the proposals, calls and decisions that live in people's heads and inboxes. Your team and your tools can both ask it questions, and every answer shows its source.",
-    forWho: "Businesses where one or two people are the only ones who know how things work.",
-    price: "From £5,000",
-  },
-  {
-    slug: "workflows",
-    name: "Workflows and automations",
-    what: "Research before a call, notes and follow-up after it, updating the CRM, chasing what gets forgotten.",
-    forWho: "Teams losing a day a week to work that is necessary but not skilled.",
-    price: "From £1,500 per workflow",
-  },
-  {
-    slug: "prospecting",
-    name: "Finding your next customers",
-    what: "Builds the list, watches for companies doing something worth calling about, and hands your team a reason to call.",
-    forWho: "Anyone whose pipeline depends on outbound and whose reps are researching instead of selling.",
-    price: "From £5,000, then run monthly",
-  },
-  {
-    slug: "training",
-    name: "Getting your team to actually use it",
-    what: "Sessions with the people who will use it, on their own work, until they are faster with it than without it.",
-    forWho: "Companies already paying for Claude or ChatGPT seats that nobody opens.",
-    price: "From £950 a day",
-  },
-  {
-    slug: "run",
-    name: "Running it",
-    what: "I monitor it, fix it when it breaks, extend it, and send a monthly report in your numbers.",
-    forWho: "Anyone who has had something built and then watched it quietly stop working.",
-    price: "From £1,000 a month",
   },
 ];
 
 export const costNotes = [
   {
     title: "You own the accounts",
-    body: "The model subscription, the database, the hosting. They are in your name and you pay for them directly, usually £25 to £60 a month for a small team. If we stop working together you keep all of it.",
+    body: "The AI subscription, the database and the hosting are in your name and billed to you directly. If we stop working together, you keep all of it.",
   },
   {
-    title: "No bundled usage",
-    body: "I do not resell you inference at a markup, and I do not sell unlimited anything. Your usage costs what it costs, and you can see it.",
+    title: "Usage you can see",
+    body: "You pay the provider's own price for what you use, and you can see it at any time.",
   },
   {
-    title: "These are current rates",
-    body: "Early rates while I build up published case studies. They go up, and anyone already on a retainer keeps what they signed at for that work.",
+    title: "Fixed prices, agreed up front",
+    body: "We agree a fixed price before any work starts. Our rates will go up over time, and work you've already agreed stays at the price you signed.",
   },
   {
-    title: "Priced on the job, not the hour",
-    body: "Fixed price per piece of work, agreed before it starts. A day rate exists for open-ended advisory, but most work should not need one.",
+    title: "Running it",
+    body: "From £1,000 a month once it's built, month to month. Fixes, changes and a monthly report are included.",
   },
 ];
 
+// Agency-framed (we, not I). The employers are a credibility block, not a bio.
 export const about = {
-  lead: "Fifteen years selling software. Now I build the systems instead.",
+  lead: "We build and run AI systems for small and medium-sized UK businesses.",
+  // Broad on purpose (Pedro, 2026-09-23): no role list, no company list. The
+  // LinkedIn profile carries the detail. Source: his LinkedIn experience, 2007
+  // to now: IT and web development, technical support, systems and sales
+  // engineering, then enterprise account executive roles from 2016.
+  intro:
+    "The practice grew out of nearly twenty years in technology. It started hands-on, building websites and keeping systems running, then moved through technical support and sales engineering into ten years of selling enterprise software.",
   body: [
-    "I spent my career in enterprise sales, at Canto, Freshworks, SAP, Samsung and BlackBerry. I know what a sales team does all day, and how little of it is selling. So I build the other part: the research before the call, the follow-up after it, the record of what the company knows.",
-    "I am not a data scientist. I work out which bit of this is worth doing, build it on tools you own, and keep it running. I work as a sole trader, and client work is usually delivered with Amplify My AI.",
+    "So we know what a sales team does all day, because we've done the job, and we know how to build the software that takes work off it.",
+    "We start by finding the work worth handing over, then build it on the tools you already have and keep it running.",
+    "Everything runs on accounts in your name. Client work is delivered with our partner practice, Amplify My AI.",
   ],
 };
+
+// The services taxonomy (Pedro, 2026-09-22). Plain description first; `under`
+// is the technical layer, for the buyer's evaluator and for search.
+export type ServiceCategory = {
+  slug: string;
+  name: string;
+  what: string;
+  includes: string[];
+  under: string;
+  price: string;
+  duration: string;
+};
+
+export const serviceCategories: ServiceCategory[] = [
+  {
+    slug: "training",
+    name: "AI-native training and setup",
+    what: "We set up ChatGPT, Claude or Copilot properly for your business and train your team to use it on their real work.",
+    includes: [
+      "Workspace setup for ChatGPT, Claude, Copilot or Gemini",
+      "Data and security settings that suit your business",
+      "Hands-on sessions built around your team's own work",
+      "Shared prompts and templates for the jobs you repeat",
+    ],
+    under: "Workspace and model setup, secure usage, prompt patterns, team adoption.",
+    price: "From £950 a day",
+    duration: "Set up in a week, sessions over 2 to 4 weeks",
+  },
+  {
+    slug: "context-engine",
+    name: "Context Engine",
+    what: "We gather your proposals, call notes and customer records into one place that your team and your AI tools can ask questions of. Every answer links to where it came from.",
+    includes: [
+      "Documents, proposals and call notes brought into one place",
+      "Connected to your CRM, so it knows your customers and deals",
+      "Access that follows who can see what today",
+      "Available inside Claude, ChatGPT and your other AI tools",
+    ],
+    under: "RAG and hybrid retrieval over documents and CRM, provenance on every answer, permissions that follow existing access, MCP access for your AI tools.",
+    price: "From £5,000",
+    duration: "Working on your data in days, live in 3 to 6 weeks",
+  },
+  {
+    slug: "agentic-workflows",
+    name: "Agentic workflows",
+    what: "We automate the repeatable work around sales and service, such as researching a company before a call or writing up the notes afterwards. Your team reviews everything before it goes out.",
+    includes: [
+      "Mapping who does what today, and what should move to software",
+      "Research on a company before the first call",
+      "Call summaries and follow-up drafts after it",
+      "Finding companies worth calling each week",
+      "Keeping the CRM up to date",
+    ],
+    under: "n8n orchestration, tool use, HubSpot and CRM integration, human approval gates, draft by default.",
+    price: "From £1,500 per workflow",
+    duration: "Each workflow live in 1 to 2 weeks",
+  },
+  {
+    slug: "apps-dashboards",
+    name: "Custom apps and dashboards",
+    what: "We build the screens your team works in, such as a portal for this week's leads or a dashboard of what the system has done and what it cost.",
+    includes: [
+      "A portal your sales team works through each week",
+      "Dashboards of what the system did and what it cost",
+      "Internal tools built on your own data",
+      "Sign-in by email link for your team",
+    ],
+    under: "React, scoped read APIs, magic-link sign-in, hosted on your own accounts.",
+    price: "From £7,500",
+    duration: "3 to 6 weeks",
+  },
+  {
+    slug: "agentic-platform",
+    name: "Full agentic platform",
+    what: "We set up a private AI workspace for the whole team, connected to your business knowledge and tools and running on accounts you own.",
+    includes: [
+      "One chat workspace for the whole team",
+      "A choice of models, including Claude, ChatGPT, Gemini and Grok",
+      "Connected to the Context Engine and your everyday tools",
+      "Per-person access, with usage and cost you can see",
+    ],
+    under: "Open WebUI with RAG over the Context Engine, model gateway, per-user access, usage and cost tracking.",
+    price: "From £7,500",
+    duration: "4 to 8 weeks",
+  },
+];
+
+export const serviceFor = (slug: string) => serviceCategories.find((s) => s.slug === slug);
+export const proofFor = (slug: string) => work.filter((w) => w.services.includes(slug));

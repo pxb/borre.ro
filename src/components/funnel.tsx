@@ -3,13 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { funnel } from "@/content/site";
 
-function format(n: number, approx: boolean) {
-  const s = n.toLocaleString("en-GB");
-  return approx ? `~${s}` : s;
-}
-
-// Pure log hides the first cut; pure linear hides the last stages.
-// Blend the two so both the 86k-to-50k drop and the final 17 stay readable.
+// Pure log hides the first cut; pure linear hides the last stages. Blend the
+// two so both ends stay readable. The bars show shape, not a count.
 const widths = (() => {
   const max = funnel[0].value;
   const logMax = Math.log10(max);
@@ -45,14 +40,6 @@ export function Funnel() {
 
   return (
     <div ref={ref} className="border-t border-rule pt-6">
-      <div className="flex flex-col gap-1 pb-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
-          One week of prospecting
-        </p>
-        <p className="text-sm text-ink-soft">
-          Select a step to see what happens at that point.
-        </p>
-      </div>
 
       <div className="flex flex-col gap-2">
         {funnel.map((stage, i) => {
@@ -91,7 +78,7 @@ export function Funnel() {
                   isActive ? "text-ink" : "text-ink-soft"
                 }`}
               >
-                {format(stage.value, stage.approx)}
+                {stage.shown ?? ""}
               </span>
             </button>
           );
@@ -99,14 +86,14 @@ export function Funnel() {
       </div>
 
       <div className="mt-6 min-h-20 border-l-2 border-accent pl-4">
-        <p className="text-xs font-medium uppercase tracking-[0.1em] text-ink-soft">
+        <p className="label">
           {funnel[active].label}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">{funnel[active].note}</p>
       </div>
 
       <p className="mt-6 text-xs text-ink-soft">
-        Real figures from a live run, rounded. Companies are never named.
+        One region over one week. Bar lengths are illustrative.
       </p>
     </div>
   );

@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-// Replaces the raw Next.js default 404. Copy here is plain and provisional;
-// the voice pass on #561 gives it character once the site copy is settled.
+// Replaces the raw Next.js default 404.
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
@@ -11,7 +10,7 @@ export default function NotFound() {
           Page not found.
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-          The link may be old or mistyped. Here is the way back.
+          The link may be old or mistyped. Here&apos;s the way back.
         </p>
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link

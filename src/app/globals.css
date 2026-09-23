@@ -197,10 +197,44 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Themed browser surfaces, off the palette rather than the UA defaults. */
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+@keyframes cube-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.cube-float {
+  animation: cube-float 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cube-float {
+    animation: none;
+  }
+}
+
 @keyframes drift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* The one small label style: section labels, row labels, footer headings.
+   Normal case, no tracking: the site has no uppercase anywhere, so emphasis
+   comes from weight and position, not from a second typographic voice. */
+.label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--ink-soft);
 }
 
 /* Brutalist button: solid, square, no translucency to get lost in. */
@@ -246,3 +280,28 @@ html {
   }
 }
 
+/* Lenis smooth scroll hooks. Only apply when Lenis has mounted (it adds the
+   .lenis class to <html>); under reduced motion Lenis never starts, so native
+   scrolling is untouched. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+
+/* Headline per visit (HeroHeadline). Without the attribute, variant 0 shows. */
+.hv-variant { display: none; }
+:root:not([data-hv]) .hv-variant[data-hv-variant="0"],
+:root[data-hv="0"] .hv-variant[data-hv-variant="0"],
+:root[data-hv="1"] .hv-variant[data-hv-variant="1"],
+:root[data-hv="2"] .hv-variant[data-hv-variant="2"],
+:root[data-hv="3"] .hv-variant[data-hv-variant="3"] { display: inline; }

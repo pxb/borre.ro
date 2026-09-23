@@ -1,4 +1,4 @@
-import { about, site, solutions, work } from "@/content/site";
+import { about, serviceCategories, site, work } from "@/content/site";
 
 /* Machine-readable summary, for agents and LLM crawlers.
    Generated from the same content as the pages, so it cannot drift. */
@@ -11,12 +11,14 @@ export function GET() {
     `> ${site.summary}`,
     "",
     `Site: ${site.url}`,
-    `Contact: ${site.email}`,
+    `Book a call: https://cal.com/${site.booking}`,
     `LinkedIn: ${site.linkedin}`,
     "",
     "## About",
     "",
     about.lead,
+    "",
+    about.intro,
     ...about.body.map((p) => `\n${p}`),
     "",
     "## Work",
@@ -27,13 +29,15 @@ export function GET() {
         `Results: ${c.metrics.map((m) => `${m.value} ${m.label}`).join("; ")}.`,
     ),
     "",
-    "## Solutions",
+    "## Services",
     "",
-    ...solutions.map((s) => `- ${s.name}: ${s.what} Cost: ${s.price}`),
+    ...serviceCategories.map(
+      (s) => `- [${s.name}](${site.url}/services#${s.slug}): ${s.what} Technical detail: ${s.under} Price: ${s.price}. Typical duration: ${s.duration}.`,
+    ),
     "",
     "## Notes for agents",
     "",
-    "Figures are real measurements from live systems, rounded. Clients are not named.",
+    "Figures come from real client work, rounded; estimates are labelled as estimates. Clients are not named.",
     "Companies appearing in demonstrations are invented and do not correspond to real businesses.",
     `A structured version of this content is available at ${site.url}/api/mcp (MCP over HTTP).`,
     "",

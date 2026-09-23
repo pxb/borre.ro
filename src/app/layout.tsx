@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Martian_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { site, solutions, work } from "@/content/site";
+import { serviceCategories, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
+import { FooterCta } from "@/components/footer-cta";
+import { BackToTop } from "@/components/back-to-top";
 
 // Archivo carries a real width axis (62-125), so the display cuts are genuinely
 // expanded rather than letter-spaced. Geist was Vercel's own face and the first
@@ -43,18 +45,21 @@ export const viewport: Viewport = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
+  "@type": "ProfessionalService",
   name: site.name,
   url: site.url,
-  jobTitle: "Revenue operations consultant",
+  slogan: site.role,
   description: site.summary,
-  sameAs: [site.linkedin],
+  areaServed: "GB",
+  founder: { "@type": "Person", name: site.founder, sameAs: [site.linkedin] },
   knowsAbout: [
     "Revenue operations",
-    "Sales pipeline automation",
-    "HubSpot",
     "AI agents",
-    "Lead research",
+    "Agentic workflows",
+    "Retrieval-augmented generation",
+    "Context engineering",
+    "HubSpot",
+    "AI training",
   ],
 };
 
@@ -67,18 +72,19 @@ const nav = [
 
 function Header() {
   return (
-    <header className="border-b border-rule">
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper">
       <nav className="mx-auto flex h-20 max-w-6xl items-center px-6 sm:px-10">
         <Link
           href="/"
-          className="font-mono text-sm tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          className="text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
           borre<span className="text-accent">.ro</span>
         </Link>
-        {/* The hero eyebrow was dropped, so the category line lives here where
-            it reads as an identifier rather than a chip above the headline. */}
-        <p className="ml-3 border-l border-rule pl-3 text-[0.625rem] font-medium uppercase tracking-[0.1em] text-ink-soft sm:ml-5 sm:pl-5 sm:text-xs">
-          {site.tagline}
+        {/* R and O accented so the category line reads back to the .ro domain:
+            borre.RO = Revenue Operations. One typeface, Archivo, throughout. */}
+        <p className="ml-3 border-l border-rule pl-3 text-xs text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
+          AI and <span className="text-accent">R</span>evenue{" "}
+          <span className="text-accent">O</span>perations
         </p>
         <MobileNav items={nav} />
         <div className="ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
@@ -106,7 +112,7 @@ function FooterCol({
 }) {
   return (
     <div>
-      <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-ink">{title}</h2>
+      <h2 className="label">{title}</h2>
       <ul className="mt-5 space-y-3 text-sm">
         {links.map((l) => (
           <li key={l.label}>
@@ -127,35 +133,18 @@ function Footer() {
   return (
     <footer className="mt-32 border-t border-rule">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <div className="flex flex-col gap-8 border-b border-rule py-16 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="max-w-xl text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-ink">
-              Start with a conversation about where this would actually pay.
-            </p>
-            <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
-              Thirty minutes, no charge. You get a straight answer, including an
-              honest no if that is the answer.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="btn-orange shrink-0 px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
-          >
-            Get in touch
-          </Link>
-        </div>
+        <FooterCta />
 
         <div className="grid gap-12 border-b border-rule py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link
               href="/"
-              className="font-mono text-sm tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
               borre<span className="text-accent">.ro</span>
             </Link>
             <p className="mt-4 max-w-xs leading-relaxed text-ink-soft">
-              {site.role}. Built and run by {site.name}, sole trader in the UK.
-              Client work is usually delivered with{" "}
+              AI and Revenue Operations, delivered with{" "}
               <a
                 href="https://www.amplifymyai.com/"
                 target="_blank"
@@ -176,21 +165,21 @@ function Footer() {
           <FooterCol
             title="Services"
             links={[
-              ...solutions.slice(0, 4).map((x) => ({ href: "/services", label: x.name })),
-              { href: "/services", label: "All services and prices" },
+              ...serviceCategories.slice(0, 4).map((x) => ({ href: `/services#${x.slug}`, label: x.name })),
+              { href: "/services", label: "Prices" },
             ]}
           />
 
           <div>
-            <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-ink">Contact</h2>
+            <h2 className="label">Contact</h2>
             <ul className="mt-5 space-y-3 text-sm">
               <li>
-                <a
-                  href={`mailto:${site.email}`}
+                <Link
+                  href="/contact"
                   className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
-                  {site.email}
-                </a>
+                  Book a call
+                </Link>
               </li>
               <li>
                 <a
@@ -207,7 +196,7 @@ function Footer() {
                   href="/about"
                   className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
-                  About Pedro
+                  About
                 </Link>
               </li>
             </ul>
@@ -220,7 +209,6 @@ function Footer() {
             {site.name}
           </p>
           <div className="flex flex-wrap items-center gap-6 text-ink-soft">
-            <span>Readable by agents:</span>
             <a
               href="/llms.txt"
               className="font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
@@ -243,6 +231,7 @@ function Footer() {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
+      suppressHydrationWarning
       lang="en-GB"
       className={`${archivo.variable} ${martianMono.variable} h-full antialiased`}
     >
@@ -262,6 +251,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

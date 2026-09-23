@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
 import { Funnel } from "@/components/funnel";
-import { work } from "@/content/site";
+import { serviceFor, work } from "@/content/site";
 
 export function generateStaticParams() {
   return work.map((c) => ({ slug: c.slug }));
@@ -38,6 +38,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
   const { slug } = await params;
   const c = work.find((w) => w.slug === slug);
   if (!c) notFound();
+  const services = c.services.map(serviceFor).filter((s) => s != null);
 
   return (
     <Page
@@ -73,6 +74,12 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </Row>
       ) : null}
 
+      <Row label="Your team's role">
+        <div className="max-w-2xl">
+          <List items={c.involved} />
+        </div>
+      </Row>
+
       <Row label="Results">
         <dl className="flex flex-wrap gap-x-12 gap-y-6">
           {c.metrics.map((m) => (
@@ -90,13 +97,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </dl>
       </Row>
 
-      <Row label="Limits">
-        <div className="max-w-2xl">
-          <List items={c.limits} />
-        </div>
-      </Row>
-
-      <Row label="Built with">
+      <Row label="Runs on">
         <ul className="flex flex-wrap gap-2">
           {c.stack.map((s) => (
             <li
@@ -109,14 +110,26 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </ul>
       </Row>
 
-      <div className="py-16">
-        <Link
-          href="/work"
-          className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action"
-        >
-          All case studies
-        </Link>
-      </div>
+      {services.length ? (
+        <Row label={services.length > 1 ? "Services" : "Service"}>
+          <ul className="space-y-2">
+            {services.map((service) => (
+              <li key={service.slug} className="leading-relaxed text-ink">
+                <Link
+                  href={`/services#${service.slug}`}
+                  className="underline decoration-rule underline-offset-8 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                >
+                  {service.name}
+                </Link>
+                <span className="text-ink-soft">
+                  , {service.price.charAt(0).toLowerCase() + service.price.slice(1)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Row>
+      ) : null}
+
     </Page>
   );
 }

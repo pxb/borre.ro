@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # borre.ro — build standards
 
-Personal profile site for Pedro Borrero. Sole trader. The commercial front is Amplify; this site is the proof behind it. Positioning lives in the Obsidian vault at `01 Projects/AI Cubed/`. Build spec is Baserow card #327.
+Profile site for an AI and Revenue Operations practice, written as "we" (a practice, not a sole trader). Client work is delivered with the partner practice Amplify My AI; this site is the proof behind it. Positioning lives in the Obsidian vault at `01 Projects/AI Cubed/`. Build spec is Baserow card #327.
 
 ## Design
 
@@ -54,7 +54,9 @@ Rule: **one** signature visual on the site, not four. Everything else stays flat
 
 ## Copy
 
-Written for non-technical founders and revenue leaders. No architecture jargon: no corpus, canon, entities, hybrid retrieval, RRF, RAG. Describe what it does for the business.
+Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
+
+No unsourced claims: every figure links to its source or comes from the client work and is labelled if estimated. No defining by negation, no status badges, no "most" claims. One offer name, `site.cta`, on every CTA that points at /contact.
 
 Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, direct, no marketing throat-clearing, no em dashes, no three-part lists for rhythm.
 
@@ -195,3 +197,5 @@ Archivo has a real width axis (62 to 125), loaded via `axes: ["wdth"]`. Use it:
 Never fake expanded with `letter-spacing`. The axis exists; use it.
 
 Mono is still reserved for numbers and code, never for section labels or running text.
+
+**No uppercase anywhere** (Pedro, 2026-09-23): all-caps reads as a font accent rather than a style accent. Labels use the one `.label` class (normal case, weight 500, ink-soft); emphasis comes from weight and position.
