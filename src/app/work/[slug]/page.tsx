@@ -59,19 +59,22 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       <Row label="Solution">
         <div className="max-w-2xl space-y-6">
           <List items={c.does} />
-          {c.involved.map((p) => (
+          {[...(c.journey ?? []), ...c.involved].map((p) => (
             <p key={p.slice(0, 24)} className="leading-relaxed text-ink">
               {p}
             </p>
           ))}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink-soft">
-            <ul className="flex flex-wrap gap-2">
+          <div>
+            <h3 className="label">Connected systems</h3>
+            <ul className="mt-3 flex flex-wrap gap-2">
               {c.stack.map((s) => (
-                <li key={s} className="border border-rule px-2.5 py-0.5 text-xs">
+                <li key={s} className="border border-rule px-2.5 py-1 text-sm text-ink">
                   {s}
                 </li>
               ))}
             </ul>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
             {services.map((service) => (
               <Link
                 key={service.slug}

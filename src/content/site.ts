@@ -47,6 +47,7 @@ export type CaseStudy = {
   involved: string[]; // how the team stays involved: the controls, stated as what they do
   stack: string[];
   services: string[]; // the ServiceCategories that deliver it, so the two cannot drift
+  journey?: string[]; // how it was built and what makes it work; shown in Solution
   // A real client quote only, with permission. Never invented (#562).
   testimonial?: { quote: string; name: string; role: string };
 };
@@ -84,33 +85,39 @@ export const work: CaseStudy[] = [
   },
   {
     slug: "prospecting-loop",
-    title: "Finding customers worth calling",
-    tagline: "A short list each week of local companies worth phoning, with a reason to call each one.",
+    title: "Outbound prospecting",
+    tagline: "A researched list of target accounts every week, built from the whole market and the deals already won.",
     problem: [
-      "A bought list gave the team thousands of local company names without any reason to call one of them today.",
-      "The sales team spent their week researching, and still opened calls with nothing specific to say.",
+      "The sales team had years of won deals in HubSpot and a territory of thousands of companies, with nothing connecting the two. The ideal customer profile lived in people's heads.",
+      "Prospect lists were bought or built by hand, reps spent their week researching instead of selling, and first calls opened with nothing specific to say.",
     ],
     drawsOn: [
-      "What a good customer has looked like before",
-      "Deals already won, and why they were won",
-      "The area being covered",
-      "The pitch that works for each type of business",
+      "Won deals and existing customers in HubSpot",
+      "Every active company in the territory, from Companies House",
+      "Buying signals from job boards, filings and company websites",
+      "The sales lead's feedback on every batch",
     ],
     does: [
-      "Builds the full list of companies in the area from the official register",
-      "Cuts it to the ones that fit on size and type",
-      "Watches for the ones that just did something worth calling about",
-      "Researches those and writes the reason to call, with the evidence attached",
+      "Maps the TAM: every active company in the territory, straight from Companies House",
+      "Builds the ICP from won deals and scores every company against it",
+      "Holds back existing customers and open deals before anything reaches the pipeline",
+      "Watches for buying signals, like hiring, a new site, fresh investment or a move to new premises",
+      "Each shortlisted account gets a researched brief with the evidence, checked contacts and a four-email sequence written in the rep's own voice",
+      "Delivers the week's leads to a portal where the rep reviews, sends and logs replies and meetings",
+    ],
+    journey: [
+      "The Context Engine is what makes it work. The ICP, the full candidate pool, every brief with its sources and the status of every lead sit in one place, alongside the CRM data, so the research, the portal and the sales team all work from the same record.",
+      "We built it in stages with the client's sales lead: a pilot of hand-picked accounts, then weekly research packs, then the live portal. Each round of feedback sharpened the profile. Multi-site groups rank above single sites, a recent investment is a must-have, an ESG commitment counts in a company's favour and businesses in financial distress are screened out.",
     ],
     metrics: [
-      { value: "A short list", label: "each week, sized to your team and market" },
+      { value: "Weekly", label: "researched leads, sized to your team and market" },
+      { value: "Every lead", label: "arrives with its buying signal and the sources behind it" },
       { value: "Minutes", label: "of research per lead" },
     ],
     involved: [
-      "Your team writes the email and makes the call, working from the brief it prepares.",
-      "Contact details for the very smallest firms still need a person to find them.",
+      "The rep reads every brief, sends from their own inbox and logs the outcome. Contact details for the very smallest firms still need a person to find them.",
     ],
-    stack: ["Companies House", "HubSpot", "Postgres", "n8n", "React"],
+    stack: ["HubSpot", "Companies House", "Context Engine", "Hunter", "Apollo", "Job boards", "Company websites", "n8n", "Prospecting portal"],
     services: ["agentic-workflows", "apps-dashboards"],
   },
   {

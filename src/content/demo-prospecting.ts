@@ -53,9 +53,9 @@ export const batches = [
 // Shape only: the narrowing from the register to the week's list. Used for the
 // funnel strip; no stage carries a count (method, not a scoreboard).
 export const demoFunnel = [
-  "Every company in the area",
-  "Fits the profile",
-  "A reason to call now",
+  "TAM",
+  "ICP match",
+  "Buying signal",
   "Researched",
   "Sent",
   "Reply",
