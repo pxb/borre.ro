@@ -32,7 +32,7 @@ const STEPS: Step[] = [
     n: "02",
     label: "Plan",
     title: "First, we find what's worth doing.",
-    body: "We look at how your business runs and find the jobs worth handing to software. We only build once we both agree it's worth it.",
+    body: "Every engagement starts with a free discovery call. From there you choose the depth, from a one-off workshop to a full build, and we only recommend what will pay.",
   },
   {
     id: "idea",
@@ -336,156 +336,141 @@ function StepText({ step, large = false }: { step: Step; large?: boolean }) {
   );
 }
 
-// An example at each step. Figures count up; the Idea step is interactive.
-function Example({ id }: { id: string }) {
-  if (id === "problem") {
-    return (
-      <dl className="grid gap-4">
-        {evidence.map((e) => (
-          <div key={e.stat} className="flex items-start gap-5 border border-rule p-5">
-            <dt>
-              <CountUp
-                value={e.stat}
-                className="font-mono text-5xl tabular-nums leading-none text-action"
-              />
-            </dt>
-            <dd className="text-base leading-snug text-ink">
-              {e.claim}.{" "}
-              <a
-                href={e.href}
-                target="_blank"
-                rel="noreferrer"
-                className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {e.source}
-              </a>
-            </dd>
-          </div>
-        ))}
-      </dl>
-    );
-  }
-  if (id === "plan") {
-    return (
-      <div>
-        <ol className="grid gap-px overflow-hidden border border-rule bg-rule">
-          {PLAN.map((p, i) => (
-            <li key={p.t} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 bg-paper p-5">
-              <span className="font-mono text-sm tabular-nums text-ink-soft">{String(i + 1).padStart(2, "0")}</span>
-              <span>
-                <span className="block font-medium text-ink">{p.t}</span>
-                <span className="mt-1 block text-sm leading-snug text-ink-soft">{p.d}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-4 text-sm text-ink-soft">
-          Common starting points:{" "}
-          {STARTS.map((x, i) => (
-            <span key={x.href}>
-              {i ? " · " : ""}
-              <Link
-                href={x.href}
-                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {x.t}
-              </Link>
-            </span>
-          ))}
-        </p>
-      </div>
-    );
-  }
-  if (id === "execution") {
-    return (
-      <div>
-        <ConnectedSystem />
-        <p className="mt-4 text-sm text-ink-soft">
-          Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
-          <Link
-            href="/services"
-            className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          >
-            Services and prices
-          </Link>
-        </p>
-      </div>
-    );
-  }
-  if (id === "idea") {
-    // AI cubed: the idea behind every build. The plain line leads; the term
-    // is the small label, so it reads as a method, not a second brand.
-    return (
-      <div>
-        <p className="font-mono text-sm text-ink-soft">
-          AI<sup>3</sup> · Context × Agents × Evals
-        </p>
-        <ol className="mt-4 grid gap-px overflow-hidden border border-rule bg-rule">
-          {AI3.map((part) => (
-            <li key={part.term} className="bg-paper">
-              <Link
-                href={part.href}
-                className="group grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-4 p-5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
-              >
-                <span className="text-lg font-medium text-ink transition-colors group-hover:text-accent">{part.term}</span>
-                <span className="text-sm leading-snug text-ink-soft">{part.plain}</span>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </div>
-    );
-  }
-  if (id === "support") {
-    return (
-      <div className="border border-rule bg-paper p-6">
-        <ul className="space-y-3">
-          {SUPPORT.map((i) => (
-            <li key={i} className="flex gap-3 leading-relaxed text-ink">
-              <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-ink-soft" />
-              <span>{i}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 border-t border-rule pt-4 text-sm text-ink-soft">From £1,000 a month</p>
-      </div>
-    );
-  }
-  // results: figures roll up
+// The slide standard (#327, 2026-09-24): every slide's right-hand side is one
+// StageCard. A heading, rows split by hairlines, an optional footer. No boxed
+// backgrounds, so the six slides read as one system.
+type Row = { t: React.ReactNode; d?: React.ReactNode; meta?: React.ReactNode; stat?: string; href?: string };
+
+function StageCard({ heading, rows, children, foot }: { heading: React.ReactNode; rows?: Row[]; children?: React.ReactNode; foot?: React.ReactNode }) {
   return (
-    <div>
-      <dl className="grid gap-6 sm:grid-cols-2">
-        {work.filter((w) => w.resultsProven !== false).map((w) => (
-          <div key={w.slug} className="border-l-2 border-rule pl-4">
-            <dt>
-              <CountUp value={w.metrics[0].value} className="text-2xl font-medium text-ink" />
-            </dt>
-            <dd className="mt-1 text-sm leading-snug text-ink-soft">
-              {w.metrics[0].label}.{" "}
-              <Link
-                href={`/work/${w.slug}`}
-                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {w.title}
-              </Link>
-            </dd>
-          </div>
-        ))}
-      </dl>
+    <div className="border-t-2 border-ink">
+      <p className="pt-3 pb-1 text-sm font-medium text-ink-soft">{heading}</p>
+      {rows ? (
+        <ul>
+          {rows.map((r, i) => {
+            const inner = (
+              <>
+                {r.stat ? (
+                  <CountUp value={r.stat} className="font-mono text-3xl leading-none tabular-nums text-action" />
+                ) : null}
+                <span className="min-w-0">
+                  <span className="block font-medium text-ink transition-colors group-hover:text-accent">{r.t}</span>
+                  {r.d ? <span className="mt-0.5 block text-sm leading-snug text-ink-soft">{r.d}</span> : null}
+                </span>
+                {r.meta ? <span className="text-right text-sm whitespace-nowrap text-ink-soft">{r.meta}</span> : null}
+              </>
+            );
+            const cls = `grid items-baseline gap-x-5 border-t border-rule py-4 first:border-t-0 ${
+              r.stat ? "grid-cols-[5.5rem_minmax(0,1fr)]" : r.meta ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"
+            }`;
+            return (
+              <li key={i}>
+                {r.href ? (
+                  <Link
+                    href={r.href}
+                    className={`group ${cls} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
+                  >
+                    {inner}
+                  </Link>
+                ) : (
+                  <div className={cls}>{inner}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+      {children ? <div className="border-t border-rule pt-4">{children}</div> : null}
+      {foot ? <p className="border-t border-rule pt-3 text-sm text-ink-soft">{foot}</p> : null}
     </div>
   );
 }
 
-// Plan: what the first weeks look like, and where it usually leads.
-const PLAN = [
-  { t: "A free 30-minute call", d: "How your business runs today and where the time goes." },
-  { t: "Map the work", d: "Who does what, and which jobs are worth handing to software." },
-  { t: "A written plan", d: "What to do first, what each piece costs and how long it takes." },
-];
-const STARTS = [
-  { t: "training and setup", href: "/services#training" },
-  { t: "a Context Engine", href: "/services#context-engine" },
-  { t: "a first workflow", href: "/services#agentic-workflows" },
+function Example({ id }: { id: string }) {
+  if (id === "problem") {
+    return (
+      <StageCard
+        heading="The gap"
+        rows={evidence.map((e) => ({
+          stat: e.stat,
+          t: e.claim.charAt(0).toUpperCase() + e.claim.slice(1),
+          d: (
+            <a
+              href={e.href}
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              {e.source}
+            </a>
+          ),
+        }))}
+      />
+    );
+  }
+  if (id === "plan") {
+    return <StageCard heading="Ways to start" rows={STARTS} />;
+  }
+  if (id === "idea") {
+    return (
+      <StageCard
+        heading={
+          <span className="font-mono">
+            AI<sup>3</sup> · Context × Agents × Evals
+          </span>
+        }
+        rows={AI3.map((a) => ({ t: a.term, d: a.plain, href: a.href }))}
+      />
+    );
+  }
+  if (id === "execution") {
+    return (
+      <StageCard
+        heading="A working system"
+        foot={
+          <>
+            Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
+            <Link
+              href="/services"
+              className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              Services and prices
+            </Link>
+          </>
+        }
+      >
+        <ConnectedSystem />
+      </StageCard>
+    );
+  }
+  if (id === "support") {
+    return (
+      <StageCard
+        heading="Managed service"
+        rows={SUPPORT.map((t) => ({ t }))}
+        foot="From £1,000 a month, month to month."
+      />
+    );
+  }
+  // results
+  return (
+    <StageCard
+      heading="For clients so far"
+      rows={work
+        .filter((w) => w.resultsProven !== false)
+        .map((w) => ({ stat: w.metrics[0].value, t: w.title, d: w.metrics[0].label, href: `/work/${w.slug}` }))}
+    />
+  );
+}
+
+// Plan: the entry points, in the industry's terms, each with what you get.
+// None assumes a build.
+const STARTS: Row[] = [
+  { t: "Discovery call", d: "An honest read on where AI would pay first.", meta: "Free, 30 min" },
+  { t: "AI readiness assessment", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates." },
+  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session." },
+  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", meta: "From £950 a day", href: "/services#training" },
+  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", meta: "From £1,500", href: "/services#agentic-workflows" },
 ];
 
 // The three parts of every build, each linked to the case study that shows it.
@@ -496,9 +481,8 @@ const AI3 = [
 ];
 
 const SUPPORT = [
-  "Watching it and fixing what breaks",
+  "Monitoring, and fixing what breaks",
   "Changes as your business changes",
   "New workflows as you find more to hand over",
   "A monthly report in your numbers",
 ];
-
