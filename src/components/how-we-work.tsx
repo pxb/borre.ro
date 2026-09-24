@@ -306,12 +306,13 @@ function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: s
 }
 
 function StepText({ step, large = false }: { step: Step; large?: boolean }) {
-  // No kicker label: the step bar carries the sequence. The heading leads.
+  // No kicker label: the step bar carries the sequence. The heading leads, but
+  // stays below the hero headline at every width (hero h1 > slide title > figure).
   return (
     <div>
       <h2
         className={`font-medium leading-[1.06] tracking-[-0.025em] text-ink ${
-          large ? "text-[clamp(2rem,min(5vw,6.4vh),5.25rem)]" : "text-[clamp(2rem,3.8vw,3.4rem)]"
+          large ? "text-[clamp(1.875rem,min(2.9vw,4.6vh),2.75rem)]" : "text-[clamp(1.75rem,3.4vw,2.75rem)]"
         }`}
       >
         {step.title}

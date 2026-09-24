@@ -242,6 +242,11 @@ Archivo has a real width axis (62 to 125), loaded via `axes: ["wdth"]`. Use it:
 
 Never fake expanded with `letter-spacing`. The axis exists; use it.
 
-Mono is still reserved for numbers and code, never for section labels or running text.
+Mono is still reserved for numbers and code, never for section labels, breadcrumbs or running text.
+
+**Size order (2026-09-24):** hero headline > slide title > figure, at every width. Measured at
+1920x940: 50 / 43 / 36px; at 375px: 34 / 28 / 24px. The Problem figures had grown to 66px and the
+slide titles to 60px, both above the hero headline and louder than the CTA. Story figures share one
+`FIGURE` class in `story-forms.tsx`; change it there, not per slide.
 
 **No uppercase anywhere** (Pedro, 2026-09-23): all-caps reads as a font accent rather than a style accent. Labels use the one `.label` class (normal case, weight 500, ink-soft); emphasis comes from weight and position.

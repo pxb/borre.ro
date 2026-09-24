@@ -16,9 +16,9 @@ import { evidence, work } from "@/content/site";
 
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 const EASE = [0.22, 1, 0.36, 1] as const;
-// Figures stay below the hero headline (50px at 1080p) and the slide titles, so
+// Figures stay below the hero headline and the slide titles at every width, so
 // they support the story instead of outranking it and the CTA.
-const FIGURE = "font-mono text-[clamp(1.75rem,min(3.2vw,5vh),2.5rem)] leading-none tabular-nums text-action";
+const FIGURE = "font-mono text-[clamp(1.5rem,min(2.6vw,4vh),2.25rem)] leading-none tabular-nums text-action";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -424,7 +424,7 @@ function Price() {
   return (
     <p className="text-center">
       <span className="block text-sm text-ink-soft">From</span>
-      <span className="block font-mono text-3xl leading-tight tabular-nums text-action">£1,000</span>
+      <span className={`block ${FIGURE}`}>£1,000</span>
       <span className="block text-sm text-ink-soft">a month</span>
     </p>
   );
