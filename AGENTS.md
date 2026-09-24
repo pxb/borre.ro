@@ -63,14 +63,25 @@ Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, di
 ## Homepage story
 
 Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of six steps:
-01 Problem, 02 Discovery (the free 30-minute call), 03 Method (AI³: Context × Agents × Evals, with
+01 Problem, 02 Review (the free 30-minute call; "Discovery" read as a sales stage and is a paid phase
+elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
 the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
 05 Results, 06 Support. Content and step ids live in `src/components/how-we-work.tsx`.
 
-**Slide standard:** left, the title and one short paragraph. Right, one `StageCard`: a heading over a
-2px ink rule, rows split by hairlines, an optional footer, no boxed or tinted backgrounds. Statistics sit
-on their own line above their text. Slides are top-aligned with an even gap under the step bar. The
-booking offer is not in the story; it is the site-wide fixed `OfferBar`.
+**Slide standard (#584, 2026-09-24):** left, the title and one short paragraph. Right, one `Frame`: a
+heading over a 2px ink rule, an optional footer, no boxed or tinted backgrounds. Inside the frame each
+slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
+figures over proportion bars, Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
+formula over the Ask demo, Engagement as a ladder of entry points that runs on into 06 Support,
+Results as a figure wall, Support as a monthly loop around its price. The six were all one row list
+before and read as text-heavy and identical.
+
+Where a slide has several items, only the picked item's description shows (hover, focus, tap or the
+arrow keys; a tab set). All descriptions sit in one grid cell so the slot never jumps. Server render
+and no-JS show every description inline, so no copy is lost. Reduced motion keeps the forms and drops
+the animation (bars drawn full, no figure roll-up, no travelling dot on the loop). Slides are
+top-aligned with an even gap under the step bar. The booking offer is not in the story; it is the
+site-wide fixed `OfferBar`.
 
 ## Case studies
 

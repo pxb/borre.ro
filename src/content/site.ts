@@ -215,7 +215,7 @@ export const costNotes = [
   },
   {
     title: "Running it",
-    body: "From £1,000 a month once it's built, month to month. Fixes, changes and a monthly report are included.",
+    body: "From £1,000 a month once it's built, month to month. Fixes, changes, a monthly KPI report and a review call are included.",
   },
 ];
 

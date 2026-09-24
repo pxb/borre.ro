@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import {
   motion,
   useReducedMotion,
@@ -10,11 +9,11 @@ import {
   type MotionValue,
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
-import { AskDemo } from "@/components/ask-demo";
-import { CountUp, Reveal } from "@/components/motion-bits";
-import { evidence, site, work } from "@/content/site";
+import { Reveal } from "@/components/motion-bits";
+import { Example } from "@/components/story-forms";
+import { site } from "@/content/site";
 
-// One story, six steps: Problem, Plan, Idea, Execution, Results, Support. Two modes:
+// One story, six steps: Problem, Review, Method, Engagement, Results, Support. Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
 type Step = { id: string; n: string; label: string; title: string; lead?: string; body: string };
@@ -28,9 +27,9 @@ const STEPS: Step[] = [
     body: `${site.recognition} Each holds its own piece of the picture, so someone on your team ends up copying between them.`,
   },
   {
-    id: "discovery",
+    id: "review",
     n: "02",
-    label: "Discovery",
+    label: "Review",
     title: "It starts with a free 30-minute call.",
     body: "We look at how your business runs and where AI would pay first. You leave with a clear recommendation, whether or not it involves us.",
   },
@@ -85,16 +84,22 @@ export function HowWeWork() {
   const wrap = useRef<HTMLDivElement>(null);
   // 0 at the first step, 1 at the last, in either mode; drives the step tracks.
   const { scrollYProgress } = useScroll({ target: wrap, offset: ["start 120px", "end end"] });
+  // Move the story to a step: by anchor when stacked, by scroll position when pinned.
+  const go = (id: string) => {
+    if (!horizontal) return scrollToId(id);
+    const y = slideY(STEPS.findIndex((s) => s.id === id));
+    if (y != null) scrollToY(y);
+  };
 
   // The wrapper scopes the sticky step bar: it lets go when the story ends
   // instead of riding down over the footer.
   return (
     <div ref={wrap}>
-      <StepBar active={active} horizontal={horizontal} progress={scrollYProgress} />
+      <StepBar active={active} go={go} progress={scrollYProgress} />
       {horizontal ? (
-        <Horizontal onActive={setActive} />
+        <Horizontal onActive={setActive} go={go} />
       ) : (
-        <Vertical onActive={setActive} />
+        <Vertical onActive={setActive} go={go} />
       )}
     </div>
   );
@@ -123,18 +128,13 @@ function scrollToY(y: number) {
 // drives the pinned section's scroll position.
 function StepBar({
   active,
-  horizontal,
+  go,
   progress,
 }: {
   active: string;
-  horizontal: boolean;
+  go: (id: string) => void;
   progress: MotionValue<number>;
 }) {
-  const jump = (id: string, i: number) => {
-    if (!horizontal) return scrollToId(id);
-    const y = slideY(i);
-    if (y != null) scrollToY(y);
-  };
   return (
     <div className="sticky top-20 z-30 border-b border-rule bg-paper">
       <nav aria-label="Story steps" className="mx-auto max-w-6xl px-6 sm:px-10">
@@ -146,7 +146,7 @@ function StepBar({
               index={i}
               on={s.id === active}
               progress={progress}
-              onClick={() => jump(s.id, i)}
+              onClick={() => go(s.id)}
             />
           ))}
         </ol>
@@ -198,7 +198,7 @@ function StepItem({
 // the section it snaps to the nearest slide, so a panel is never left half-way.
 // The frame's foot carries the offer for the whole story, and the panels are
 // centred in what is left, so a tall screen does not leave one big gap.
-function Horizontal({ onActive }: { onActive: (id: string) => void }) {
+function Horizontal({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${(STEPS.length - 1) * 100}vw`]);
@@ -253,7 +253,7 @@ function Horizontal({ onActive }: { onActive: (id: string) => void }) {
                 <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
                   <StepText step={s} large />
                   <div>
-                    <Example id={s.id} />
+                    <Example id={s.id} go={go} />
                   </div>
                 </div>
               </div>
@@ -266,7 +266,7 @@ function Horizontal({ onActive }: { onActive: (id: string) => void }) {
 }
 
 // Vertical fallback: the same panels stacked and revealed on scroll.
-function Vertical({ onActive }: { onActive: (id: string) => void }) {
+function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
   useEffect(() => {
     const els = STEPS.map((s) => document.getElementById(s.id)).filter(
       (el): el is HTMLElement => el != null,
@@ -297,7 +297,7 @@ function Vertical({ onActive }: { onActive: (id: string) => void }) {
             <StepText step={s} />
           </Reveal>
           <Reveal delay={0.08}>
-            <Example id={s.id} />
+            <Example id={s.id} go={go} />
           </Reveal>
         </section>
       ))}
@@ -335,161 +335,3 @@ function StepText({ step, large = false }: { step: Step; large?: boolean }) {
     </div>
   );
 }
-
-// The slide standard (#327, 2026-09-24): every slide's right-hand side is one
-// StageCard. A heading, rows split by hairlines, an optional footer. No boxed
-// backgrounds, so the six slides read as one system.
-type Row = { t: React.ReactNode; d?: React.ReactNode; meta?: React.ReactNode; stat?: string; href?: string };
-
-function StageCard({ heading, rows, children, foot }: { heading: React.ReactNode; rows?: Row[]; children?: React.ReactNode; foot?: React.ReactNode }) {
-  return (
-    <div className="border-t-2 border-ink">
-      <p className="pt-3 pb-1 text-sm font-medium text-ink-soft">{heading}</p>
-      {rows ? (
-        <ul>
-          {rows.map((r, i) => {
-            const inner = (
-              <>
-                {r.stat ? (
-                  <CountUp value={r.stat} className="block font-mono text-3xl leading-none whitespace-nowrap tabular-nums text-action" />
-                ) : null}
-                <span className="min-w-0">
-                  <span className="block font-medium text-ink transition-colors group-hover:text-accent">{r.t}</span>
-                  {r.d ? <span className="mt-0.5 block text-sm leading-snug text-ink-soft">{r.d}</span> : null}
-                </span>
-                {r.meta ? <span className="text-right text-sm whitespace-nowrap text-ink-soft">{r.meta}</span> : null}
-              </>
-            );
-            const cls = `grid items-baseline gap-x-5 gap-y-2 border-t border-rule py-4 first:border-t-0 ${
-              r.meta ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"
-            }`;
-            return (
-              <li key={i}>
-                {r.href ? (
-                  <Link
-                    href={r.href}
-                    className={`group ${cls} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
-                  >
-                    {inner}
-                  </Link>
-                ) : (
-                  <div className={cls}>{inner}</div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-      {children ? <div className="border-t border-rule pt-4">{children}</div> : null}
-      {foot ? <p className="border-t border-rule pt-3 text-sm text-ink-soft">{foot}</p> : null}
-    </div>
-  );
-}
-
-function Example({ id }: { id: string }) {
-  if (id === "problem") {
-    return (
-      <StageCard
-        heading="The gap"
-        rows={evidence.map((e) => ({
-          stat: e.stat,
-          t: e.claim.charAt(0).toUpperCase() + e.claim.slice(1),
-          d: (
-            <a
-              href={e.href}
-              target="_blank"
-              rel="noreferrer"
-              className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              {e.source}
-            </a>
-          ),
-        }))}
-      />
-    );
-  }
-  if (id === "discovery") {
-    return <StageCard heading="In the 30 minutes" rows={CALL} foot="Free, and booked straight into the calendar." />;
-  }
-  if (id === "method") {
-    return (
-      <StageCard
-        heading={
-          <span className="font-mono">
-            AI<sup>3</sup> · Context × Agents × Evals
-          </span>
-        }
-        rows={AI3.map((a) => ({ t: a.term, d: a.plain, href: a.href }))}
-      >
-        <AskDemo />
-      </StageCard>
-    );
-  }
-  if (id === "engagement") {
-    return (
-      <StageCard
-        heading="Ways to start"
-        rows={STARTS}
-        foot={
-          <>
-            Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
-            <Link
-              href="/services"
-              className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              Services and prices
-            </Link>
-          </>
-        }
-      />
-    );
-  }
-  if (id === "support") {
-    return (
-      <StageCard
-        heading="Managed service"
-        rows={SUPPORT.map((t) => ({ t }))}
-        foot="From £1,000 a month, month to month."
-      />
-    );
-  }
-  // results
-  return (
-    <StageCard
-      heading="For clients so far"
-      rows={work
-        .filter((w) => w.resultsProven !== false)
-        .map((w) => ({ stat: w.metrics[0].value, t: w.title, d: w.metrics[0].label, href: `/work/${w.slug}` }))}
-    />
-  );
-}
-
-// Plan: the entry points, in the industry's terms, each with what you get.
-// None assumes a build.
-const CALL: Row[] = [
-  { t: "How the work flows today", d: "From first enquiry to invoice: who does what, and where the time goes." },
-  { t: "What you already pay for", d: "The AI tools, CRM and data you have, and how much of it the team uses." },
-  { t: "Where AI would pay first", d: "The one or two jobs worth doing first, and roughly what they would take." },
-  { t: "What to do next", d: "A clear recommendation: an audit, training, a build, or nothing yet." },
-];
-
-const STARTS: Row[] = [
-  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", meta: "From £450", href: "/services#audit" },
-  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", meta: "From £950", href: "/services#workshop" },
-  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", meta: "From £950 a day", href: "/services#training" },
-  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", meta: "From £1,500", href: "/services#agentic-workflows" },
-];
-
-// The three parts of every build, each linked to the case study that shows it.
-const AI3 = [
-  { term: "Context", plain: "What your business knows, in one place your team and its AI tools can ask.", href: "/work/context-engine" },
-  { term: "Agents", plain: "Software that does the repeatable work, with a human in the loop before anything goes out.", href: "/work/lead-research" },
-  { term: "Evals", plain: "Proof it worked: each system measured against the job it was built to do.", href: "/work/prospecting-loop" },
-];
-
-const SUPPORT = [
-  "Monitoring, and fixing what breaks",
-  "Changes as your business changes",
-  "New workflows as you find more to hand over",
-  "A monthly report in your numbers",
-];
