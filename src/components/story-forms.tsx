@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
 import { CountUp } from "@/components/motion-bits";
@@ -15,7 +15,6 @@ import { evidence, work } from "@/content/site";
 // so the slide carries one sentence at a time instead of four.
 
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-const EASE = [0.22, 1, 0.36, 1] as const;
 // Figures stay below the hero headline and the slide titles at every width, so
 // they support the story instead of outranking it and the CTA.
 const FIGURE = "font-mono text-[clamp(1.5rem,min(2.6vw,4vh),2.25rem)] leading-none tabular-nums text-action";
@@ -131,59 +130,38 @@ export function Example({ id, go }: { id: string; go: (id: string) => void }) {
   return <Loop />;
 }
 
-// 01 Problem: each figure over a bar filled to its share.
+// 01 Problem: the figures in the same form as the case-study metrics on /work,
+// a figure over its claim beside a hairline, side by side when there is room.
+// No bars: similar percentages drawn as bars read as progress bars.
 function Gap() {
   return (
     <Frame heading="The gap">
-      <ul className="grid gap-10">
-        {evidence.map((e) => (
-          <li key={e.stat}>
-            <CountUp
-              value={e.stat}
-              className={`block ${FIGURE}`}
-            />
-            <Share pct={parseFloat(e.stat)} />
-            <p className="mt-4 text-lg leading-snug text-ink">
-              {e.claim.charAt(0).toUpperCase() + e.claim.slice(1)}
-            </p>
-            <a
-              href={e.href}
-              target="_blank"
-              rel="noreferrer"
-              className={`mt-2 inline-block text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
-            >
-              {e.source}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="@container">
+        <ul className="grid gap-8 @xl:grid-cols-3 @xl:gap-6">
+          {evidence.map((e) => (
+            <li key={e.stat} className="border-l-2 border-rule pl-4">
+              <CountUp value={e.stat} className={`block ${FIGURE}`} />
+              <p className="mt-3 leading-snug text-ink">
+                {e.claim.charAt(0).toUpperCase() + e.claim.slice(1)}
+              </p>
+              <a
+                href={e.href}
+                target="_blank"
+                rel="noreferrer"
+                className={`mt-2 inline-block text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
+              >
+                {e.source}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Frame>
   );
 }
 
-// The bar fills when it comes into view. SSR, no-JS and reduced motion draw it full.
-function Share({ pct }: { pct: number }) {
-  const reduce = useReducedMotion();
-  const mounted = useMounted();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const full = !mounted || !!reduce || inView;
-  return (
-    <div ref={ref} aria-hidden="true" className="mt-4 h-2 bg-rule">
-      <motion.div
-        className="h-full origin-left bg-ink"
-        style={{ width: `${pct}%` }}
-        initial={false}
-        animate={{ scaleX: full ? 1 : 0 }}
-        transition={full ? { duration: 1.1, ease: EASE } : { duration: 0 }}
-      />
-    </div>
-  );
-}
-
 // 02 Review: the call as a 0 to 30 minute track with four stops. Vertical on phones.
-// Also on /contact, above the calendar.
-export function Timeline() {
+function Timeline() {
   const p = usePick(CALL.length, "In the 30 minutes");
   return (
     <Frame heading="In the 30 minutes">
@@ -232,6 +210,29 @@ export function Timeline() {
           </p>
         ))}
       />
+    </Frame>
+  );
+}
+
+// The same call as a static vertical track with every stop described, for the
+// column beside the calendar on /contact.
+export function CallTrack() {
+  return (
+    <Frame heading="In the 30 minutes">
+      <p aria-hidden="true" className="font-mono text-xs tabular-nums text-ink-soft">0</p>
+      <ol className="relative mt-3 ml-[7px] border-l-2 border-ink">
+        {CALL.map((r) => (
+          <li key={r.t} className="relative pb-7 pl-7 last:pb-0">
+            <span
+              aria-hidden="true"
+              className="absolute top-0.5 -left-[9px] size-4 rounded-full border-2 border-ink bg-paper"
+            />
+            <span className="block font-medium leading-snug text-ink">{r.t}</span>
+            <span className="mt-1 block leading-snug text-ink-soft">{r.d}</span>
+          </li>
+        ))}
+      </ol>
+      <p aria-hidden="true" className="mt-3 font-mono text-xs tabular-nums text-ink-soft">30 min</p>
     </Frame>
   );
 }

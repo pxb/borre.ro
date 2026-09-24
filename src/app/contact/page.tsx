@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Page } from "@/components/section";
 import { site } from "@/content/site";
-import { Timeline } from "@/components/story-forms";
+import { CallTrack } from "@/components/story-forms";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -10,26 +10,25 @@ export const metadata: Metadata = {
 
 export default function Contact() {
   return (
-    <Page
-      title="Book a free 30-minute call."
-      lead="Pick a time that suits you. Tell us a little about your business when you book and we'll come prepared."
-    >
-      {/* What the call covers, the same track as 02 Review on the homepage. */}
-      <section className="pt-12">
-        <Timeline />
+    <Page title="Book a free 30-minute call" bare>
+      {/* Like /work: no header, the page opens on what it is for. What the call
+          covers beside the calendar; on phones the calendar comes first. */}
+      <section className="grid gap-10 pt-12 pb-12 sm:pt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+        <div className="order-2 lg:order-1">
+          <CallTrack />
+        </div>
+        {site.booking ? (
+          <div className="order-1 -mx-6 sm:mx-0 lg:order-2">
+            {/* Full-bleed on phones so Cal.com's own mobile layout has the room. */}
+            <iframe
+              src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view`}
+              title="Book a free 30-minute call"
+              loading="lazy"
+              className="h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border"
+            />
+          </div>
+        ) : null}
       </section>
-
-      {site.booking ? (
-        <section className="-mx-6 py-6 sm:mx-0 sm:py-12">
-          {/* Full-bleed on phones so Cal.com's own mobile layout has the room. */}
-          <iframe
-            src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view`}
-            title="Book a free 30-minute call"
-            loading="lazy"
-            className="h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border"
-          />
-        </section>
-      ) : null}
 
       <p className="pb-16">
         <a

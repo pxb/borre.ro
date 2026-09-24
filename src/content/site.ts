@@ -198,6 +198,16 @@ export const evidence = [
     source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
   },
+  // The upside (Pedro, 2026-09-24). PwC measures labour productivity, not
+  // revenue, so the claim says productivity. Press release, 15 June 2026:
+  // "The top 20% of the most AI-exposed companies achieved average labour
+  // productivity growth of 163% relative to 2018".
+  {
+    stat: "163%",
+    claim: "labour productivity growth since 2018 at the top fifth of companies most able to use AI",
+    source: "PwC Global AI Jobs Barometer, 2026",
+    href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
+  },
 ];
 
 export const costNotes = [
