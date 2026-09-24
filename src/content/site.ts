@@ -184,31 +184,64 @@ export const work: CaseStudy[] = [
 ];
 
 
-// Public evidence for the opening claim. Each source was fetched and checked (#565).
+// Public evidence. Each source was fetched and checked (#565; 2026-09-24).
+// Slide 01: each barrier with our answer to it, so the slide ends on the fix
+// rather than the fear (Pedro, 2026-09-24).
 export const evidence = [
   {
     stat: "35%",
     claim: "of UK businesses say the biggest barrier to using AI is not having the expertise",
+    answer: "We bring the expertise, and train your team to run it.",
     source: "ANS and YouGov, via techUK, 2025",
     href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
+  },
+  // Zapier, "Nearly 4 in 5 (78%) indicated that they're struggling to
+  // integrate AI" with existing systems; 500+ enterprise leaders, October 2025.
+  {
+    stat: "78%",
+    claim: "of organisations are struggling to connect AI to the systems they already run",
+    answer: "We connect it to the systems you already use.",
+    source: "Zapier survey, 2025",
+    href: "https://zapier.com/blog/ai-resistance-survey/",
   },
   {
     stat: "40%",
     claim: "of AI agent projects are expected to be cancelled by 2027, over unclear business value",
+    answer: "We start with the job that pays, and measure it.",
     source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
   },
-  // The upside (Pedro, 2026-09-24). PwC measures labour productivity, not
-  // revenue, so the claim says productivity. Press release, 15 June 2026:
+];
+
+// Slide 05: what AI done properly is worth, in general rather than per client
+// (client results live on /work). Sources checked 2026-09-24.
+export const value = [
+  // PwC measures labour productivity, not revenue. Press release, 15 June 2026:
   // "The top 20% of the most AI-exposed companies achieved average labour
   // productivity growth of 163% relative to 2018 – nearly five times higher
   // than the most AI-exposed companies overall".
   {
     stat: "163%",
     claim: "labour productivity growth since 2018 at the companies making the most of AI, nearly five times their peers",
-    upside: true,
     source: "PwC Global AI Jobs Barometer, 2026",
     href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
+  },
+  // Abstract: "Access to the tool increases productivity, as measured by
+  // issues resolved per hour, by 14% on average, including a 34% improvement
+  // for novice and low-skilled workers". 5,179 support agents.
+  {
+    stat: "14%",
+    claim: "more customer questions resolved per hour with an AI assistant, and 34% more for newer staff",
+    source: "Brynjolfsson, Li and Raymond, 2025",
+    href: "https://academic.oup.com/qje/article/140/2/889/7990658",
+  },
+  // A pricing fact, not a measured outcome: cached input is billed at 0.1x
+  // the base input price.
+  {
+    stat: "90%",
+    claim: "off the price of business context the AI reuses, once it's cached",
+    source: "Anthropic pricing",
+    href: "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
   },
 ];
 

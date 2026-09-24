@@ -71,16 +71,16 @@ Hero, then a horizontal pinned story (vertical below 1024px and under reduced mo
 01 Problem, 02 Review (the free 30-minute call; "Discovery" read as a sales stage and is a paid phase
 elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
 the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
-05 Results, 06 Support. Content and step ids live in `src/components/how-we-work.tsx`.
+05 Value (what AI done properly is worth, sourced; client results live on /work), 06 Support. Content and
+step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `value` in `site.ts`.
 
 **Slide standard (#584, 2026-09-24; labels and accents per DESIGN.md):** left, the title and one
 short paragraph. Right, one `Frame`: a 2px ink rule, a label only where it names something the title
 doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
-two barriers in ink then the upside in the accent (PwC's 163%), in the shared figure form beside
-their claims (the proportion bars were cut because similar percentages read as progress bars), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
+three barriers in ink, each followed by our answer (the fear, then the fix), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on into 06 Support,
-Results as a figure wall, Support as a monthly loop. No prices on the slides. The six were all one row list
+Value as three sourced figures in the accent, Support as a monthly loop. No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung

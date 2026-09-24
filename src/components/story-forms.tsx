@@ -6,7 +6,7 @@ import { useReducedMotion } from "motion/react";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
 import { Figure } from "@/components/figure";
-import { evidence, work } from "@/content/site";
+import { evidence, value } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
 // 2px ink rule, and inside it a shape that matches what the slide says:
@@ -124,57 +124,44 @@ export function Example({ id, go }: { id: string; go: (id: string) => void }) {
   if (id === "review") return <Timeline />;
   if (id === "method") return <Formula />;
   if (id === "engagement") return <Ladder go={go} />;
-  if (id === "results") return <Figures />;
+  if (id === "value") return <Worth />;
   return <Loop />;
 }
 
-// 01 Problem: two barriers, then the upside under a hairline. Figures in the
-// site's one figure form, beside their claims; the barriers in ink, the upside
-// in the accent, so the good number reads as the good number. No bars: similar percentages drawn
-// as bars read as progress bars.
+// 01 Problem: each barrier with our answer under it, so the slide turns from
+// the fear to the fix. Figures in ink: these are problems, not results.
 type Evidence = (typeof evidence)[number];
 
-function Claim({ e }: { e: Evidence }) {
+function Source({ e }: { e: { source: string; href: string } }) {
   return (
-    <p className="text-ink">
-      {e.claim.charAt(0).toUpperCase() + e.claim.slice(1)}.{" "}
-      <a
-        href={e.href}
-        target="_blank"
-        rel="noreferrer"
-        className={`text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
-      >
-        {e.source}
-      </a>
-    </p>
+    <a
+      href={e.href}
+      target="_blank"
+      rel="noreferrer"
+      className={`text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
+    >
+      {e.source}
+    </a>
   );
 }
 
+const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
 function Gap() {
-  const barriers = evidence.filter((e) => !("upside" in e));
-  const upside = evidence.filter((e) => "upside" in e);
   return (
     <Frame>
-      <ul className="grid gap-5">
-        {barriers.map((e) => (
+      <ul className="grid gap-6">
+        {evidence.map((e: Evidence) => (
           <li key={e.stat}>
             <Figure value={e.stat} beside tone="ink" count>
-              <Claim e={e} />
+              <p className="text-ink-soft">
+                {sentence(e.claim)}. <Source e={e} />
+              </p>
+              <p className="mt-1.5 font-medium text-ink">{e.answer}</p>
             </Figure>
           </li>
         ))}
       </ul>
-      {upside.length ? (
-        <ul className="mt-6 grid gap-5 border-t border-rule pt-6">
-          {upside.map((e) => (
-            <li key={e.stat}>
-              <Figure value={e.stat} beside count>
-                <Claim e={e} />
-              </Figure>
-            </li>
-          ))}
-        </ul>
-      ) : null}
     </Frame>
   );
 }
@@ -393,23 +380,19 @@ function Ladder({ go }: { go: (id: string) => void }) {
   );
 }
 
-// 05 Results: the figures lead, the case study underneath.
-function Figures() {
-  const items = work.filter((w) => w.resultsProven !== false);
+// 05 Value: what AI done properly is worth, in general. Results figures, so
+// in the accent. Client results live on /work and each case study.
+function Worth() {
   return (
     <Frame>
-      <ul className="grid gap-x-10 gap-y-9 sm:grid-cols-2">
-        {items.map((w, i) => (
-          <li key={w.slug} className={items.length % 2 && i === items.length - 1 ? "sm:col-span-2" : ""}>
-            <Link href={`/work/${w.slug}`} className={`group block ${FOCUS}`}>
-              <Figure value={w.metrics[0].value} count>
-                <span className="block max-w-md text-sm text-ink-soft">{w.metrics[0].label}</span>
-                <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors group-hover:decoration-ink">
-                  {w.title}
-                  <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </Figure>
-            </Link>
+      <ul className="grid gap-6">
+        {value.map((e) => (
+          <li key={e.stat}>
+            <Figure value={e.stat} beside count>
+              <p className="text-ink">
+                {sentence(e.claim)}. <Source e={e} />
+              </p>
+            </Figure>
           </li>
         ))}
       </ul>

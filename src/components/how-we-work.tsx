@@ -13,7 +13,7 @@ import { Reveal } from "@/components/motion-bits";
 import { Example } from "@/components/story-forms";
 import { site } from "@/content/site";
 
-// One story, six steps: Problem, Review, Method, Engagement, Results, Support. Two modes:
+// One story, six steps: Problem, Review, Method, Engagement, Value, Support. Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
 type Step = { id: string; n: string; label: string; title: string; lead?: string; body: string };
@@ -44,15 +44,15 @@ const STEPS: Step[] = [
     id: "engagement",
     n: "04",
     label: "Engagement",
-    title: "Start where it makes sense.",
-    body: "From a one-off audit to a full build, every engagement has a fixed price agreed before we start. You can start small and add more once the first piece is working.",
+    title: "Sized to your business.",
+    body: "From a half-day workshop to a full build, each engagement is scoped to what you need and priced before we start.",
   },
   {
-    id: "results",
+    id: "value",
     n: "05",
-    label: "Results",
-    title: "Measured against the job it was built for.",
-    body: "These come from systems already at work in clients' businesses, each one taking a piece of work off the team.",
+    label: "Value",
+    title: "Done properly, AI pulls you ahead.",
+    body: "The companies connecting AI to their own data and work are already pulling ahead. We get you there on the tools you already pay for, without hiring an AI team.",
   },
   {
     id: "support",
