@@ -60,6 +60,27 @@ No unsourced claims: every figure links to its source or comes from the client w
 
 Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, direct, no marketing throat-clearing, no em dashes, no three-part lists for rhythm.
 
+## Homepage story
+
+Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of six steps:
+01 Problem, 02 Discovery (the free 30-minute call), 03 Method (AI³: Context × Agents × Evals, with
+the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
+05 Results, 06 Support. Content and step ids live in `src/components/how-we-work.tsx`.
+
+**Slide standard:** left, the title and one short paragraph. Right, one `StageCard`: a heading over a
+2px ink rule, rows split by hairlines, an optional footer, no boxed or tinted backgrounds. Statistics sit
+on their own line above their text. Slides are top-aligned with an even gap under the step bar. The
+booking offer is not in the story; it is the site-wide fixed `OfferBar`.
+
+## Case studies
+
+Challenge → Solution (four points, one how-it-was-built line, the human-in-the-loop line) → the
+interactive demo, full width → Results (quantities only, estimates labelled) → Client feedback (only
+real, permitted quotes) → Connected systems | Technology | Service. Demos use the invented client
+Kiln & Kettle, generic system categories and industry terms (CRM, RAG, LLM, human in the loop). Real
+names only for ubiquitous platforms (HubSpot, Outlook, Companies House); niche tools stay generic so a
+client's stack can't be fingerprinted.
+
 ## Numbers
 
 Real measured figures, rounded, marked approximate. No per-render randomiser: fuzzing stages independently breaks the funnel narrowing and makes a figure disagree with itself across pages. Companies are invented and checked against the Companies House register. Nothing that identifies a client ships without sign-off.

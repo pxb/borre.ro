@@ -475,7 +475,7 @@ const CALL: Row[] = [
 
 const STARTS: Row[] = [
   { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", meta: "From £450", href: "/services#audit" },
-  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session." },
+  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", meta: "From £950", href: "/services#workshop" },
   { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", meta: "From £950 a day", href: "/services#training" },
   { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", meta: "From £1,500", href: "/services#agentic-workflows" },
 ];

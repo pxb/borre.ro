@@ -263,6 +263,20 @@ export const serviceCategories: ServiceCategory[] = [
     duration: "Usually 1 to 2 weeks",
   },
   {
+    slug: "workshop",
+    name: "Leadership workshop",
+    what: "A working session with your leadership team to agree where AI fits the business: the use cases worth pursuing, the risks, and who owns what. You leave with priorities everyone has signed up to.",
+    includes: [
+      "A short primer on where AI helps a business your size",
+      "Use cases drawn from your own workflows",
+      "Risks, data and governance, in plain terms",
+      "Agreed priorities and next steps, written up afterwards",
+    ],
+    under: "AI strategy, use-case discovery, governance and risk, change management.",
+    price: "From £950",
+    duration: "Half or full day",
+  },
+  {
     slug: "training",
     name: "AI-native training and setup",
     what: "We set up ChatGPT, Claude or Copilot properly for your business and train your team to use it on their real work.",

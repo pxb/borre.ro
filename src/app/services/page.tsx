@@ -7,13 +7,13 @@ import { costNotes, proofFor, serviceCategories } from "@/content/site";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, and a full agentic platform.",
+    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, and a full agentic platform.",
 };
 
 export default function Services() {
   return (
     <Page
-      title="Six ways we can help."
+      title="Seven ways we can help."
       lead="Not sure where to start? Book a call and we'll suggest one."
       crumbs={[{ href: "/", label: "Home" }]}
     >
