@@ -86,7 +86,7 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 ## Motion
 
-Counts roll up and the call track, ladder and loop respond to picking. Everything renders complete
+Counts roll up, blocks below the fold fade in (never anything already on screen), and the call track, ladder and loop respond to picking. Everything renders complete
 without JavaScript and under reduced motion. The NET backdrop is the one signature visual.
 
 ## Type

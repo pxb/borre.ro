@@ -28,7 +28,7 @@ export default function Work() {
                 <h2 className="mt-3 text-[clamp(1.5rem,2.6vw,2rem)] font-medium tracking-[-0.015em] text-ink">
                   <Link
                     href={`/work/${c.slug}`}
-                    className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    className="inline-flex min-h-11 items-center transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                   >
                     {c.title}
                   </Link>
@@ -43,13 +43,7 @@ export default function Work() {
                   ))}
                 </dl>
 
-                <ul className="mt-8 flex flex-wrap gap-2">
-                  {c.stack.map((s) => (
-                    <li key={s} className="border border-rule px-2.5 py-0.5 text-xs text-ink-soft">
-                      {s}
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-8 text-sm leading-relaxed text-ink-soft">{c.stack.join(" · ")}</p>
               </div>
 
               <Link

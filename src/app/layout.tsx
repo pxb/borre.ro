@@ -77,7 +77,7 @@ function Header() {
       <nav className="mx-auto flex h-20 max-w-6xl items-center px-6 sm:px-10">
         <Link
           href="/"
-          className="text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
           borre<span className="text-accent">.ro</span>
         </Link>
@@ -114,12 +114,12 @@ function FooterCol({
   return (
     <div>
       <h2 className="label">{title}</h2>
-      <ul className="mt-5 space-y-3 text-sm">
+      <ul className="mt-3 text-sm sm:mt-5 sm:space-y-3">
         {links.map((l) => (
           <li key={l.label}>
             <Link
               href={l.href}
-              className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
               {l.label}
             </Link>
@@ -140,7 +140,7 @@ function Footer() {
           <div>
             <Link
               href="/"
-              className="text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
               borre<span className="text-accent">.ro</span>
             </Link>
@@ -173,11 +173,11 @@ function Footer() {
 
           <div>
             <h2 className="label">Contact</h2>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-3 text-sm sm:mt-5 sm:space-y-3">
               <li>
                 <Link
                   href="/contact"
-                  className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
                   Book a call
                 </Link>
@@ -187,7 +187,7 @@ function Footer() {
                   href={site.linkedin}
                   rel="me noreferrer"
                   target="_blank"
-                  className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
                   LinkedIn
                 </a>
@@ -195,7 +195,7 @@ function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
                   About
                 </Link>
@@ -212,13 +212,13 @@ function Footer() {
           <div className="flex flex-wrap items-center gap-6 text-ink-soft">
             <a
               href="/llms.txt"
-              className="font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="inline-flex min-h-11 items-center font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
               /llms.txt
             </a>
             <a
               href="/api/mcp"
-              className="font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              className="inline-flex min-h-11 items-center font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
               /api/mcp
             </a>

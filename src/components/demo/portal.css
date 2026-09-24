@@ -11,7 +11,7 @@
   --p-sunk: #f1eee6;
   --p-ink: #191712;
   --p-body: #4a473f;
-  --p-muted: #7a766d;
+  --p-muted: #6e6a61; /* 4.65:1 on sunk, 4.94 on canvas, 5.25 on surface (was #7a766d, 3.9 to 4.41) */
   --p-faint: #b1ada1;
   --p-hairline: #e6e1d5;
   --p-hairline-soft: #efebe1;
@@ -1153,5 +1153,14 @@ a:focus-visible > .portal.mini {
   a:hover > .portal.mini {
     transition: none;
     transform: none;
+  }
+}
+
+/* Phone hit targets: the demo's own buttons reach 44px under 640px. */
+@media (max-width: 639px) {
+  .portal .p-nav button,
+  .portal .p-weeks button,
+  .portal .p-tabs button {
+    min-height: 44px;
   }
 }

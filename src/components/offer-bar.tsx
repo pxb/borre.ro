@@ -37,7 +37,7 @@ export function OfferBar() {
   return (
     <div
       aria-hidden={!show}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t transition-[opacity,transform] duration-300 ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t transition-[opacity,transform] duration-300 motion-reduce:transition-none ${
         ink ? "border-ink bg-ink" : "border-rule bg-paper/95 backdrop-blur"
       } ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"

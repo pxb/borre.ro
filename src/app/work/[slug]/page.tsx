@@ -38,7 +38,7 @@ function List({ items }: { items: string[] }) {
     <ul className="space-y-3">
       {items.map((i) => (
         <li key={i} className="flex gap-3 leading-relaxed text-ink-soft">
-          <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-action" />
+          <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-ink-soft" />
           <span>{i}</span>
         </li>
       ))}
@@ -115,13 +115,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         <div className="grid content-start gap-10">
         <div>
           <h2 className="label">Technology</h2>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {c.tech.map((x) => (
-              <li key={x} className="border border-dashed border-rule px-2.5 py-1 text-sm text-ink-soft">
-                {x}
-              </li>
-            ))}
-          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-ink-soft">{c.tech.join(" · ")}</p>
         </div>
         <div>
           <h2 className="label">{services.length > 1 ? "Services" : "Service"}</h2>
@@ -130,7 +124,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
               <li key={service.slug}>
                 <Link
                   href={`/services#${service.slug}`}
-                  className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="inline-flex min-h-11 items-center text-ink underline sm:min-h-0 decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
                   {service.name}
                 </Link>

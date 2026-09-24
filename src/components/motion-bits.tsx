@@ -1,56 +1,61 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { type ReactNode, useEffect, useRef } from "react";
+
+// Small motion pieces, written on the browser's own IntersectionObserver and
+// requestAnimationFrame so the text pages don't load an animation library for
+// a fade and a count. Both render the finished state on the server, without
+// JavaScript and under reduced motion; the motion is a client enhancement only.
+
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // CountUp: rolls a figure up from zero when it enters view, so the eye lands on
 // the number. Only animates a clean "prefix + integer + suffix" (35%, ~£900k,
-// 17); anything else (ranges, words) renders as-is. Honours reduced motion.
+// 17); anything else (ranges, words) renders as-is.
 export function CountUp({ value, className }: { value: string; className?: string }) {
-  const reduce = useReducedMotion();
-  const m = /^(\D*)(\d[\d,]*)(\D*)$/.exec(value);
-  const animatable = !!m && !reduce;
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const [mounted, setMounted] = useState(false);
-  // SSR and no-JS render the real figure; the roll-up is a client enhancement.
-  const [display, setDisplay] = useState(value);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    if (!animatable || !mounted) return;
-    if (!inView) {
-      setDisplay(`${m![1]}0${m![3]}`);
-      return;
-    }
-    const target = parseInt(m![2].replace(/,/g, ""), 10);
-    const controls = animate(0, target, {
-      duration: 1.1,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setDisplay(`${m![1]}${Math.round(v).toLocaleString("en-GB")}${m![3]}`),
-    });
-    return () => controls.stop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted, inView, animatable, value]);
+    const el = ref.current;
+    const m = /^(\D*)(\d[\d,]*)(\D*)$/.exec(value);
+    if (!el || !m || reduced()) return;
+    const target = parseInt(m[2].replace(/,/g, ""), 10);
+    const show = (n: number) => {
+      el.textContent = `${m[1]}${n.toLocaleString("en-GB")}${m[3]}`;
+    };
+    show(0);
+    let raf = 0;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - t0) / 1100);
+          show(Math.round(target * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      el.textContent = value;
+    };
+  }, [value]);
 
   return (
     <span ref={ref} className={className}>
-      {display}
+      {value}
     </span>
   );
 }
 
-// Reveal: content rises and fades in as it enters view. Motion uses JS
-// animation, so the global reduced-motion CSS does not cover it; we honour the
-// preference explicitly and render static.
+// Reveal: content rises and fades in as it enters view. Anything already on
+// screen when the page loads stays as it is, so nothing blinks out and back.
 export function Reveal({
   children,
   className,
@@ -60,43 +65,29 @@ export function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  // SSR, no-JS and reduced motion all render the content visible; the reveal is
-  // a client-only enhancement, so the story is never blank without JavaScript.
-  if (reduce || !mounted) return <div className={className}>{children}</div>;
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Parallax: drifts with scroll. This is the piece that actually reads the smooth
-// scroll position (kept buttery by Lenis) rather than just fading on enter.
-export function Parallax({
-  children,
-  className,
-  amount = 28,
-}: {
-  children: ReactNode;
-  className?: string;
-  amount?: number;
-}) {
-  const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [amount, -amount]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced()) return;
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.88) return;
+    el.classList.add("reveal");
+    el.style.transitionDelay = `${delay}s`;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        el.classList.add("revealed");
+        io.disconnect();
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [delay]);
+
   return (
-    <motion.div ref={ref} style={reduce ? undefined : { y }} className={className}>
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -24,7 +24,8 @@ The rules that bite most here:
 - Every focusable element shows a visible, unobscured focus ring. All flows keyboard-operable.
 - Honour `prefers-reduced-motion` with real reduced variants. Animations cancelable by user input.
 - Never `transition: all`. List the properties. Animate `transform` and `opacity`, not layout.
-- Prefer CSS animation over JavaScript.
+- Prefer CSS animation over JavaScript. `Reveal` and `CountUp` (`motion-bits.tsx`) run on IntersectionObserver and requestAnimationFrame, so the text pages do not load the `motion` library (54 KB gzipped); `motion` is only on the homepage story and the demos.
+- Reduced motion is handled per piece, not by a blanket `0.01ms` rule: each animation carries its own reduced variant.
 - Hit targets at least 24px, 44px on mobile. Inputs at least 16px on mobile.
 - `font-variant-numeric: tabular-nums` anywhere numbers are compared.
 - Shadows use at least two layers, ambient plus direct.
@@ -44,7 +45,7 @@ Impeccable is installed: https://github.com/pbakaus/impeccable
 
 ## Components
 
-- shadcn/ui is the base layer. Already initialised (base-nova, neutral, lucide).
+- No component library at runtime (2026-09-24 audit): the one shadcn/Base UI piece in use, the phone menu's sheet, was 33 KB gzipped on every page and is now a native `<dialog>` (`mobile-nav.tsx`). The unused shadcn components were deleted. Prefer the platform (dialog, IntersectionObserver, CSS transitions) before adding a dependency. Icons are lucide.
 - 21st.dev for marketing blocks and richer components: https://21st.dev/community/components
 - Aceternity for signature moments only, not as the default look.
 

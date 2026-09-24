@@ -37,7 +37,7 @@ export function Page({
                 <li key={c.href} className="flex items-center gap-2">
                   <Link
                     href={c.href}
-                    className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    className="inline-flex min-h-11 items-center transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                   >
                     {c.label}
                   </Link>
