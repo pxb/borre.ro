@@ -79,6 +79,9 @@ A thing in a list (a service, a case study, a stop on the call track):
 - No title-and-subtitle header where the nav already names the page. /services, /work and /contact
   open on their content (`Page bare`, h1 for screen readers only). /about and the case studies keep a
   visible title because it says something the nav does not.
+- **Document pages** (/about, the case studies) are one structure: label-left rows (`Row`) divided by
+  hairlines. /about: the title beside the mark, then Who we are, What we stand for, Who we work with.
+  Each commitment reuses a line the site already makes, so /about adds no new claim.
 - Breadcrumbs only where there is a level to go back to (case studies).
 - Slides: the title and one short paragraph left, one `Frame` right.
 - **No over-explaining.** A frame label that repeats the slide title, a footer that restates the
@@ -94,9 +97,19 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 ## Motion
 
-One authored moment per surface, never the same entrance on every section (a scroll fade on every
-block was removed for that reason). Counts roll up, and the call track, ladder and loop respond to
-picking. Everything renders complete
+Motion explains something or it doesn't ship. Never the same entrance on every section (a scroll
+fade on every block was removed for that reason). Two kinds, both in `src/components/draw.tsx` on
+motion.dev (Pedro, 2026-09-24):
+
+- **Drawn lines draw themselves once** as they come into view: the call track (slide 02, /contact),
+  the ladder tread by tread (slide 04), the support loop (slide 06, /services Run) with its stops
+  and moving dot after it, and the systems hub on each case study (a left-to-right wipe, because its
+  non-scaling strokes would mis-measure a dash draw).
+- **One marker per picked set** (`layoutId`) slides from item to item: the stop on slide 02, the
+  underline on slide 03, the tread on slide 04. The accent moves; it does not blink.
+
+Counts roll up on figures. Everything renders finished on the server, without JavaScript and under
+reduced motion; the motion version only replaces the still one after mount. Everything renders complete
 without JavaScript and under reduced motion. The NET backdrop is the one signature visual.
 
 ## Browser surfaces

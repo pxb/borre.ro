@@ -272,14 +272,15 @@ export const about = {
   body: [
     "So we know what a sales team does all day, because we've done the job, and we know how to build the software that takes work off it.",
   ],
-  // The one sentence on how we work, split into the three /services groups
-  // (Start, Build, Run: the AI3 method) so /about links into them.
-  how: [
-    { group: "Start", href: "/services#start", line: "We find the work worth handing over." },
-    { group: "Build", href: "/services#build", line: "We build it on the tools you already have." },
-    { group: "Run", href: "/services#run", line: "We keep it running." },
+  // What we hold to, each line reused from elsewhere on the site so /about
+  // makes no claim the rest of it doesn't (Pedro 2026-09-24: /about is about
+  // us, one structure, not a stack of sections).
+  principles: [
+    { t: "You own it", d: "Everything runs on accounts in your name. If we stop working together, you keep all of it." },
+    { t: "Your team decides", d: "Your team signs off everything before a customer sees it." },
+    { t: "We prove it works", d: "Each system is measured against the job it was built to do." },
   ],
-  close: "Everything runs on accounts in your name. Client work is delivered with our partner practice, Amplify My AI.",
+  partner: "Client work is delivered with our partner practice, Amplify My AI.",
 };
 
 // The services taxonomy (Pedro, 2026-09-22). Plain description first; `under`

@@ -2,10 +2,10 @@
 
 import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { useReducedMotion } from "motion/react";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
 import { Figure } from "@/components/figure";
+import { After, DrawLine, DrawRing, Marker, useMotionOn } from "@/components/draw";
 import { evidence, value } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
@@ -64,7 +64,7 @@ function usePick(n: number, label: string) {
     },
   });
   const panel = { id: `${uid}p`, role: "tabpanel" as const, "aria-labelledby": `${uid}t${on}` };
-  return { on, js, list, tab, panel };
+  return { on, js, list, tab, panel, uid };
 }
 
 type Pick = ReturnType<typeof usePick>;
@@ -179,8 +179,8 @@ function Timeline() {
         <span>30 min</span>
       </div>
       <div {...p.list} className="relative grid sm:grid-cols-4 sm:gap-x-5">
-        <span aria-hidden="true" className="absolute top-[7px] right-0 left-0 hidden h-0.5 bg-ink sm:block" />
-        <span aria-hidden="true" className="absolute top-3 bottom-8 left-[7px] w-0.5 bg-ink sm:hidden" />
+        <DrawLine className="absolute top-[7px] right-0 left-0 hidden h-0.5 origin-left bg-ink sm:block" />
+        <DrawLine axis="y" className="absolute top-3 bottom-8 left-[7px] w-0.5 origin-top bg-ink sm:hidden" />
         {CALL.map((r, i) => {
           const on = p.on === i;
           return (
@@ -191,10 +191,10 @@ function Timeline() {
             >
               <span
                 aria-hidden="true"
-                className={`relative mt-0.5 size-4 shrink-0 rounded-full border-2 transition-colors sm:mt-0 ${
-                  on ? "border-accent bg-accent" : "border-ink bg-paper"
-                }`}
-              />
+                className="relative mt-0.5 size-4 shrink-0 rounded-full border-2 border-ink bg-paper sm:mt-0"
+              >
+                {on ? <Marker id={`${p.uid}m`} className="absolute -inset-0.5 rounded-full bg-accent" /> : null}
+              </span>
               <span
                 className={`font-medium leading-snug transition-colors ${
                   on ? "text-ink" : "text-ink-soft group-hover:text-ink"
@@ -226,7 +226,8 @@ export function CallTrack() {
   return (
     <Frame>
       <p aria-hidden="true" className="font-mono text-xs tabular-nums text-ink-soft">0</p>
-      <ol className="relative mt-3 ml-[7px] border-l-2 border-ink">
+      <ol className="relative mt-3 ml-[7px]">
+        <DrawLine axis="y" className="absolute inset-y-0 -left-0.5 w-0.5 origin-top bg-ink" />
         {CALL.map((r) => (
           <li key={r.t} className="relative pb-7 pl-7 last:pb-0">
             <span
@@ -266,11 +267,12 @@ function Formula() {
               ) : null}
               <button
                 {...p.tab(i)}
-                className={`min-h-11 text-left text-[clamp(1.5rem,min(2.4vw,4.4vh),2.25rem)] font-medium leading-tight tracking-[-0.02em] underline decoration-2 underline-offset-[10px] transition-colors ${
-                  on ? "text-ink decoration-accent" : "text-ink-soft decoration-transparent hover:text-ink"
+                className={`relative min-h-11 text-left text-[clamp(1.5rem,min(2.4vw,4.4vh),2.25rem)] font-medium leading-tight tracking-[-0.02em] transition-colors ${
+                  on ? "text-ink" : "text-ink-soft hover:text-ink"
                 } ${FOCUS}`}
               >
                 {a.term}
+                {on ? <Marker id={`${p.uid}m`} className="absolute inset-x-0 bottom-0.5 h-0.5 bg-accent" /> : null}
               </button>
             </Fragment>
           );
@@ -329,11 +331,16 @@ function Ladder({ go }: { go: (id: string) => void }) {
                 } ${FOCUS}`}
               >
                 <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
-                  <span
-                    className={`absolute inset-x-0 transition-[height,background-color] ${on ? "h-1 bg-accent" : "h-0.5 bg-ink"}`}
-                    style={{ top: lift }}
-                  />
-                  {i > 0 ? <span className="absolute left-0 w-0.5 bg-ink" style={{ top: lift, height: RISE }} /> : null}
+                  <DrawLine className="absolute inset-x-0 h-0.5 origin-left bg-ink" style={{ top: lift }} delay={i * 0.14} />
+                  {i > 0 ? (
+                    <DrawLine
+                      axis="y"
+                      className="absolute left-0 w-0.5 origin-bottom bg-ink"
+                      style={{ top: lift, height: RISE }}
+                      delay={i * 0.14 - 0.07}
+                    />
+                  ) : null}
+                  {on ? <Marker id={`${p.uid}m`} className="absolute inset-x-0 h-1 bg-accent" style={{ top: lift - 1 }} /> : null}
                 </span>
                 <span className="block pr-3 sm:pt-4">
                   <span
@@ -359,7 +366,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
           className={`group mt-2 ml-[var(--indent)] block min-h-11 border-t-2 border-dashed border-ink pt-3 text-sm text-ink-soft transition-colors hover:text-ink sm:mt-0 sm:ml-0 sm:w-24 sm:border-t-0 sm:pt-0 ${FOCUS}`}
         >
           <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
-            <span className="absolute inset-x-0 top-0 border-t-2 border-dashed border-ink" />
+            <DrawLine className="absolute inset-x-0 top-0 origin-left border-t-2 border-dashed border-ink" delay={n * 0.14} />
           </span>
           <span className="flex items-start gap-1.5 sm:pt-4">
             <Repeat aria-hidden className="mt-0.5 size-4 shrink-0 transition-transform group-hover:rotate-45" />
@@ -422,8 +429,7 @@ function Loop() {
 // No price in the centre: slides carry no prices (Pedro, 2026-09-24); they
 // live on /services, under each service name.
 export function LoopShape() {
-  const reduce = useReducedMotion();
-  const mounted = useMounted();
+  const moving = useMotionOn();
   return (
     <>
       <div className="relative mx-auto hidden h-[290px] max-w-[540px] sm:block">
@@ -434,34 +440,38 @@ export function LoopShape() {
           viewBox="0 0 200 200"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible"
         >
-          <circle cx="100" cy="100" r="90" fill="none" stroke="var(--ink)" strokeWidth="2" />
-          {[45, 135, 225, 315].map((a) => {
-            const r = (a * Math.PI) / 180;
-            return (
-              <path
-                key={a}
-                d="M-4 -5 L2 0 L-4 5"
-                fill="none"
-                stroke="var(--ink)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                transform={`translate(${100 + 90 * Math.sin(r)} ${100 - 90 * Math.cos(r)}) rotate(${a})`}
-              />
-            );
-          })}
-          {[
-            [100, 10],
-            [190, 100],
-            [100, 190],
-            [10, 100],
-          ].map(([x, y]) => (
-            <circle key={`${x}-${y}`} cx={x} cy={y} r="6" fill="var(--paper)" stroke="var(--ink)" strokeWidth="2" />
-          ))}
-          {mounted && !reduce ? (
-            <circle r="5" fill="var(--accent)">
-              <animateMotion dur="16s" repeatCount="indefinite" path="M100 10 A90 90 0 0 1 100 190 A90 90 0 0 1 100 10" />
-            </circle>
+          <DrawRing cx={100} cy={100} r={90} />
+          <After>
+            {[45, 135, 225, 315].map((a) => {
+              const r = (a * Math.PI) / 180;
+              return (
+                <path
+                  key={a}
+                  d="M-4 -5 L2 0 L-4 5"
+                  fill="none"
+                  stroke="var(--ink)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  transform={`translate(${100 + 90 * Math.sin(r)} ${100 - 90 * Math.cos(r)}) rotate(${a})`}
+                />
+              );
+            })}
+            {[
+              [100, 10],
+              [190, 100],
+              [100, 190],
+              [10, 100],
+            ].map(([x, y]) => (
+              <circle key={`${x}-${y}`} cx={x} cy={y} r="6" fill="var(--paper)" stroke="var(--ink)" strokeWidth="2" />
+            ))}
+          </After>
+          {moving ? (
+            <After delay={1.3}>
+              <circle r="5" fill="var(--accent)">
+                <animateMotion dur="16s" repeatCount="indefinite" path="M100 10 A90 90 0 0 1 100 190 A90 90 0 0 1 100 10" />
+              </circle>
+            </After>
           ) : null}
         </svg>
         <ol>
@@ -473,7 +483,8 @@ export function LoopShape() {
         </ol>
       </div>
       <div className="sm:hidden">
-        <ol className="relative ml-2 border-l-2 border-ink">
+        <ol className="relative ml-2">
+          <DrawLine axis="y" className="absolute inset-y-0 -left-0.5 w-0.5 origin-top bg-ink" />
           {SUPPORT.map((t) => (
             <li key={t} className="relative py-2.5 pl-6 font-medium leading-snug text-ink">
               <span
