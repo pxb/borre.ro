@@ -7,13 +7,13 @@ import { costNotes, proofFor, serviceCategories } from "@/content/site";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, and a full agentic platform.",
+    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, a full agentic platform, and a managed service to keep it running.",
 };
 
 export default function Services() {
   return (
     <Page
-      title="Seven ways we can help."
+      title="Eight ways we can help."
       lead="Not sure where to start? Book a call and we'll suggest one."
       crumbs={[{ href: "/", label: "Home" }]}
     >
@@ -64,7 +64,7 @@ export default function Services() {
 
       <section className="py-16">
         <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Pricing</h2>
-        <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-10 sm:grid-cols-3">
           {costNotes.map((c) => (
             <div key={c.title}>
               <h3 className="text-base font-medium text-ink">{c.title}</h3>

@@ -182,7 +182,7 @@ function Share({ pct }: { pct: number }) {
 function Timeline() {
   const p = usePick(CALL.length, "In the 30 minutes");
   return (
-    <Frame heading="In the 30 minutes" foot="Free, and booked straight into the calendar.">
+    <Frame heading="In the 30 minutes">
       <div
         aria-hidden="true"
         className="mb-3 hidden justify-between font-mono text-xs tabular-nums text-ink-soft sm:flex"
@@ -291,9 +291,12 @@ function Formula() {
   );
 }
 
-// 04 Engagement: the ways in as a ladder, smallest first. The top step runs on
-// into the managed service, because the work does not stop at the build.
+// 04 Engagement: the ways in as a ladder, smallest first. The staircase is
+// drawn above and every label sits on one baseline under it, so the text
+// never steps down with the treads. The top step runs on into the managed
+// service, because the work does not stop at the build.
 const RISE = 28;
+const STAIR = RISE * 3 + 4;
 
 function Ladder({ go }: { go: (id: string) => void }) {
   const p = usePick(STARTS.length, "Ways to start");
@@ -303,7 +306,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
       heading="Ways to start"
       foot={
         <>
-          Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
+          Builds take 1 to 8 weeks.{" "}
           <Link
             href="/services"
             className={`text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink ${FOCUS}`}
@@ -313,35 +316,36 @@ function Ladder({ go }: { go: (id: string) => void }) {
         </>
       }
     >
-      <div className="flex flex-col sm:flex-row sm:items-start">
+      <div className="flex flex-col sm:flex-row">
         <div {...p.list} className="grid gap-2 sm:flex-1 sm:grid-cols-4 sm:gap-0">
           {STARTS.map((s, i) => {
             const on = p.on === i;
+            const lift = (n - 1 - i) * RISE;
             return (
               <button
                 key={s.t}
                 {...p.tab(i)}
-                style={
-                  {
-                    "--lift": `${(n - 1 - i) * RISE}px`,
-                    "--indent": `${i * 14}px`,
-                  } as React.CSSProperties
-                }
-                className={`group relative ml-[var(--indent)] min-h-11 border-t-2 border-ink pt-3 pr-3 pl-3 text-left sm:mt-[var(--lift)] sm:ml-0 ${
-                  i > 0
-                    ? "sm:before:absolute sm:before:top-0 sm:before:left-0 sm:before:h-[28px] sm:before:w-0.5 sm:before:bg-ink"
-                    : "sm:pl-0"
-                } ${FOCUS}`}
+                style={{ "--indent": `${i * 14}px` } as React.CSSProperties}
+                className={`group ml-[var(--indent)] flex min-h-11 flex-col justify-start border-t-2 border-ink pt-3 text-left sm:ml-0 sm:border-t-0 sm:pt-0 ${FOCUS}`}
               >
-                <span
-                  className={`block text-[0.95rem] font-medium leading-snug transition-colors ${
-                    on ? "text-ink" : "text-ink-soft group-hover:text-ink"
-                  }`}
-                >
-                  {s.t}
+                <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
+                  <span
+                    className={`absolute inset-x-0 bg-ink transition-[height] ${on ? "h-1" : "h-0.5"}`}
+                    style={{ top: lift }}
+                  />
+                  {i > 0 ? <span className="absolute left-0 w-0.5 bg-ink" style={{ top: lift, height: RISE }} /> : null}
                 </span>
-                <span className="mt-1 block font-mono text-xs tabular-nums text-ink-soft">{s.meta}</span>
-                <Inline pick={p}>{s.d}</Inline>
+                <span className="block pr-3 sm:pt-4">
+                  <span
+                    className={`block text-[0.95rem] font-medium leading-snug transition-colors sm:min-h-[2lh] ${
+                      on ? "text-ink" : "text-ink-soft group-hover:text-ink"
+                    }`}
+                  >
+                    {s.t}
+                  </span>
+                  <span className="mt-1 block font-mono text-xs tabular-nums text-ink-soft">{s.meta}</span>
+                  <Inline pick={p}>{s.d}</Inline>
+                </span>
               </button>
             );
           })}
@@ -353,11 +357,16 @@ function Ladder({ go }: { go: (id: string) => void }) {
             go("support");
           }}
           style={{ "--indent": `${n * 14}px` } as React.CSSProperties}
-          className={`group mt-2 ml-[var(--indent)] flex min-h-11 items-start gap-2 border-t-2 border-dashed border-ink pt-3 pl-3 text-sm text-ink-soft transition-colors hover:text-ink sm:mt-0 sm:ml-0 sm:w-28 ${FOCUS}`}
+          className={`group mt-2 ml-[var(--indent)] block min-h-11 border-t-2 border-dashed border-ink pt-3 text-sm text-ink-soft transition-colors hover:text-ink sm:mt-0 sm:ml-0 sm:w-24 sm:border-t-0 sm:pt-0 ${FOCUS}`}
         >
-          <Repeat aria-hidden className="mt-0.5 size-4 shrink-0 transition-transform group-hover:rotate-45" />
-          <span>
-            <span className="font-mono text-xs tabular-nums">06</span> Support
+          <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
+            <span className="absolute inset-x-0 top-0 border-t-2 border-dashed border-ink" />
+          </span>
+          <span className="flex items-start gap-1.5 sm:pt-4">
+            <Repeat aria-hidden className="mt-0.5 size-4 shrink-0 transition-transform group-hover:rotate-45" />
+            <span>
+              <span className="font-mono text-xs tabular-nums">06</span> Support
+            </span>
           </span>
         </a>
       </div>
@@ -413,7 +422,7 @@ function Price() {
     <p className="text-center">
       <span className="block text-sm text-ink-soft">From</span>
       <span className="block font-mono text-3xl leading-tight tabular-nums text-action">£1,000</span>
-      <span className="block text-sm text-ink-soft">a month, month to month</span>
+      <span className="block text-sm text-ink-soft">a month</span>
     </p>
   );
 }
@@ -422,8 +431,21 @@ function Loop() {
   const reduce = useReducedMotion();
   const mounted = useMounted();
   return (
-    <Frame heading="Managed service">
-      <div className="relative mx-auto hidden h-[330px] max-w-[540px] sm:block">
+    <Frame
+      heading="Managed service"
+      foot={
+        <>
+          Month to month.{" "}
+          <Link
+            href="/services#support"
+            className={`text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink ${FOCUS}`}
+          >
+            What&apos;s included
+          </Link>
+        </>
+      }
+    >
+      <div className="relative mx-auto hidden h-[290px] max-w-[540px] sm:block">
         <svg
           aria-hidden="true"
           width="200"
@@ -517,10 +539,6 @@ const AI3 = [
   { term: "Evals", plain: "Proof it worked: each system measured against the job it was built to do.", href: "/work/prospecting-loop" },
 ];
 
-// Clockwise from the top: watch, change, extend, report and review.
-const SUPPORT = [
-  "Monitoring, and fixing what breaks",
-  "Changes as your business changes",
-  "New workflows as you find more to hand over",
-  "A monthly KPI report and review call",
-];
+// Clockwise from the top. Headlines only; the full list is the managed
+// service on /services.
+const SUPPORT = ["Monitor and fix", "Adapt as you change", "Add new workflows", "Monthly KPI review"];

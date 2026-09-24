@@ -45,21 +45,21 @@ const STEPS: Step[] = [
     n: "04",
     label: "Engagement",
     title: "Start where it makes sense.",
-    body: "From a one-off audit to a full build, every engagement has a fixed price agreed before we start.",
+    body: "From a one-off audit to a full build, every engagement has a fixed price agreed before we start. You can start small and add more once the first piece is working.",
   },
   {
     id: "results",
     n: "05",
     label: "Results",
     title: "Measured against the job it was built for.",
-    body: "Some of what they've done for clients so far.",
+    body: "These come from systems already at work in clients' businesses, each one taking a piece of work off the team.",
   },
   {
     id: "support",
     n: "06",
     label: "Support",
     title: "We keep it running.",
-    body: "Once it's live, we look after it for you.",
+    body: "Once it's live, we look after it for you. It keeps working as your tools and team change, and each month we go through the numbers with you and agree what comes next.",
   },
 ];
 

@@ -76,6 +76,11 @@ formula over the Ask demo, Engagement as a ladder of entry points that runs on i
 Results as a figure wall, Support as a monthly loop around its price. The six were all one row list
 before and read as text-heavy and identical.
 
+The ladder draws the staircase above and sets every label on one baseline under it; labels hung
+under their own treads stepped down the page and read as falling. The loop carries short headlines
+only (the full list is the managed service on /services#support). No footer states the obvious
+("free, and booked straight into the calendar" was cut), and no footer repeats the left paragraph.
+
 Where a slide has several items, only the picked item's description shows (hover, focus, tap or the
 arrow keys; a tab set). All descriptions sit in one grid cell so the slot never jumps. Server render
 and no-JS show every description inline, so no copy is lost. Reduced motion keeps the forms and drops

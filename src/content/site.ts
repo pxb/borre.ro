@@ -213,10 +213,6 @@ export const costNotes = [
     title: "Fixed prices, agreed up front",
     body: "We agree a fixed price before any work starts. Our rates will go up over time, and work you've already agreed stays at the price you signed.",
   },
-  {
-    title: "Running it",
-    body: "From £1,000 a month once it's built, month to month. Fixes, changes, a monthly KPI report and a review call are included.",
-  },
 ];
 
 // Agency-framed (we, not I). The employers are a credibility block, not a bio.
@@ -346,6 +342,20 @@ export const serviceCategories: ServiceCategory[] = [
     under: "Open WebUI with RAG over the Context Engine, model gateway, per-user access, usage and cost tracking.",
     price: "From £7,500",
     duration: "4 to 8 weeks",
+  },
+  {
+    slug: "support",
+    name: "Managed service",
+    what: "Once a system is live, we look after it. We keep it working as your tools, team and customers change, add new workflows when you find more work to hand over, and go through the numbers with you every month.",
+    includes: [
+      "Monitoring, and fixing what breaks",
+      "Changes as your business changes",
+      "New workflows as you find more to hand over",
+      "A monthly KPI report and review call",
+    ],
+    under: "Run monitoring and alerts, error handling, usage and cost tracking, change control.",
+    price: "From £1,000 a month",
+    duration: "Month to month",
   },
 ];
 
