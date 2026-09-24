@@ -47,7 +47,7 @@ const STEPS: Step[] = [
     n: "04",
     label: "Execution",
     title: "Built on what you already own.",
-    body: "Everything runs on accounts in your name, using the tools you already pay for. We look after it day to day and change it as your business changes.",
+    body: "Every build has three parts: what the business knows, the agents that do the work and the evals that prove it worked. It all runs on accounts in your name, using the tools you already pay for.",
   },
   {
     id: "results",
@@ -382,20 +382,27 @@ function Example({ id }: { id: string }) {
     return <ConnectedSystem />;
   }
   if (id === "execution") {
+    // AI cubed: the method behind every build. The plain line leads; the term
+    // is the small label, so it reads as a method, not a second brand.
     return (
-      <ul className="grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2">
-        {work.map((w) => (
-          <li key={w.slug} className="bg-paper">
-            <Link
-              href={`/work/${w.slug}`}
-              className="group flex h-full flex-col p-5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
-            >
-              <h3 className="text-sm font-medium text-ink">{w.title}</h3>
-              <p className="mt-1.5 text-sm leading-snug text-ink-soft">{w.tagline}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <p className="font-mono text-sm text-ink-soft">
+          AI<sup>3</sup> · Context × Agents × Evals
+        </p>
+        <ol className="mt-4 grid gap-px overflow-hidden border border-rule bg-rule">
+          {AI3.map((part) => (
+            <li key={part.term} className="bg-paper">
+              <Link
+                href={part.href}
+                className="group grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-4 p-5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+              >
+                <span className="text-lg font-medium text-ink transition-colors group-hover:text-accent">{part.term}</span>
+                <span className="text-sm leading-snug text-ink-soft">{part.plain}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </div>
     );
   }
   if (id === "support") {
@@ -422,13 +429,28 @@ function Example({ id }: { id: string }) {
             <dt>
               <CountUp value={w.metrics[0].value} className="text-2xl font-medium text-ink" />
             </dt>
-            <dd className="mt-1 text-sm leading-snug text-ink-soft">{w.metrics[0].label}</dd>
+            <dd className="mt-1 text-sm leading-snug text-ink-soft">
+              {w.metrics[0].label}.{" "}
+              <Link
+                href={`/work/${w.slug}`}
+                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {w.title}
+              </Link>
+            </dd>
           </div>
         ))}
       </dl>
     </div>
   );
 }
+
+// The three parts of every build, each linked to the case study that shows it.
+const AI3 = [
+  { term: "Context", plain: "What your business knows, in one place your team and its AI tools can ask.", href: "/work/context-engine" },
+  { term: "Agents", plain: "Software that does the repeatable work, with a human in the loop before anything goes out.", href: "/work/lead-research" },
+  { term: "Evals", plain: "Proof it worked: each system measured against the job it was built to do.", href: "/work/prospecting-loop" },
+];
 
 const SUPPORT = [
   "Watching it and fixing what breaks",

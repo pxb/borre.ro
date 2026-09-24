@@ -8,10 +8,10 @@
 export type SourceId = "deals" | "emails" | "calls" | "docs" | "canon" | "finance";
 
 export const ceSources: { id: SourceId; name: string; from: string; restricted?: boolean }[] = [
-  { id: "deals", name: "Deals and accounts", from: "HubSpot" },
-  { id: "emails", name: "Emails", from: "HubSpot" },
-  { id: "calls", name: "Calls and meetings", from: "HubSpot" },
-  { id: "docs", name: "Proposals and contracts", from: "Documents" },
+  { id: "deals", name: "Deals and accounts", from: "CRM" },
+  { id: "emails", name: "Emails", from: "CRM" },
+  { id: "calls", name: "Calls and meetings", from: "CRM" },
+  { id: "docs", name: "Proposals and contracts", from: "Document storage" },
   { id: "canon", name: "Approved facts", from: "Signed off by the team" },
   { id: "finance", name: "Margin and pricing notes", from: "Finance", restricted: true },
 ];
@@ -50,7 +50,7 @@ export const ceQuestions: CeQuestion[] = [
     uses: ["deals"],
     answer:
       "£48k across seven open deals. Three in Discovery (£14k), two in Proposal (£21k) and two in Negotiation (£13k). The largest is the Copperfield relaunch at £12k.",
-    citations: ["7 open deals closing October to December", "Pipeline stages as set in HubSpot"],
+    citations: ["7 open deals closing October to December", "Pipeline stages as set in the CRM"],
   },
   {
     id: "renewals",
@@ -73,12 +73,12 @@ export const ceQuestions: CeQuestion[] = [
 ];
 
 export const ceBonnet = [
-  ["Hybrid retrieval", "Keyword and vector search over documents, and SQL over CRM records for pipeline and account questions, so numbers are counted, not guessed."],
-  ["Provenance", "Every answer carries the IDs of the records it used, shown as citations."],
-  ["Row-level security", "Access tiers are enforced in the database itself, so a question can only reach what the asker's role allows."],
-  ["Canon", "Facts the team has approved, like the ICP and pricing rules, are stored separately and repeated word for word."],
-  ["MCP server", "The same engine answers inside Claude and other AI tools through the Model Context Protocol."],
-  ["Hourly sync", "n8n workflows pull HubSpot deals, companies, contacts, emails, notes, calls and meetings every hour."],
+  ["Hybrid RAG", "Retrieval-augmented generation that combines keyword and vector (semantic) search over documents with SQL over CRM records, so pipeline figures are counted, not guessed."],
+  ["Citations and provenance", "Every answer carries the IDs of the records it used, shown as citations the reader can check."],
+  ["Role-based access", "Access tiers are enforced by row-level security in the database, so a question only reaches what the asker's role allows."],
+  ["Approved knowledge", "Facts the team has signed off, like the ICP and pricing rules, are held as the source of truth and repeated word for word."],
+  ["Model Context Protocol (MCP)", "The same engine answers inside Claude and other AI assistants, and any LLM can sit behind it."],
+  ["CRM sync", "n8n workflows sync deals, companies, contacts, emails, notes, calls and meetings from the CRM every hour."],
 ] as const;
 
 // ---------------------------------------------------------------- Workflows
@@ -91,19 +91,21 @@ export type SystemId =
   | "rep";
 // Each system shows on its node as a light type label, not a logo: enough to
 // see what a step touches without the detail taking over (Pedro, 2026-09-24).
+// Generic categories, not vendors: the demo shows the kind of system a step
+// touches, in the industry's own terms (Pedro, 2026-09-24).
 export const systems: Record<SystemId, { name: string; type: string }> = {
-  hubspot: { name: "HubSpot", type: "CRM" },
-  outlook: { name: "Outlook", type: "Email" },
-  sharepoint: { name: "SharePoint", type: "Files" },
-  "companies-house": { name: "Companies House", type: "API" },
+  hubspot: { name: "CRM", type: "CRM" },
+  outlook: { name: "Email", type: "Email" },
+  sharepoint: { name: "Document storage", type: "Docs" },
+  "companies-house": { name: "Company registry", type: "API" },
   website: { name: "Company website", type: "Web" },
-  bcorp: { name: "B Corp directory", type: "API" },
-  hunter: { name: "Hunter", type: "API" },
-  linkedin: { name: "LinkedIn", type: "Web" },
-  fireflies: { name: "Fireflies", type: "API" },
-  "context-engine": { name: "Context Engine", type: "CE" },
-  claude: { name: "AI model", type: "AI" },
-  rep: { name: "The rep", type: "Human" },
+  bcorp: { name: "Certification directory", type: "API" },
+  hunter: { name: "Email verification", type: "Enrichment" },
+  linkedin: { name: "LinkedIn", type: "Enrichment" },
+  fireflies: { name: "Call recorder", type: "Call recording" },
+  "context-engine": { name: "Context Engine", type: "RAG" },
+  claude: { name: "LLM", type: "LLM" },
+  rep: { name: "The rep", type: "Human in the loop" },
 };
 export type Touch = { sys: SystemId; mode: "read" | "write" | "ai" | "approve" };
 
@@ -129,43 +131,43 @@ export const leadEnrichmentRun: FlowRun = {
   nodes: [
     {
       id: "trigger",
-      title: "New lead in HubSpot",
-      system: "HubSpot · Outlook",
+      title: "New lead in the CRM",
+      system: "CRM · Email",
       touches: [{ sys: "outlook", mode: "read" }, { sys: "hubspot", mode: "read" }],
-      found: "Sophie Lang, Studio Manager at Orrin Architects, logged from Outlook at 09:12.",
+      found: "Sophie Lang, Studio Manager at Orrin Architects, logged from the inbox at 09:12.",
     },
     {
       id: "match",
       title: "Match the company",
-      system: "Companies House",
+      system: "Company registry",
       touches: [{ sys: "companies-house", mode: "read" }],
       found: "Orrin Architects, active since 2011. One trading entity, no parent group.",
     },
     {
       id: "research",
       title: "Ownership, filings and signals",
-      system: "Companies House · website · B Corp directory",
+      system: "Company registry · website · certifications",
       touches: [{ sys: "companies-house", mode: "read" }, { sys: "website", mode: "read" }, { sys: "bcorp", mode: "read" }, { sys: "claude", mode: "ai" }],
       found: "Two directors. Six roles advertised this month. Not B Corp certified; a carbon-reduction pledge on the website.",
     },
     {
       id: "qualify",
       title: "Qualify against the ICP",
-      system: "Context Engine",
+      system: "Context Engine · LLM",
       touches: [{ sys: "context-engine", mode: "read" }, { sys: "claude", mode: "ai" }],
       found: "Fit 3.8 out of 5. Design studio of about 40 staff with weekly client reviews, five minutes from the roastery.",
     },
     {
       id: "contact",
       title: "Check the contact",
-      system: "Hunter · LinkedIn",
+      system: "Data enrichment",
       touches: [{ sys: "hunter", mode: "read" }, { sys: "linkedin", mode: "read" }],
       found: "Email deliverable. Still in the role, per LinkedIn and the company website.",
     },
     {
       id: "note",
       title: "Write the research note",
-      system: "HubSpot",
+      system: "CRM",
       touches: [{ sys: "hubspot", mode: "write" }, { sys: "context-engine", mode: "write" }],
       found: "Research note on Sophie's contact with eight linked sources, ready at 09:21.",
     },
@@ -180,14 +182,14 @@ export const postCallRun: FlowRun = {
     {
       id: "stage",
       title: "Deal moves stage",
-      system: "HubSpot",
+      system: "CRM",
       touches: [{ sys: "hubspot", mode: "read" }],
       found: "Copperfield lobby relaunch moved from Discovery and Qualification to Needs Analysis at 14:40.",
     },
     {
       id: "transcript",
       title: "Fetch the call transcript",
-      system: "Fireflies",
+      system: "Conversation intelligence",
       touches: [{ sys: "fireflies", mode: "read" }, { sys: "hubspot", mode: "read" }],
       found: "42-minute call with Marco Bellini, matched to the right deal and contact.",
     },
@@ -201,14 +203,14 @@ export const postCallRun: FlowRun = {
     {
       id: "draft",
       title: "Draft the outputs",
-      system: "AI model",
+      system: "LLM",
       touches: [{ sys: "claude", mode: "ai" }, { sys: "context-engine", mode: "read" }],
       found: "Commercial note, follow-up in Tom's voice, a brief for the roasting team and three proposed CRM updates.",
     },
     {
       id: "approve",
       title: "Rep approves",
-      system: "Tom Hartley",
+      system: "Human in the loop",
       touches: [{ sys: "rep", mode: "approve" }],
       found: "Tom read the drafts, changed one line in the follow-up and approved.",
       gate: true,
@@ -216,9 +218,9 @@ export const postCallRun: FlowRun = {
     {
       id: "handoff",
       title: "Handoff",
-      system: "Outlook · SharePoint · HubSpot",
+      system: "Email · document storage · CRM",
       touches: [{ sys: "outlook", mode: "write" }, { sys: "sharepoint", mode: "write" }, { sys: "hubspot", mode: "write" }],
-      found: "Follow-up saved as an Outlook draft, project folder created in SharePoint, notes and next steps written to the deal.",
+      found: "Follow-up saved as an email draft, project folder created in document storage, notes and next steps written to the deal.",
     },
   ],
   done: "Follow-up ready while the call is still fresh.",

@@ -45,7 +45,8 @@ export type CaseStudy = {
   does: string[];
   metrics: Metric[];
   involved: string[]; // how the team stays involved: the controls, stated as what they do
-  stack: string[];
+  stack: string[]; // connected business systems
+  tech: string[]; // how it is built
   services: string[]; // the ServiceCategories that deliver it, so the two cannot drift
   journey?: string[]; // how it was built and what makes it work; shown in Solution
   // False while results are targets, not outcomes (not live yet). Keeps it off
@@ -73,7 +74,7 @@ export const work: CaseStudy[] = [
     does: [
       "Syncs HubSpot every hour: deals, companies, contacts, emails, notes, calls, meetings and tasks",
       "Reads proposals and documents and indexes them alongside the CRM data",
-      "Answers questions about accounts, deals and pipeline in plain language, citing the record behind every answer",
+      "Answers questions about accounts, deals and pipeline in plain language, using retrieval-augmented generation (RAG) that cites the record behind every answer",
       "Holds the facts the team has signed off, like the ideal customer profile, and repeats only those",
       "Follows the access rules the business agreed, so each person sees what their role allows",
       "Works inside Claude and the company's other AI tools, and feeds the prospecting and follow-up workflows",
@@ -83,13 +84,15 @@ export const work: CaseStudy[] = [
       "It's the backbone for everything else we built. The prospecting pipeline reads its ICP and writes every brief back to it, and the follow-up workflow draws on its account history.",
     ],
     metrics: [
-      { value: "~£900k", label: "of open pipeline surfaced from a single question" },
-      { value: "1 day", label: "from the client's data to a working proof of concept" },
+      { value: "One question", label: "for full pipeline visibility, every figure traced to its deal in the CRM" },
+      { value: "1 day", label: "from the client's own data to a working proof of concept" },
+      { value: "Hourly", label: "CRM sync, so every answer reflects the current pipeline" },
     ],
     involved: [
       "Your team decides what material it can rely on, and approves anything it drafts before it's used.",
     ],
-    stack: ["HubSpot", "Proposals and documents", "Claude", "Supabase", "n8n"],
+    stack: ["HubSpot", "Proposals and documents", "Claude"],
+    tech: ["Hybrid RAG", "Postgres with pgvector", "Row-level security", "MCP server", "n8n", "Document parsing"],
     services: ["context-engine"],
   },
   {
@@ -124,9 +127,10 @@ export const work: CaseStudy[] = [
       { value: "£0", label: "paid data per lead in the weekly runs, from public registers and free tiers" },
     ],
     involved: [
-      "The rep reads every brief, sends from their own inbox and logs the outcome. Contact details for the very smallest firms still need a person to find them.",
+      "The rep stays the human in the loop: they read every brief, send from their own inbox and log the outcome. Contact details for the very smallest firms still need a person to find them.",
     ],
-    stack: ["HubSpot", "Companies House", "Context Engine", "Hunter", "Apollo", "Job boards", "Company websites", "n8n", "Prospecting portal"],
+    stack: ["HubSpot", "Companies House", "Hunter", "Apollo", "Job boards", "Company websites"],
+    tech: ["Context Engine", "n8n", "React web app", "Edge functions", "Magic-link sign-in"],
     services: ["agentic-workflows", "apps-dashboards"],
   },
   {
@@ -155,7 +159,8 @@ export const work: CaseStudy[] = [
     involved: [
       "Everything the AI suggests is checked against an official record before it reaches anyone, and the rep reads the note before the first call.",
     ],
-    stack: ["HubSpot", "Outlook", "Companies House", "Company websites", "B Corp directory", "Hunter", "Context Engine", "n8n"],
+    stack: ["HubSpot", "Outlook", "Companies House", "Company websites", "B Corp directory", "Hunter"],
+    tech: ["n8n", "LLM with source verification", "Web extraction", "Context Engine"],
     services: ["agentic-workflows"],
   },
   {
@@ -184,9 +189,10 @@ export const work: CaseStudy[] = [
       { value: "4 jobs", label: "prepared for the rep after each discovery call: the email, the CRM notes, the project folder and the team brief" },
     ],
     involved: [
-      "Your team checks the draft and sends it themselves.",
+      "The rep is the human in the loop: they check the drafts and send the follow-up themselves.",
     ],
-    stack: ["Fireflies", "HubSpot", "Context Engine", "Outlook", "SharePoint", "n8n"],
+    stack: ["Fireflies", "HubSpot", "Outlook", "SharePoint"],
+    tech: ["n8n", "LLM", "Context Engine", "Human-in-the-loop approval"],
     services: ["agentic-workflows"],
   },
 ];

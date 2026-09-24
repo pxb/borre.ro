@@ -85,6 +85,16 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
               ))}
             </ul>
           </div>
+          <div>
+            <h3 className="label">Technology</h3>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {c.tech.map((t) => (
+                <li key={t} className="border border-dashed border-rule px-2.5 py-1 text-sm text-ink-soft">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
             {services.map((service) => (
               <Link

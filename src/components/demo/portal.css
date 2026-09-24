@@ -935,3 +935,105 @@
   color: var(--p-accent);
   background: var(--p-accent-soft);
 }
+
+/* ---- Still previews on the /work index ---- */
+.portal.mini {
+  font-size: 13px;
+  box-shadow:
+    0 1px 2px rgb(25 23 18 / 0.05),
+    0 16px 40px -20px rgb(25 23 18 / 0.25);
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+a:hover > .portal.mini,
+a:focus-visible > .portal.mini {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 2px rgb(25 23 18 / 0.06),
+    0 24px 50px -20px rgb(25 23 18 / 0.32);
+}
+.portal.mini .p-top {
+  padding: 9px 16px;
+}
+.portal.mini .p-nav span {
+  padding: 4px 10px;
+  border-radius: var(--p-radius-tag);
+  background: var(--p-sunk);
+  color: var(--p-ink);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.portal.mini .p-wrap {
+  padding: 16px 18px 18px;
+}
+.portal .mini-rows {
+  display: grid;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius-card);
+  background: var(--p-surface);
+  overflow: hidden;
+}
+.portal .mini-rows li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: 2px;
+  align-items: center;
+  padding: 8px 12px;
+}
+.portal .mini-rows li + li {
+  border-top: 1px solid var(--p-hairline-soft);
+}
+.portal .mini-rows .lname {
+  cursor: default;
+}
+.portal .mini-rows .p-sub {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 12px;
+}
+.portal .mini-rows .chip {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+.portal .mini-flow {
+  display: grid;
+  gap: 6px;
+}
+.portal .mini-flow li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 1px solid var(--p-hairline);
+  border-radius: 8px;
+  background: var(--p-surface);
+}
+.portal .mini-flow li.gate {
+  border-style: dashed;
+  border-color: var(--p-warn);
+  background: #fbf6ea;
+}
+.portal .mini-flow .i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--p-accent-soft);
+  color: var(--p-accent);
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.portal .mini-flow .t {
+  flex: 1;
+  color: var(--p-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal.mini,
+  a:hover > .portal.mini {
+    transition: none;
+    transform: none;
+  }
+}
