@@ -271,9 +271,15 @@ export const about = {
     "The practice grew out of nearly twenty years in technology. It started hands-on, building websites and keeping systems running, then moved through technical support and sales engineering into ten years of selling enterprise software.",
   body: [
     "So we know what a sales team does all day, because we've done the job, and we know how to build the software that takes work off it.",
-    "We start by finding the work worth handing over, then build it on the tools you already have and keep it running.",
-    "Everything runs on accounts in your name. Client work is delivered with our partner practice, Amplify My AI.",
   ],
+  // The one sentence on how we work, split into the three /services groups
+  // (Start, Build, Run: the AI3 method) so /about links into them.
+  how: [
+    { group: "Start", href: "/services#start", line: "We find the work worth handing over." },
+    { group: "Build", href: "/services#build", line: "We build it on the tools you already have." },
+    { group: "Run", href: "/services#run", line: "We keep it running." },
+  ],
+  close: "Everything runs on accounts in your name. Client work is delivered with our partner practice, Amplify My AI.",
 };
 
 // The services taxonomy (Pedro, 2026-09-22). Plain description first; `under`

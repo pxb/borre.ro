@@ -1,11 +1,12 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-// Small motion pieces, written on the browser's own IntersectionObserver and
-// requestAnimationFrame so the text pages don't load an animation library for
-// a fade and a count. Both render the finished state on the server, without
-// JavaScript and under reduced motion; the motion is a client enhancement only.
+// CountUp, on the browser's own IntersectionObserver and requestAnimationFrame
+// so the text pages don't load an animation library for a count. It renders
+// the finished figure on the server, without JavaScript and under reduced
+// motion. (A scroll fade on every section was removed in the #585 polish:
+// one identical entrance everywhere is decoration, not an authored moment.)
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -51,43 +52,5 @@ export function CountUp({ value, className }: { value: string; className?: strin
     <span ref={ref} className={className}>
       {value}
     </span>
-  );
-}
-
-// Reveal: content rises and fades in as it enters view. Anything already on
-// screen when the page loads stays as it is, so nothing blinks out and back.
-export function Reveal({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || reduced()) return;
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.88) return;
-    el.classList.add("reveal");
-    el.style.transitionDelay = `${delay}s`;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return;
-        el.classList.add("revealed");
-        io.disconnect();
-      },
-      { rootMargin: "0px 0px -12% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [delay]);
-
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
   );
 }

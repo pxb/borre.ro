@@ -9,21 +9,21 @@ import {
   type MotionValue,
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
-import { Reveal } from "@/components/motion-bits";
 import { Example } from "@/components/story-forms";
 import { site } from "@/content/site";
 
 // One story, six steps: Problem, Review, Method, Engagement, Value, Support. Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
-type Step = { id: string; n: string; label: string; title: string; lead?: string; body: string };
+// A title may be several short headlines, each on its own line (slide 01).
+type Step = { id: string; n: string; label: string; title: string | string[]; lead?: string; body: string };
 
 const STEPS: Step[] = [
   {
     id: "problem",
     n: "01",
     label: "Problem",
-    title: "The work still gets done by hand.",
+    title: ["The work still gets done by hand.", "AI spend grows, productivity doesn't."],
     body: `${site.recognition} Each holds its own piece of the picture, so someone on your team ends up copying between them.`,
   },
   {
@@ -37,7 +37,7 @@ const STEPS: Step[] = [
     id: "method",
     n: "03",
     label: "Method",
-    title: "Context, agents and evals, working as one system.",
+    title: "AI that knows your business, and proves it works.",
     body: "What your business knows, the software that does the repeatable work and the measurement that proves it, all running on accounts in your name.",
   },
   {
@@ -265,7 +265,7 @@ function Horizontal({ onActive, go }: { onActive: (id: string) => void; go: (id:
   );
 }
 
-// Vertical fallback: the same panels stacked and revealed on scroll.
+// Vertical fallback: the same panels stacked.
 function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
   useEffect(() => {
     const els = STEPS.map((s) => document.getElementById(s.id)).filter(
@@ -293,12 +293,8 @@ function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: s
           aria-label={s.label}
           className="grid scroll-mt-[7.5rem] gap-8 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20"
         >
-          <Reveal>
-            <StepText step={s} />
-          </Reveal>
-          <Reveal delay={0.08}>
-            <Example id={s.id} go={go} />
-          </Reveal>
+          <StepText step={s} />
+          <Example id={s.id} go={go} />
         </section>
       ))}
     </div>
@@ -315,7 +311,13 @@ function StepText({ step, large = false }: { step: Step; large?: boolean }) {
           large ? "text-[clamp(1.875rem,min(2.9vw,4.6vh),2.75rem)]" : "text-[clamp(1.75rem,3.4vw,2.75rem)]"
         }`}
       >
-        {step.title}
+        {Array.isArray(step.title)
+          ? step.title.map((t) => (
+              <span key={t} className="block text-pretty">
+                {t}
+              </span>
+            ))
+          : step.title}
       </h2>
       {step.lead ? (
         <p

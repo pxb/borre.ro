@@ -64,7 +64,8 @@ A thing in a list (a service, a case study, a stop on the call track):
   a section.
 - Body: 16px ink-soft, relaxed leading.
 - Bullets: a 4px ink-soft dot, 14px ink text.
-- Index where order matters: mono 12px ink-soft ("01"), above the title (/work).
+- Index only where the sequence carries information (the story step bar). Case studies and services are
+  not a sequence, so no "01".
 
 ## Framing
 
@@ -93,8 +94,15 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 ## Motion
 
-Counts roll up, blocks below the fold fade in (never anything already on screen), and the call track, ladder and loop respond to picking. Everything renders complete
+One authored moment per surface, never the same entrance on every section (a scroll fade on every
+block was removed for that reason). Counts roll up, and the call track, ladder and loop respond to
+picking. Everything renders complete
 without JavaScript and under reduced motion. The NET backdrop is the one signature visual.
+
+## Browser surfaces
+
+Selection in the accent, caret in the accent, scrollbar ink-soft on paper, underline offset 4px,
+tabular numerals wherever figures are compared.
 
 ## Type
 

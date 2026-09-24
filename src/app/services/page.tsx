@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
-import { Reveal } from "@/components/motion-bits";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview } from "@/components/demo/previews";
 import { costNotes, proofFor, serviceFor, type ServiceCategory } from "@/content/site";
@@ -53,8 +53,9 @@ function Under({ s }: { s: ServiceCategory }) {
           {proof.map((w, i) => (
             <span key={w.slug}>
               {i ? " · " : ""}
-              <Link href={`/work/${w.slug}`} className={LINK}>
-                {w.title} &rarr;
+              <Link href={`/work/${w.slug}`} className={`whitespace-nowrap ${LINK}`}>
+                {w.title}
+                <ArrowRight aria-hidden className="ml-1 inline size-3.5 align-[-2px]" />
               </Link>
             </span>
           ))}
@@ -89,8 +90,7 @@ export default function Services() {
         <GroupHead id="start">Start</GroupHead>
         <div className="mt-6 grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
           {pick(START).map((s) => (
-            <Reveal key={s.slug}>
-              <article id={s.slug} className="scroll-mt-28">
+            <article key={s.slug} id={s.slug} className="scroll-mt-28">
                 {/* The page's accent: the three ways in. */}
                 <span aria-hidden="true" className="mb-5 block h-1 w-10 bg-accent" />
                 <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
@@ -98,8 +98,7 @@ export default function Services() {
                 <p className="mt-4 leading-relaxed text-ink-soft">{s.what}</p>
                 <Includes items={s.includes} />
                 <Under s={s} />
-              </article>
-            </Reveal>
+            </article>
           ))}
         </div>
       </section>
@@ -110,10 +109,10 @@ export default function Services() {
         {pick(BUILD).map((s, i) => {
           const still = STILL[s.slug];
           return (
-            <Reveal key={s.slug}>
               <article
+                key={s.slug}
                 id={s.slug}
-                className={`grid scroll-mt-28 gap-10 border-b border-rule pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 ${i ? "pt-14" : "pt-6"}`}
+                className={`grid scroll-mt-28 gap-10 pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 ${i ? "pt-14" : "pt-6"} ${i < BUILD.length - 1 ? "border-b border-rule" : ""}`}
               >
                 <div className="min-w-0">
                   <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
@@ -141,7 +140,6 @@ export default function Services() {
                   </div>
                 )}
               </article>
-            </Reveal>
           );
         })}
       </section>

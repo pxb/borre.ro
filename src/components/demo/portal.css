@@ -1115,11 +1115,14 @@ a:focus-visible > .portal.mini {
 @media (max-width: 480px) {
   .portal .mini-canvas {
     --gap: 12px;
-    padding: 28px 12px;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 18px;
   }
-  .portal .mini-canvas li {
-    padding: 7px;
-    font-size: 11px;
+  .portal .mini-canvas li:not(:last-child)::after {
+    left: 24px;
+    top: 100%;
+    width: 2px;
+    height: var(--gap);
   }
 }
 .portal .mini-canvas li.gate {

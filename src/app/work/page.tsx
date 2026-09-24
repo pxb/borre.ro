@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Page } from "@/components/section";
 import { Figure } from "@/components/figure";
-import { Reveal } from "@/components/motion-bits";
 import { CasePreview } from "@/components/demo/previews";
 import { work } from "@/content/site";
 
@@ -20,12 +19,10 @@ export default function Work() {
     <Page title="Case studies" bare>
       <div>
         {work.map((c, i) => (
-          <Reveal key={c.slug}>
-            <article className="grid gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
+          <article key={c.slug} className="grid gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
               {/* Previews alternate sides so the index doesn't read as one repeated row. */}
               <div className={`min-w-0 ${i % 2 ? "lg:order-2" : ""}`}>
-                <p className="font-mono text-xs tabular-nums text-ink-soft">{String(i + 1).padStart(2, "0")}</p>
-                <h2 className="mt-3 text-[clamp(1.5rem,2.6vw,2rem)] font-medium tracking-[-0.015em] text-ink">
+                <h2 className="text-[clamp(1.5rem,2.6vw,2rem)] font-medium tracking-[-0.015em] text-ink">
                   <Link
                     href={`/work/${c.slug}`}
                     className="inline-flex min-h-11 items-center transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
@@ -53,8 +50,7 @@ export default function Work() {
               >
                 <CasePreview slug={c.slug} />
               </Link>
-            </article>
-          </Reveal>
+          </article>
         ))}
       </div>
     </Page>

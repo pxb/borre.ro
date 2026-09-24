@@ -120,8 +120,8 @@
 }
 
 /* Reduced motion is handled per piece rather than by one blanket kill, so
-   state changes (a picked item, a colour on hover) still show: Reveal and
-   CountUp skip themselves, the story drops to its vertical fallback, the NET
+   state changes (a picked item, a colour on hover) still show: CountUp skips
+   itself, the story drops to its vertical fallback, the NET
    backdrop never starts, and the rules below cover the CSS animations. */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -132,18 +132,6 @@
   }
 }
 
-/* Reveal (motion-bits.tsx): added only by script, only below the fold. */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.reveal.revealed {
-  opacity: 1;
-  transform: none;
-}
 
 /* Stops the page shifting sideways between routes that do and do not scroll. */
 html {
@@ -151,6 +139,11 @@ html {
 }
 
 /* Themed browser surfaces, off the palette rather than the UA defaults. */
+html {
+  scrollbar-color: var(--ink-soft) var(--paper);
+  caret-color: var(--accent);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--paper);

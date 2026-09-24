@@ -132,7 +132,7 @@ function FooterCol({
 
 function Footer() {
   return (
-    <footer className="mt-32 border-t border-rule">
+    <footer className="mt-16 border-t border-rule">
       <FooterCta />
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
 

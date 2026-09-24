@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Reveal } from "@/components/motion-bits";
 
 type Crumb = { href: string; label: string };
 
@@ -49,14 +48,14 @@ export function Page({
             </ol>
           </nav>
         ) : null}
-        <Reveal>
+        <div>
           <h1 className="max-w-3xl text-[clamp(2rem,4.5vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-ink">
             {title}
           </h1>
           {lead ? (
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{lead}</p>
           ) : null}
-        </Reveal>
+        </div>
       </header>
       {children}
     </div>
@@ -65,9 +64,9 @@ export function Page({
 
 export function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <Reveal className="grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16">
+    <div className="grid gap-6 border-b border-rule py-10 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16">
       <h2 className="label">{label}</h2>
       <div className="min-w-0">{children}</div>
-    </Reveal>
+    </div>
   );
 }

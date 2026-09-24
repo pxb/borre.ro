@@ -324,7 +324,9 @@ function Ladder({ go }: { go: (id: string) => void }) {
                 key={s.t}
                 {...p.tab(i)}
                 style={{ "--indent": `${i * 14}px` } as React.CSSProperties}
-                className={`group ml-[var(--indent)] flex min-h-11 flex-col justify-start border-t-2 border-ink pt-3 text-left sm:ml-0 sm:border-t-0 sm:pt-0 ${FOCUS}`}
+                className={`group ml-[var(--indent)] flex min-h-11 flex-col justify-start border-t-2 pt-3 text-left transition-colors sm:ml-0 sm:border-t-0 sm:pt-0 ${
+                  on ? "border-accent" : "border-ink"
+                } ${FOCUS}`}
               >
                 <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
                   <span

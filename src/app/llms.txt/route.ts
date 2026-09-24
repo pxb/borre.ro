@@ -21,6 +21,10 @@ export function GET() {
     about.intro,
     ...about.body.map((p) => `\n${p}`),
     "",
+    ...about.how.map((h) => `- ${h.group}: ${h.line}`),
+    "",
+    about.close,
+    "",
     "## Work",
     "",
     ...work.map(
