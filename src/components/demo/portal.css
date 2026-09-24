@@ -915,11 +915,17 @@
 }
 
 /* ---- Node type labels: what each step touches (#573) ---- */
+.portal .wf-node {
+  display: flex;
+  flex-direction: column;
+}
 .portal .wf-node .tiles {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 4px;
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 8px;
 }
 .portal .ntype {
   font-size: 10.5px;
@@ -1083,9 +1089,11 @@ a:focus-visible > .portal.mini {
 }
 .portal .mini-canvas li {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 6px;
+  row-gap: 8px;
   padding: 9px 10px;
   border: 1px solid var(--p-hairline);
   border-radius: 10px;
@@ -1136,7 +1144,9 @@ a:focus-visible > .portal.mini {
   font-weight: 500;
 }
 .portal .mini-canvas .ntype {
-  align-self: flex-start;
+  grid-column: 1 / -1;
+  justify-self: end;
+  align-self: end;
 }
 @media (prefers-reduced-motion: reduce) {
   .portal.mini,

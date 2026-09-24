@@ -10,7 +10,7 @@ export function FooterCta() {
   const path = usePathname();
   if (path === "/contact" || path === "/") return null;
   return (
-    <div className="flex flex-col gap-8 border-b border-rule py-16 sm:flex-row sm:items-end sm:justify-between">
+    <div id="footer-offer" className="flex flex-col gap-8 border-b border-rule py-16 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p className="max-w-xl text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-ink">
           {site.ctaLine}

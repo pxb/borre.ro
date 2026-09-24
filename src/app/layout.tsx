@@ -6,6 +6,7 @@ import { serviceCategories, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
+import { OfferBar } from "@/components/offer-bar";
 
 // Archivo carries a real width axis (62-125), so the display cuts are genuinely
 // expanded rather than letter-spaced. Geist was Vercel's own face and the first
@@ -251,6 +252,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <OfferBar />
         <BackToTop />
       </body>
     </html>

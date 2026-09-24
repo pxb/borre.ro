@@ -15,12 +15,13 @@ export default function Contact() {
       crumbs={[{ href: "/", label: "Home" }]}
     >
       {site.booking ? (
-        <section className="py-12">
+        <section className="-mx-6 py-6 sm:mx-0 sm:py-12">
+          {/* Full-bleed on phones so Cal.com's own mobile layout has the room. */}
           <iframe
             src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view`}
             title="Book a free 30-minute call"
             loading="lazy"
-            className="h-[44rem] w-full border border-rule bg-paper"
+            className="h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border"
           />
         </section>
       ) : null}

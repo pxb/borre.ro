@@ -25,8 +25,7 @@ const STEPS: Step[] = [
     n: "01",
     label: "Problem",
     title: "The work still gets done by hand.",
-    lead: site.recognition,
-    body: "Each tool holds its own piece of the picture, so someone on your team ends up copying things from one to another.",
+    body: `${site.recognition} Each holds its own piece of the picture, so someone on your team ends up copying between them.`,
   },
   {
     id: "plan",
@@ -250,8 +249,8 @@ function Horizontal({ onActive }: { onActive: (id: string) => void }) {
         <div className="min-h-0 flex-1 overflow-hidden">
           <motion.div style={{ x }} className="flex h-full">
             {STEPS.map((s) => (
-              <div key={s.id} className="flex h-full w-screen shrink-0 items-center py-8">
-                <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-20">
+              <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(2rem,7vh,4.5rem)]">
+                <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
                   <StepText step={s} large />
                   <div>
                     <Example id={s.id} />
@@ -261,7 +260,6 @@ function Horizontal({ onActive }: { onActive: (id: string) => void }) {
             ))}
           </motion.div>
         </div>
-        <Offer />
       </div>
     </section>
   );
@@ -303,7 +301,6 @@ function Vertical({ onActive }: { onActive: (id: string) => void }) {
           </Reveal>
         </section>
       ))}
-      <Offer />
     </div>
   );
 }
@@ -343,16 +340,16 @@ function StepText({ step, large = false }: { step: Step; large?: boolean }) {
 function Example({ id }: { id: string }) {
   if (id === "problem") {
     return (
-      <dl className="grid gap-8 sm:grid-cols-2">
+      <dl className="grid gap-4">
         {evidence.map((e) => (
-          <div key={e.stat} className="flex gap-4">
+          <div key={e.stat} className="flex items-start gap-5 border border-rule p-5">
             <dt>
               <CountUp
                 value={e.stat}
-                className="font-mono text-4xl tabular-nums leading-none text-action"
+                className="font-mono text-5xl tabular-nums leading-none text-action"
               />
             </dt>
-            <dd className="max-w-xs text-sm leading-snug text-ink-soft">
+            <dd className="text-base leading-snug text-ink">
               {e.claim}.{" "}
               <a
                 href={e.href}
@@ -370,16 +367,50 @@ function Example({ id }: { id: string }) {
   }
   if (id === "plan") {
     return (
-      <div className="border border-rule bg-paper p-6">
-        <p className="leading-relaxed text-ink">
-          It starts with a free 30-minute call. You&apos;ll leave knowing what we&apos;d do first
-          and roughly what it would cost.
+      <div>
+        <ol className="grid gap-px overflow-hidden border border-rule bg-rule">
+          {PLAN.map((p, i) => (
+            <li key={p.t} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 bg-paper p-5">
+              <span className="font-mono text-sm tabular-nums text-ink-soft">{String(i + 1).padStart(2, "0")}</span>
+              <span>
+                <span className="block font-medium text-ink">{p.t}</span>
+                <span className="mt-1 block text-sm leading-snug text-ink-soft">{p.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-sm text-ink-soft">
+          Common starting points:{" "}
+          {STARTS.map((x, i) => (
+            <span key={x.href}>
+              {i ? " · " : ""}
+              <Link
+                href={x.href}
+                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {x.t}
+              </Link>
+            </span>
+          ))}
         </p>
       </div>
     );
   }
   if (id === "execution") {
-    return <ConnectedSystem />;
+    return (
+      <div>
+        <ConnectedSystem />
+        <p className="mt-4 text-sm text-ink-soft">
+          Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
+          <Link
+            href="/services"
+            className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            Services and prices
+          </Link>
+        </p>
+      </div>
+    );
   }
   if (id === "idea") {
     // AI cubed: the idea behind every build. The plain line leads; the term
@@ -445,6 +476,18 @@ function Example({ id }: { id: string }) {
   );
 }
 
+// Plan: what the first weeks look like, and where it usually leads.
+const PLAN = [
+  { t: "A free 30-minute call", d: "How your business runs today and where the time goes." },
+  { t: "Map the work", d: "Who does what, and which jobs are worth handing to software." },
+  { t: "A written plan", d: "What to do first, what each piece costs and how long it takes." },
+];
+const STARTS = [
+  { t: "training and setup", href: "/services#training" },
+  { t: "a Context Engine", href: "/services#context-engine" },
+  { t: "a first workflow", href: "/services#agentic-workflows" },
+];
+
 // The three parts of every build, each linked to the case study that shows it.
 const AI3 = [
   { term: "Context", plain: "What your business knows, in one place your team and its AI tools can ask.", href: "/work/context-engine" },
@@ -459,24 +502,3 @@ const SUPPORT = [
   "A monthly report in your numbers",
 ];
 
-// The offer. Pinned at the foot of the horizontal story so it is always one
-// click away, and placed after the last step in the vertical one. The footer
-// band is off on the home page, so this is the only offer there.
-function Offer() {
-  return (
-    <div className="border-t border-rule bg-paper">
-      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-        <div>
-          <p className="text-xl font-medium tracking-[-0.01em] text-ink">{site.ctaLine}</p>
-          <p className="mt-1 text-sm text-ink-soft">{site.ctaNote}</p>
-        </div>
-        <Link
-          href="/contact"
-          className="btn-orange shrink-0 self-start px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:self-auto"
-        >
-          {site.cta}
-        </Link>
-      </div>
-    </div>
-  );
-}

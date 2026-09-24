@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Page } from "@/components/section";
 import { Reveal } from "@/components/motion-bits";
 import { VoxelMark } from "@/components/mark/mark";
-import { about, site, work } from "@/content/site";
+import { about, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -40,22 +39,6 @@ export default function About() {
         </a>
       </p>
 
-      <section className="border-t border-rule py-12">
-        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Case studies</h2>
-        <ul className="mt-8 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2">
-          {work.map((w) => (
-            <li key={w.slug} className="bg-paper">
-              <Link
-                href={`/work/${w.slug}`}
-                className="group flex h-full flex-col p-6 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
-              >
-                <h3 className="text-base font-medium text-ink">{w.title}</h3>
-                <p className="mt-2 text-sm leading-snug text-ink-soft">{w.tagline}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
     </Page>
   );
 }

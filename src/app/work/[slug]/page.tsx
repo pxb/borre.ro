@@ -75,37 +75,6 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
               {p}
             </p>
           ))}
-          <div>
-            <h3 className="label">Connected systems</h3>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {c.stack.map((s) => (
-                <li key={s} className="border border-rule px-2.5 py-1 text-sm text-ink">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="label">Technology</h3>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {c.tech.map((t) => (
-                <li key={t} className="border border-dashed border-rule px-2.5 py-1 text-sm text-ink-soft">
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            {services.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services#${service.slug}`}
-                className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-              >
-                {service.name}, {service.price.charAt(0).toLowerCase() + service.price.slice(1)}
-              </Link>
-            ))}
-          </div>
         </div>
       </Row>
 
@@ -131,17 +100,59 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </dl>
       </Row>
 
-      {/* Only real, attributable quotes. None yet: Insight's waits on #562. */}
+      {/* Client feedback: only real words from the client, with permission. */}
       {c.testimonial ? (
-        <Row label="Testimonial">
+        <Row label="Client feedback">
           <figure className="max-w-2xl">
-            <blockquote className="text-xl leading-snug text-ink">{c.testimonial.quote}</blockquote>
+            <blockquote className="text-xl leading-snug text-ink">&ldquo;{c.testimonial.quote}&rdquo;</blockquote>
             <figcaption className="mt-3 text-sm text-ink-soft">
               {c.testimonial.name}, {c.testimonial.role}
             </figcaption>
           </figure>
         </Row>
       ) : null}
+
+      {/* The details, last: what it connects, how it's built, what it costs. */}
+      <section className="grid gap-10 py-12 sm:grid-cols-3">
+        <div>
+          <h2 className="label">Connected systems</h2>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {c.stack.map((x) => (
+              <li key={x} className="border border-rule px-2.5 py-1 text-sm text-ink">
+                {x}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2 className="label">Technology</h2>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {c.tech.map((x) => (
+              <li key={x} className="border border-dashed border-rule px-2.5 py-1 text-sm text-ink-soft">
+                {x}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2 className="label">{services.length > 1 ? "Services" : "Service"}</h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {services.map((service) => (
+              <li key={service.slug}>
+                <Link
+                  href={`/services#${service.slug}`}
+                  className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                >
+                  {service.name}
+                </Link>
+                <span className="block text-ink-soft">
+                  {service.price} · {service.duration.charAt(0).toLowerCase() + service.duration.slice(1)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </Page>
   );
 }

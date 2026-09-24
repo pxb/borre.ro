@@ -69,9 +69,6 @@ export default function Work() {
           </Reveal>
         ))}
       </div>
-      <p className="pt-10 text-xs text-ink-soft">
-        Figures are rounded. Client names are kept private, and the demos use an invented company.
-      </p>
     </Page>
   );
 }
