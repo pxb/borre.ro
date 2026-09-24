@@ -14,7 +14,7 @@ export default function Home() {
 
       <section id="hero" className="relative isolate text-ink">
         <NetBackdrop />
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:px-10 sm:py-16 lg:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div>
             <HeroHeadline />
           </div>

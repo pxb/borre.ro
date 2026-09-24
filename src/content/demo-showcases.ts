@@ -123,6 +123,8 @@ export type FlowRun = {
   subject: string; // the lead or deal being run through
   nodes: FlowNode[];
   done: string;
+  // The four-step outline shown in the /work preview, read left to right.
+  skeleton: { title: string; type: string; gate?: boolean }[];
 };
 
 export const leadEnrichmentRun: FlowRun = {
@@ -173,6 +175,12 @@ export const leadEnrichmentRun: FlowRun = {
     },
   ],
   done: "Brief on the contact before the first call.",
+  skeleton: [
+    { title: "New lead", type: "CRM" },
+    { title: "Research", type: "API" },
+    { title: "Qualify", type: "RAG" },
+    { title: "Brief on the contact", type: "CRM" },
+  ],
 };
 
 export const postCallRun: FlowRun = {
@@ -224,4 +232,10 @@ export const postCallRun: FlowRun = {
     },
   ],
   done: "Follow-up ready while the call is still fresh.",
+  skeleton: [
+    { title: "Deal moves stage", type: "CRM" },
+    { title: "Draft the follow-up", type: "LLM" },
+    { title: "Rep approves", type: "Human in the loop", gate: true },
+    { title: "Send and log", type: "Email" },
+  ],
 };

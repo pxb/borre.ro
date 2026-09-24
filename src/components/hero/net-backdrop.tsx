@@ -72,16 +72,16 @@ export function NetBackdrop() {
         minWidth: 200.0,
         scale: 1.0,
         scaleMobile: 1.0,
-        color: 0xffffff, // white
+        // One soft warm tone for the lines, no dots (Pedro, 2026-09-24): the lit
+        // spheres read grey and pulled focus off the text; white lines barely showed.
+        color: 0xc2b6a4,
         backgroundColor: 0xf2ede4, // cream, identical to the page
         points: 13.0,
         maxDistance: 16.0,
         spacing: 15.0,
-        showDots: true,
+        showDots: false,
       });
       // Dots to white. See the note above: Vanta has no separate dot colour.
-      const fx = effect.current as VantaEffect & { points?: { material?: { color?: { set: (c: number) => void } } }[] };
-      fx.points?.forEach((pt) => pt.material?.color?.set(0xffffff));
 
       setReady(true);
     })();

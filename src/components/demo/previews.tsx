@@ -1,6 +1,6 @@
 import "./portal.css";
 import { demoClient, demoLeads, type Status } from "@/content/demo-prospecting";
-import { ceQuestions, leadEnrichmentRun, postCallRun, systems, type FlowRun } from "@/content/demo-showcases";
+import { ceQuestions, leadEnrichmentRun, postCallRun, type FlowRun } from "@/content/demo-showcases";
 
 // Still, server-rendered previews of each case study's interactive piece, in
 // the portal's design, for the /work index. Each kind of product gets its own
@@ -84,16 +84,16 @@ function ProspectingPreview() {
   );
 }
 
-// An automation canvas: nodes snake across two rows on a dotted grid.
+// An automation canvas: a four-step outline, left to right, on a dotted grid.
 function FlowPreview({ run }: { run: FlowRun }) {
   return (
     <Frame nav="Workflows">
       <ol className="mini-canvas">
-        {run.nodes.map((n, i) => (
-          <li key={n.id} className={`n${i + 1}${n.gate ? " gate" : ""}`}>
+        {run.skeleton.map((n, i) => (
+          <li key={n.title} className={n.gate ? "gate" : ""}>
             <span className="i">{i + 1}</span>
             <span className="t">{n.title}</span>
-            <span className="ntype">{systems[n.touches[0].sys].type}</span>
+            <span className="ntype">{n.type}</span>
           </li>
         ))}
       </ol>

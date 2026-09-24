@@ -149,7 +149,11 @@ talk to each other, and a mesh finding its connections is the thing being sold. 
 full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
 surface and it renders as a flat block. Verified twice.
 
-The backdrop is WHITE lines and dots. Cream is not white, so white reads as a light web
+**Update 2026-09-24 (Pedro):** dots OFF (`showDots: false`) and the lines are one soft warm tone,
+`0xc2b6a4`. The lit dot spheres rendered grey and pulled focus off the text; white lines barely showed.
+The paragraph below is the earlier state, kept for the reasoning.
+
+The backdrop was WHITE lines and dots. Cream is not white, so white reads as a light web
 lifted off the page rather than a tint laid over it. Three coloured backdrops were tried and every
 one competed with the copy.
 

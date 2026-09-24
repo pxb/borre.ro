@@ -14,7 +14,7 @@ export function HeroHeadline() {
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: pick }} />
-      <h1 className="text-[clamp(2.25rem,4.6vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em]">
+      <h1 className="text-[clamp(2.1rem,4vw,3.1rem)] font-medium leading-[1.05] tracking-[-0.03em]">
         {site.headlines.map((h, i) => {
           const capital = h.startsWith("{N}");
           const [before, after] = h.replace("{N}", "{n}").split("{n}");

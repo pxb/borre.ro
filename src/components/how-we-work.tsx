@@ -314,7 +314,7 @@ function StepText({ step, large = false }: { step: Step; large?: boolean }) {
     <div>
       <h2
         className={`font-medium leading-[1.06] tracking-[-0.025em] text-ink ${
-          large ? "text-[clamp(2rem,min(5vw,7vh),5.25rem)]" : "text-[clamp(2rem,3.8vw,3.4rem)]"
+          large ? "text-[clamp(2rem,min(5vw,6.4vh),5.25rem)]" : "text-[clamp(2rem,3.8vw,3.4rem)]"
         }`}
       >
         {step.title}
