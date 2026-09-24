@@ -20,10 +20,10 @@ Four kinds, each with one job.
 
 | Line | Looks like | Job |
 |---|---|---|
-| Block rule | 2px ink, full width, a label under it | Opens a block: a slide's right side (`Frame`), a /services group, the call track. One per block |
-| Hairline | 1px `--rule`, horizontal | Divides sibling rows, and opens a sub-block inside a block (with a label under it, as "The upside" on slide 01). Never vertical |
+| Block rule | 2px ink, full width, a label under it only when the label names something the title doesn't | Opens a block: a slide's right side (`Frame`), a /services group, the call track. One per block |
+| Hairline | 1px `--rule`, horizontal | Divides sibling rows or groups (the upside on slide 01). Never vertical |
 | Figure bar | 2px `--rule`, vertical, left of a figure | Only in the figure form (below). The one vertical hairline |
-| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled when current | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (slide 06, /services Run), the systems hub |
+| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (slide 06, /services Run), the systems hub |
 
 No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into 06
 Support.
@@ -35,11 +35,13 @@ The accent means **act here** or **a good result**. Nothing else.
 - The primary CTA ground, once per view.
 - Figures that are results or upside: case-study results, /work, slide 05, the upside on slide 01.
   Problem figures are ink, so the good number reads as the good number.
-- The accent mark: a 4px by 40px bar over each way to start (/services Start), and the tread of the
-  picked way in on the slide 04 ladder. Same entries, same mark.
+- The accent mark: a 4px by 40px bar over each way to start (/services Start).
+- **The picked item on a slide**: the stop on the slide 02 track, the underline under the term on
+  slide 03, the tread on the slide 04 ladder. The moving dot on the slide 06 loop. One rule, so every
+  slide carries the accent without adding anything.
 - Brand: the `.ro` wordmark, the cycling word in the headline.
 
-Never on body text, labels or linework, never in the backdrop.
+Never on body text, labels or structural linework, never in the backdrop.
 
 ## The figure form
 
@@ -71,6 +73,9 @@ A thing in a list (a service, a case study, a stop on the call track):
   visible title because it says something the nav does not.
 - Breadcrumbs only where there is a level to go back to (case studies).
 - Slides: the title and one short paragraph left, one `Frame` right.
+- **No over-explaining.** A frame label that repeats the slide title, a footer that restates the
+  paragraph, a caption that says what the picture shows: cut them. Labels stay only where they name
+  something (AI³, Managed service).
 
 ## Spacing
 

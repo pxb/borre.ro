@@ -72,8 +72,9 @@ elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
 the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
 05 Results, 06 Support. Content and step ids live in `src/components/how-we-work.tsx`.
 
-**Slide standard (#584, 2026-09-24):** left, the title and one short paragraph. Right, one `Frame`: a
-heading over a 2px ink rule, an optional footer, no boxed or tinted backgrounds. Inside the frame each
+**Slide standard (#584, 2026-09-24; labels and accents per DESIGN.md):** left, the title and one
+short paragraph. Right, one `Frame`: a 2px ink rule, a label only where it names something the title
+doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 two barriers in ink then the upside in the accent (PwC's 163%), in the shared figure form beside
 their claims (the proportion bars were cut because similar percentages read as progress bars), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals

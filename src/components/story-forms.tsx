@@ -96,10 +96,12 @@ function Inline({ pick, children }: { pick: Pick; children: ReactNode }) {
   return <span className="mt-1 block text-sm font-normal leading-snug text-ink-soft">{children}</span>;
 }
 
-function Frame({ heading, children, foot }: { heading: ReactNode; children: ReactNode; foot?: ReactNode }) {
+// A label only where it names something the slide title doesn't (AI3, the
+// managed service); labels that repeat the title were cut as over-explaining.
+function Frame({ heading, children, foot }: { heading?: ReactNode; children: ReactNode; foot?: ReactNode }) {
   return (
     <div className="border-t-2 border-ink">
-      <p className="pt-3 text-sm font-medium text-ink-soft">{heading}</p>
+      {heading ? <p className="pt-3 text-sm font-medium text-ink-soft">{heading}</p> : null}
       <div className="pt-6">{children}</div>
       {foot ? <p className="mt-7 border-t border-rule pt-3 text-sm text-ink-soft">{foot}</p> : null}
     </div>
@@ -127,9 +129,9 @@ export function Example({ id, go }: { id: string; go: (id: string) => void }) {
   return <Loop />;
 }
 
-// 01 Problem: two barriers, then the upside. Figures in the site's one figure
-// form, beside their claims; the barriers in ink, the upside in the accent, so
-// the good number reads as the good number. No bars: similar percentages drawn
+// 01 Problem: two barriers, then the upside under a hairline. Figures in the
+// site's one figure form, beside their claims; the barriers in ink, the upside
+// in the accent, so the good number reads as the good number. No bars: similar percentages drawn
 // as bars read as progress bars.
 type Evidence = (typeof evidence)[number];
 
@@ -153,7 +155,7 @@ function Gap() {
   const barriers = evidence.filter((e) => !("upside" in e));
   const upside = evidence.filter((e) => "upside" in e);
   return (
-    <Frame heading="The gap">
+    <Frame>
       <ul className="grid gap-5">
         {barriers.map((e) => (
           <li key={e.stat}>
@@ -164,27 +166,15 @@ function Gap() {
         ))}
       </ul>
       {upside.length ? (
-        <div className="mt-6 border-t border-rule pt-3">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm font-medium text-ink-soft">The upside</p>
-            <Link
-              href="/services"
-              className={`group inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink sm:min-h-6 ${FOCUS}`}
-            >
-              How we help
-              <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-          <ul className="mt-5 grid gap-5">
-            {upside.map((e) => (
-              <li key={e.stat}>
-                <Figure value={e.stat} beside count>
-                  <Claim e={e} />
-                </Figure>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="mt-6 grid gap-5 border-t border-rule pt-6">
+          {upside.map((e) => (
+            <li key={e.stat}>
+              <Figure value={e.stat} beside count>
+                <Claim e={e} />
+              </Figure>
+            </li>
+          ))}
+        </ul>
       ) : null}
     </Frame>
   );
@@ -194,7 +184,7 @@ function Gap() {
 function Timeline() {
   const p = usePick(CALL.length, "In the 30 minutes");
   return (
-    <Frame heading="In the 30 minutes">
+    <Frame>
       <div
         aria-hidden="true"
         className="mb-3 hidden justify-between font-mono text-xs tabular-nums text-ink-soft sm:flex"
@@ -215,8 +205,8 @@ function Timeline() {
             >
               <span
                 aria-hidden="true"
-                className={`relative mt-0.5 size-4 shrink-0 rounded-full border-2 border-ink transition-colors sm:mt-0 ${
-                  on ? "bg-ink" : "bg-paper"
+                className={`relative mt-0.5 size-4 shrink-0 rounded-full border-2 transition-colors sm:mt-0 ${
+                  on ? "border-accent bg-accent" : "border-ink bg-paper"
                 }`}
               />
               <span
@@ -248,7 +238,7 @@ function Timeline() {
 // column beside the calendar on /contact.
 export function CallTrack() {
   return (
-    <Frame heading="In the 30 minutes">
+    <Frame>
       <p aria-hidden="true" className="font-mono text-xs tabular-nums text-ink-soft">0</p>
       <ol className="relative mt-3 ml-[7px] border-l-2 border-ink">
         {CALL.map((r) => (
@@ -291,7 +281,7 @@ function Formula() {
               <button
                 {...p.tab(i)}
                 className={`min-h-11 text-left text-[clamp(1.5rem,min(2.4vw,4.4vh),2.25rem)] font-medium leading-tight tracking-[-0.02em] underline decoration-2 underline-offset-[10px] transition-colors ${
-                  on ? "text-ink decoration-ink" : "text-ink-soft decoration-transparent hover:text-ink"
+                  on ? "text-ink decoration-accent" : "text-ink-soft decoration-transparent hover:text-ink"
                 } ${FOCUS}`}
               >
                 {a.term}
@@ -338,7 +328,6 @@ function Ladder({ go }: { go: (id: string) => void }) {
   const n = STARTS.length;
   return (
     <Frame
-      heading="Ways to start"
       foot={
         <>
           Builds take 1 to 8 weeks.{" "}
@@ -421,7 +410,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
 function Figures() {
   const items = work.filter((w) => w.resultsProven !== false);
   return (
-    <Frame heading="For clients so far">
+    <Frame>
       <ul className="grid gap-x-10 gap-y-9 sm:grid-cols-2">
         {items.map((w, i) => (
           <li key={w.slug} className={items.length % 2 && i === items.length - 1 ? "sm:col-span-2" : ""}>
@@ -451,20 +440,7 @@ const LABEL_POS = [
 
 function Loop() {
   return (
-    <Frame
-      heading="Managed service"
-      foot={
-        <>
-          Month to month.{" "}
-          <Link
-            href="/services#support"
-            className={`text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink ${FOCUS}`}
-          >
-            What&apos;s included
-          </Link>
-        </>
-      }
-    >
+    <Frame heading="Managed service">
       <LoopShape />
     </Frame>
   );
@@ -511,7 +487,7 @@ export function LoopShape() {
             <circle key={`${x}-${y}`} cx={x} cy={y} r="6" fill="var(--paper)" stroke="var(--ink)" strokeWidth="2" />
           ))}
           {mounted && !reduce ? (
-            <circle r="4" fill="var(--ink)">
+            <circle r="5" fill="var(--accent)">
               <animateMotion dur="16s" repeatCount="indefinite" path="M100 10 A90 90 0 0 1 100 190 A90 90 0 0 1 100 10" />
             </circle>
           ) : null}
