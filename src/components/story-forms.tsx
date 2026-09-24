@@ -343,7 +343,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
                   >
                     {s.t}
                   </span>
-                  <span className="mt-1 block font-mono text-xs tabular-nums text-ink-soft">{s.meta}</span>
+                  <span className="mt-1 block font-mono text-xs tabular-nums text-balance text-ink-soft">{s.meta}</span>
                   <Inline pick={p}>{s.d}</Inline>
                 </span>
               </button>
