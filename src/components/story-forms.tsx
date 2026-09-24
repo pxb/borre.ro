@@ -16,6 +16,9 @@ import { evidence, work } from "@/content/site";
 
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 const EASE = [0.22, 1, 0.36, 1] as const;
+// Figures stay below the hero headline (50px at 1080p) and the slide titles, so
+// they support the story instead of outranking it and the CTA.
+const FIGURE = "font-mono text-[clamp(1.75rem,min(3.2vw,5vh),2.5rem)] leading-none tabular-nums text-action";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -137,7 +140,7 @@ function Gap() {
           <li key={e.stat}>
             <CountUp
               value={e.stat}
-              className="block font-mono text-[clamp(3rem,min(5vw,7vh),4.5rem)] leading-none tabular-nums text-action"
+              className={`block ${FIGURE}`}
             />
             <Share pct={parseFloat(e.stat)} />
             <p className="mt-4 text-lg leading-snug text-ink">
@@ -394,7 +397,7 @@ function Figures() {
             <Link href={`/work/${w.slug}`} className={`group block ${FOCUS}`}>
               <CountUp
                 value={w.metrics[0].value}
-                className="block font-mono text-[clamp(2.25rem,min(3.4vw,6vh),3rem)] leading-none whitespace-nowrap tabular-nums text-action"
+                className={`block whitespace-nowrap ${FIGURE}`}
               />
               <span className="mt-3 block max-w-md text-sm leading-snug text-ink-soft">{w.metrics[0].label}</span>
               <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors group-hover:decoration-ink">

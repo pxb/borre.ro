@@ -20,7 +20,7 @@ export function Page({
       <header className="border-b border-rule py-12 sm:py-16 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">
         {crumbs?.length ? (
           <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 font-mono text-xs text-ink-soft">
+            <ol className="flex flex-wrap items-center gap-2 text-sm text-ink-soft">
               {crumbs.map((c) => (
                 <li key={c.href} className="flex items-center gap-2">
                   <Link
