@@ -10,7 +10,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
-import { ConnectedSystem } from "@/components/connected-system";
+import { AskDemo } from "@/components/ask-demo";
 import { CountUp, Reveal } from "@/components/motion-bits";
 import { evidence, site, work } from "@/content/site";
 
@@ -28,25 +28,25 @@ const STEPS: Step[] = [
     body: `${site.recognition} Each holds its own piece of the picture, so someone on your team ends up copying between them.`,
   },
   {
-    id: "plan",
+    id: "discovery",
     n: "02",
-    label: "Plan",
-    title: "First, we find what's worth doing.",
-    body: "Every engagement starts with a free discovery call. From there you choose the depth, from a one-off workshop to a full build, and we only recommend what will pay.",
+    label: "Discovery",
+    title: "It starts with a free 30-minute call.",
+    body: "We look at how your business runs and where AI would pay first. You leave with a clear recommendation, whether or not it involves us.",
   },
   {
-    id: "idea",
+    id: "method",
     n: "03",
-    label: "Idea",
-    title: "One system that knows your business.",
-    body: "Every build has three parts: what the business knows, the agents that do the work and the evals that prove it worked.",
+    label: "Method",
+    title: "Context, agents and evals, working as one system.",
+    body: "What your business knows, the software that does the repeatable work and the measurement that proves it, all running on accounts in your name.",
   },
   {
-    id: "execution",
+    id: "engagement",
     n: "04",
-    label: "Execution",
-    title: "Built on what you already own.",
-    body: "Everything runs on accounts in your name, using the tools you already pay for. The Context Engine, the agents and the dashboard work from the same facts.",
+    label: "Engagement",
+    title: "Start where it makes sense.",
+    body: "From a one-off audit to a full build, every engagement has a fixed price agreed before we start.",
   },
   {
     id: "results",
@@ -351,7 +351,7 @@ function StageCard({ heading, rows, children, foot }: { heading: React.ReactNode
             const inner = (
               <>
                 {r.stat ? (
-                  <CountUp value={r.stat} className="font-mono text-3xl leading-none tabular-nums text-action" />
+                  <CountUp value={r.stat} className="block font-mono text-3xl leading-none whitespace-nowrap tabular-nums text-action" />
                 ) : null}
                 <span className="min-w-0">
                   <span className="block font-medium text-ink transition-colors group-hover:text-accent">{r.t}</span>
@@ -360,8 +360,8 @@ function StageCard({ heading, rows, children, foot }: { heading: React.ReactNode
                 {r.meta ? <span className="text-right text-sm whitespace-nowrap text-ink-soft">{r.meta}</span> : null}
               </>
             );
-            const cls = `grid items-baseline gap-x-5 border-t border-rule py-4 first:border-t-0 ${
-              r.stat ? "grid-cols-[5.5rem_minmax(0,1fr)]" : r.meta ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"
+            const cls = `grid items-baseline gap-x-5 gap-y-2 border-t border-rule py-4 first:border-t-0 ${
+              r.meta ? "grid-cols-[minmax(0,1fr)_auto]" : "grid-cols-1"
             }`;
             return (
               <li key={i}>
@@ -408,10 +408,10 @@ function Example({ id }: { id: string }) {
       />
     );
   }
-  if (id === "plan") {
-    return <StageCard heading="Ways to start" rows={STARTS} />;
+  if (id === "discovery") {
+    return <StageCard heading="In the 30 minutes" rows={CALL} foot="Free, and booked straight into the calendar." />;
   }
-  if (id === "idea") {
+  if (id === "method") {
     return (
       <StageCard
         heading={
@@ -420,13 +420,16 @@ function Example({ id }: { id: string }) {
           </span>
         }
         rows={AI3.map((a) => ({ t: a.term, d: a.plain, href: a.href }))}
-      />
+      >
+        <AskDemo />
+      </StageCard>
     );
   }
-  if (id === "execution") {
+  if (id === "engagement") {
     return (
       <StageCard
-        heading="A working system"
+        heading="Ways to start"
+        rows={STARTS}
         foot={
           <>
             Builds take 1 to 8 weeks, at a fixed price agreed before we start.{" "}
@@ -438,9 +441,7 @@ function Example({ id }: { id: string }) {
             </Link>
           </>
         }
-      >
-        <ConnectedSystem />
-      </StageCard>
+      />
     );
   }
   if (id === "support") {
@@ -465,9 +466,15 @@ function Example({ id }: { id: string }) {
 
 // Plan: the entry points, in the industry's terms, each with what you get.
 // None assumes a build.
+const CALL: Row[] = [
+  { t: "How the work flows today", d: "From first enquiry to invoice: who does what, and where the time goes." },
+  { t: "What you already pay for", d: "The AI tools, CRM and data you have, and how much of it the team uses." },
+  { t: "Where AI would pay first", d: "The one or two jobs worth doing first, and roughly what they would take." },
+  { t: "What to do next", d: "A clear recommendation: an audit, training, a build, or nothing yet." },
+];
+
 const STARTS: Row[] = [
-  { t: "Discovery call", d: "An honest read on where AI would pay first.", meta: "Free, 30 min" },
-  { t: "AI readiness assessment", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates." },
+  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", meta: "From £450", href: "/services#audit" },
   { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session." },
   { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", meta: "From £950 a day", href: "/services#training" },
   { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", meta: "From £1,500", href: "/services#agentic-workflows" },

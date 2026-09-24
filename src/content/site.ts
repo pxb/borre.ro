@@ -249,6 +249,20 @@ export type ServiceCategory = {
 
 export const serviceCategories: ServiceCategory[] = [
   {
+    slug: "audit",
+    name: "AI readiness audit",
+    what: "We review how your business runs, the tools you pay for and the data you hold, and hand you a prioritised roadmap of where AI would pay, with ROI estimates. You keep it, whoever builds it.",
+    includes: [
+      "Interviews with the people who do the work",
+      "A map of your workflows, tools and data",
+      "The use cases worth doing, ranked by return and effort",
+      "A written roadmap with costs and timings",
+    ],
+    under: "Process mapping, AI readiness scoring, use-case prioritisation, ROI modelling.",
+    price: "From £450",
+    duration: "Usually 1 to 2 weeks",
+  },
+  {
     slug: "training",
     name: "AI-native training and setup",
     what: "We set up ChatGPT, Claude or Copilot properly for your business and train your team to use it on their real work.",
