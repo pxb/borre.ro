@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { motion, useAnimate } from "motion/react";
 import Link from "next/link";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
@@ -129,7 +130,8 @@ export function Example({ id, go }: { id: string; go: (id: string) => void }) {
 }
 
 // 01 Problem: each barrier with our answer under it, so the slide turns from
-// the fear to the fix. Figures in ink: these are problems, not results.
+// the fear to the fix. Figures in ink: these are problems, not results; the
+// accent is the arrow that leads into each answer.
 type Evidence = (typeof evidence)[number];
 
 function Source({ e }: { e: { source: string; href: string } }) {
@@ -157,7 +159,10 @@ function Gap() {
               <p className="text-ink-soft">
                 {sentence(e.claim)}. <Source e={e} />
               </p>
-              <p className="mt-1.5 font-medium text-ink">{e.answer}</p>
+              <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
+                <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
+                {e.answer}
+              </p>
             </Figure>
           </li>
         ))}
@@ -228,11 +233,14 @@ export function CallTrack() {
       <p aria-hidden="true" className="font-mono text-xs tabular-nums text-ink-soft">0</p>
       <ol className="relative mt-3 ml-[7px]">
         <DrawLine axis="y" className="absolute inset-y-0 -left-0.5 w-0.5 origin-top bg-ink" />
-        {CALL.map((r) => (
+        {CALL.map((r, i) => (
           <li key={r.t} className="relative pb-7 pl-7 last:pb-0">
+            {/* The first stop, where the call starts, in the accent. */}
             <span
               aria-hidden="true"
-              className="absolute top-0.5 -left-[9px] size-4 rounded-full border-2 border-ink bg-paper"
+              className={`absolute top-0.5 -left-[9px] size-4 rounded-full border-2 ${
+                i === 0 ? "border-accent bg-accent" : "border-ink bg-paper"
+              }`}
             />
             <span className="block font-medium leading-snug text-ink">{r.t}</span>
             <span className="mt-1 block leading-snug text-ink-soft">{r.d}</span>
@@ -244,15 +252,61 @@ export function CallTrack() {
   );
 }
 
+// AI cubed, drawn: each part adds a dimension. Context is a line, agents sweep
+// it into a square, evals extrude it into a cube. The edges each pick adds draw
+// themselves in the accent; the ones already there stay ink. Without JS the
+// whole cube shows; under reduced motion edges appear without drawing.
+const P = { a: [8, 26], b: [40, 26], c: [40, 58], d: [8, 58], a2: [24, 10], b2: [56, 10], c2: [56, 42] } as const;
+const EDGES: { from: keyof typeof P; to: keyof typeof P; level: number }[] = [
+  { from: "d", to: "c", level: 0 },
+  { from: "d", to: "a", level: 1 },
+  { from: "a", to: "b", level: 1 },
+  { from: "b", to: "c", level: 1 },
+  { from: "a", to: "a2", level: 2 },
+  { from: "b", to: "b2", level: 2 },
+  { from: "c", to: "c2", level: 2 },
+  { from: "a2", to: "b2", level: 2 },
+  { from: "b2", to: "c2", level: 2 },
+];
+
+function Cube({ level }: { level: number }) {
+  const moving = useMotionOn();
+  return (
+    <svg aria-hidden="true" viewBox="0 0 64 64" className="size-12 shrink-0 overflow-visible sm:size-14">
+      {EDGES.map((e, i) => {
+        const shown = e.level <= level;
+        const line = { x1: P[e.from][0], y1: P[e.from][1], x2: P[e.to][0], y2: P[e.to][1] };
+        const stroke = e.level === level ? "var(--accent)" : "var(--ink)";
+        if (!moving)
+          return shown ? <line key={i} {...line} stroke={stroke} strokeWidth={2} strokeLinecap="square" /> : null;
+        return (
+          <motion.line
+            key={i}
+            {...line}
+            strokeWidth={2}
+            strokeLinecap="square"
+            initial={false}
+            animate={{ pathLength: shown ? 1 : 0, opacity: shown ? 1 : 0, stroke }}
+            transition={{ duration: 0.45, delay: shown ? (i - EDGES.findIndex((x) => x.level === e.level)) * 0.12 : 0, ease: [0.16, 1, 0.3, 1] }}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
 // 03 Method: the three parts as the formula they multiply into, the demo beneath.
 function Formula() {
   const p = usePick(AI3.length, "Context, agents and evals");
   return (
     <Frame
       heading={
-        <>
-          AI<sup>3</sup>
-        </>
+        <span className="flex items-end justify-between gap-6">
+          <span>
+            AI<sup>3</sup>
+          </span>
+          <Cube level={p.js ? p.on : AI3.length - 1} />
+        </span>
       }
     >
       <div {...p.list} className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -272,7 +326,12 @@ function Formula() {
                 } ${FOCUS}`}
               >
                 {a.term}
-                {on ? <Marker id={`${p.uid}m`} className="absolute inset-x-0 bottom-0.5 h-0.5 bg-accent" /> : null}
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-0 bottom-0.5 h-0.5 bg-ink transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                    on ? "origin-left scale-x-100" : "origin-right scale-x-0"
+                  }`}
+                />
               </button>
             </Fragment>
           );
@@ -304,6 +363,51 @@ function Formula() {
   );
 }
 
+// The picked way in, marked in the accent, climbs the staircase to the new pick:
+// up each riser, then across the next tread (and across, then down, going
+// back). One bar over the four columns, moved as x in column widths and y in
+// pixels; a jump under reduced motion, still at the first tread without JS.
+function Climber({ at, n }: { at: number; n: number }) {
+  const moving = useMotionOn();
+  const [scope, animate] = useAnimate<HTMLSpanElement>();
+  const prev = useRef(at);
+  const [start] = useState(at);
+  const top = (i: number) => (n - 1 - i) * RISE - 1;
+
+  useEffect(() => {
+    const from = prev.current;
+    prev.current = at;
+    if (!scope.current || from === at) return;
+    const xs: number[] = [from];
+    const ys: number[] = [top(from)];
+    for (let k = from; k < at; k++) {
+      xs.push(k, k + 1);
+      ys.push(top(k + 1), top(k + 1));
+    }
+    for (let k = from; k > at; k--) {
+      xs.push(k - 1, k - 1);
+      ys.push(top(k), top(k - 1));
+    }
+    const steps = Math.abs(at - from);
+    animate(
+      scope.current,
+      { x: xs.map((v) => `${v * 100}%`), y: ys },
+      moving ? { duration: 0.34 * steps, ease: "easeInOut" } : { duration: 0 },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [at]);
+
+  return (
+    <motion.span
+      ref={scope}
+      aria-hidden="true"
+      className="pointer-events-none absolute top-0 left-0 z-10 hidden h-1 w-1/4 bg-accent sm:block"
+      initial={false}
+      style={{ x: `${start * 100}%`, y: top(start) }}
+    />
+  );
+}
+
 // 04 Engagement: the ways in as a ladder, smallest first. The staircase is
 // drawn above and every label sits on one baseline under it, so the text
 // never steps down with the treads. The top step runs on into the managed
@@ -317,7 +421,8 @@ function Ladder({ go }: { go: (id: string) => void }) {
   return (
     <Frame>
       <div className="flex flex-col sm:flex-row">
-        <div {...p.list} className="grid gap-2 sm:flex-1 sm:grid-cols-4 sm:gap-0">
+        <div {...p.list} className="relative grid gap-2 sm:flex-1 sm:grid-cols-4 sm:gap-0">
+          <Climber at={p.on} n={n} />
           {STARTS.map((s, i) => {
             const on = p.on === i;
             const lift = (n - 1 - i) * RISE;
@@ -340,7 +445,6 @@ function Ladder({ go }: { go: (id: string) => void }) {
                       delay={i * 0.14 - 0.07}
                     />
                   ) : null}
-                  {on ? <Marker id={`${p.uid}m`} className="absolute inset-x-0 h-1 bg-accent" style={{ top: lift - 1 }} /> : null}
                 </span>
                 <span className="block pr-3 sm:pt-4">
                   <span

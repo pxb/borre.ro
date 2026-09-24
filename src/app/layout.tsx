@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { serviceCategories, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
+import { HomeLink } from "@/components/home-link";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
 import { OfferBar } from "@/components/offer-bar";
@@ -75,12 +76,9 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper">
       <nav className="mx-auto flex h-20 max-w-6xl items-center px-6 sm:px-10">
-        <Link
-          href="/"
-          className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-        >
+        <HomeLink className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
           borre<span className="text-accent">.ro</span>
-        </Link>
+        </HomeLink>
         {/* R and O accented so the category line reads back to the .ro domain:
             borre.RO = Revenue Operations. One typeface, Archivo, throughout. */}
         <p className="ml-3 border-l border-rule pl-3 text-xs text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
@@ -138,12 +136,9 @@ function Footer() {
 
         <div className="grid gap-12 border-b border-rule py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link
-              href="/"
-              className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
+            <HomeLink className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
               borre<span className="text-accent">.ro</span>
-            </Link>
+            </HomeLink>
             <p className="mt-4 max-w-xs leading-relaxed text-ink-soft">
               AI and Revenue Operations, delivered with{" "}
               <a

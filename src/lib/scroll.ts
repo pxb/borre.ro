@@ -26,3 +26,14 @@ export function scrollToId(id: string) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
 }
+
+// Back to the top of the page: Lenis when it runs, a jump under reduced motion.
+export function scrollToTop() {
+  const lenis = window.__lenis;
+  if (lenis) {
+    lenis.scrollTo(0, { duration: 1.2 });
+    return;
+  }
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}

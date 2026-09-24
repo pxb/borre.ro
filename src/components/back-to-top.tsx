@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import { scrollToTop } from "@/lib/scroll";
 
 // Appears once the reader is well past the first screen. Uses Lenis when it
 // is running so the trip up is smooth; jumps under reduced motion.
@@ -15,17 +16,10 @@ export function BackToTop() {
     return () => window.removeEventListener("scroll", on);
   }, []);
 
-  const top = () => {
-    const l = window.__lenis;
-    if (l) return l.scrollTo(0, { duration: 1.2 });
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  };
-
   return (
     <button
       type="button"
-      onClick={top}
+      onClick={scrollToTop}
       aria-label="Back to top"
       aria-hidden={!show}
       tabIndex={show ? 0 : -1}

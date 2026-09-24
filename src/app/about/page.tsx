@@ -39,6 +39,7 @@ export default function About() {
         <ul className="grid gap-8 md:grid-cols-3 md:gap-8">
           {about.principles.map((x) => (
             <li key={x.t}>
+              <span aria-hidden="true" className="mb-4 block h-1 w-10 bg-accent" />
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{x.t}</h3>
               <p className="mt-2 leading-relaxed text-ink-soft">{x.d}</p>
             </li>

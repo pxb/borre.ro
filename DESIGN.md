@@ -35,10 +35,14 @@ The accent means **act here** or **a good result**. Nothing else.
 - The primary CTA ground, once per view.
 - Figures that are results or value: case-study results, /work, slide 05 (Value). Problem figures
   (slide 01) are ink, so the good number reads as the good number.
-- The accent mark: a 4px by 40px bar over each way to start (/services Start).
-- **The picked item on a slide**: the stop on the slide 02 track, the underline under the term on
-  slide 03, the tread on the slide 04 ladder. The moving dot on the slide 06 loop. One rule, so every
-  slide carries the accent without adding anything.
+- The accent mark: a 4px by 40px bar over the items a page is built on: the ways to start (/services
+  Start) and our commitments (/about).
+- **Our answer**: the arrow that leads into each answer on slide 01. The problem is ink; the fix
+  carries the accent.
+- **Where you start**: the first stop of the call track on /contact.
+- **The picked item on a slide**: the stop on the slide 02 track, the newest edges of the cube on
+  slide 03, the tread on the slide 04 ladder. The moving dot on the slide 06 loop. Every slide carries
+  the accent.
 - Brand: the `.ro` wordmark, the cycling word in the headline.
 
 Never on body text, labels or structural linework, never in the backdrop.
@@ -105,8 +109,11 @@ motion.dev (Pedro, 2026-09-24):
   the ladder tread by tread (slide 04), the support loop (slide 06, /services Run) with its stops
   and moving dot after it, and the systems hub on each case study (a left-to-right wipe, because its
   non-scaling strokes would mis-measure a dash draw).
-- **One marker per picked set** (`layoutId`) slides from item to item: the stop on slide 02, the
-  underline on slide 03, the tread on slide 04. The accent moves; it does not blink.
+- **The pick moves along the drawing it belongs to.** On slide 02 the stop marker runs along the
+  track (`layoutId`). On slide 04 it climbs the staircase: up each riser, then across the next tread,
+  never a diagonal glide (Pedro: it should climb the steps). On slide 03 nothing slides sideways: the
+  underline draws itself under the picked term and a small cube builds one dimension per term,
+  Context a line, Agents a square, Evals a cube (AI³, drawn).
 
 Counts roll up on figures. Everything renders finished on the server, without JavaScript and under
 reduced motion; the motion version only replaces the still one after mount. Everything renders complete
