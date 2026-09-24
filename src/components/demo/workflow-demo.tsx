@@ -93,7 +93,7 @@ export function WorkflowDemo({ run, title }: { run: FlowRun; title: string }) {
             <h3 className="p-h1">{title}</h3>
             <p className="p-sub">{run.subject}</p>
           </div>
-          <button className="p-btn on" onClick={start} disabled={status === "running"}>
+          <button className="p-btn on" onClick={start} disabled={status === "running"} data-track="demo-workflow-run" data-track-workflow={title}>
             {status === "ready" ? "Run it" : status === "running" ? "Running…" : "Run again"}
           </button>
         </div>
@@ -134,7 +134,7 @@ export function WorkflowDemo({ run, title }: { run: FlowRun; title: string }) {
           {node.gate && nodeState === "waiting" ? (
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
               <span>Drafts ready for review.</span>
-              <button className="p-btn on" onClick={approve}>
+              <button className="p-btn on" onClick={approve} data-track="demo-workflow-approve" data-track-workflow={title}>
                 Approve drafts
               </button>
             </div>

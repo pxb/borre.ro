@@ -186,7 +186,7 @@ function Board({
             </thead>
             <tbody>
               {rows.map((l) => (
-                <tr key={l.id} onClick={() => onOpen(l.id)}>
+                <tr key={l.id} onClick={() => onOpen(l.id)} data-track="demo-portal-lead">
                   <td>
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <Dot state={l.contactState} />
@@ -220,7 +220,7 @@ function Board({
         <ul className="p-list md:hidden">
           {rows.map((l) => (
             <li key={l.id}>
-              <button onClick={() => onOpen(l.id)}>
+              <button onClick={() => onOpen(l.id)} data-track="demo-portal-lead">
                 <span style={{ marginTop: 7 }}>
                   <Dot state={l.contactState} />
                 </span>

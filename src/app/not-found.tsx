@@ -26,7 +26,7 @@ export default function NotFound() {
             Case studies
           </Link>
           <Link
-            href="/contact"
+            href="/contact" data-track="cta" data-track-where="404"
             className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           >
             Get in touch

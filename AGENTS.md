@@ -108,6 +108,20 @@ client's stack can't be fingerprinted.
 
 Real measured figures, rounded, marked approximate. No per-render randomiser: fuzzing stages independently breaks the funnel narrowing and makes a figure disagree with itself across pages. Companies are invented and checked against the Companies House register. Nothing that identifies a client ships without sign-off.
 
+## Analytics and privacy
+
+Cookieless analytics on Vercel Web Analytics (#576; Pedro chose it 2026-09-24 as already included):
+`src/components/analytics.tsx` mounts `@vercel/analytics` and one site-wide click listener. Track a
+click by putting `data-track="<name>"` (plus `data-track-<prop>="<value>"`, at most 2 props) on the
+element; server components need no client code. Current events: `cta` (with `where`),
+`demo-context-question`, `demo-portal-lead`, `demo-workflow-run`, `demo-workflow-approve`. **Custom
+events are recorded on Vercel Pro only**; on Hobby, page views count and events are dropped. Web
+Analytics must be enabled for the project in the Vercel dashboard. Bookings are counted in Cal.com.
+
+`/privacy` (#575) is drafted on branch `privacy-analytics` and waits for pedro@borre.ro (#563). It must
+name every processor actually in use: Vercel (hosting, analytics) and Cal.com. Add a provider, update the
+page and its date in the same change.
+
 ## Repo
 
 Public. No secrets. Commits terse, imperative, impersonal.

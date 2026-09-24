@@ -96,7 +96,7 @@ export function ContextEngineDemo() {
 
         <div className="ce-qs" style={{ marginTop: 16 }} role="group" aria-label="Questions">
           {ceQuestions.map((c, i) => (
-            <button key={c.id} className={`ce-q${i === qi ? " on" : ""}`} aria-pressed={i === qi} onClick={() => ask(i)}>
+            <button key={c.id} className={`ce-q${i === qi ? " on" : ""}`} aria-pressed={i === qi} onClick={() => ask(i)} data-track="demo-context-question" data-track-question={c.id}>
               <span className="k">{c.kind}</span>
               {c.q}
             </button>

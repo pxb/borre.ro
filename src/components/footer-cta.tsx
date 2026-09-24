@@ -22,7 +22,7 @@ export function FooterCta() {
           <p className="mt-4 max-w-md leading-relaxed text-rule">{site.ctaNote}</p>
         </div>
         <Link
-          href="/contact"
+          href="/contact" data-track="cta" data-track-where="footer-band"
           className="btn-orange shrink-0 px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
         >
           {site.cta}

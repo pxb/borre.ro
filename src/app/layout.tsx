@@ -5,6 +5,7 @@ import "./globals.css";
 import { serviceCategories, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
 import { HomeLink } from "@/components/home-link";
+import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
 import { OfferBar } from "@/components/offer-bar";
@@ -172,6 +173,8 @@ function Footer() {
               <li>
                 <Link
                   href="/contact"
+                  data-track="cta"
+                  data-track-where="footer-link"
                   className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
                   Book a call
@@ -249,6 +252,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         <OfferBar />
         <BackToTop />
+        <Analytics />
       </body>
     </html>
   );

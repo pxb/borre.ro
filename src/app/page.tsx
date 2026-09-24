@@ -22,7 +22,7 @@ export default function Home() {
             <p className="max-w-xl text-lg leading-relaxed text-ink-soft">{site.summary}</p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
-                href="/contact"
+                href="/contact" data-track="cta" data-track-where="hero"
                 className="btn-orange px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 {site.cta}

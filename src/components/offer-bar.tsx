@@ -46,7 +46,7 @@ export function OfferBar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3 sm:px-10">
         <p className={`hidden text-base font-medium sm:block ${ink ? "text-paper" : "text-ink"}`}>{site.ctaLine}</p>
         <Link
-          href="/contact"
+          href="/contact" data-track="cta" data-track-where="offer-bar"
           tabIndex={show ? 0 : -1}
           className={`btn-orange w-full px-5 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 sm:w-auto ${
             ink ? "focus-visible:outline-paper" : "focus-visible:outline-ink"
