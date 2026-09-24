@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { isFigure } from "@/lib/is-figure";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
 import { SystemsHub } from "@/components/systems-hub";
+import { Figure } from "@/components/figure";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
 import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
 import { WorkflowDemo } from "@/components/demo/workflow-demo";
@@ -85,18 +85,11 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       ) : null}
 
       <Row label="Results">
-        <dl className="flex flex-wrap gap-x-12 gap-y-6">
+        <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {c.metrics.map((m) => (
-            <div key={m.label}>
-              <dt
-                className={`text-3xl ${
-                  isFigure(m.value) ? "font-mono tabular-nums text-accent" : "font-medium text-ink"
-                }`}
-              >
-                {m.value}
-              </dt>
-              <dd className="mt-1 max-w-[16rem] text-sm leading-snug text-ink-soft">{m.label}</dd>
-            </div>
+            <Figure key={m.label} value={m.value} dl>
+              <span className="block max-w-[16rem] text-sm text-ink-soft">{m.label}</span>
+            </Figure>
           ))}
         </dl>
       </Row>

@@ -14,6 +14,10 @@ Profile site for an AI and Revenue Operations practice, written as "we" (a pract
 
 ## Design
 
+**The site's design language is `DESIGN.md`** (grounds, lines, accent, the figure form, items,
+headers, spacing). Read it before building any page or slide, and extend it there rather than
+inventing a one-off.
+
 Follow the Vercel Web Interface Guidelines: https://vercel.com/design/guidelines
 
 The rules that bite most here:
@@ -71,8 +75,8 @@ the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to fu
 **Slide standard (#584, 2026-09-24):** left, the title and one short paragraph. Right, one `Frame`: a
 heading over a 2px ink rule, an optional footer, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
-three sourced figures in the /work metric form (figure over claim beside a hairline; two barriers and
-one upside, PwC's 163%; the proportion bars were cut because similar percentages read as progress bars), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
+two barriers in ink then the upside in the accent (PwC's 163%), in the shared figure form beside
+their claims (the proportion bars were cut because similar percentages read as progress bars), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on into 06 Support,
 Results as a figure wall, Support as a monthly loop. No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.

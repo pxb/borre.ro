@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
-import { CountUp } from "@/components/motion-bits";
+import { Figure } from "@/components/figure";
 import { evidence, work } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
@@ -15,9 +15,6 @@ import { evidence, work } from "@/content/site";
 // so the slide carries one sentence at a time instead of four.
 
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-// Figures stay below the hero headline and the slide titles at every width, so
-// they support the story instead of outranking it and the CTA.
-const FIGURE = "font-mono text-[clamp(1.5rem,min(2.6vw,4vh),2.25rem)] leading-none tabular-nums text-action";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -130,32 +127,65 @@ export function Example({ id, go }: { id: string; go: (id: string) => void }) {
   return <Loop />;
 }
 
-// 01 Problem: the figures in the same form as the case-study metrics on /work,
-// a figure over its claim beside a hairline, side by side when there is room.
-// No bars: similar percentages drawn as bars read as progress bars.
+// 01 Problem: two barriers, then the upside. Figures in the site's one figure
+// form, beside their claims; the barriers in ink, the upside in the accent, so
+// the good number reads as the good number. No bars: similar percentages drawn
+// as bars read as progress bars.
+type Evidence = (typeof evidence)[number];
+
+function Claim({ e }: { e: Evidence }) {
+  return (
+    <p className="text-ink">
+      {e.claim.charAt(0).toUpperCase() + e.claim.slice(1)}.{" "}
+      <a
+        href={e.href}
+        target="_blank"
+        rel="noreferrer"
+        className={`text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
+      >
+        {e.source}
+      </a>
+    </p>
+  );
+}
+
 function Gap() {
+  const barriers = evidence.filter((e) => !("upside" in e));
+  const upside = evidence.filter((e) => "upside" in e);
   return (
     <Frame heading="The gap">
-      <div className="@container">
-        <ul className="grid gap-8 @xl:grid-cols-3 @xl:gap-6">
-          {evidence.map((e) => (
-            <li key={e.stat} className="border-l-2 border-rule pl-4">
-              <CountUp value={e.stat} className={`block ${FIGURE}`} />
-              <p className="mt-3 leading-snug text-ink">
-                {e.claim.charAt(0).toUpperCase() + e.claim.slice(1)}
-              </p>
-              <a
-                href={e.href}
-                target="_blank"
-                rel="noreferrer"
-                className={`mt-2 inline-block text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
-              >
-                {e.source}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="grid gap-5">
+        {barriers.map((e) => (
+          <li key={e.stat}>
+            <Figure value={e.stat} beside tone="ink" count>
+              <Claim e={e} />
+            </Figure>
+          </li>
+        ))}
+      </ul>
+      {upside.length ? (
+        <div className="mt-6 border-t border-rule pt-3">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm font-medium text-ink-soft">The upside</p>
+            <Link
+              href="/services"
+              className={`group inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink sm:min-h-6 ${FOCUS}`}
+            >
+              How we help
+              <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <ul className="mt-5 grid gap-5">
+            {upside.map((e) => (
+              <li key={e.stat}>
+                <Figure value={e.stat} beside count>
+                  <Claim e={e} />
+                </Figure>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </Frame>
   );
 }
@@ -243,9 +273,9 @@ function Formula() {
   return (
     <Frame
       heading={
-        <span className="font-mono">
+        <>
           AI<sup>3</sup>
-        </span>
+        </>
       }
     >
       <div {...p.list} className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -335,7 +365,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
               >
                 <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
                   <span
-                    className={`absolute inset-x-0 bg-ink transition-[height] ${on ? "h-1" : "h-0.5"}`}
+                    className={`absolute inset-x-0 transition-[height,background-color] ${on ? "h-1 bg-accent" : "h-0.5 bg-ink"}`}
                     style={{ top: lift }}
                   />
                   {i > 0 ? <span className="absolute left-0 w-0.5 bg-ink" style={{ top: lift, height: RISE }} /> : null}
@@ -396,15 +426,13 @@ function Figures() {
         {items.map((w, i) => (
           <li key={w.slug} className={items.length % 2 && i === items.length - 1 ? "sm:col-span-2" : ""}>
             <Link href={`/work/${w.slug}`} className={`group block ${FOCUS}`}>
-              <CountUp
-                value={w.metrics[0].value}
-                className={`block whitespace-nowrap ${FIGURE}`}
-              />
-              <span className="mt-3 block max-w-md text-sm leading-snug text-ink-soft">{w.metrics[0].label}</span>
-              <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors group-hover:decoration-ink">
-                {w.title}
-                <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-              </span>
+              <Figure value={w.metrics[0].value} count>
+                <span className="block max-w-md text-sm text-ink-soft">{w.metrics[0].label}</span>
+                <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-ink underline decoration-rule underline-offset-4 transition-colors group-hover:decoration-ink">
+                  {w.title}
+                  <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Figure>
             </Link>
           </li>
         ))}

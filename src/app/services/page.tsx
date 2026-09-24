@@ -87,7 +87,7 @@ export default function Services() {
       {/* Start: side by side. */}
       <section aria-labelledby="start" className="pt-12 pb-20 sm:pt-16">
         <GroupHead id="start">Start</GroupHead>
-        <div className="mt-8 grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
+        <div className="mt-6 grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
           {pick(START).map((s) => (
             <Reveal key={s.slug}>
               <article id={s.slug} className="scroll-mt-28">
@@ -107,13 +107,13 @@ export default function Services() {
       {/* Build: each beside the product it makes. */}
       <section aria-labelledby="build" className="pb-8">
         <GroupHead id="build">Build</GroupHead>
-        {pick(BUILD).map((s) => {
+        {pick(BUILD).map((s, i) => {
           const still = STILL[s.slug];
           return (
             <Reveal key={s.slug}>
               <article
                 id={s.slug}
-                className="grid scroll-mt-28 gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16"
+                className={`grid scroll-mt-28 gap-10 border-b border-rule pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 ${i ? "pt-14" : "pt-6"}`}
               >
                 <div className="min-w-0">
                   <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
@@ -153,7 +153,7 @@ export default function Services() {
           <article
             key={s.slug}
             id={s.slug}
-            className="grid scroll-mt-28 gap-12 pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16"
+            className="grid scroll-mt-28 gap-12 pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16"
           >
             <div className="min-w-0">
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>

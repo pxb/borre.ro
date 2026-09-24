@@ -21,24 +21,17 @@ export default function About() {
                 {p}
               </p>
             ))}
+            <p>
+              <a href={site.linkedin} target="_blank" rel="me noreferrer" className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                LinkedIn
+              </a>
+            </p>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
           <VoxelMark className="mx-auto aspect-square w-full max-w-md" />
         </Reveal>
       </section>
-
-      <p className="border-t border-rule py-8">
-        <a
-          href={site.linkedin}
-          target="_blank"
-          rel="me noreferrer"
-          className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-        >
-          LinkedIn
-        </a>
-      </p>
-
     </Page>
   );
 }

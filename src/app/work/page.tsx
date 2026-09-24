@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { isFigure } from "@/lib/is-figure";
 import { Page } from "@/components/section";
+import { Figure } from "@/components/figure";
 import { Reveal } from "@/components/motion-bits";
 import { CasePreview } from "@/components/demo/previews";
 import { work } from "@/content/site";
@@ -37,12 +37,9 @@ export default function Work() {
 
                 <dl className="mt-8 grid gap-6 sm:grid-cols-2">
                   {c.metrics.slice(0, 2).map((m) => (
-                    <div key={m.label} className="border-l-2 border-rule pl-4">
-                      <dt className={`text-2xl ${isFigure(m.value) ? "font-mono tabular-nums text-accent" : "font-medium text-ink"}`}>
-                        {m.value}
-                      </dt>
-                      <dd className="mt-1 text-sm leading-snug text-ink-soft">{m.label}</dd>
-                    </div>
+                    <Figure key={m.label} value={m.value} dl>
+                      <span className="text-sm text-ink-soft">{m.label}</span>
+                    </Figure>
                   ))}
                 </dl>
 
