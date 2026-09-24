@@ -347,7 +347,6 @@ function Ladder({ go }: { go: (id: string) => void }) {
                   >
                     {s.t}
                   </span>
-                  <span className="mt-1 block font-mono text-xs tabular-nums text-balance text-ink-soft">{s.meta}</span>
                   <Inline pick={p}>{s.d}</Inline>
                 </span>
               </button>
@@ -413,23 +412,13 @@ function Figures() {
   );
 }
 
-// 06 Support: the service as a monthly loop around its price.
+// 06 Support: the service as a monthly loop.
 const LABEL_POS = [
   "top-0 left-1/2 w-60 -translate-x-1/2 text-center",
   "top-1/2 left-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2",
   "bottom-0 left-1/2 w-60 -translate-x-1/2 text-center",
   "top-1/2 right-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2 text-right",
 ];
-
-function Price() {
-  return (
-    <p className="text-center">
-      <span className="block text-sm text-ink-soft">From</span>
-      <span className={`block ${FIGURE}`}>£1,000</span>
-      <span className="block text-sm text-ink-soft">a month</span>
-    </p>
-  );
-}
 
 function Loop() {
   return (
@@ -452,9 +441,10 @@ function Loop() {
   );
 }
 
-// The loop without its frame, for the managed service on /services, where the
-// price is already on the price line, so the centre stays empty.
-export function LoopShape({ price = true }: { price?: boolean }) {
+// The loop without its frame, also used for the managed service on /services.
+// No price in the centre: slides carry no prices (Pedro, 2026-09-24); they
+// live on /services, under each service name.
+export function LoopShape() {
   const reduce = useReducedMotion();
   const mounted = useMounted();
   return (
@@ -497,11 +487,6 @@ export function LoopShape({ price = true }: { price?: boolean }) {
             </circle>
           ) : null}
         </svg>
-        {price ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Price />
-          </div>
-        ) : null}
         <ol>
           {SUPPORT.map((t, i) => (
             <li key={t} className={`absolute font-medium leading-snug text-ink ${LABEL_POS[i]}`}>
@@ -511,12 +496,7 @@ export function LoopShape({ price = true }: { price?: boolean }) {
         </ol>
       </div>
       <div className="sm:hidden">
-        {price ? (
-          <div className="flex justify-start">
-            <Price />
-          </div>
-        ) : null}
-        <ol className="relative mt-6 ml-2 border-l-2 border-ink">
+        <ol className="relative ml-2 border-l-2 border-ink">
           {SUPPORT.map((t) => (
             <li key={t} className="relative py-2.5 pl-6 font-medium leading-snug text-ink">
               <span
@@ -533,7 +513,7 @@ export function LoopShape({ price = true }: { price?: boolean }) {
   );
 }
 
-type Row = { t: string; d: string; meta?: string; href: string };
+type Row = { t: string; d: string; href: string };
 
 const CALL: Omit<Row, "href">[] = [
   { t: "How the work flows today", d: "From first enquiry to invoice: who does what, and where the time goes." },
@@ -544,10 +524,10 @@ const CALL: Omit<Row, "href">[] = [
 
 // The entry points, in the industry's terms. None assumes a build.
 const STARTS: Row[] = [
-  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", meta: "From £450", href: "/services#audit" },
-  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", meta: "From £950", href: "/services#workshop" },
-  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", meta: "From £950 a day", href: "/services#training" },
-  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", meta: "From £1,500", href: "/services#agentic-workflows" },
+  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", href: "/services#audit" },
+  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", href: "/services#workshop" },
+  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", href: "/services#training" },
+  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", href: "/services#agentic-workflows" },
 ];
 
 // The three parts of every build, each linked to the case study that shows it.

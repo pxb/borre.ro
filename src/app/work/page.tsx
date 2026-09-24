@@ -17,11 +17,7 @@ export const metadata: Metadata = {
 // index reads like the pages it leads to.
 export default function Work() {
   return (
-    <Page
-      title="Built from real client work."
-      lead="Each one started as a job someone was doing by hand."
-      crumbs={[{ href: "/", label: "Home" }]}
-    >
+    <Page title="Case studies" bare>
       <div>
         {work.map((c, i) => (
           <Reveal key={c.slug}>

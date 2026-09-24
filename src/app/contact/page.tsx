@@ -13,7 +13,6 @@ export default function Contact() {
     <Page
       title="Book a free 30-minute call."
       lead="Pick a time that suits you. Tell us a little about your business when you book and we'll come prepared."
-      crumbs={[{ href: "/", label: "Home" }]}
     >
       {/* What the call covers, the same track as 02 Review on the homepage. */}
       <section className="pt-12">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <Page title={about.lead} crumbs={[{ href: "/", label: "Home" }]}>
+    <Page title={about.lead}>
       <section className="grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-20">
         <Reveal>
           <div className="max-w-xl space-y-6">

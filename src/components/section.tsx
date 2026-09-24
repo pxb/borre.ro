@@ -8,13 +8,25 @@ export function Page({
   title,
   lead,
   crumbs,
+  bare,
   children,
 }: {
   title: string;
   lead?: string;
   crumbs?: Crumb[];
+  // No visible header: the nav already names the page (Pedro, 2026-09-24), so
+  // the title is for screen readers and the page opens on its content.
+  bare?: boolean;
   children: ReactNode;
 }) {
+  if (bare) {
+    return (
+      <div className="mx-auto max-w-6xl px-6 sm:px-10">
+        <h1 className="sr-only">{title}</h1>
+        {children}
+      </div>
+    );
+  }
   return (
     <div className="mx-auto max-w-6xl px-6 sm:px-10">
       <header className="border-b border-rule py-12 sm:py-16 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action">

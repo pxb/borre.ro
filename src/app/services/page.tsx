@@ -83,11 +83,7 @@ function GroupHead({ id, children }: { id: string; children: React.ReactNode }) 
 
 export default function Services() {
   return (
-    <Page
-      title="Eight ways we can help."
-      lead="Not sure where to start? Book a call and we'll suggest one."
-      crumbs={[{ href: "/", label: "Home" }]}
-    >
+    <Page title="Services" bare>
       {/* Start: side by side. */}
       <section aria-labelledby="start" className="pt-12 pb-20 sm:pt-16">
         <GroupHead id="start">Start</GroupHead>
@@ -95,6 +91,8 @@ export default function Services() {
           {pick(START).map((s) => (
             <Reveal key={s.slug}>
               <article id={s.slug} className="scroll-mt-28">
+                {/* The page's accent: the three ways in. */}
+                <span aria-hidden="true" className="mb-5 block h-1 w-10 bg-accent" />
                 <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
                 <Price s={s} />
                 <p className="mt-4 leading-relaxed text-ink-soft">{s.what}</p>
@@ -165,7 +163,7 @@ export default function Services() {
               <Under s={s} />
             </div>
             <div className="min-w-0">
-              <LoopShape price={false} />
+              <LoopShape />
             </div>
           </article>
         ))}

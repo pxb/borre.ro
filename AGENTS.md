@@ -73,7 +73,7 @@ heading over a 2px ink rule, an optional footer, no boxed or tinted backgrounds.
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 figures over proportion bars, Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on into 06 Support,
-Results as a figure wall, Support as a monthly loop around its price. The six were all one row list
+Results as a figure wall, Support as a monthly loop. No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
@@ -154,6 +154,7 @@ emphasis. The rule that fixed it:
 | Backdrop | White tracery only. **The accent does not go in here** |
 
 Named exceptions, all large or brand: the `.ro` wordmark and the cycling word in the headline.
+Graphic marks, not text: the short bars over the three ways to start on /services (#585).
 The **R** and **O** highlight went with the hero eyebrow.
 
 Contrast and hierarchy turned out to be the same problem here: every element demoted under this
@@ -180,11 +181,19 @@ Per page, each deliberately different:
 
 | Page | Treatment |
 |---|---|
-| /services | Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, Build beside the product still it makes, Run as the monthly loop. One small price line under every name |
-| /work | Previews alternate sides; figures in the accent |
+| /services | No visible header (see below). Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, each under a short accent bar (the page's accent), Build beside the product still it makes, Run as the monthly loop. One small price line under every name |
+| /work | No visible header. Previews alternate sides; figures in the accent |
 | Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
 | /contact | The 0 to 30 minute call track from 02 Review, above the calendar |
 | /about | The mark; no diagram |
+
+**No title-and-subtitle headers where the nav already names the page** (Pedro, 2026-09-24): "Eight
+ways we can help" plus a lead, and "Built from real client work" plus a lead, read as a written-by-AI
+pattern. /services and /work use `Page bare`: the h1 is screen-reader only and the page opens on its
+content. **Breadcrumbs only where there is a level to go back to** (case studies); a lone "Home /" on
+a top-level page is noise.
+
+**No prices on the homepage slides.** Prices live on /services only.
 
 **Prices never outrank the service.** A price set as the biggest thing in a section makes the cost
 the headline (Pedro, 2026-09-24); on /services it is one small line under the name. A services map
