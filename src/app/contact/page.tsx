@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Page } from "@/components/section";
 import { site } from "@/content/site";
+import { Timeline } from "@/components/story-forms";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -14,6 +15,11 @@ export default function Contact() {
       lead="Pick a time that suits you. Tell us a little about your business when you book and we'll come prepared."
       crumbs={[{ href: "/", label: "Home" }]}
     >
+      {/* What the call covers, the same track as 02 Review on the homepage. */}
+      <section className="pt-12">
+        <Timeline />
+      </section>
+
       {site.booking ? (
         <section className="-mx-6 py-6 sm:mx-0 sm:py-12">
           {/* Full-bleed on phones so Cal.com's own mobile layout has the room. */}

@@ -107,13 +107,14 @@ Public. No secrets. Commits terse, imperative, impersonal.
 
 ## Colour
 
-**Four colours. Nothing else is a colour.** Settled 2026-09-21. Every ratio below was computed
-against paper, not estimated.
+**Four colours. Nothing else is a colour.** Set 2026-09-21. **Kept for now (Pedro, 2026-09-24,
+#585): he is working on the palette separately, by hand.** Until he hands a change over, do not
+change these values. Every ratio below was computed against paper, not estimated.
 
 | # | Token | Hex | Role | On paper |
 |---|---|---|---|---|
 | 1 | `--paper` | `#F2EDE4` | the page ground | — |
-| 2 | `--ink` | `#1F1C19` | primary type | 15.9:1 |
+| 2 | `--ink` | `#1F1C19` | primary type | 14.5:1 |
 | 3 | `--ink-soft` | `#5C554D` | secondary type, labels, captions | 6.3:1 |
 | 4 | `--accent` | `#A8402C` | CTA ground, figures, the wordmark | 5.2:1 both ways |
 
@@ -160,6 +161,34 @@ rule was small text that was already failing AA.
 
 **The accent never appears in the backdrop.** The first rule is
 what stopped sage-on-vermillion; the second is what stopped orange-on-orange.
+
+## Surfaces (#585, 2026-09-24)
+
+Competitors get variety from light and dark bands and from imagery, not from extra hues. Pedro
+picked all three directions proposed on #585, with two limits: **ink is used sparingly**, and **not
+every page gets a diagram**. The point is to break up patterns, so each page gets a different
+treatment rather than one treatment everywhere.
+
+**The one ink band is the footer offer** (`footer-cta.tsx`), full bleed on every inner page. Do not
+add more dark bands without asking. On ink, measured: paper 14.5:1; `--rule` 11.2:1 and is the
+secondary text there; `--ink-soft` 2.3:1 and is unusable; the accent 2.8:1, so on ink the accent is
+only ever the button ground, and focus rings are paper. An accent lightened for ink (`#D16651`,
+4.6:1) drops to 3.1:1 on paper, the original too-bright problem, so there is no dark-mode accent.
+
+Per page, each deliberately different:
+
+| Page | Treatment |
+|---|---|
+| /services | A map of how the services connect (`services-map.tsx`, doubles as the page index), then three groups, each with its own shape: Start side by side, Build beside the product still it makes (alternating sides, price as a figure in the accent), Run as the monthly loop |
+| /work | Previews alternate sides; figures in the accent |
+| Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
+| /contact | The 0 to 30 minute call track from 02 Review, above the calendar |
+| /about | The mark; no diagram |
+
+Diagrams are ink linework on paper. Connector lines are SVG stretched over a gutter with
+`preserveAspectRatio="none"` and `vector-effect: non-scaling-stroke`, over equal grid rows, so each
+line meets the middle of its box at any height. They are not a second signature visual: the
+signature is still the NET backdrop.
 
 ## Backdrop
 

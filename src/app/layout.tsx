@@ -133,8 +133,8 @@ function FooterCol({
 function Footer() {
   return (
     <footer className="mt-32 border-t border-rule">
+      <FooterCta />
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <FooterCta />
 
         <div className="grid gap-12 border-b border-rule py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>

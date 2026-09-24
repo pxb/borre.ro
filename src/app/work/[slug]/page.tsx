@@ -3,6 +3,7 @@ import { isFigure } from "@/lib/is-figure";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
+import { SystemsHub } from "@/components/systems-hub";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
 import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
 import { WorkflowDemo } from "@/components/demo/workflow-demo";
@@ -88,8 +89,8 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           {c.metrics.map((m) => (
             <div key={m.label}>
               <dt
-                className={`text-3xl text-ink ${
-                  isFigure(m.value) ? "font-mono tabular-nums" : "font-medium"
+                className={`text-3xl ${
+                  isFigure(m.value) ? "font-mono tabular-nums text-accent" : "font-medium text-ink"
                 }`}
               >
                 {m.value}
@@ -113,17 +114,12 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       ) : null}
 
       {/* The details, last: what it connects, how it's built, what it costs. */}
-      <section className="grid gap-10 py-12 sm:grid-cols-3">
+      <section className="grid gap-12 py-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
         <div>
           <h2 className="label">Connected systems</h2>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {c.stack.map((x) => (
-              <li key={x} className="border border-rule px-2.5 py-1 text-sm text-ink">
-                {x}
-              </li>
-            ))}
-          </ul>
+          <SystemsHub systems={c.stack} name={c.title} />
         </div>
+        <div className="grid content-start gap-10">
         <div>
           <h2 className="label">Technology</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
@@ -151,6 +147,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
               </li>
             ))}
           </ul>
+        </div>
         </div>
       </section>
     </Page>

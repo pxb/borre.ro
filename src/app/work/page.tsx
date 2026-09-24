@@ -26,7 +26,8 @@ export default function Work() {
         {work.map((c, i) => (
           <Reveal key={c.slug}>
             <article className="grid gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
-              <div className="min-w-0">
+              {/* Previews alternate sides so the index doesn't read as one repeated row. */}
+              <div className={`min-w-0 ${i % 2 ? "lg:order-2" : ""}`}>
                 <p className="font-mono text-xs tabular-nums text-ink-soft">{String(i + 1).padStart(2, "0")}</p>
                 <h2 className="mt-3 text-[clamp(1.5rem,2.6vw,2rem)] font-medium tracking-[-0.015em] text-ink">
                   <Link
@@ -41,7 +42,7 @@ export default function Work() {
                 <dl className="mt-8 grid gap-6 sm:grid-cols-2">
                   {c.metrics.slice(0, 2).map((m) => (
                     <div key={m.label} className="border-l-2 border-rule pl-4">
-                      <dt className={`text-2xl text-ink ${isFigure(m.value) ? "font-mono tabular-nums" : "font-medium"}`}>
+                      <dt className={`text-2xl ${isFigure(m.value) ? "font-mono tabular-nums text-accent" : "font-medium text-ink"}`}>
                         {m.value}
                       </dt>
                       <dd className="mt-1 text-sm leading-snug text-ink-soft">{m.label}</dd>

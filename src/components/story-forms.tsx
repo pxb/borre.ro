@@ -182,7 +182,8 @@ function Share({ pct }: { pct: number }) {
 }
 
 // 02 Review: the call as a 0 to 30 minute track with four stops. Vertical on phones.
-function Timeline() {
+// Also on /contact, above the calendar.
+export function Timeline() {
   const p = usePick(CALL.length, "In the 30 minutes");
   return (
     <Frame heading="In the 30 minutes">
@@ -431,8 +432,6 @@ function Price() {
 }
 
 function Loop() {
-  const reduce = useReducedMotion();
-  const mounted = useMounted();
   return (
     <Frame
       heading="Managed service"
@@ -448,6 +447,17 @@ function Loop() {
         </>
       }
     >
+      <LoopShape />
+    </Frame>
+  );
+}
+
+// The loop without its frame, for the managed service on /services.
+export function LoopShape() {
+  const reduce = useReducedMotion();
+  const mounted = useMounted();
+  return (
+    <>
       <div className="relative mx-auto hidden h-[290px] max-w-[540px] sm:block">
         <svg
           aria-hidden="true"
@@ -514,7 +524,7 @@ function Loop() {
         </ol>
         <Repeat aria-hidden className="mt-1 size-4 text-ink-soft" />
       </div>
-    </Frame>
+    </>
   );
 }
 
