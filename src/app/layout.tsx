@@ -203,6 +203,12 @@ function Footer() {
             {site.name}
           </p>
           <div className="flex flex-wrap items-center gap-6 text-ink-soft">
+            <Link
+              href="/privacy"
+              className="inline-flex min-h-11 items-center underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+            >
+              Privacy
+            </Link>
             <a
               href="/llms.txt"
               className="inline-flex min-h-11 items-center font-mono underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"

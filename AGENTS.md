@@ -124,9 +124,8 @@ element; server components need no client code. Current events: `cta` (with `whe
 events are recorded on Vercel Pro only**; on Hobby, page views count and events are dropped. Web
 Analytics must be enabled for the project in the Vercel dashboard. Bookings are counted in Cal.com.
 
-`/privacy` (#575) is drafted on branch `privacy-analytics` and waits for pedro@borre.ro (#563). It must
-name every processor actually in use: Vercel (hosting, analytics) and Cal.com. Add a provider, update the
-page and its date in the same change.
+`/privacy` (#575) must name every processor actually in use: Vercel (hosting, analytics) and Cal.com.
+Add a provider, update the page and its date in the same change.
 
 ## Metadata and share images (#578, 2026-09-25)
 
