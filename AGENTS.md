@@ -169,8 +169,9 @@ picked all three directions proposed on #585, with two limits: **ink is used spa
 every page gets a diagram**. The point is to break up patterns, so each page gets a different
 treatment rather than one treatment everywhere.
 
-**The one ink band is the footer offer** (`footer-cta.tsx`), full bleed on every inner page. Do not
-add more dark bands without asking. On ink, measured: paper 14.5:1; `--rule` 11.2:1 and is the
+**Ink is for the offer only:** the footer offer band (`footer-cta.tsx`), full bleed on every inner
+page, and the fixed `OfferBar` on the homepage, where it rides over the story (on inner pages the bar
+stays paper). Do not add more dark bands without asking. On ink, measured: paper 14.5:1; `--rule` 11.2:1 and is the
 secondary text there; `--ink-soft` 2.3:1 and is unusable; the accent 2.8:1, so on ink the accent is
 only ever the button ground, and focus rings are paper. An accent lightened for ink (`#D16651`,
 4.6:1) drops to 3.1:1 on paper, the original too-bright problem, so there is no dark-mode accent.
@@ -179,11 +180,15 @@ Per page, each deliberately different:
 
 | Page | Treatment |
 |---|---|
-| /services | A map of how the services connect (`services-map.tsx`, doubles as the page index), then three groups, each with its own shape: Start side by side, Build beside the product still it makes (alternating sides, price as a figure in the accent), Run as the monthly loop |
+| /services | Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, Build beside the product still it makes, Run as the monthly loop. One small price line under every name |
 | /work | Previews alternate sides; figures in the accent |
 | Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
 | /contact | The 0 to 30 minute call track from 02 Review, above the calendar |
 | /about | The mark; no diagram |
+
+**Prices never outrank the service.** A price set as the biggest thing in a section makes the cost
+the headline (Pedro, 2026-09-24); on /services it is one small line under the name. A services map
+(Start into the Context Engine into Build) was built and cut: it added little and did not make sense.
 
 Diagrams are ink linework on paper. Connector lines are SVG stretched over a gutter with
 `preserveAspectRatio="none"` and `vector-effect: non-scaling-stroke`, over equal grid rows, so each

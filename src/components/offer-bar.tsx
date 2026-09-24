@@ -30,20 +30,27 @@ export function OfferBar() {
   }, [path]);
 
   const show = past && !footerInView && path !== "/contact";
+  // On the homepage it rides over the story, so it takes the ink ground of the
+  // footer band (#585): a clearer frame for the offer over the slides.
+  const ink = path === "/";
 
   return (
     <div
       aria-hidden={!show}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-paper/95 backdrop-blur transition-[opacity,transform] duration-300 ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t transition-[opacity,transform] duration-300 ${
+        ink ? "border-ink bg-ink" : "border-rule bg-paper/95 backdrop-blur"
+      } ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3 sm:px-10">
-        <p className="hidden text-base font-medium text-ink sm:block">{site.ctaLine}</p>
+        <p className={`hidden text-base font-medium sm:block ${ink ? "text-paper" : "text-ink"}`}>{site.ctaLine}</p>
         <Link
           href="/contact"
           tabIndex={show ? 0 : -1}
-          className="btn-orange w-full px-5 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:w-auto"
+          className={`btn-orange w-full px-5 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 sm:w-auto ${
+            ink ? "focus-visible:outline-paper" : "focus-visible:outline-ink"
+          }`}
         >
           {site.cta}
         </Link>

@@ -452,8 +452,9 @@ function Loop() {
   );
 }
 
-// The loop without its frame, for the managed service on /services.
-export function LoopShape() {
+// The loop without its frame, for the managed service on /services, where the
+// price is already on the price line, so the centre stays empty.
+export function LoopShape({ price = true }: { price?: boolean }) {
   const reduce = useReducedMotion();
   const mounted = useMounted();
   return (
@@ -496,9 +497,11 @@ export function LoopShape() {
             </circle>
           ) : null}
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Price />
-        </div>
+        {price ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Price />
+          </div>
+        ) : null}
         <ol>
           {SUPPORT.map((t, i) => (
             <li key={t} className={`absolute font-medium leading-snug text-ink ${LABEL_POS[i]}`}>
@@ -508,9 +511,11 @@ export function LoopShape() {
         </ol>
       </div>
       <div className="sm:hidden">
-        <div className="flex justify-start">
-          <Price />
-        </div>
+        {price ? (
+          <div className="flex justify-start">
+            <Price />
+          </div>
+        ) : null}
         <ol className="relative mt-6 ml-2 border-l-2 border-ink">
           {SUPPORT.map((t) => (
             <li key={t} className="relative py-2.5 pl-6 font-medium leading-snug text-ink">

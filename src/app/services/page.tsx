@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Page } from "@/components/section";
 import { Reveal } from "@/components/motion-bits";
-import { ServicesMap } from "@/components/services-map";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview } from "@/components/demo/previews";
 import { costNotes, proofFor, serviceFor, type ServiceCategory } from "@/content/site";
@@ -15,7 +14,8 @@ export const metadata: Metadata = {
 
 // Three groups, each with its own shape (#585), so the page is not eight
 // identical rows: the ways to start side by side, the builds beside the product
-// they make, and the managed service as its monthly loop.
+// they make, and the managed service as its monthly loop. Prices sit small under
+// each name: the name and what it does lead, not the cost.
 const START = ["audit", "workshop", "training"];
 const BUILD = ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"];
 // The case study whose product still stands in for each build.
@@ -64,6 +64,15 @@ function Under({ s }: { s: ServiceCategory }) {
   );
 }
 
+// One price line everywhere on the page, under the name.
+function Price({ s }: { s: ServiceCategory }) {
+  return (
+    <p className="mt-2 text-sm font-medium text-ink">
+      {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
+    </p>
+  );
+}
+
 function GroupHead({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <h2 id={id} className="scroll-mt-28 border-t-2 border-ink pt-3 text-sm font-medium text-ink-soft">
@@ -79,19 +88,15 @@ export default function Services() {
       lead="Not sure where to start? Book a call and we'll suggest one."
       crumbs={[{ href: "/", label: "Home" }]}
     >
-      <ServicesMap />
-
-      {/* Start: side by side, prices in ink. */}
-      <section aria-labelledby="start" className="pb-20">
+      {/* Start: side by side. */}
+      <section aria-labelledby="start" className="pt-12 pb-20 sm:pt-16">
         <GroupHead id="start">Start</GroupHead>
         <div className="mt-8 grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
           {pick(START).map((s) => (
             <Reveal key={s.slug}>
               <article id={s.slug} className="scroll-mt-28">
                 <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-                <p className="mt-2 text-sm font-medium text-ink">
-                  {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
-                </p>
+                <Price s={s} />
                 <p className="mt-4 leading-relaxed text-ink-soft">{s.what}</p>
                 <Includes items={s.includes} />
                 <Under s={s} />
@@ -101,10 +106,10 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Build: each beside the product it makes, alternating sides; prices as figures. */}
+      {/* Build: each beside the product it makes. */}
       <section aria-labelledby="build" className="pb-8">
         <GroupHead id="build">Build</GroupHead>
-        {pick(BUILD).map((s, i) => {
+        {pick(BUILD).map((s) => {
           const still = STILL[s.slug];
           return (
             <Reveal key={s.slug}>
@@ -112,13 +117,10 @@ export default function Services() {
                 id={s.slug}
                 className="grid scroll-mt-28 gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16"
               >
-                <div className={`min-w-0 ${still && i % 2 ? "lg:order-2" : ""}`}>
+                <div className="min-w-0">
                   <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-                  <p className="mt-3 font-mono text-[clamp(1.5rem,2.6vw,2.25rem)] leading-tight tabular-nums text-balance text-accent">
-                    {s.price}
-                  </p>
-                  <p className="mt-3 text-sm text-ink-soft">{s.duration}</p>
-                  <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
+                  <Price s={s} />
+                  <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
                   {still ? (
                     <>
                       <Includes items={s.includes} />
@@ -157,13 +159,13 @@ export default function Services() {
           >
             <div className="min-w-0">
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-              <p className="mt-3 text-sm text-ink-soft">{s.duration}</p>
-              <p className="mt-6 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
+              <Price s={s} />
+              <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
               <Includes items={s.includes} />
               <Under s={s} />
             </div>
             <div className="min-w-0">
-              <LoopShape />
+              <LoopShape price={false} />
             </div>
           </article>
         ))}
