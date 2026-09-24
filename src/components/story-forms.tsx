@@ -98,12 +98,11 @@ function Inline({ pick, children }: { pick: Pick; children: ReactNode }) {
 
 // A label only where it names something the slide title doesn't (AI3, the
 // managed service); labels that repeat the title were cut as over-explaining.
-function Frame({ heading, children, foot }: { heading?: ReactNode; children: ReactNode; foot?: ReactNode }) {
+function Frame({ heading, children }: { heading?: ReactNode; children: ReactNode }) {
   return (
     <div className="border-t-2 border-ink">
       {heading ? <p className="pt-3 text-sm font-medium text-ink-soft">{heading}</p> : null}
       <div className="pt-6">{children}</div>
-      {foot ? <p className="mt-7 border-t border-rule pt-3 text-sm text-ink-soft">{foot}</p> : null}
     </div>
   );
 }
@@ -327,19 +326,7 @@ function Ladder({ go }: { go: (id: string) => void }) {
   const p = usePick(STARTS.length, "Ways to start");
   const n = STARTS.length;
   return (
-    <Frame
-      foot={
-        <>
-          Builds take 1 to 8 weeks.{" "}
-          <Link
-            href="/services"
-            className={`text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink ${FOCUS}`}
-          >
-            Services and prices
-          </Link>
-        </>
-      }
-    >
+    <Frame>
       <div className="flex flex-col sm:flex-row">
         <div {...p.list} className="grid gap-2 sm:flex-1 sm:grid-cols-4 sm:gap-0">
           {STARTS.map((s, i) => {
