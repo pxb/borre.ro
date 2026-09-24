@@ -48,6 +48,9 @@ export type CaseStudy = {
   stack: string[];
   services: string[]; // the ServiceCategories that deliver it, so the two cannot drift
   journey?: string[]; // how it was built and what makes it work; shown in Solution
+  // False while results are targets, not outcomes (not live yet). Keeps it off
+  // the homepage "what they've done" slide. Internal only, never displayed.
+  resultsProven?: boolean;
   // A real client quote only, with permission. Never invented (#562).
   testimonial?: { quote: string; name: string; role: string };
 };
@@ -80,9 +83,8 @@ export const work: CaseStudy[] = [
       "It's the backbone for everything else we built. The prospecting pipeline reads its ICP and writes every brief back to it, and the follow-up workflow draws on its account history.",
     ],
     metrics: [
-      { value: "~£900k", label: "of pipeline surfaced from one question" },
-      { value: "1 day", label: "from their data to a working proof of concept" },
-      { value: "Every answer", label: "cites the record it came from" },
+      { value: "~£900k", label: "of open pipeline surfaced from a single question" },
+      { value: "1 day", label: "from the client's data to a working proof of concept" },
     ],
     involved: [
       "Your team decides what material it can rely on, and approves anything it drafts before it's used.",
@@ -117,9 +119,9 @@ export const work: CaseStudy[] = [
       "We built it in stages with the client's sales lead: a pilot of hand-picked accounts, then weekly research packs, then the live portal. Each round of feedback sharpened the profile. Multi-site groups rank above single sites, a recent investment is a must-have, an ESG commitment counts in a company's favour and businesses in financial distress are screened out.",
     ],
     metrics: [
-      { value: "Weekly", label: "researched leads, sized to your team and market" },
-      { value: "Every lead", label: "arrives with its buying signal and the sources behind it" },
-      { value: "Minutes", label: "of research per lead" },
+      { value: "Weekly", label: "new researched leads in the pipeline, sized to the team and market" },
+      { value: "~1 hour", label: "of account research behind every lead, done before the rep starts" },
+      { value: "£0", label: "paid data per lead in the weekly runs, from public registers and free tiers" },
     ],
     involved: [
       "The rep reads every brief, sends from their own inbox and logs the outcome. Contact details for the very smallest firms still need a person to find them.",
@@ -147,9 +149,8 @@ export const work: CaseStudy[] = [
       "The first version went live in August, checking HubSpot every ten minutes and writing research notes onto new contacts. The second version, now in testing, adds deeper buying signals and B Corp checks, and runs on free sources by default, calling paid research only where the free ones come up short.",
     ],
     metrics: [
-      { value: "20 to 40 min", label: "of manual research saved per lead, estimated" },
-      { value: "Every claim", label: "carries a source link" },
-      { value: "2 checks", label: "before any contact is used" },
+      { value: "20 to 40 min", label: "of rep time saved on every inbound lead, estimated" },
+      { value: "~10 min", label: "from a lead being logged to a researched brief on the contact" },
     ],
     involved: [
       "Everything the AI suggests is checked against an official record before it reaches anyone, and the rep reads the note before the first call.",
@@ -158,6 +159,7 @@ export const work: CaseStudy[] = [
     services: ["agentic-workflows"],
   },
   {
+    resultsProven: false,
     slug: "post-call",
     title: "Post-call follow-up and handoff",
     tagline: "When a discovery call moves the deal forward, the follow-up, the notes and the handoff are ready for review.",
@@ -178,8 +180,8 @@ export const work: CaseStudy[] = [
       "It has been tested end to end on a real discovery call, with nothing written to the CRM until the client signs off.",
     ],
     metrics: [
-      { value: "4 outputs", label: "from each call, ready for review" },
-      { value: "Stage change", label: "starts it: the move the rep already makes" },
+      { value: "20 min", label: "the client's target from call to follow-up, which it's built to hit" },
+      { value: "4 jobs", label: "prepared for the rep after each discovery call: the email, the CRM notes, the project folder and the team brief" },
     ],
     involved: [
       "Your team checks the draft and sends it themselves.",

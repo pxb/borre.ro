@@ -83,27 +83,27 @@ export const ceBonnet = [
 
 // ---------------------------------------------------------------- Workflows
 
-// The systems a workflow touches. `kind` groups them for colour: business
-// systems the team already uses, outside data sources, the intelligence layer,
-// and people.
+// The systems a workflow touches.
 export type SystemId =
   | "hubspot" | "outlook" | "sharepoint"
   | "companies-house" | "website" | "bcorp" | "hunter" | "linkedin" | "fireflies"
   | "context-engine" | "claude"
   | "rep";
-export const systems: Record<SystemId, { name: string; mark: string; kind: "business" | "data" | "intel" | "people" }> = {
-  hubspot: { name: "HubSpot", mark: "HS", kind: "business" },
-  outlook: { name: "Outlook", mark: "OL", kind: "business" },
-  sharepoint: { name: "SharePoint", mark: "SP", kind: "business" },
-  "companies-house": { name: "Companies House", mark: "CH", kind: "data" },
-  website: { name: "Company website", mark: "WEB", kind: "data" },
-  bcorp: { name: "B Corp directory", mark: "B", kind: "data" },
-  hunter: { name: "Hunter", mark: "HU", kind: "data" },
-  linkedin: { name: "LinkedIn", mark: "IN", kind: "data" },
-  fireflies: { name: "Fireflies", mark: "FF", kind: "data" },
-  "context-engine": { name: "Context Engine", mark: "CE", kind: "intel" },
-  claude: { name: "AI model", mark: "AI", kind: "intel" },
-  rep: { name: "The rep", mark: "YOU", kind: "people" },
+// Each system shows on its node as a light type label, not a logo: enough to
+// see what a step touches without the detail taking over (Pedro, 2026-09-24).
+export const systems: Record<SystemId, { name: string; type: string }> = {
+  hubspot: { name: "HubSpot", type: "CRM" },
+  outlook: { name: "Outlook", type: "Email" },
+  sharepoint: { name: "SharePoint", type: "Files" },
+  "companies-house": { name: "Companies House", type: "API" },
+  website: { name: "Company website", type: "Web" },
+  bcorp: { name: "B Corp directory", type: "API" },
+  hunter: { name: "Hunter", type: "API" },
+  linkedin: { name: "LinkedIn", type: "Web" },
+  fireflies: { name: "Fireflies", type: "API" },
+  "context-engine": { name: "Context Engine", type: "CE" },
+  claude: { name: "AI model", type: "AI" },
+  rep: { name: "The rep", type: "Human" },
 };
 export type Touch = { sys: SystemId; mode: "read" | "write" | "ai" | "approve" };
 

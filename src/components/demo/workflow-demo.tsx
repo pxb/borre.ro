@@ -4,24 +4,23 @@ import "./portal.css";
 import { useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { demoClient } from "@/content/demo-prospecting";
-import { systems, type FlowRun, type SystemId, type Touch } from "@/content/demo-showcases";
+import { systems, type FlowRun, type Touch } from "@/content/demo-showcases";
 
-const MODE: Record<Touch["mode"], { glyph: string; verb: string }> = {
-  read: { glyph: "R", verb: "Reads" },
-  write: { glyph: "W", verb: "Writes to" },
-  ai: { glyph: "✦", verb: "Uses" },
-  approve: { glyph: "✓", verb: "Approved by" },
-};
-
-function Tile({ t }: { t: Touch }) {
-  const sys = systems[t.sys];
-  const label = `${MODE[t.mode].verb} ${sys.name}`;
+// A light label per system type on each node. Distinct types only, so a step
+// that reads two APIs shows "API" once; the names are in the line above.
+function Types({ touches }: { touches: Touch[] }) {
+  const seen = new Map<string, string[]>();
+  for (const t of touches) {
+    const { type, name } = systems[t.sys];
+    seen.set(type, [...(seen.get(type) ?? []), name]);
+  }
   return (
-    <span className={`sys k-${sys.kind}`} title={label} aria-label={label} role="img">
-      {sys.mark}
-      <span className="m" aria-hidden="true">
-        {MODE[t.mode].glyph}
-      </span>
+    <span className="tiles">
+      {[...seen].map(([type, names]) => (
+        <span key={type} className="ntype" title={names.join(", ")}>
+          {type}
+        </span>
+      ))}
     </span>
   );
 }
@@ -99,8 +98,6 @@ export function WorkflowDemo({ run, title }: { run: FlowRun; title: string }) {
           </button>
         </div>
 
-        <IntegrationBar run={run} state={state} ready={status === "ready"} />
-
         <ol className="wf-canvas" aria-label={`${title} steps`}>
           {run.nodes.map((x, i) => (
             <li key={x.id} style={{ display: "contents" }}>
@@ -124,11 +121,7 @@ export function WorkflowDemo({ run, title }: { run: FlowRun; title: string }) {
                 </span>
                 <span className="t">{x.title}</span>
                 <span className="s">{x.system}</span>
-                <span className="tiles">
-                  {x.touches.map((t) => (
-                    <Tile key={t.sys + t.mode} t={t} />
-                  ))}
-                </span>
+                <Types touches={x.touches} />
               </button>
             </li>
           ))}
@@ -154,51 +147,6 @@ export function WorkflowDemo({ run, title }: { run: FlowRun; title: string }) {
 
         {status === "done" ? <p className="wf-done">{run.done}</p> : null}
       </div>
-    </div>
-  );
-}
-
-// Every system this workflow touches, lit as the run reaches it. Before a run
-// (and without JavaScript) all are shown lit, so the integration reads at once.
-function IntegrationBar({ run, state, ready }: { run: FlowRun; state: string[]; ready: boolean }) {
-  const order: SystemId[] = [];
-  const io: Record<string, { r: number; w: number }> = {};
-  for (const n of run.nodes)
-    for (const t of n.touches) {
-      if (!order.includes(t.sys)) order.push(t.sys);
-      io[t.sys] ??= { r: 0, w: 0 };
-      if (t.mode === "read") io[t.sys].r++;
-      if (t.mode === "write") io[t.sys].w++;
-    }
-  const touchedBy = (st: string[]) =>
-    new Set(run.nodes.flatMap((n, i) => (st.includes(state[i]) ? n.touches.map((t) => t.sys) : [])));
-  const live = touchedBy(["running", "waiting"]);
-  const used = ready ? new Set(order) : touchedBy(["done"]);
-
-  return (
-    <div>
-      <ul className="wf-bar" aria-label="Systems this workflow connects">
-        {order.map((id) => {
-          const sys = systems[id];
-          const rw = [io[id].r ? "reads" : "", io[id].w ? "writes" : ""].filter(Boolean).join(" and ");
-          return (
-            <li key={id} className={`wf-sys${live.has(id) ? " live" : used.has(id) ? " used" : ""}`}>
-              <span className={`sys k-${sys.kind}`} aria-hidden="true">
-                {sys.mark}
-              </span>
-              {sys.name}
-              {rw ? <span className="io">{rw}</span> : null}
-            </li>
-          );
-        })}
-      </ul>
-      <p className="wf-legend">
-        <span><i style={{ background: "#c08552" }} />Your business systems</span>
-        <span><i style={{ background: "#4f6b78" }} />Outside data</span>
-        <span><i style={{ background: "var(--p-accent)" }} />Context Engine and AI</span>
-        <span><i style={{ background: "var(--p-warn)" }} />People</span>
-        <span>R reads · W writes · ✦ AI · ✓ approves</span>
-      </p>
     </div>
   );
 }

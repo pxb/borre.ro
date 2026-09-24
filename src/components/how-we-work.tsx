@@ -417,7 +417,7 @@ function Example({ id }: { id: string }) {
   return (
     <div>
       <dl className="grid gap-6 sm:grid-cols-2">
-        {work.slice(0, 4).map((w) => (
+        {work.filter((w) => w.resultsProven !== false).map((w) => (
           <div key={w.slug} className="border-l-2 border-rule pl-4">
             <dt>
               <CountUp value={w.metrics[0].value} className="text-2xl font-medium text-ink" />
