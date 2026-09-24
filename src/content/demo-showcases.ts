@@ -77,8 +77,8 @@ export const ceBonnet = [
   ["Citations and provenance", "Every answer carries the IDs of the records it used, shown as citations the reader can check."],
   ["Role-based access", "Access tiers are enforced by row-level security in the database, so a question only reaches what the asker's role allows."],
   ["Approved knowledge", "Facts the team has signed off, like the ICP and pricing rules, are held as the source of truth and repeated word for word."],
-  ["Model Context Protocol (MCP)", "The same engine answers inside Claude and other AI assistants, and any LLM can sit behind it."],
-  ["CRM sync", "n8n workflows sync deals, companies, contacts, emails, notes, calls and meetings from the CRM every hour."],
+  ["Model Context Protocol (MCP)", "The same engine answers inside the team's AI assistants, and any LLM can sit behind it."],
+  ["CRM sync", "Workflow automation syncs deals, companies, contacts, emails, notes, calls and meetings from the CRM every hour."],
 ] as const;
 
 // ---------------------------------------------------------------- Workflows

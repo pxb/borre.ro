@@ -40,14 +40,14 @@ const STEPS: Step[] = [
     n: "03",
     label: "Idea",
     title: "One system that knows your business.",
-    body: "We put what your business knows in one place and connect your tools to it, so the software and your team work from the same facts.",
+    body: "Every build has three parts: what the business knows, the agents that do the work and the evals that prove it worked.",
   },
   {
     id: "execution",
     n: "04",
     label: "Execution",
     title: "Built on what you already own.",
-    body: "Every build has three parts: what the business knows, the agents that do the work and the evals that prove it worked. It all runs on accounts in your name, using the tools you already pay for.",
+    body: "Everything runs on accounts in your name, using the tools you already pay for. The Context Engine, the agents and the dashboard work from the same facts.",
   },
   {
     id: "results",
@@ -378,11 +378,11 @@ function Example({ id }: { id: string }) {
       </div>
     );
   }
-  if (id === "idea") {
+  if (id === "execution") {
     return <ConnectedSystem />;
   }
-  if (id === "execution") {
-    // AI cubed: the method behind every build. The plain line leads; the term
+  if (id === "idea") {
+    // AI cubed: the idea behind every build. The plain line leads; the term
     // is the small label, so it reads as a method, not a second brand.
     return (
       <div>

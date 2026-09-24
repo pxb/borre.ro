@@ -77,22 +77,22 @@ export const work: CaseStudy[] = [
       "Answers questions about accounts, deals and pipeline in plain language, using retrieval-augmented generation (RAG) that cites the record behind every answer",
       "Holds the facts the team has signed off, like the ideal customer profile, and repeats only those",
       "Follows the access rules the business agreed, so each person sees what their role allows",
-      "Works inside Claude and the company's other AI tools, and feeds the prospecting and follow-up workflows",
+      "Works inside the team's AI assistants, and feeds the prospecting and follow-up workflows",
     ],
     journey: [
-      "It started as a proof of concept on the client's own data, built in a day. From there we added the hourly CRM sync, the access tiers the client signed off and a governed connector, so the team use it straight from Claude.",
+      "It started as a proof of concept on the client's own data, built in a day. From there we added the hourly CRM sync, the access tiers the client signed off and a governed connector, so the team use it straight from their AI assistant.",
       "It's the backbone for everything else we built. The prospecting pipeline reads its ICP and writes every brief back to it, and the follow-up workflow draws on its account history.",
     ],
     metrics: [
-      { value: "One question", label: "for full pipeline visibility, every figure traced to its deal in the CRM" },
+      { value: "100%", label: "of the open pipeline visible in one answer, every figure traced to its deal in the CRM" },
       { value: "1 day", label: "from the client's own data to a working proof of concept" },
-      { value: "Hourly", label: "CRM sync, so every answer reflects the current pipeline" },
+      { value: "8", label: "CRM record types synced every hour, from deals to call notes" },
     ],
     involved: [
       "Your team decides what material it can rely on, and approves anything it drafts before it's used.",
     ],
-    stack: ["HubSpot", "Proposals and documents", "Claude"],
-    tech: ["Hybrid RAG", "Postgres with pgvector", "Row-level security", "MCP server", "n8n", "Document parsing"],
+    stack: ["HubSpot", "Proposals and documents", "AI assistants"],
+    tech: ["Hybrid RAG", "Vector database", "Row-level security", "MCP", "Workflow automation", "Document parsing"],
     services: ["context-engine"],
   },
   {
@@ -122,15 +122,14 @@ export const work: CaseStudy[] = [
       "We built it in stages with the client's sales lead: a pilot of hand-picked accounts, then weekly research packs, then the live portal. Each round of feedback sharpened the profile. Multi-site groups rank above single sites, a recent investment is a must-have, an ESG commitment counts in a company's favour and businesses in financial distress are screened out.",
     ],
     metrics: [
-      { value: "Weekly", label: "new researched leads in the pipeline, sized to the team and market" },
-      { value: "~1 hour", label: "of account research behind every lead, done before the rep starts" },
-      { value: "£0", label: "paid data per lead in the weekly runs, from public registers and free tiers" },
+      { value: "~1 hour", label: "of account research done for the rep on every lead" },
+      { value: "6", label: "buying signals watched across the whole territory, from hiring to new premises" },
     ],
     involved: [
       "The rep stays the human in the loop: they read every brief, send from their own inbox and log the outcome. Contact details for the very smallest firms still need a person to find them.",
     ],
-    stack: ["HubSpot", "Companies House", "Hunter", "Apollo", "Job boards", "Company websites"],
-    tech: ["Context Engine", "n8n", "React web app", "Edge functions", "Magic-link sign-in"],
+    stack: ["HubSpot", "Companies House", "Job boards", "Company websites", "Data enrichment", "Email verification"],
+    tech: ["Context Engine", "Workflow automation", "Web app", "Serverless API", "Passwordless sign-in"],
     services: ["agentic-workflows", "apps-dashboards"],
   },
   {
@@ -141,16 +140,16 @@ export const work: CaseStudy[] = [
       "Every new enquiry meant someone digging through Companies House, the company website and LinkedIn before they could have a sensible first conversation.",
       "Much of it was out of date by the time it was used, and it rarely made it back into HubSpot.",
     ],
-    drawsOn: ["Companies House filings and officers", "The company's own website", "Group and ownership structure", "The B Corp directory"],
+    drawsOn: ["Companies House filings and officers", "The company's own website", "Group and ownership structure", "Certification directories"],
     does: [
       "Picks up each new lead logged in HubSpot, including the ones added from Outlook",
       "Works out which company it is from Companies House, including which entity in a group",
-      "Pulls ownership, directors and filings, plus buying signals and ESG commitments from the company's website and the B Corp directory",
+      "Pulls ownership, directors and filings, plus buying signals and ESG commitments from the company's website and certification directories",
       "Qualifies the lead against the ICP and checks the contact two ways: the email works and the person is still in the role",
       "Writes a research note onto the contact in HubSpot, with a source link on every claim",
     ],
     journey: [
-      "The first version went live in August, checking HubSpot every ten minutes and writing research notes onto new contacts. The second version, now in testing, adds deeper buying signals and B Corp checks, and runs on free sources by default, calling paid research only where the free ones come up short.",
+      "The first version went live in August, checking HubSpot every ten minutes and writing research notes onto new contacts. The second version, now in testing, adds deeper buying signals and certification checks, and runs on free sources by default, calling paid research only where the free ones come up short.",
     ],
     metrics: [
       { value: "20 to 40 min", label: "of rep time saved on every inbound lead, estimated" },
@@ -159,8 +158,8 @@ export const work: CaseStudy[] = [
     involved: [
       "Everything the AI suggests is checked against an official record before it reaches anyone, and the rep reads the note before the first call.",
     ],
-    stack: ["HubSpot", "Outlook", "Companies House", "Company websites", "B Corp directory", "Hunter"],
-    tech: ["n8n", "LLM with source verification", "Web extraction", "Context Engine"],
+    stack: ["HubSpot", "Outlook", "Companies House", "Company websites", "Certification directories", "Email verification"],
+    tech: ["Workflow automation", "LLM with source verification", "Web extraction", "Context Engine"],
     services: ["agentic-workflows"],
   },
   {
@@ -172,13 +171,13 @@ export const work: CaseStudy[] = [
       "Good discovery calls were going cold while the follow-up waited for someone to have time to write it, and the notes rarely made it into HubSpot.",
       "The client wanted the follow-up out within twenty minutes of the call, with the notes in the CRM and a brief to the design team, every time.",
     ],
-    drawsOn: ["The Fireflies call transcript", "The HubSpot deal and contact", "Account history from the Context Engine", "How the rep writes"],
+    drawsOn: ["The call transcript", "The HubSpot deal and contact", "Account history from the Context Engine", "How the rep writes"],
     does: [
       "Starts when a deal moves out of Discovery and Qualification in HubSpot, so the stage change the rep already makes is the trigger",
-      "Reads the call transcript from Fireflies and matches it to the right contact and deal, setting aside anything ambiguous",
+      "Reads the call transcript from the call recorder and matches it to the right contact and deal, setting aside anything ambiguous",
       "Pulls the account history from the Context Engine",
       "Produces four things for review: a commercial note, a follow-up draft in the rep's voice, a brief for the design team and the CRM updates it proposes",
-      "Lines up the Outlook draft, the SharePoint project folder and the HubSpot updates, and waits for the rep's approval before any of them happen",
+      "Lines up the email draft, the shared project folder and the CRM updates, and waits for the rep's approval before any of them happen",
     ],
     journey: [
       "We made the stage change the trigger rather than adding a new field, because the rep already moves the deal. A field would be one more thing to remember and forget.",
@@ -191,8 +190,8 @@ export const work: CaseStudy[] = [
     involved: [
       "The rep is the human in the loop: they check the drafts and send the follow-up themselves.",
     ],
-    stack: ["Fireflies", "HubSpot", "Outlook", "SharePoint"],
-    tech: ["n8n", "LLM", "Context Engine", "Human-in-the-loop approval"],
+    stack: ["HubSpot", "Outlook", "Call recorder", "Document storage"],
+    tech: ["Workflow automation", "LLM", "Context Engine", "Human-in-the-loop approval"],
     services: ["agentic-workflows"],
   },
 ];

@@ -140,7 +140,7 @@ export function ContextEngineDemo() {
         </div>
 
         <details className="ce-bonnet">
-          <summary>Under the bonnet</summary>
+          <summary>Technical detail</summary>
           <dl>
             {ceBonnet.map(([t, d]) => (
               <div key={t}>
