@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
-import { Example } from "@/components/story-forms";
+import { Example, itemCount } from "@/components/story-forms";
 import { site } from "@/content/site";
 
 // One story, six steps: Problem, Review, Method, Engagement, Value, Support. Two modes:
@@ -63,6 +64,39 @@ const STEPS: Step[] = [
   },
 ];
 
+// The pinned story's timeline, in units of 64vh of scroll. Each slide holds
+// still while the scroll walks its items (half a unit per item, so the story
+// does not rush), then one unit carries it to the next slide. A slide's first
+// stop is where it arrives, its last is where it leaves.
+const UNIT_VH = 64;
+const MOVE = 1;
+const PAUSE = 0.5;
+type Stop = { slide: number; item: number; u: number };
+const STOPS: Stop[] = [];
+const FIRST: number[] = [];
+const LAST: number[] = [];
+{
+  let u = 0;
+  STEPS.forEach((s, i) => {
+    if (i > 0) u += MOVE;
+    FIRST[i] = u;
+    for (let k = 0; k < itemCount(s.id); k++) {
+      if (k > 0) u += PAUSE;
+      STOPS.push({ slide: i, item: k, u });
+    }
+    LAST[i] = u;
+  });
+}
+const TOTAL = LAST[LAST.length - 1];
+
+// The stop nearest a point on the timeline, so each item owns the scroll
+// halfway to its neighbours.
+function nearestStop(u: number) {
+  let best = 0;
+  for (let k = 1; k < STOPS.length; k++) if (Math.abs(STOPS[k].u - u) < Math.abs(STOPS[best].u - u)) best = k;
+  return best;
+}
+
 function useDesktop() {
   const [d, setD] = useState(false);
   useEffect(() => {
@@ -82,12 +116,15 @@ export function HowWeWork() {
   // Horizontal only where it behaves: a wide viewport with motion allowed.
   const horizontal = desktop && !reduce;
   const wrap = useRef<HTMLDivElement>(null);
-  // 0 at the first step, 1 at the last, in either mode; drives the step tracks.
+  // Stacked: 0 at the first step, 1 at the last; drives the step tracks.
   const { scrollYProgress } = useScroll({ target: wrap, offset: ["start 120px", "end end"] });
-  // Move the story to a step: by anchor when stacked, by scroll position when pinned.
+  // Pinned: where the story is on its timeline, set by the pinned section.
+  const u = useMotionValue(0);
+  // Move the story to a step: by anchor when stacked, to the slide's first
+  // stop when pinned.
   const go = (id: string) => {
     if (!horizontal) return scrollToId(id);
-    const y = slideY(STEPS.findIndex((s) => s.id === id));
+    const y = timelineY(FIRST[STEPS.findIndex((s) => s.id === id)]);
     if (y != null) scrollToY(y);
   };
 
@@ -95,9 +132,9 @@ export function HowWeWork() {
   // instead of riding down over the footer.
   return (
     <div ref={wrap}>
-      <StepBar active={active} go={go} progress={scrollYProgress} />
+      <StepBar active={active} go={go} progress={scrollYProgress} u={u} horizontal={horizontal} />
       {horizontal ? (
-        <Horizontal onActive={setActive} go={go} />
+        <Horizontal onActive={setActive} go={go} u={u} />
       ) : (
         <Vertical onActive={setActive} go={go} />
       )}
@@ -105,15 +142,15 @@ export function HowWeWork() {
   );
 }
 
-// Scroll position at which slide i sits fully in view. The pinned section's
-// scroll range is its height minus one viewport (useScroll "start start" to
+// Scroll position of a point on the timeline. The pinned section's scroll
+// range is its height minus one viewport (useScroll "start start" to
 // "end end"), shared by the step bar and the snap so they agree.
-function slideY(i: number) {
+function timelineY(t: number) {
   const outer = document.getElementById("story");
   if (!outer) return null;
   const top = outer.getBoundingClientRect().top + window.scrollY;
   const range = outer.offsetHeight - window.innerHeight;
-  return Math.round(top + (i / (STEPS.length - 1)) * range);
+  return Math.round(top + (t / TOTAL) * range);
 }
 
 function scrollToY(y: number) {
@@ -130,10 +167,14 @@ function StepBar({
   active,
   go,
   progress,
+  u,
+  horizontal,
 }: {
   active: string;
   go: (id: string) => void;
   progress: MotionValue<number>;
+  u: MotionValue<number>;
+  horizontal: boolean;
 }) {
   return (
     <div className="sticky top-20 z-30 border-b border-rule bg-paper">
@@ -146,6 +187,8 @@ function StepBar({
               index={i}
               on={s.id === active}
               progress={progress}
+              u={u}
+              horizontal={horizontal}
               onClick={() => go(s.id)}
             />
           ))}
@@ -160,18 +203,25 @@ function StepItem({
   index,
   on,
   progress,
+  u,
+  horizontal,
   onClick,
 }: {
   step: Step;
   index: number;
   on: boolean;
   progress: MotionValue<number>;
+  u: MotionValue<number>;
+  horizontal: boolean;
   onClick: () => void;
 }) {
-  // Step i's track fills across its share of the story.
-  const fill = useTransform(progress, (p) =>
-    Math.min(1, Math.max(0, p * (STEPS.length - 1) - index + 1)),
-  );
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+  // Stacked: step i's track fills across its share of the story.
+  const stacked = useTransform(progress, (p) => clamp(p * (STEPS.length - 1) - index + 1));
+  // Pinned: it fills from the move into slide i to the slide's last item, so
+  // the bar keeps moving while a slide walks its items.
+  const pinned = useTransform(u, (t) => clamp((t - FIRST[index] + MOVE) / (LAST[index] - FIRST[index] + MOVE)));
+  const fill = horizontal ? pinned : stacked;
   return (
     <li className="min-w-[6.5rem] flex-1">
       <button
@@ -198,29 +248,67 @@ function StepItem({
 // the section it snaps to the nearest slide, so a panel is never left half-way.
 // The frame's foot carries the offer for the whole story, and the panels are
 // centred in what is left, so a tall screen does not leave one big gap.
-function Horizontal({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
+// Each slide holds still across its own stops (x is flat from its first to
+// its last), while the scroll picks its items in order: the call's stops, the
+// three terms, the ladder's treads. Scrolling back walks them in reverse.
+const X_IN: number[] = [];
+const X_OUT: string[] = [];
+STEPS.forEach((_, i) => {
+  for (const t of FIRST[i] === LAST[i] ? [FIRST[i]] : [FIRST[i], LAST[i]]) {
+    X_IN.push(t / TOTAL);
+    X_OUT.push(`-${i * 100}vw`);
+  }
+});
+
+function Horizontal({
+  onActive,
+  go,
+  u,
+}: {
+  onActive: (id: string) => void;
+  go: (id: string) => void;
+  u: MotionValue<number>;
+}) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${(STEPS.length - 1) * 100}vw`]);
+  const x = useTransform(scrollYProgress, X_IN, X_OUT);
+  // The stop the scroll has reached. It changes only at another stop, so the
+  // slides re-render per step, not per frame.
+  const [stop, setStop] = useState(0);
 
   useEffect(() => {
     return scrollYProgress.on("change", (p) => {
-      const i = Math.min(STEPS.length - 1, Math.max(0, Math.round(p * (STEPS.length - 1))));
-      onActive(STEPS[i].id);
+      u.set(p * TOTAL);
+      const k = nearestStop(p * TOTAL);
+      setStop(k);
+      onActive(STEPS[STOPS[k].slide].id);
     });
-  }, [scrollYProgress, onActive]);
+  }, [scrollYProgress, onActive, u]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
+    // Where the story last came to rest. A settle goes on to the next stop in
+    // the direction of travel, so one notch of a mouse wheel is one step; a
+    // nearest-stop snap pulled small nudges back and could hold a reader in place.
+    let rest = 0;
     const settle = () => {
-      const first = slideY(0);
-      const last = slideY(STEPS.length - 1);
+      const first = timelineY(0);
+      const last = timelineY(TOTAL);
       if (first == null || last == null) return;
       const y = window.scrollY;
       // Only inside the pinned range; entering and leaving scroll freely.
-      if (y <= first + 2 || y >= last - 2) return;
-      const i = Math.round(((y - first) / (last - first)) * (STEPS.length - 1));
-      const target = slideY(i);
+      if (y <= first + 2) return void (rest = 0);
+      if (y >= last - 2) return void (rest = TOTAL);
+      const t = ((y - first) / (last - first)) * TOTAL;
+      const d = t - rest;
+      const k =
+        Math.abs(d) < 0.02
+          ? nearestStop(t)
+          : d > 0
+            ? STOPS.findIndex((s) => s.u >= t - 0.001)
+            : STOPS.findLastIndex((s) => s.u <= t + 0.001);
+      rest = STOPS[k].u;
+      const target = timelineY(rest);
       if (target != null && Math.abs(target - y) > 2) scrollToY(target);
     };
     const onScroll = () => {
@@ -242,22 +330,28 @@ function Horizontal({ onActive, go }: { onActive: (id: string) => void; go: (id:
       id="story"
       ref={ref}
       aria-label="How it works"
-      style={{ height: `${STEPS.length * 70}vh` }}
+      style={{ height: `${TOTAL * UNIT_VH + 100}vh` }}
       className="relative"
     >
       <div className="sticky top-[7.5rem] flex h-[calc(100vh-7.5rem)] flex-col overflow-hidden">
         <div className="min-h-0 flex-1 overflow-hidden">
           <motion.div style={{ x }} className="flex h-full">
-            {STEPS.map((s) => (
-              <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(2rem,7vh,4.5rem)]">
-                <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
-                  <StepText step={s} large />
-                  <div>
-                    <Example id={s.id} go={go} />
+            {STEPS.map((s, i) => {
+              // The item this slide shows: the reached one while it is the
+              // current slide, its last once passed, its first before.
+              const here = STOPS[stop];
+              const at = here.slide === i ? here.item : here.slide > i ? itemCount(s.id) - 1 : 0;
+              return (
+                <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(2rem,7vh,4.5rem)]">
+                  <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+                    <StepText step={s} large />
+                    <div>
+                      <Example id={s.id} go={go} at={at} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </div>

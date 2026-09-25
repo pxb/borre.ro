@@ -114,6 +114,13 @@ motion.dev (Pedro, 2026-09-24):
   never a diagonal glide (Pedro: it should climb the steps). On slide 03 nothing slides sideways: the
   underline draws itself under the picked term and a small cube builds one dimension per term,
   Context a line, Agents a square, Evals a cube (AI³, drawn).
+- **The scroll walks the picks (Pedro, 2026-09-25).** In the pinned story a slide holds still while
+  scrolling steps through its items in order (the call's stops, the three terms, the treads), then
+  moves on; scrolling back walks them in reverse. One notch of a wheel is one step. Hover, tap and
+  the arrow keys still pick, and scrolling never moves the pick while keyboard focus is inside the
+  set. Stacked (phones, reduced motion) nothing picks by scroll.
+- **The ladder shows its trail.** Treads climbed so far are ink, treads still ahead are the hairline,
+  so the staircase shows there is more above. Complete in ink without JavaScript.
 
 Counts roll up on figures. Everything renders finished on the server, without JavaScript and under
 reduced motion; the motion version only replaces the still one after mount. Everything renders complete

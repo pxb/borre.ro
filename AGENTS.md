@@ -89,7 +89,13 @@ only (the full list is the managed service on /services#support). No footer stat
 ("free, and booked straight into the calendar" was cut), and no footer repeats the left paragraph.
 
 Where a slide has several items, only the picked item's description shows (hover, focus, tap or the
-arrow keys; a tab set). All descriptions sit in one grid cell so the slot never jumps. Server render
+arrow keys; a tab set). In the pinned story the scroll also picks (2026-09-25): a timeline of 14
+stops in `how-we-work.tsx` (one unit of 64vh to move between slides, half a unit per item), `x`
+flat across each slide's own stops, and a snap that settles on the next stop in the direction of
+travel. `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
+focus is inside the set; hover picks on pointer movement, not entry, so a slide moving in under a
+resting pointer picks nothing. Checked in headless Edge by `Lab/borre-tools/cdp-story.mjs` (every
+stop, wheel steps, keyboard, reduced motion, no-JS) and `cdp-story-wheel.mjs`. All descriptions sit in one grid cell so the slot never jumps. Server render
 and no-JS show every description inline, so no copy is lost. Reduced motion keeps the forms and drops
 the animation (bars drawn full, no figure roll-up, no travelling dot on the loop). Slides are
 top-aligned with an even gap under the step bar. The booking offer is not in the story; it is the

@@ -27,11 +27,20 @@ function useMounted() {
 // A small tab set: hover, focus, tap or the arrow keys pick an item. Before
 // the client takes over (SSR, no-JS) `js` is false and every form renders all
 // of its descriptions inline, so nothing is lost without JavaScript.
-function usePick(n: number, label: string) {
-  const [on, setOn] = useState(0);
+// `at` is the item the pinned story's scroll has reached (null when the story
+// is stacked). It picks only when it changes, so a hover or tap holds until
+// the reader scrolls on, and it never moves the pick (or focus) while focus is
+// inside the set, so keyboard and screen-reader users keep their place.
+function usePick(n: number, label: string, at: number | null = null) {
+  const [on, setOn] = useState(at ?? 0);
   const js = useMounted();
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const uid = useId();
+  useEffect(() => {
+    if (at == null) return;
+    if (refs.current.some((el) => el != null && el === document.activeElement)) return;
+    setOn(at);
+  }, [at]);
   const list = { role: "tablist" as const, "aria-label": label };
   const tab = (i: number) => ({
     ref: (el: HTMLButtonElement | null) => {
@@ -43,7 +52,11 @@ function usePick(n: number, label: string) {
     "aria-selected": on === i,
     "aria-controls": `${uid}p`,
     tabIndex: on === i ? 0 : -1,
-    onMouseEnter: () => setOn(i),
+    // Pointer movement, not entry: in the pinned story a slide moves in under a
+    // resting pointer, and that must not pick whatever lands beneath it.
+    onPointerMove: (e: React.PointerEvent) => {
+      if (e.pointerType === "mouse" && on !== i) setOn(i);
+    },
     onFocus: () => setOn(i),
     onClick: () => setOn(i),
     onKeyDown: (e: React.KeyboardEvent) => {
@@ -120,11 +133,19 @@ function DetailLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-export function Example({ id, go }: { id: string; go: (id: string) => void }) {
+// How many items each slide walks through as the pinned story scrolls.
+export function itemCount(id: string) {
+  if (id === "review") return CALL.length;
+  if (id === "method") return AI3.length;
+  if (id === "engagement") return STARTS.length;
+  return 1;
+}
+
+export function Example({ id, go, at = null }: { id: string; go: (id: string) => void; at?: number | null }) {
   if (id === "problem") return <Gap />;
-  if (id === "review") return <Timeline />;
-  if (id === "method") return <Formula />;
-  if (id === "engagement") return <Ladder go={go} />;
+  if (id === "review") return <Timeline at={at} />;
+  if (id === "method") return <Formula at={at} />;
+  if (id === "engagement") return <Ladder go={go} at={at} />;
   if (id === "value") return <Worth />;
   return <Loop />;
 }
@@ -172,8 +193,8 @@ function Gap() {
 }
 
 // 02 Review: the call as a 0 to 30 minute track with four stops. Vertical on phones.
-function Timeline() {
-  const p = usePick(CALL.length, "In the 30 minutes");
+function Timeline({ at }: { at: number | null }) {
+  const p = usePick(CALL.length, "In the 30 minutes", at);
   return (
     <Frame>
       <div
@@ -296,8 +317,8 @@ function Cube({ level }: { level: number }) {
 }
 
 // 03 Method: the three parts as the formula they multiply into, the demo beneath.
-function Formula() {
-  const p = usePick(AI3.length, "Context, agents and evals");
+function Formula({ at }: { at: number | null }) {
+  const p = usePick(AI3.length, "Context, agents and evals", at);
   return (
     <Frame
       heading={
@@ -415,8 +436,8 @@ function Climber({ at, n }: { at: number; n: number }) {
 const RISE = 28;
 const STAIR = RISE * 3 + 4;
 
-function Ladder({ go }: { go: (id: string) => void }) {
-  const p = usePick(STARTS.length, "Ways to start");
+function Ladder({ go, at }: { go: (id: string) => void; at: number | null }) {
+  const p = usePick(STARTS.length, "Ways to start", at);
   const n = STARTS.length;
   return (
     <Frame>
@@ -425,6 +446,11 @@ function Ladder({ go }: { go: (id: string) => void }) {
           <Climber at={p.on} n={n} />
           {STARTS.map((s, i) => {
             const on = p.on === i;
+            // The trail: treads climbed so far in ink, the ones still ahead in
+            // the hairline, so the ladder shows there is more above. Complete
+            // in ink before the client takes over.
+            const ahead = p.js && i > p.on;
+            const line = ahead ? "bg-rule" : "bg-ink";
             const lift = (n - 1 - i) * RISE;
             return (
               <button
@@ -432,15 +458,19 @@ function Ladder({ go }: { go: (id: string) => void }) {
                 {...p.tab(i)}
                 style={{ "--indent": `${i * 14}px` } as React.CSSProperties}
                 className={`group ml-[var(--indent)] flex min-h-11 flex-col justify-start border-t-2 pt-3 text-left transition-colors sm:ml-0 sm:border-t-0 sm:pt-0 ${
-                  on ? "border-accent" : "border-ink"
+                  on ? "border-accent" : ahead ? "border-rule" : "border-ink"
                 } ${FOCUS}`}
               >
                 <span aria-hidden="true" className="relative hidden sm:block" style={{ height: STAIR }}>
-                  <DrawLine className="absolute inset-x-0 h-0.5 origin-left bg-ink" style={{ top: lift }} delay={i * 0.14} />
+                  <DrawLine
+                    className={`absolute inset-x-0 h-0.5 origin-left transition-colors duration-300 ${line}`}
+                    style={{ top: lift }}
+                    delay={i * 0.14}
+                  />
                   {i > 0 ? (
                     <DrawLine
                       axis="y"
-                      className="absolute left-0 w-0.5 origin-bottom bg-ink"
+                      className={`absolute left-0 w-0.5 origin-bottom transition-colors duration-300 ${line}`}
                       style={{ top: lift, height: RISE }}
                       delay={i * 0.14 - 0.07}
                     />

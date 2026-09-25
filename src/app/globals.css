@@ -65,6 +65,13 @@
     @apply font-sans;
   }
 
+  /* Tailwind 4 leaves buttons on the default arrow, so a tab or tread gave no
+     sign it could be picked. */
+  button:not(:disabled),
+  [role="button"] {
+    cursor: pointer;
+  }
+
   /* Archivo's width axis, used deliberately: expanded for display, normal for
      reading, narrow for the mono figures so the two do not compete. */
   h1,
