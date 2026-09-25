@@ -305,6 +305,14 @@ Generated at runtime from a formula, never shipped as geometry: the reference SV
 
 One flat concrete tone with self-shadowing. Not multi-coloured, and never the accent colour.
 
+**Loading (#582, 2026-09-25).** three.js cost a mid-range phone one 505 ms task that no deferral can
+split (641 ms of blocking time on /about). So the page ships a still of the mark
+(`public/mark-still.webp`, rendered from this scene at its first frame by
+`Lab/borre-tools/cdp-mark-still.mjs`; re-render it if the scene changes). Phones and reduced motion
+keep the still and never fetch three.js. Screens 1024px and up swap in the live scene once the page
+has loaded, the browser is idle and the mark is in view, and drop the still after its first frame.
+Measured locally, mobile: blocking time 641 to about 35 ms, performance 82 to 96.
+
 ## Type
 
 **Archivo** throughout, **Martian Mono** for numbers and code. Chosen 2026-09-21 after impeccable's

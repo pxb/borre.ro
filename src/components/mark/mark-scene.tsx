@@ -8,8 +8,7 @@
  */
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { useReducedMotion } from "motion/react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { sphereVoxels } from "./voxels";
 
@@ -54,8 +53,10 @@ function Mark({ reduced }: { reduced: boolean }) {
   );
 }
 
-export default function MarkScene() {
-  const reduced = useReducedMotion() ?? false;
+export default function MarkScene({ onReady }: { onReady?: () => void }) {
+  // Read once on mount; this chunk only loads after the page has settled, and
+  // the motion library is not worth loading for one media query.
+  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   return (
     <Canvas
       orthographic
@@ -65,6 +66,9 @@ export default function MarkScene() {
       shadows="soft"
       style={{ width: "100%", height: "100%" }}
       aria-hidden="true"
+      // Two frames after creation the first render is on screen, so the still
+      // underneath can go without a blank frame between them.
+      onCreated={() => requestAnimationFrame(() => requestAnimationFrame(() => onReady?.()))}
     >
       <ambientLight intensity={0.3} />
       <directionalLight
