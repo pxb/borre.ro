@@ -28,9 +28,8 @@ export const site = {
   ctaNote: "Book a free 30-minute call and we'll tell you what we'd do first.",
   // Cal.com booking link. Empty = /contact falls back to email.
   booking: "pedro-borrero-a4yjyv/30min",
-  // No public email until pedro@borre.ro works (Google Workspace, Pedro's to-do).
-  // Empty hides every email link; the calendar is the way in meanwhile.
-  email: "",
+  // Business address, live 2026-09-25. Empty hides every email link.
+  email: "pedro@borre.ro",
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
