@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { Page } from "@/components/section";
 import { Figure } from "@/components/figure";
 import { CasePreview } from "@/components/demo/previews";
 import { work } from "@/content/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Case studies",
   description:
     "Four AI systems built from real client work: a Context Engine with RAG over the CRM, outbound prospecting, inbound lead enrichment and post-call follow-up.",
-};
+  path: "/work",
+});
 
 // Each case study as it appears inside: its business-value results, the
 // systems it connects and a still preview of its interactive demo, so the

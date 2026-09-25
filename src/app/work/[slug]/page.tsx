@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
@@ -30,7 +31,8 @@ export async function generateMetadata({
   const { slug } = await params;
   const c = work.find((w) => w.slug === slug);
   if (!c) return {};
-  return { title: c.title, description: c.tagline };
+  const path = `/work/${c.slug}`;
+  return pageMeta({ title: c.title, description: c.tagline, path, image: { url: `${path}/opengraph-image`, alt: c.title } });
 }
 
 function List({ items }: { items: string[] }) {

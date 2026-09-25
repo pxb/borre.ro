@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { Page } from "@/components/section";
 import { site } from "@/content/site";
 import { CallTrack } from "@/components/story-forms";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Contact",
   description: "Book a free 30-minute call with borre.ro.",
-};
+  path: "/contact",
+});
 
 export default function Contact() {
   return (

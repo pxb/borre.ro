@@ -122,6 +122,21 @@ Analytics must be enabled for the project in the Vercel dashboard. Bookings are 
 name every processor actually in use: Vercel (hosting, analytics) and Cal.com. Add a provider, update the
 page and its date in the same change.
 
+## Metadata and share images (#578, 2026-09-25)
+
+Every page builds its metadata with `pageMeta` (`src/lib/meta.ts`): its own canonical URL, og:url,
+og:title and share image. The root layout sets none of these; it once set them to the homepage, so
+every page told search engines and LinkedIn it was a copy of `/` (Lighthouse SEO flagged the
+canonical on every inner page). A page's `openGraph` replaces the layout's and outranks its own
+segment's `opengraph-image` file, so a page with its own image passes `image` to `pageMeta`.
+
+Share images are 1200x630 PNGs rendered at build time from `src/app/_og/card.tsx`, in the site's
+language: paper, the wordmark, a block rule, the title, at most one figure in the figure form. They
+carry only existing site strings. Default: the headline that renders without JavaScript. Case
+studies: title and first result, or the tagline where results are still targets
+(`resultsProven: false`). The portal demo: its title and description. Fonts are static instances of
+Archivo and Martian Mono under the OFL in `src/app/_og/fonts`, read by module-relative URL.
+
 ## Repo
 
 Public. No secrets. Commits terse, imperative, impersonal.

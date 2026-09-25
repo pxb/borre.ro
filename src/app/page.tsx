@@ -4,6 +4,9 @@ import { HeroHeadline } from "@/components/hero-headline";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { HowWeWork } from "@/components/how-we-work";
 import { site } from "@/content/site";
+import { pageMeta } from "@/lib/meta";
+
+export const metadata = pageMeta({ description: site.summary, path: "/" });
 
 // Hero (the hook), then one story that unfolds Problem -> Plan -> Idea ->
 // Execution -> Results as you scroll, with an example at each step (#569).

@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { Page } from "@/components/section";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
+import { prospectingDemo } from "@/content/site";
 
 // Standalone, shareable version of the portal demo (#560). Copy is minimal and
 // parked for Pedro's review with the rest of the site (#561).
-export const metadata: Metadata = {
-  title: "Prospecting portal demo",
-  description:
-    "A working demo of the prospecting portal we build, run on an invented coffee roaster and invented prospects.",
-};
+export const metadata: Metadata = pageMeta({
+  title: prospectingDemo.title,
+  description: prospectingDemo.description,
+  path: "/demo/prospecting",
+  image: { url: "/demo/prospecting/opengraph-image", alt: prospectingDemo.title },
+});
 
 export default function ProspectingDemoPage() {
   return (

@@ -31,14 +31,9 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.summary,
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    url: site.url,
-    title: `${site.name} · ${site.tagline}`,
-    description: site.summary,
-    siteName: site.domain,
-  },
+  // Canonical, og:url and og:title are per page (src/lib/meta.ts).
+  openGraph: { type: "website", siteName: site.domain },
+  twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
 };
 

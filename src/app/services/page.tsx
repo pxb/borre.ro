@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
@@ -6,11 +7,12 @@ import { LoopShape } from "@/components/story-forms";
 import { CasePreview } from "@/components/demo/previews";
 import { costNotes, proofFor, serviceFor, type ServiceCategory } from "@/content/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Services",
   description:
     "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, a full agentic platform, and a managed service to keep it running.",
-};
+  path: "/services",
+});
 
 // Three groups, each with its own shape (#585), so the page is not eight
 // identical rows: the ways to start side by side, the builds beside the product

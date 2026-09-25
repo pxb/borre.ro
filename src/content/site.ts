@@ -410,5 +410,13 @@ export const serviceCategories: ServiceCategory[] = [
   },
 ];
 
+// The standalone portal demo's page title and description, shared with its
+// share image.
+export const prospectingDemo = {
+  title: "Prospecting portal demo",
+  description:
+    "A working demo of the prospecting portal we build, run on an invented coffee roaster and invented prospects.",
+};
+
 export const serviceFor = (slug: string) => serviceCategories.find((s) => s.slug === slug);
 export const proofFor = (slug: string) => work.filter((w) => w.services.includes(slug));
