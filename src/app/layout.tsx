@@ -205,7 +205,9 @@ function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 py-10 text-xs sm:flex-row sm:items-center sm:justify-between">
+        {/* The bottom padding clears the fixed offer bar (69px), which otherwise
+            sat over this row and made Privacy untappable at the foot of the page. */}
+        <div className="flex flex-col gap-4 pt-10 pb-28 text-xs sm:flex-row sm:items-center sm:justify-between">
           {/* Trading details (E-Commerce Regulations 2002, reg 6). */}
           <p className="text-ink-soft">
             <span className="font-mono tabular-nums">{new Date().getFullYear()}</span> {site.name}. A trading name of{" "}
