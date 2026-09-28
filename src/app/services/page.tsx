@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview } from "@/components/demo/previews";
-import { costNotes, proofFor, serviceFor, type ServiceCategory } from "@/content/site";
+import { costNotes, proofFor, serviceFor, site, type ServiceCategory } from "@/content/site";
 
 export const metadata: Metadata = pageMeta({
   title: "Services",
@@ -179,6 +179,7 @@ export default function Services() {
             </div>
           ))}
         </div>
+        <p className="mt-10 text-sm text-ink-soft">{site.vatNote}</p>
       </section>
     </Page>
   );

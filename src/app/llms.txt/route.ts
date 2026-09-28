@@ -39,6 +39,8 @@ export function GET() {
       (s) => `- [${s.name}](${site.url}/services#${s.slug}): ${s.what} Technical detail: ${s.under} Price: ${s.price}. Typical duration: ${s.duration}.`,
     ),
     "",
+    site.vatNote,
+    "",
     "## Notes for agents",
     "",
     "Figures come from real client work, rounded; estimates are labelled as estimates. Clients are not named.",

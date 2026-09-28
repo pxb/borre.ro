@@ -177,6 +177,14 @@ function Footer() {
               </li>
               <li>
                 <a
+                  href={`mailto:${site.email}`}
+                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+                >
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                <a
                   href={site.linkedin}
                   rel="me noreferrer"
                   target="_blank"
@@ -198,9 +206,11 @@ function Footer() {
         </div>
 
         <div className="flex flex-col gap-4 py-10 text-xs sm:flex-row sm:items-center sm:justify-between">
+          {/* Trading details (E-Commerce Regulations 2002, reg 6). */}
           <p className="text-ink-soft">
-            <span className="font-mono tabular-nums">{new Date().getFullYear()}</span>{" "}
-            {site.name}
+            <span className="font-mono tabular-nums">{new Date().getFullYear()}</span> {site.name}. A trading name of{" "}
+            {site.founder}
+            {site.address ? `, ${site.address}` : ""}.
           </p>
           <div className="flex flex-wrap items-center gap-6 text-ink-soft">
             <Link

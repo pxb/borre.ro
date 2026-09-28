@@ -30,6 +30,14 @@ export const site = {
   booking: "pedro-borrero-a4yjyv/30min",
   // Business address, live 2026-09-25. Empty hides every email link.
   email: "pedro@borre.ro",
+  // Trading details a business website must show (Electronic Commerce (EC
+  // Directive) Regulations 2002, reg 6): name, a geographic address, email.
+  // The address is a business address service, never Pedro's home (Pedro,
+  // 2026-09-28); empty hides it until he has one.
+  address: "",
+  // Reg 6(2): where prices are shown, say whether they include VAT.
+  // Pedro is not VAT registered (2026-09-28).
+  vatNote: "We're not VAT registered, so no VAT is added to our prices.",
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 

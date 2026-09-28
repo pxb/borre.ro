@@ -132,6 +132,14 @@ processing addendum covers Pro and Enterprise only; on Hobby (Pedro's choice) th
 contract with providers.** A new kind of provider or a new use of data means updating the page and
 its date in the same change.
 
+**Trading details (2026-09-28).** The Electronic Commerce (EC Directive) Regulations 2002, reg 6,
+require a business website to show the provider's name, a geographic address and an email, a VAT
+number if registered, and whether shown prices include VAT. The footer carries "A trading name of
+Pedro Borrero" and the email; `site.address` adds a business address service when Pedro has one
+(never his home address); `site.vatNote` sits under the Pricing notes on /services and in llms.txt
+(Pedro is not VAT registered). Companies Act 2006 s1202 puts his name and an address on invoices
+and letters, not the site.
+
 ## Metadata and share images (#578, 2026-09-25)
 
 Every page builds its metadata with `pageMeta` (`src/lib/meta.ts`): its own canonical URL, og:url,
