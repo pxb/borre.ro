@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMeta({
 // are in the UK Extension to the EU-US Data Privacy Framework; Cal.com says
 // standard contractual clauses or the Framework. Vercel's Hobby plan has no
 // data processing addendum, so the page claims no contract with providers.
-const UPDATED = "26 September 2026";
+const UPDATED = "28 September 2026";
 
 const LINK =
   "text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
@@ -50,8 +50,8 @@ export default function Privacy() {
       <Row label="Who we are">
         <div className="max-w-2xl space-y-4 leading-relaxed text-ink">
           <p>
-            borre.ro is a trading name of Pedro Borrero, a sole trader based in England, who is the controller of your
-            personal data under the UK GDPR and the Data Protection Act 2018. Contact: <Email />
+            borre.ro is a trading name of Pedro Borrero, who is the controller of your personal data under the UK GDPR.
+            Contact: <Email />
           </p>
           <p className="text-sm text-ink-soft">Last updated {UPDATED}</p>
         </div>
