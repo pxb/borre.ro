@@ -121,7 +121,7 @@ export const work: CaseStudy[] = [
       "Built in stages with the client's sales lead, from a pilot of hand-picked accounts to the live portal. Each round of feedback sharpened the profile: multi-site groups first, a recent investment required, businesses in financial distress screened out.",
     ],
     metrics: [
-      { value: "~1 hour", label: "of account research done for the rep on every lead" },
+      { value: "~1 hour", label: "of account research done for the rep on every lead, estimated for a solar and PV installer in Essex" },
       { value: "6", label: "buying signals watched across the whole territory, from hiring to new premises" },
     ],
     involved: [
@@ -146,7 +146,7 @@ export const work: CaseStudy[] = [
       "Writes a research note onto the contact, with a source link on every claim",
     ],
     journey: [
-      "Live since August, checking for new leads every ten minutes. The second version adds deeper buying signals and uses paid research only where free sources come up short.",
+      "The second version adds deeper buying signals and uses paid research only where free sources come up short.",
     ],
     metrics: [
       { value: "20 to 40 min", label: "of rep time saved on every inbound lead, estimated" },
@@ -229,7 +229,7 @@ export const value = [
   // than the most AI-exposed companies overall".
   {
     stat: "163%",
-    claim: "labour productivity growth since 2018 at the companies making the most of AI, nearly five times their peers",
+    claim: "labour productivity growth since 2018 at the top fifth of the companies most exposed to AI, nearly five times that group's average",
     source: "PwC Global AI Jobs Barometer, 2026",
     href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
   },
