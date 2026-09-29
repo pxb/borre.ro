@@ -1,3 +1,5 @@
+import { servicePages } from "./service-pages";
+
 export const site = {
   name: "borre.ro",
   founder: "Pedro Borrero",
@@ -428,3 +430,13 @@ export const prospectingDemo = {
 
 export const serviceFor = (slug: string) => serviceCategories.find((s) => s.slug === slug);
 export const proofFor = (slug: string) => work.filter((w) => w.services.includes(slug));
+
+// The booking button for a page: on a service page it names the service and
+// carries it to /contact, which passes it into the booking form.
+export function ctaFor(path: string) {
+  const slug = path.match(/^\/services\/([^/]+)$/)?.[1];
+  const page = slug ? servicePages[slug] : undefined;
+  return page && slug
+    ? { label: page.cta, href: `/contact?service=${slug}`, service: slug }
+    : { label: site.cta, href: "/contact", service: undefined };
+}

@@ -157,7 +157,7 @@ function Footer() {
           <FooterCol
             title="Services"
             links={[
-              ...serviceCategories.slice(0, 4).map((x) => ({ href: `/services#${x.slug}`, label: x.name })),
+              ...serviceCategories.slice(0, 4).map((x) => ({ href: `/services/${x.slug}`, label: x.name })),
               { href: "/services", label: "Prices" },
             ]}
           />

@@ -61,7 +61,7 @@ Rule: **one** signature visual on the site, not four. Everything else stays flat
 
 Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
 
-No unsourced claims: every figure links to its source or comes from the client work and is labelled if estimated. No defining by negation, no status badges, no "most" claims. One offer name, `site.cta`, on every CTA that points at /contact.
+No unsourced claims: every figure links to its source or comes from the client work and is labelled if estimated. No defining by negation, no status badges, no "most" claims. One offer name, `site.cta`, on every CTA that points at /contact, except a service's own button (below).
 
 Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, direct, no marketing throat-clearing, no em dashes, no three-part lists for rhythm.
 
@@ -100,6 +100,21 @@ and no-JS show every description inline, so no copy is lost. Reduced motion keep
 the animation (bars drawn full, no figure roll-up, no travelling dot on the loop). Slides are
 top-aligned with an even gap under the step bar. The booking offer is not in the story; it is the
 site-wide fixed `OfferBar`.
+
+## Service pages (#602, 2026-09-29)
+
+Pedro: the site sells, the scope protects. /services is a short overview; every service has its own
+page at `/services/<slug>`, in the order a buyer decides: who it's for, what changes, what you get,
+how it works, proof (the case studies that use it), price and timing (small), common questions. Page
+content lives in `src/content/service-pages.ts`; name, what, includes, price and duration stay in
+`serviceCategories` so the overview and the page cannot drift. Scope, exclusions and change terms
+never go on the site: they live in the scope sheet shared with a proposal (#603). Positive wording
+only; no "not included".
+
+Each service has its own button (`cta`, plain: "Book an audit", "Automate a task"). `ctaFor(path)`
+gives it to the page header, the footer band and the offer bar on that service's page, and links to
+`/contact?service=<slug>`; `BookingFrame` passes the service name into Cal.com's notes field
+(`notes=` prefill, checked 2026-09-29). Clicks carry `data-track-service`.
 
 ## Case studies
 
@@ -235,7 +250,7 @@ Per page, each deliberately different:
 
 | Page | Treatment |
 |---|---|
-| /services | No visible header (see below). Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, each under a short accent bar (the page's accent), Build beside the product still it makes, Run as the monthly loop. One small price line under every name |
+| /services | No visible header (see below). Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, each under a short accent bar (the page's accent), Build beside the product still it makes, Run as the monthly loop. Each service in short: name, one small price line, one line of value, its own button and a link to its page |
 | /work | No visible header. Previews alternate sides; figures in the accent |
 | Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
 | /contact | No visible header. The 0 to 30 minute call, every stop described (`CallTrack`), beside the calendar; calendar first on phones |

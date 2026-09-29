@@ -125,7 +125,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
             {services.map((service) => (
               <li key={service.slug}>
                 <Link
-                  href={`/services#${service.slug}`}
+                  href={`/services/${service.slug}`}
                   className="inline-flex min-h-11 items-center text-ink underline sm:min-h-0 decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
                   {service.name}

@@ -36,7 +36,7 @@ The accent means **act here** or **a good result**. Nothing else.
 - Figures that are results or value: case-study results, /work, slide 05 (Value). Problem figures
   (slide 01) are ink, so the good number reads as the good number.
 - The accent mark: a 4px by 40px bar over the items a page is built on: the ways to start (/services
-  Start) and our commitments (/about).
+  Start), our commitments (/about) and what changes on each service page.
 - **Our answer**: the arrow that leads into each answer on slide 01. The problem is ink; the fix
   carries the accent.
 - **Where you start**: the first stop of the call track on /contact.

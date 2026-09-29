@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { site, work } from "@/content/site";
+import { serviceCategories, site, work } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -11,5 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}/work/${c.slug}`,
     lastModified: now,
   }));
-  return [...fixed, ...studies];
+  const services = serviceCategories.map((s) => ({
+    url: `${site.url}/services/${s.slug}`,
+    lastModified: now,
+  }));
+  return [...fixed, ...studies, ...services];
 }

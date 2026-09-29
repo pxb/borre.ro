@@ -36,7 +36,7 @@ export function GET() {
     "## Services",
     "",
     ...serviceCategories.map(
-      (s) => `- [${s.name}](${site.url}/services#${s.slug}): ${s.what} Technical detail: ${s.under} Price: ${s.price}. Typical duration: ${s.duration}.`,
+      (s) => `- [${s.name}](${site.url}/services/${s.slug}): ${s.what} Technical detail: ${s.under} Price: ${s.price}. Typical duration: ${s.duration}.`,
     ),
     "",
     site.vatNote,

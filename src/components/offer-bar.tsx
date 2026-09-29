@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { site } from "@/content/site";
+import { ctaFor, site } from "@/content/site";
 
 // The booking offer, fixed to the foot of the screen once the reader is past
 // the first screen (Pedro, 2026-09-24: a permanent bottom bar). Hidden on
@@ -33,6 +33,8 @@ export function OfferBar() {
   // On the homepage it rides over the story, so it takes the ink ground of the
   // footer band (#585): a clearer frame for the offer over the slides.
   const ink = path === "/";
+  // On a service page the button names that service.
+  const cta = ctaFor(path);
 
   return (
     <div
@@ -46,13 +48,13 @@ export function OfferBar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3 sm:px-10">
         <p className={`hidden text-base font-medium sm:block ${ink ? "text-paper" : "text-ink"}`}>{site.ctaLine}</p>
         <Link
-          href="/contact" data-track="cta" data-track-where="offer-bar"
+          href={cta.href} data-track="cta" data-track-where="offer-bar" data-track-service={cta.service}
           tabIndex={show ? 0 : -1}
           className={`btn-orange w-full px-5 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 sm:w-auto ${
             ink ? "focus-visible:outline-paper" : "focus-visible:outline-ink"
           }`}
         >
-          {site.cta}
+          {cta.label}
         </Link>
       </div>
     </div>

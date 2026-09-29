@@ -8,10 +8,13 @@ export function Page({
   lead,
   crumbs,
   bare,
+  action,
   children,
 }: {
   title: string;
   lead?: string;
+  // The page's own call to action, under the lead.
+  action?: ReactNode;
   crumbs?: Crumb[];
   // No visible header: the nav already names the page (Pedro, 2026-09-24), so
   // the title is for screen readers and the page opens on its content.
@@ -55,6 +58,7 @@ export function Page({
           {lead ? (
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{lead}</p>
           ) : null}
+          {action ? <div className="mt-8">{action}</div> : null}
         </div>
       </header>
       {children}

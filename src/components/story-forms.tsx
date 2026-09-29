@@ -646,10 +646,10 @@ const CALL: Omit<Row, "href">[] = [
 
 // The entry points, in the industry's terms. None assumes a build.
 const STARTS: Row[] = [
-  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", href: "/services#audit" },
-  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", href: "/services#workshop" },
-  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", href: "/services#training" },
-  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", href: "/services#agentic-workflows" },
+  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", href: "/services/audit" },
+  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", href: "/services/workshop" },
+  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", href: "/services/training" },
+  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", href: "/services/agentic-workflows" },
 ];
 
 // The three parts of every build, each linked to the case study that shows it.

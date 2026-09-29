@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview } from "@/components/demo/previews";
-import { costNotes, proofFor, serviceFor, site, type ServiceCategory } from "@/content/site";
+import { costNotes, ctaFor, serviceFor, site, type ServiceCategory } from "@/content/site";
+import { servicePages } from "@/content/service-pages";
 
 export const metadata: Metadata = pageMeta({
   title: "Services",
@@ -32,37 +33,32 @@ const LINK =
 
 const pick = (slugs: string[]) => slugs.map(serviceFor).filter((s): s is ServiceCategory => s != null);
 
-function Includes({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-5 space-y-2">
-      {items.map((i) => (
-        <li key={i} className="flex gap-3 text-sm leading-relaxed text-ink">
-          <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-soft" />
-          <span>{i}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function Under({ s }: { s: ServiceCategory }) {
-  const proof = proofFor(s.slug);
+// Each service in short (#602): its name linking to its own page, the price,
+// one line of value, and its own button. The detail lives on the page.
+function Summary({ s }: { s: ServiceCategory }) {
+  const page = servicePages[s.slug];
+  const cta = ctaFor(`/services/${s.slug}`);
   return (
     <>
-      <p className="mt-4 max-w-md text-xs leading-relaxed text-ink-soft">{s.under}</p>
-      {proof.length ? (
-        <p className="mt-3 text-sm text-ink-soft">
-          {proof.map((w, i) => (
-            <span key={w.slug}>
-              {i ? " · " : ""}
-              <Link href={`/work/${w.slug}`} className={`whitespace-nowrap ${LINK}`}>
-                {w.title}
-                <ArrowRight aria-hidden className="ml-1 inline size-3.5 align-[-2px]" />
-              </Link>
-            </span>
-          ))}
-        </p>
-      ) : null}
+      <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">
+        <Link
+          href={`/services/${s.slug}`}
+          className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        >
+          {s.name}
+        </Link>
+      </h3>
+      <Price s={s} />
+      <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{page?.line ?? s.what}</p>
+      <p className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <Link href={cta.href} data-track="cta" data-track-where="services" data-track-service={s.slug} className={`inline-flex min-h-11 items-center font-medium sm:min-h-0 ${LINK}`}>
+          {cta.label}
+          <ArrowRight aria-hidden className="ml-1 inline size-3.5" />
+        </Link>
+        <Link href={`/services/${s.slug}`} className={`inline-flex min-h-11 items-center sm:min-h-0 ${LINK}`}>
+          How it works
+        </Link>
+      </p>
     </>
   );
 }
@@ -95,11 +91,7 @@ export default function Services() {
             <article key={s.slug} id={s.slug} className="scroll-mt-28">
                 {/* The page's accent: the three ways in. */}
                 <span aria-hidden="true" className="mb-5 block h-1 w-10 bg-accent" />
-                <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-                <Price s={s} />
-                <p className="mt-4 leading-relaxed text-ink-soft">{s.what}</p>
-                <Includes items={s.includes} />
-                <Under s={s} />
+                <Summary s={s} />
             </article>
           ))}
         </div>
@@ -117,15 +109,7 @@ export default function Services() {
                 className={`grid scroll-mt-28 gap-10 pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 ${i ? "pt-14" : "pt-6"} ${i < BUILD.length - 1 ? "border-b border-rule" : ""}`}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-                  <Price s={s} />
-                  <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
-                  {still ? (
-                    <>
-                      <Includes items={s.includes} />
-                      <Under s={s} />
-                    </>
-                  ) : null}
+                  <Summary s={s} />
                 </div>
                 {still ? (
                   <Link
@@ -135,12 +119,7 @@ export default function Services() {
                   >
                     <CasePreview slug={still} />
                   </Link>
-                ) : (
-                  <div className="min-w-0">
-                    <Includes items={s.includes} />
-                    <Under s={s} />
-                  </div>
-                )}
+                ) : null}
               </article>
           );
         })}
@@ -156,11 +135,7 @@ export default function Services() {
             className="grid scroll-mt-28 gap-12 pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16"
           >
             <div className="min-w-0">
-              <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">{s.name}</h3>
-              <Price s={s} />
-              <p className="mt-4 max-w-xl leading-relaxed text-ink-soft">{s.what}</p>
-              <Includes items={s.includes} />
-              <Under s={s} />
+              <Summary s={s} />
             </div>
             <div className="min-w-0">
               <LoopShape />
@@ -169,7 +144,7 @@ export default function Services() {
         ))}
       </section>
 
-      <section className="border-t border-rule py-16">
+      <section id="pricing" className="scroll-mt-28 border-t border-rule py-16">
         <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Pricing</h2>
         <div className="mt-10 grid gap-10 sm:grid-cols-3">
           {costNotes.map((c) => (

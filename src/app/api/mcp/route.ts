@@ -99,7 +99,7 @@ export async function POST(request: Request) {
     if (name === "list_solutions") {
       return result(
         id,
-        text(serviceCategories.map((s) => ({ ...s, url: `${site.url}/services#${s.slug}` }))),
+        text(serviceCategories.map((s) => ({ ...s, url: `${site.url}/services/${s.slug}` }))),
       );
     }
 

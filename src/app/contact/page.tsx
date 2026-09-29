@@ -3,6 +3,8 @@ import { pageMeta } from "@/lib/meta";
 import { Page } from "@/components/section";
 import { site } from "@/content/site";
 import { CallTrack } from "@/components/story-forms";
+import { Suspense } from "react";
+import { BookingFrame, BookingFrameFallback } from "@/components/booking-frame";
 
 export const metadata: Metadata = pageMeta({
   title: "Contact",
@@ -43,12 +45,9 @@ export default function Contact() {
         {site.booking ? (
           <div className="order-1 -mx-6 sm:mx-0 lg:order-2">
             {/* Full-bleed on phones so Cal.com's own mobile layout has the room. */}
-            <iframe
-              src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view`}
-              title="Book a free 30-minute call"
-              loading="lazy"
-              className="h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border"
-            />
+            <Suspense fallback={<BookingFrameFallback />}>
+              <BookingFrame />
+            </Suspense>
           </div>
         ) : null}
       </section>

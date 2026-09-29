@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { site } from "@/content/site";
+import { ctaFor, site } from "@/content/site";
 
 // The site's one closing offer, and its one ink band (#585): full bleed, so
 // every inner page ends on a change of ground. On ink the secondary text is
@@ -12,6 +12,8 @@ import { site } from "@/content/site";
 export function FooterCta() {
   const path = usePathname();
   if (path === "/contact" || path === "/") return null;
+  // On a service page the button names that service.
+  const cta = ctaFor(path);
   return (
     <div id="footer-offer" className="bg-ink text-paper">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-20 sm:flex-row sm:items-end sm:justify-between sm:px-10">
@@ -22,10 +24,10 @@ export function FooterCta() {
           <p className="mt-4 max-w-md leading-relaxed text-rule">{site.ctaNote}</p>
         </div>
         <Link
-          href="/contact" data-track="cta" data-track-where="footer-band"
+          href={cta.href} data-track="cta" data-track-where="footer-band" data-track-service={cta.service}
           className="btn-orange shrink-0 px-6 py-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
         >
-          {site.cta}
+          {cta.label}
         </Link>
       </div>
     </div>
