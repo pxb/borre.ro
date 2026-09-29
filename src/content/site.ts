@@ -121,7 +121,7 @@ export const work: CaseStudy[] = [
       "Built in stages with the client's sales lead, from a pilot of hand-picked accounts to the live portal. Each round of feedback sharpened the profile: multi-site groups first, a recent investment required, businesses in financial distress screened out.",
     ],
     metrics: [
-      { value: "~1 hour", label: "of account research done for the rep on every lead, estimated for a solar and PV installer in Essex" },
+      { value: "~1 hour", label: "of account research done for the rep on every lead, estimated for a UK solar installer" },
       { value: "6", label: "buying signals watched across the whole territory, from hiring to new premises" },
     ],
     involved: [
