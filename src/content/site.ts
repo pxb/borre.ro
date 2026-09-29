@@ -84,11 +84,11 @@ export const work: CaseStudy[] = [
       "Follows the access rules the business agreed, inside the team's AI assistants",
     ],
     journey: [
-      "Built as a proof of concept on the client's own data in a day, it now sits behind the prospecting and follow-up workflows as their shared record.",
+      "Working on the client's own data within a day, it is now the shared record behind their prospecting and follow-up.",
     ],
     metrics: [
       { value: "100%", label: "of the open pipeline visible in one answer, every figure traced to its deal in the CRM" },
-      { value: "1 day", label: "from the client's own data to a working proof of concept" },
+      { value: "1 day", label: "from the client's own data to a first working version" },
       { value: "8", label: "CRM record types synced every hour, from deals to call notes" },
     ],
     involved: [
@@ -146,7 +146,7 @@ export const work: CaseStudy[] = [
       "Writes a research note onto the contact, with a source link on every claim",
     ],
     journey: [
-      "The second version adds deeper buying signals and uses paid research only where free sources come up short.",
+      "It also watches for deeper buying signals, and uses paid research only where free sources come up short.",
     ],
     metrics: [
       { value: "20 to 40 min", label: "of rep time saved on every inbound lead, estimated" },
@@ -175,10 +175,10 @@ export const work: CaseStudy[] = [
       "Waits for the rep's approval before sending anything or updating the CRM",
     ],
     journey: [
-      "Tested end to end on a real discovery call, with nothing written to the CRM until the client signs off.",
+      "Built around the moment a deal leaves Discovery, so the follow-up is ready while the call is still fresh. Nothing reaches the customer or the CRM until the rep approves it.",
     ],
     metrics: [
-      { value: "20 min", label: "the client's target from call to follow-up, which it's built to hit" },
+      { value: "20 min", label: "from the end of the call to a follow-up ready for the rep to review" },
       { value: "4 jobs", label: "prepared for the rep after each discovery call: the email, the CRM notes, the project folder and the team brief" },
     ],
     involved: [
