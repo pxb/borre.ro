@@ -76,7 +76,6 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
       <Row label="What you get">
         <div className="max-w-2xl">
           <List items={s.includes} />
-          <p className="mt-6 text-xs leading-relaxed text-ink-soft">{s.under}</p>
         </div>
       </Row>
 
@@ -161,6 +160,14 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
             </div>
           ))}
         </dl>
+      </Row>
+
+      {/* The technical detail, for search and for a technical buyer, kept
+          below the questions so an owner reads the value first (2026-09-30:
+          a reviewer found the page leaned technical where it sat under
+          "What you get"). */}
+      <Row label="Built with">
+        <p className="max-w-2xl text-sm leading-relaxed text-ink-soft">{s.under}</p>
       </Row>
 
       {/* Where buyers usually go next, one line (#583). */}

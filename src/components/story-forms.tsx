@@ -699,7 +699,7 @@ const STARTS: Row[] = START_SLUGS.map(([t, slug]) => ({ t, d: servicePages[slug]
 // The three parts of every build, each linked to the case study that shows it.
 const AI3 = [
   { term: "Context", plain: "What your business knows, in one place your team and its AI tools can ask.", href: "/work/context-engine" },
-  { term: "Agents", plain: "Software that does the repeatable work, with a human in the loop before anything goes out.", href: "/work/lead-research" },
+  { term: "Agents", plain: "Software that does the repeatable work, with a person checking before anything goes out.", href: "/work/lead-research" },
   { term: "Evals", plain: "Proof it worked: each system measured against the job it was built to do.", href: "/work/prospecting-loop" },
 ];
 

@@ -83,7 +83,7 @@ function Header() {
         </HomeLink>
         {/* R and O accented so the category line reads back to the .ro domain:
             borre.RO = Revenue Operations. One typeface, Archivo, throughout. */}
-        <p className="ml-3 border-l border-rule pl-3 text-xs text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
+        <p className="ml-3 border-l border-rule pl-3 text-xs whitespace-nowrap text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
           AI and <span className="text-accent">R</span>evenue{" "}
           <span className="text-accent">O</span>perations
         </p>
@@ -94,7 +94,9 @@ function Header() {
             links: g.slugs.map((slug) => ({ href: `/services/${slug}`, label: serviceFor(slug)?.name ?? slug })),
           }))}
         />
-        <div className="relative ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
+        {/* The full links from 1024px; below that, tablets included, the menu
+            button (2026-09-30: on an iPad the row wrapped to two lines). */}
+        <div className="relative ml-auto hidden items-center gap-8 text-sm whitespace-nowrap text-ink-soft lg:flex">
           {nav.map((n) =>
             n.href === "/services" ? (
               <ServicesMenu key={n.href} />

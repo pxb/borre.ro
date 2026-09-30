@@ -19,7 +19,7 @@ export type ServicePage = {
 // Asked of every service that touches business data.
 const DATA_FAQ = {
   q: "Is our data used to train AI models?",
-  a: "We use business accounts and APIs that keep your data out of model training, and they're in your name.",
+  a: "We set everything up on business accounts in your name, which keep your data out of AI training.",
 };
 
 export const servicePages: Record<string, ServicePage> = {
@@ -87,7 +87,7 @@ export const servicePages: Record<string, ServicePage> = {
     ],
     priceNote: "Includes 30 days of fixes after go-live.",
     faqs: [
-      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
+      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive, and any other CRM that lets other software connect to it." },
       { q: "Where does our data live?", a: "On accounts in your name. If we stop working together, you keep all of it." },
       DATA_FAQ,
     ],
@@ -106,7 +106,7 @@ export const servicePages: Record<string, ServicePage> = {
     ],
     priceNote: "Includes 30 days of fixes after go-live.",
     faqs: [
-      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
+      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive, and any other CRM that lets other software connect to it." },
       { q: "Does anything go out without us seeing it?", a: "Your team approves every email and CRM update before it's sent or saved." },
       { q: "Can we adjust it along the way?", a: "Yes. A few small changes are agreed up front as part of the build, and the managed service covers changes after that." },
       DATA_FAQ,

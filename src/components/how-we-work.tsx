@@ -163,6 +163,11 @@ function scrollToY(y: number) {
 // the page edge, and each step carries a track that fills as the story moves
 // through it. In vertical mode it jumps by anchor; in horizontal mode it
 // drives the pinned section's scroll position.
+// Below 1024px (phones and tablets, where the story is stacked) the six labels
+// don't fit, and a bar that scrolled sideways hid where you were (2026-09-30,
+// iPhone feedback: you had to swipe the bar to see 04 onwards). There each step
+// shows its number only and the current one opens to show its name, so all six
+// are always on screen; the widths ease rather than jump.
 function StepBar({
   active,
   go,
@@ -179,7 +184,7 @@ function StepBar({
   return (
     <div className="sticky top-20 z-30 border-b border-rule bg-paper">
       <nav aria-label="Story steps" className="mx-auto max-w-6xl px-6 sm:px-10">
-        <ol className="flex gap-4 overflow-x-auto sm:gap-6">
+        <ol className="flex gap-2 sm:gap-4 lg:gap-6">
           {STEPS.map((s, i) => (
             <StepItem
               key={s.id}
@@ -223,18 +228,22 @@ function StepItem({
   const pinned = useTransform(u, (t) => clamp((t - FIRST[index] + MOVE) / (LAST[index] - FIRST[index] + MOVE)));
   const fill = horizontal ? pinned : stacked;
   return (
-    <li className="min-w-[6.5rem] flex-1">
+    <li
+      className={`min-w-0 basis-9 transition-[flex-grow] duration-300 ease-out motion-reduce:transition-none lg:min-w-[6.5rem] lg:grow lg:basis-0 ${
+        on ? "grow" : "shrink-0 grow-0"
+      }`}
+    >
       <button
         onClick={onClick}
         aria-current={on ? "step" : undefined}
-        className={`flex min-h-11 w-full items-baseline gap-2 pt-3 pb-2.5 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        className={`flex min-h-11 w-full items-baseline gap-2 whitespace-nowrap pt-3 pb-2.5 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           on ? "text-ink" : "text-ink-soft hover:text-ink"
         }`}
       >
         <span className={`font-mono text-xs tabular-nums ${on ? "text-accent" : "text-ink-soft"}`}>
           {step.n}
         </span>
-        {step.label}
+        <span className={on ? "min-w-0 truncate" : "sr-only lg:not-sr-only"}>{step.label}</span>
       </button>
       <div aria-hidden="true" className="h-0.5 bg-rule">
         <motion.div style={{ scaleX: fill }} className="h-full origin-left bg-ink" />

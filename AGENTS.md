@@ -59,7 +59,7 @@ Rule: **one** signature visual on the site, not four. Everything else stays flat
 
 ## Copy
 
-Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
+Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Built with" row near the end of each service page (moved below the questions 2026-09-30: under "What you get" it made the page read technical to a non-technical reviewer), the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
 
 No unsourced claims: every figure links to its source or comes from the client work and is labelled if estimated. No defining by negation, no status badges, no "most" claims. One offer name, `site.cta`, on every CTA that points at /contact, except a service's own button (below).
 
@@ -176,13 +176,13 @@ Each piece has its own share image. borre.ro publishes first; Substack and Linke
 
 ## Header menus (2026-09-30)
 
-From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the
+From 1024px (640px until 2026-09-30, when the link row wrapped to two lines on an iPad; tablets now get the menu button), Services opens a panel of every service in its group (Start, Build, Run) plus the
 scorecard, on hover or keyboard focus, in CSS only (`services-menu.tsx`): hidden with `invisible`
 so its links stay out of the tab order until Services has focus, hung from the right edge of the
 header's links so it never runs past the page, and no wider than the viewport less 3rem. The phone
 menu lists the same services under Services. Groups live in `serviceGroups` in `site.ts`, shared
 with /services. Checked by `Lab/borre-tools/cdp-nav.mjs` (hover, moving into the panel, keyboard,
-640 and 1280 widths, phone menu links).
+1024 and 1280 widths, phone menu links).
 
 ## Case studies
 
@@ -448,3 +448,13 @@ slide titles to 60px, both above the hero headline and louder than the CTA. Stor
 `FIGURE` class in `story-forms.tsx`; change it there, not per slide.
 
 **No uppercase anywhere** (Pedro, 2026-09-23): all-caps reads as a font accent rather than a style accent. Labels use the one `.label` class (normal case, weight 500, ink-soft); emphasis comes from weight and position.
+
+## Mobile and tablet pass (2026-09-30, iPhone and iPad feedback)
+
+- Hero cycling word: every word sits invisibly in one grid cell, so the slot is as wide as the widest
+  word and the rest of the headline never moves (`cycling-word.tsx`).
+- Story step bar below 1024px: numbers only, the current step opens to show its name (flex-grow eases,
+  none under reduced motion), so all six fit and you can see where you are without swiping the bar.
+- Header: full links from 1024px, menu button below, nothing wraps.
+- Checked by `Lab/borre-tools/cdp-mobile-pass.mjs` (header on one line, hero line still across word
+  changes, bar fits and names the current step at every step; 375, 390, 430, 768, 820, 1024, 1180).
