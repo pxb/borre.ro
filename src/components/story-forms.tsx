@@ -692,7 +692,7 @@ const START_SLUGS: [string, string][] = [
   ["Audit", "audit"],
   ["Workshop", "workshop"],
   ["Training", "training"],
-  ["First build", "agentic-workflows"],
+  ["Automation", "agentic-workflows"],
 ];
 const STARTS: Row[] = START_SLUGS.map(([t, slug]) => ({ t, d: servicePages[slug]?.line ?? "", href: `/services/${slug}` }));
 

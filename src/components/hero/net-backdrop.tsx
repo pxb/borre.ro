@@ -77,11 +77,13 @@ export function NetBackdrop() {
         color: 0xc2b6a4,
         backgroundColor: 0xf2ede4, // cream, identical to the page
         // Fewer points, further apart: fewer junctions and bigger cells, so it
-        // reads zoomed in (Pedro, 2026-09-30; was 13 / 16 / 15). maxDistance
-        // grows with the spacing so neighbouring points still join up.
-        points: 9.0,
-        maxDistance: 25.0,
-        spacing: 24.0,
+        // reads zoomed in (Pedro, 2026-09-30, twice: 13/16/15, then 9/25/24).
+        // maxDistance grows with the spacing so neighbouring points still join up.
+        // Vanta cuts the spacing to 65% on phones, which made the mesh dense
+        // again there; start phones wider so they land at the same look.
+        points: 7.0,
+        maxDistance: 34.0,
+        spacing: window.innerWidth < 768 ? 48.0 : 32.0,
         showDots: false,
       });
       // Dots to white. See the note above: Vanta has no separate dot colour.

@@ -89,7 +89,7 @@ and, since 2026-09-30, is a tab set like the other slides (Pedro: not a dot circ
 hover, tap, arrow keys or the story's scroll pick a stop, the accent dot runs clockwise round the ring
 to it, and its one line shows under the loop. The 02 Review stop fills in place (a marker flying in
 from the side was distracting). The 04 ladder uses one short word per tread (Audit, Workshop,
-Training, First build) so nothing wraps, with each service's own line of value under it. The 03
+Training, Automation) so nothing wraps, with each service's own line of value under it. The 03
 Ask demo uses the portal's design, like the Context Engine preview on /work. No footer states the obvious
 ("free, and booked straight into the calendar" was cut), and no footer repeats the left paragraph.
 
@@ -374,7 +374,7 @@ talk to each other, and a mesh finding its connections is the thing being sold. 
 full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
 surface and it renders as a flat block. Verified twice.
 
-**Update 2026-09-30 (Pedro): fewer junctions, more zoomed in:** points 9 (was 13), spacing 24 (15), maxDistance 25 (16).
+**Update 2026-09-30 (Pedro): fewer junctions, more zoomed in:** points 7 (was 13, then 9), spacing 32 (15, then 24), maxDistance 34 (16, then 25).
 
 **Update 2026-09-24 (Pedro):** dots OFF (`showDots: false`) and the lines are one soft warm tone,
 `0xc2b6a4`. The lit dot spheres rendered grey and pulled focus off the text; white lines barely showed.
