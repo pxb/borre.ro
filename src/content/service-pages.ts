@@ -15,6 +15,12 @@ export type ServicePage = {
   faqs: { q: string; a: string }[];
 };
 
+// Where the in-person services run.
+const ONSITE_FAQ = {
+  q: "Can you come to us?",
+  a: "Yes, in London and the South West. We can also run it remotely.",
+};
+
 // Asked of every service that touches business data.
 const DATA_FAQ = {
   q: "Is our data used to train AI models?",
@@ -52,6 +58,7 @@ export const servicePages: Record<string, ServicePage> = {
     faqs: [
       { q: "Who should attend?", a: "The people who set priorities and budgets. Usually the owner and the heads of sales, operations and finance." },
       { q: "Half day or full day?", a: "A half day is enough to agree priorities. A full day leaves time to work through your own processes in detail." },
+      ONSITE_FAQ,
     ],
   },
   training: {
@@ -67,6 +74,7 @@ export const servicePages: Record<string, ServicePage> = {
     faqs: [
       { q: "Which tools do you work with?", a: "ChatGPT, Claude, Copilot and Gemini, on your own company account." },
       { q: "How many days will we need?", a: "We agree the number before we start, based on the size of the team and the work they do." },
+      ONSITE_FAQ,
     ],
   },
   "context-engine": {
@@ -81,6 +89,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Live", d: "In your AI tools and updated on a schedule." },
     ],
     faqs: [
+      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
       { q: "Where does our data live?", a: "On accounts in your name. If we stop working together, you keep all of it." },
       DATA_FAQ,
     ],
@@ -97,6 +106,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Live", d: "Each workflow live in one to two weeks." },
     ],
     faqs: [
+      { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
       { q: "Does anything go out without us seeing it?", a: "Your team approves every email and CRM update before it's sent or saved." },
       { q: "Can we adjust it along the way?", a: "Yes. A few small changes are agreed up front as part of the build, and the managed service covers changes after that." },
       DATA_FAQ,
