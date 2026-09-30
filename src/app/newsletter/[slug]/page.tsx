@@ -3,7 +3,7 @@ import { pageMeta } from "@/lib/meta";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page } from "@/components/section";
-import { longDate, post, posts } from "@/lib/writing";
+import { longDate, post, posts } from "@/lib/newsletter";
 import { site } from "@/content/site";
 
 // One article or roundup (#606). The body is markdown rendered at build time
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = post(slug);
   if (!p) return {};
-  const path = `/writing/${p.slug}`;
+  const path = `/newsletter/${p.slug}`;
   return {
     ...pageMeta({ title: p.title, description: p.description, path, image: { url: `${path}/opengraph-image`, alt: p.title } }),
     ...(p.draft ? { robots: { index: false, follow: false } } : {}),
@@ -34,7 +34,7 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
   if (!p) notFound();
 
   return (
-    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: "Home" }, { href: "/writing", label: "Writing" }]}>
+    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: "Home" }, { href: "/newsletter", label: "Newsletter" }]}>
       <article className="py-12">
         <p className="text-sm text-ink-soft">
           {site.founder} · {longDate(p.date)} · {p.type === "roundup" ? "Monthly roundup" : `${p.minutes} min read`}
@@ -52,11 +52,11 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
               <a href={site.newsletter.url} className={LINK}>
                 Subscribe to {site.newsletter.name}
               </a>
-              , {site.newsletter.strap.charAt(0).toLowerCase() + site.newsletter.strap.slice(1)}, once a month.{" "}
+              , {site.newsletter.strap}, once a month.{" "}
             </>
           ) : null}
-          <Link href="/writing" className={LINK}>
-            More writing
+          <Link href="/newsletter" className={LINK}>
+            More from the newsletter
           </Link>
         </p>
       </section>

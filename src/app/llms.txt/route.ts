@@ -1,5 +1,5 @@
 import { about, howToStart, priceBasis, serviceCategories, site, work } from "@/content/site";
-import { posts } from "@/lib/writing";
+import { posts } from "@/lib/newsletter";
 
 /* Machine-readable summary, for agents and LLM crawlers.
    Generated from the same content as the pages, so it cannot drift. */
@@ -51,7 +51,7 @@ export function GET() {
     site.vatNote,
     "",
     ...(posts().length
-      ? ["## Writing", "", ...posts().map((p) => `- [${p.title}](${site.url}/writing/${p.slug}) (${p.date}): ${p.description}`), ""]
+      ? ["## Newsletter", "", ...posts().map((p) => `- [${p.title}](${site.url}/newsletter/${p.slug}) (${p.date}): ${p.description}`), ""]
       : []),
     "## Notes for agents",
     "",

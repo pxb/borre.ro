@@ -2,8 +2,8 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { marked } from "marked";
 
-// Articles and monthly roundups for /writing (#606), written as markdown in
-// src/content/writing/<slug>.md with a small front matter block:
+// Articles and monthly roundups for /newsletter (#606), written as markdown in
+// src/content/newsletter/<slug>.md with a small front matter block:
 //   ---
 //   title: The case for boring automation
 //   description: One or two sentences for the index, search and share cards.
@@ -26,12 +26,12 @@ export type Post = {
   html: string;
 };
 
-const DIR = join(process.cwd(), "src", "content", "writing");
+const DIR = join(process.cwd(), "src", "content", "newsletter");
 const LIVE = process.env.VERCEL_ENV === "production";
 
 function frontMatter(raw: string) {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
-  if (!m) throw new Error("A writing file needs a front matter block");
+  if (!m) throw new Error("A newsletter file needs a front matter block");
   const data: Record<string, string> = {};
   for (const line of m[1].split(/\r?\n/)) {
     const i = line.indexOf(":");

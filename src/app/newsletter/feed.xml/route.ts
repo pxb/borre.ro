@@ -1,7 +1,7 @@
-import { posts } from "@/lib/writing";
+import { posts } from "@/lib/newsletter";
 import { site } from "@/content/site";
 
-// RSS for /writing (#606), built with the site.
+// RSS for /newsletter (#606), built with the site.
 export const dynamic = "force-static";
 
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -11,8 +11,8 @@ export function GET() {
     .map(
       (p) => `    <item>
       <title>${esc(p.title)}</title>
-      <link>${site.url}/writing/${p.slug}</link>
-      <guid>${site.url}/writing/${p.slug}</guid>
+      <link>${site.url}/newsletter/${p.slug}</link>
+      <guid>${site.url}/newsletter/${p.slug}</guid>
       <pubDate>${new Date(`${p.date}T09:00:00Z`).toUTCString()}</pubDate>
       <description>${esc(p.description)}</description>
     </item>`,
@@ -21,8 +21,8 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>${esc(`${site.name}: writing`)}</title>
-    <link>${site.url}/writing</link>
+    <title>${esc(`${site.newsletter.name} from ${site.name}`)}</title>
+    <link>${site.url}/newsletter</link>
     <description>${esc(`${site.newsletter.name}: ${site.newsletter.strap}`)}</description>
     <language>en-gb</language>
 ${items}

@@ -256,7 +256,7 @@ html.lenis body {
   background: rgb(31 28 25 / 0.4);
 }
 
-/* Article bodies on /writing (#606): markdown rendered to HTML. Reading width,
+/* Article bodies on /newsletter (#606): markdown rendered to HTML. Reading width,
    ink text, headings by weight and size (never uppercase), links underlined
    like the rest of the site, lists with the site's small round bullets. */
 .prose { max-width: 42rem; color: var(--ink); font-size: 1.0625rem; line-height: 1.7; }

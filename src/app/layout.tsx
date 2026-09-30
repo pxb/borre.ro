@@ -5,7 +5,7 @@ import "./globals.css";
 import { serviceCategories, serviceFor, serviceGroups, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
 import { ServicesMenu } from "@/components/services-menu";
-import { posts } from "@/lib/writing";
+import { posts } from "@/lib/newsletter";
 import { HomeLink } from "@/components/home-link";
 import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
@@ -65,11 +65,11 @@ const jsonLd = {
   ],
 };
 
-// Writing joins the nav once there is something published on this deploy.
+// Newsletter joins the nav once there is something published on this deploy.
 const nav = [
   { href: "/work", label: "Case studies" },
   { href: "/services", label: "Services" },
-  ...(posts().length ? [{ href: "/writing", label: "Writing" }] : []),
+  ...(posts().length ? [{ href: "/newsletter", label: "Newsletter" }] : []),
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -275,7 +275,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* For agents: the plain-text summary and the MCP server (#564). */}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
         <link rel="alternate" type="application/json" href="/api/mcp" title="MCP server" />
-        <link rel="alternate" type="application/rss+xml" href="/writing/feed.xml" title="borre.ro writing" />
+        <link rel="alternate" type="application/rss+xml" href="/newsletter/feed.xml" title="The Boring Bits" />
       </head>
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         <a
