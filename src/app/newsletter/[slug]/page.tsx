@@ -3,7 +3,8 @@ import { pageMeta } from "@/lib/meta";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page } from "@/components/section";
-import { longDate, post, posts } from "@/lib/newsletter";
+import { longDate, post, posts, skillPrompt } from "@/lib/newsletter";
+import { CopyPrompt } from "@/components/copy-prompt";
 import { site } from "@/content/site";
 
 // One article or roundup (#606). The body is markdown rendered at build time
@@ -53,7 +54,12 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
           <p className="mt-3 max-w-2xl leading-relaxed text-ink">
             {p.skillNote ?? `This post comes with a skill your AI can use: ${p.skill.description}`}
           </p>
-          <ul className="mt-4 space-y-2 leading-relaxed text-ink">
+          <p className="mt-6 max-w-2xl leading-relaxed text-ink">
+            The quickest way: paste this into Claude, ChatGPT or any AI that can read a web page.
+          </p>
+          <CopyPrompt text={skillPrompt(p)} track={p.skill.name} />
+          <p className="mt-6 max-w-2xl leading-relaxed text-ink">To keep it for next time:</p>
+          <ul className="mt-2 space-y-2 leading-relaxed text-ink">
             <li>
               <a href={`/newsletter/skills/${p.skill.name}.zip`} download className={LINK} data-track="skill-download" data-track-skill={p.skill.name}>
                 Download the skill
@@ -69,6 +75,9 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
               <span className="text-ink-soft">for Claude Code, Codex and other coding agents.</span>
             </li>
           </ul>
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">
+            Made by {site.name}. Free to use and share under CC BY 4.0. Provided as is, with no support.
+          </p>
         </section>
       ) : null}
 

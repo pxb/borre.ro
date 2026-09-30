@@ -9,6 +9,7 @@ checked: 2026-09-30  (the day every source was last read at the source; shown on
 type: article        (or: roundup)
 skill: workflow-or-agent   (optional: a companion skill in skills/<name>/)
 skill_note: One plain line for readers on what the skill does.
+skill_prompt: Read {url} and follow it to help me ...   (the copy-paste prompt; {url} = the SKILL.md)
 draft: true          (shows on previews only; remove to publish)
 ---
 

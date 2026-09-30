@@ -181,7 +181,11 @@ measured on. Every post can carry a companion Agent Skill (open standard, agents
 `src/content/newsletter/skills/<name>/`, validated at build (name matches folder, description length),
 served as `/newsletter/skills/<name>.zip` (for the Claude and ChatGPT apps; stored ZIP from `src/lib/zip.ts`)
 and `/newsletter/skills/<name>/SKILL.md` (coding agents), listed in llms.txt with the post, and offered
-under "Use this with your AI" with a plain `skill_note`. A draft's skill stays off the live site with it.
+under "Use this with your AI" with a plain `skill_note`. A draft's skill stays off the live site with it. The easiest route comes first: a
+copy-paste prompt (`skill_prompt`, "Read <SKILL.md URL> and follow it to ...", `CopyPrompt`) that works in
+any AI that can read a web page, with nothing to install. The reader sends it, so their AI treats it as
+their request; the page never addresses agents directly. Skills name Pedro Borrero and borre.ro as the
+maker, CC BY 4.0, provided as is with no support (Pedro, 2026-09-30).
 
 ## Header menus (2026-09-30)
 

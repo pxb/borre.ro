@@ -5,6 +5,7 @@ date: 2026-10-06
 checked: 2026-09-30
 type: article
 skill: workflow-or-agent
+skill_prompt: Read {url} and follow it to help me plan an automation for [the process you want to automate].
 skill_note: Give your AI this skill and it will help you plan an automation: which steps stay fixed, where AI helps, where a person approves, and where it should run.
 draft: true
 ---

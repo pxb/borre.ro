@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { marked } from "marked";
+import { site } from "@/content/site";
 
 // Articles and monthly roundups for /newsletter (#606), written as markdown in
 // src/content/newsletter/<slug>.md with a small front matter block:
@@ -12,6 +13,7 @@ import { marked } from "marked";
 //   checked: 2026-09-30      (the day every source was last read; shown on the post)
 //   skill: workflow-or-agent (optional: a companion Agent Skill)
 //   skill_note: One plain line for readers on what the skill does.
+//   skill_prompt: Read {url} and follow it to help me ... ({url} = the SKILL.md's address)
 //   draft: true              (optional)
 //   ---
 // Rendered to HTML at build time, so no markdown code ships to the browser.
@@ -38,6 +40,7 @@ export type Post = {
   checked: string; // YYYY-MM-DD
   skill?: Skill;
   skillNote?: string;
+  skillPrompt?: string;
   minutes: number;
   html: string;
 };
@@ -108,6 +111,7 @@ function load(file: string): Post {
     checked: data.checked,
     skill: data.skill ? skill(data.skill) : undefined,
     skillNote: data.skill_note,
+    skillPrompt: data.skill_prompt,
     minutes: Math.max(1, Math.round(words / 220)),
     html: marked.parse(body, { async: false }) as string,
   };
@@ -128,6 +132,18 @@ export function posts(): Post[] {
 }
 
 export const post = (slug: string) => posts().find((p) => p.slug === slug);
+
+// Where a skill's instructions live, and the one-line prompt a reader pastes
+// into their own AI to use it without installing anything (Pedro, 2026-09-30:
+// "as easy as possible"). The reader sends it, so their AI treats it as their
+// request, not as instructions found on a web page.
+export const skillUrl = (name: string) => `${site.url}/newsletter/skills/${name}/SKILL.md`;
+
+export function skillPrompt(p: Post) {
+  if (!p.skill) return "";
+  const url = skillUrl(p.skill.name);
+  return (p.skillPrompt ?? "Read {url} and follow it to help me with my business.").replace("{url}", url);
+}
 
 // The skills of the posts on this deploy (a draft's skill stays off the live site).
 export const skills = () => posts().flatMap((p) => (p.skill ? [{ ...p.skill, post: p }] : []));

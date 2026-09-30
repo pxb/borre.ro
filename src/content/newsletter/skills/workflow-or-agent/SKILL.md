@@ -1,9 +1,10 @@
 ---
 name: workflow-or-agent
 description: Plans an automation step by step, deciding which steps should be fixed workflow steps, which need AI judgement, where checks and human approval go, and whether it should run as a personal AI task or on a workflow platform. Use when someone plans to automate a business process, asks whether to use an AI agent, or wants to review a supplier's automation proposal.
-license: CC BY 4.0
+license: CC-BY-4.0
 metadata:
-  author: borre.ro
+  author: Pedro Borrero, borre.ro
+  support: none
   version: "1.0"
   source: https://borre.ro/newsletter/the-case-for-boring-automation
 ---
@@ -82,3 +83,9 @@ Ask the supplier:
 - Whose accounts and credentials does it run on, and what happens if that person leaves?
 
 If most answers are "the agent handles it", ask again.
+
+## About this skill
+
+Made by Pedro Borrero at borre.ro, an AI and Revenue Operations practice. It goes with the article "The case for boring automation": https://borre.ro/newsletter/the-case-for-boring-automation
+
+Free to use and share under CC BY 4.0, with credit to borre.ro. Provided as is, with no support.

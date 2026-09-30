@@ -1,9 +1,10 @@
 ---
 name: business-context-map
 description: Maps where a business's knowledge lives and decides how AI should reach each part, at three scales - standing notes loaded up front for one person, shared folders and skills for a team, and a shared, permissioned source for the whole company. Use when setting up Claude or ChatGPT projects, writing standing instructions, organising files or skills for a team, or scoping a company knowledge base.
-license: CC BY 4.0
+license: CC-BY-4.0
 metadata:
-  author: borre.ro
+  author: Pedro Borrero, borre.ro
+  support: none
   version: "1.0"
   source: https://borre.ro/newsletter/context-is-king
 ---
@@ -77,3 +78,9 @@ Give the user:
 5. Three checks to run in a month: are the notes still true, did two people get the same answer to the same question, and what would be lost if one person left.
 
 Check the current features and plan limits of the user's AI tools against their own help pages before recommending one. They change often.
+
+## About this skill
+
+Made by Pedro Borrero at borre.ro, an AI and Revenue Operations practice. It goes with the article "Context is king": https://borre.ro/newsletter/context-is-king
+
+Free to use and share under CC BY 4.0, with credit to borre.ro. Provided as is, with no support.

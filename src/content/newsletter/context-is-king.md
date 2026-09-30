@@ -5,6 +5,7 @@ date: 2026-10-13
 checked: 2026-09-30
 type: article
 skill: business-context-map
+skill_prompt: Read {url} and follow it to map where my business's knowledge lives and draft my standing notes.
 skill_note: Give your AI this skill and it will map where your business knowledge lives, draft your standing notes and suggest a folder layout your team can share.
 draft: true
 ---
@@ -36,6 +37,8 @@ Date the page. When the AI gets something wrong and you correct it, add the corr
 ## Your team
 
 Five people with five private notes files give five different answers about your prices. At team level the knowledge has to be shared, and the procedures too.
+
+One director I worked with had at least seven separate Claude projects, each holding a different slice of the business. A project per topic is sensible advice for one person. Across a business it meant every answer worked from part of the picture, and nobody else could see any of it. Advice goes stale quickly in this space, and stale advice can quietly make things worse. It's why every post here says when its sources were checked.
 
 That's what skills are for. A skill is a folder of instructions, and optionally scripts and templates, that the AI loads only when a task needs it. Only each skill's name and description load at the start, so a team can keep many of them without filling up the AI's attention ([Anthropic, October 2025](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)). The format is an open standard, supported by Claude, ChatGPT and Codex, GitHub Copilot and others ([agentskills.io](https://agentskills.io/home)). Write the proposal checklist once, and everyone's AI follows it.
 
