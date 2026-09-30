@@ -65,17 +65,22 @@ export function MobileNav({
                   {i.label}
                 </Link>
                 {i.href === "/services" ? (
-                  <div className="grid gap-4 pb-5">
+                  <div className="grid gap-5 pb-5">
+                    {/* Group names are dividers, not links: a hairline over a small grey
+                        label, with the services under it in ink. */}
                     {services.map((g) => (
                       <div key={g.name}>
-                        <p className="label">{g.name}</p>
+                        <p className="flex items-center gap-3 text-xs font-medium text-ink-soft">
+                          <span>{g.name}</span>
+                          <span aria-hidden="true" className="h-px flex-1 bg-rule" />
+                        </p>
                         <ul className="mt-1">
                           {[...g.links, ...(g.name === "Run" ? [{ href: "/scorecard", label: "Readiness scorecard" }] : [])].map((l) => (
                             <li key={l.href}>
                               <Link
                                 href={l.href}
                                 onClick={close}
-                                className="flex min-h-11 items-center text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                className="flex min-h-11 items-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                               >
                                 {l.label}
                               </Link>
