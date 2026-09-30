@@ -123,18 +123,22 @@ export const servicePages: Record<string, ServicePage> = {
     ],
   },
   "agentic-platform": {
-    line: "A private AI workspace for the whole team, connected to your business knowledge and tools.",
+    line: "Company-wide AI on accounts you own: search and chat across everything your business knows, with agents doing the repeat work.",
     cta: "Plan a platform",
     problem:
-      "Once a first system works, everyone wants AI. Staff sign up for their own accounts, the cost turns up on expense claims, and company data goes wherever each tool sends it.",
+      "Your knowledge sits in a dozen tools and everyone reaches it with a different AI. Staff sign up for their own accounts, the cost turns up on expense claims, and nobody can say which answers to trust.",
     steps: [
-      { t: "First project", d: "The platform builds on a system that already works for you." },
-      { t: "Plan", d: "We agree the phases, the teams and the tools." },
-      { t: "Build", d: "Each phase built and checked with the people who will use it." },
-      { t: "Roll out", d: "Team by team, with access and costs you can see." },
+      { t: "Connect", d: "We connect your main systems and bring your knowledge together." },
+      { t: "Workspace", d: "Search and chat for every team, with the models you choose." },
+      { t: "Agents", d: "We add agents for the repeat work, one at a time." },
+      { t: "Checks", d: "Every release is scored against your team's own questions." },
     ],
     priceNote: "Includes 30 days of fixes after each phase goes live.",
     faqs: [
+      {
+        q: "How does this compare to Glean or Onyx?",
+        a: "It does the same job: search and chat across your company's knowledge, with agents on top. It runs on accounts you own, and we build it around how your business works.",
+      },
       { q: "Which models can we use?", a: "A choice including Claude, ChatGPT, Gemini and Grok." },
       DATA_FAQ,
     ],

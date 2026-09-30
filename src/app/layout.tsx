@@ -54,6 +54,7 @@ const jsonLd = {
   knowsAbout: [
     "Revenue operations",
     "AI agents",
+    "Enterprise search",
     "Agentic workflows",
     "Retrieval-augmented generation",
     "Context engineering",

@@ -101,43 +101,41 @@ function FlowPreview({ run }: { run: FlowRun }) {
   );
 }
 
-// The team workspace (full agentic platform), which has no case study yet: the
-// models, teams and people on it, each person with their model and the
-// knowledge their access reaches. Invented people at the invented client.
-const PEOPLE = [
-  { i: "PS", n: "Priya Shah", team: "Sales", model: "Claude", reach: "CRM and proposals" },
-  { i: "TO", n: "Tom Okafor", team: "Operations", model: "ChatGPT", reach: "Orders and suppliers" },
-  { i: "SM", n: "Sam Moore", team: "Finance", model: "Gemini", reach: "Invoices" },
+// Company-wide AI (full agentic platform), which has no case study yet: one
+// question searched across several systems, answered with a source from each
+// and a check mark, over the platform's parts. Invented facts at the invented
+// client, consistent with the Context Engine preview.
+const PLATFORM = [
+  { k: "Sources", n: "6" },
+  { k: "Models", n: "4" },
+  { k: "Agents", n: "3" },
+  { k: "People", n: "18" },
 ];
+const PLATFORM_SOURCES = ["CRM · Copperfield deal", "Drive · Quote v3", "Email · 12 Sep"];
 export function PlatformPreview() {
-  const strip = [
-    { k: "Models", n: "4" },
-    { k: "Teams", n: "3" },
-    { k: "People", n: "18" },
-  ];
   return (
-    <Frame nav="Workspace">
-      <div className="p-wrap">
+    <Frame nav="Company AI">
+      <div className="mini-chat">
+        <p className="ask">What did we quote Copperfield, and has anything changed?</p>
+        <div className="ans">
+          <p className="by">Searched CRM, Drive and email · checked</p>
+          <p>£12k for the café relaunch, sent 2 Sep. On 12 Sep their operations manager asked to add a second site. The deal is in Proposal.</p>
+          <div className="ce-cites">
+            {PLATFORM_SOURCES.map((c) => (
+              <span key={c} className="chip dot t-ver">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
         <ol className="mini-strip">
-          {strip.map((x) => (
+          {PLATFORM.map((x) => (
             <li key={x.k}>
               <span className="n">{x.n}</span>
               <span className="k">{x.k}</span>
             </li>
           ))}
         </ol>
-        <ul className="mini-rows">
-          {PEOPLE.map((p) => (
-            <li key={p.n}>
-              <span className="av">{p.i}</span>
-              <span className="lname">{p.n}</span>
-              <span className="p-sub">
-                {p.team} · {p.reach}
-              </span>
-              <span className="chip">{p.model}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </Frame>
   );
