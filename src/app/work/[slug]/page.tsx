@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Page, Row } from "@/components/section";
 import { SystemsHub } from "@/components/systems-hub";
+import { words } from "@/content/copy";
+import copyWork from "@/content/copy.gen/work";
 import { Figure } from "@/components/figure";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
 import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
@@ -35,6 +37,9 @@ export async function generateMetadata({
   return pageMeta({ title: c.title, description: c.tagline, path, image: { url: `${path}/opengraph-image`, alt: c.title } });
 }
 
+// Row labels shared by every case study: src/content/copy/work.md (#561).
+const w = words(copyWork);
+
 function List({ items }: { items: string[] }) {
   return (
     <ul className="space-y-3">
@@ -60,7 +65,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       lead={c.tagline}
       crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Case studies" }]}
     >
-      <Row label="Challenge">
+      <Row label={w.t("label.challenge")}>
         <div className="max-w-2xl space-y-4">
           {c.problem.map((p) => (
             <p key={p.slice(0, 24)} className="leading-relaxed text-ink">
@@ -70,7 +75,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </div>
       </Row>
 
-      <Row label="Solution">
+      <Row label={w.t("label.solution")}>
         <div className="max-w-2xl space-y-6">
           <List items={c.does} />
           {[...(c.journey ?? []), ...c.involved].map((p) => (
@@ -86,7 +91,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         <section className="border-b border-rule pt-2 pb-12">{SHOWCASE[c.slug]()}</section>
       ) : null}
 
-      <Row label="Results">
+      <Row label={w.t("label.results")}>
         <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {c.metrics.map((m) => (
             <Figure key={m.label} value={m.value} dl>
@@ -98,7 +103,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
 
       {/* Client feedback: only real words from the client, with permission. */}
       {c.testimonial ? (
-        <Row label="Client feedback">
+        <Row label={w.t("label.feedback")}>
           <figure className="max-w-2xl">
             <blockquote className="text-xl leading-snug text-ink">&ldquo;{c.testimonial.quote}&rdquo;</blockquote>
             <figcaption className="mt-3 text-sm text-ink-soft">
@@ -111,16 +116,16 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       {/* The details, last: what it connects, how it's built, what it costs. */}
       <section className="grid gap-12 py-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
         <div>
-          <h2 className="label">Connected systems</h2>
+          <h2 className="label">{w.t("label.systems")}</h2>
           <SystemsHub systems={c.stack} name={c.title} />
         </div>
         <div className="grid content-start gap-10">
         <div>
-          <h2 className="label">Technology</h2>
+          <h2 className="label">{w.t("label.technology")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">{c.tech.join(" · ")}</p>
         </div>
         <div>
-          <h2 className="label">{services.length > 1 ? "Services" : "Service"}</h2>
+          <h2 className="label">{services.length > 1 ? w.t("label.services") : w.t("label.service")}</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {services.map((service) => (
               <li key={service.slug}>
