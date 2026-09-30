@@ -30,7 +30,7 @@ OpenAI's own researchers say models hallucinate "because the training and evalua
 
 Handing the model the facts doesn't make this go away. Vectara's leaderboard asks models only to summarise an article they've been given, and still finds them adding facts that aren't in it: 1.8% of the time for the best model, between 7% and 12% for the well-known ones, and over 20% for the worst ([Vectara, September 2026](https://github.com/vectara/hallucination-leaderboard)). Legal research tools built on retrieval, the approach sold as the fix, still got it wrong 17% to 33% of the time in Stanford's testing ([Magesh et al., 2024](https://arxiv.org/abs/2405.20362)).
 
-On business tasks, reliability drops as the steps pile up. Salesforce tested leading agents on CRM work: about 58% success when the task took one step, about 35% when it took several turns. Given a defined workflow to follow, success went above 83% ([CRMArena-Pro, 2025](https://arxiv.org/abs/2505.18878)).
+On business tasks, reliability drops as the conversation goes on. Salesforce tested the leading agents of early 2025 on CRM work: about 58% success in a single turn, about 35% over several turns. They did best, above 83%, on tasks that meant following set business rules ([CRMArena-Pro, 2025](https://arxiv.org/abs/2505.18878)). Models have improved since, but the pattern is the point: the more a task follows rules, the better it goes.
 
 ## What I build instead
 
