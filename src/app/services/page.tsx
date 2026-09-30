@@ -168,7 +168,12 @@ export default function Services() {
             </div>
           ))}
         </div>
-        <p className="mt-10 text-sm text-ink-soft">{site.vatNote}</p>
+        <p className="mt-10 text-sm text-ink-soft">
+          {site.vatNote}{" "}
+          <Link href="/security" className={LINK}>
+            How we look after your data
+          </Link>
+        </p>
       </section>
     </Page>
   );

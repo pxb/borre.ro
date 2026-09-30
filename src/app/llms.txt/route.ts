@@ -53,6 +53,7 @@ export function GET() {
     "",
     "Figures come from real client work, rounded; estimates are labelled as estimates. Clients are not named.",
     "Companies appearing in demonstrations are invented and do not correspond to real businesses.",
+    `How client data is handled (accounts, access, approval, AI training, suppliers): ${site.url}/security`,
     `A structured version of this content is available at ${site.url}/api/mcp (MCP over HTTP).`,
     "",
   ];

@@ -207,6 +207,14 @@ Pedro Borrero" and the email; `site.address` adds a business address service whe
 (Pedro is not VAT registered). Companies Act 2006 s1202 puts his name and an address on invoices
 and letters, not the site.
 
+**Trust and security (#580, 2026-09-30).** `/security`: six short rows, each true of how we build
+today (the Insight build): accounts in the client's name; their own database in a UK or EU region
+(the live client project is eu-central-1, so never "UK only"); access that follows existing
+permissions, enforced by row-level security; draft by default with team approval; business APIs kept
+out of training, sourced answers and a run log; the main suppliers by name. Not claimed until true: a
+signed UK GDPR data processing agreement (#249), ICO registration, backup schedules, uptime. Linked
+from the footer (beside Privacy), /services (under Pricing), the sitemap and llms.txt.
+
 ## Metadata and share images (#578, 2026-09-25)
 
 Every page builds its metadata with `pageMeta` (`src/lib/meta.ts`): its own canonical URL, og:url,
