@@ -5,7 +5,6 @@ import "./globals.css";
 import { serviceCategories, serviceFor, serviceGroups, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
 import { ServicesMenu } from "@/components/services-menu";
-import { posts } from "@/lib/newsletter";
 import { HomeLink } from "@/components/home-link";
 import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
@@ -65,11 +64,12 @@ const jsonLd = {
   ],
 };
 
-// Newsletter joins the nav once there is something published on this deploy.
+// The newsletter is in the nav from the start (Pedro, 2026-09-30: the page
+// structure goes live before the first issue).
 const nav = [
   { href: "/work", label: "Case studies" },
   { href: "/services", label: "Services" },
-  ...(posts().length ? [{ href: "/newsletter", label: "Newsletter" }] : []),
+  { href: "/newsletter", label: "Newsletter" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

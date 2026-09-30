@@ -16,8 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}/services/${s.slug}`,
     lastModified: now,
   }));
-  const newsletter = posts().length
-    ? [{ url: `${site.url}/newsletter`, lastModified: now }, ...posts().map((p) => ({ url: `${site.url}/newsletter/${p.slug}`, lastModified: new Date(p.date) }))]
-    : [];
+  const newsletter = [
+    { url: `${site.url}/newsletter`, lastModified: now },
+    ...posts().map((p) => ({ url: `${site.url}/newsletter/${p.slug}`, lastModified: new Date(p.date) })),
+  ];
   return [...fixed, ...studies, ...services, ...newsletter];
 }
