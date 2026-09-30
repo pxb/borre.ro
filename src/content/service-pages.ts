@@ -12,6 +12,7 @@ export type ServicePage = {
   problem: string; // the buyer's situation, in their terms
   steps: { t: string; d: string }[]; // how it runs, 3 or 4 steps
   priceNote?: string; // one commercial term beside the price; the detail is in the scope sheet
+  next: string; // the service a buyer usually moves on to (Tenhaw pattern, #583)
   faqs: { q: string; a: string }[];
 };
 
@@ -25,6 +26,7 @@ export const servicePages: Record<string, ServicePage> = {
   audit: {
     line: "Know which jobs to hand to AI first, and what each would cost and save.",
     cta: "Book an audit",
+    next: "agentic-workflows",
     problem:
       "You know AI should be taking some of the work off your team, and some of them already use it in their own way. What you're missing is an answer to which jobs to start with, in what order, and whether the saving covers the cost.",
     steps: [
@@ -42,6 +44,7 @@ export const servicePages: Record<string, ServicePage> = {
   workshop: {
     line: "Your leadership team agreed on where AI goes first and who owns each step.",
     cta: "Book a workshop",
+    next: "audit",
     problem:
       "Everyone on the leadership team has a view on AI. Sales wants one thing, operations wants another, and someone is worried about customer data. Until the team agrees a plan, nothing gets funded and people keep trying tools on their own.",
     steps: [
@@ -57,6 +60,7 @@ export const servicePages: Record<string, ServicePage> = {
   training: {
     line: "Your team getting real work done with the AI tools you already pay for.",
     cta: "Book training",
+    next: "agentic-workflows",
     problem:
       "You pay for ChatGPT, Claude or Copilot, and most of the team uses it for the odd email. Some people are on personal accounts, pasting in customer details. It has never been set up for how your business works.",
     steps: [
@@ -72,6 +76,7 @@ export const servicePages: Record<string, ServicePage> = {
   "context-engine": {
     line: "Any question about a customer or deal, answered from your own records with the source attached.",
     cta: "Plan a Context Engine",
+    next: "apps-dashboards",
     problem:
       "Your customer history is split across the CRM, inboxes, call notes and proposals. When someone needs the full picture on an account, they search four places or ask whoever has been there longest. New starters lean on colleagues to catch up.",
     steps: [
@@ -90,6 +95,7 @@ export const servicePages: Record<string, ServicePage> = {
   "agentic-workflows": {
     line: "Research, call notes and CRM updates done for your sales team.",
     cta: "Automate a task",
+    next: "context-engine",
     problem:
       "Your salespeople research each company before a call, write up notes afterwards and keep the CRM up to date. It all matters, and it all comes out of selling time. When the week gets busy, it's the first thing to slip.",
     steps: [
@@ -109,6 +115,7 @@ export const servicePages: Record<string, ServicePage> = {
   "apps-dashboards": {
     line: "One screen for the job your team does every week, built on your own data.",
     cta: "Plan an app",
+    next: "support",
     problem:
       "Your team builds its weekly list from spreadsheet exports and CRM views. It's out of date soon after it's made, and you can't see what was done with each lead or what the tools behind it cost.",
     steps: [
@@ -125,6 +132,7 @@ export const servicePages: Record<string, ServicePage> = {
   "agentic-platform": {
     line: "Company-wide AI on accounts you own: search and chat across everything your business knows, with agents doing the repeat work.",
     cta: "Plan a platform",
+    next: "support",
     problem:
       "Your knowledge sits in a dozen tools and everyone reaches it with a different AI. Staff sign up for their own accounts, the cost turns up on expense claims, and nobody can say which answers to trust.",
     steps: [
@@ -146,6 +154,7 @@ export const servicePages: Record<string, ServicePage> = {
   support: {
     line: "Your AI systems kept running and improved every month, with a report on what they did and cost.",
     cta: "Set up support",
+    next: "agentic-workflows",
     problem:
       "Once a system is live, the business keeps moving. Tools update, processes change and new people join. A system nobody looks after slowly stops being used.",
     steps: [

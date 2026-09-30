@@ -262,6 +262,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-GB"
       className={`${archivo.variable} ${martianMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* For agents: the plain-text summary and the MCP server (#564). */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+        <link rel="alternate" type="application/json" href="/api/mcp" title="MCP server" />
+      </head>
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         <a
           href="#main-content"

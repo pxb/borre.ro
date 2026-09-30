@@ -50,6 +50,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
   const cta = ctaFor(`/services/${slug}`);
   const proof = proofFor(slug);
   const [lead, ...more] = proof;
+  const next = serviceFor(page.next);
 
   return (
     <Page
@@ -161,6 +162,19 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
           ))}
         </dl>
       </Row>
+
+      {/* Where buyers usually go next, one line (#583). */}
+      {next ? (
+        <Row label="Next step">
+          <p className="text-lg text-ink">
+            <Link href={`/services/${next.slug}`} className={`font-medium ${LINK}`}>
+              {next.name}
+              <ArrowRight aria-hidden className="ml-1 inline size-4 align-[-2px]" />
+            </Link>
+          </p>
+          <p className="mt-2 max-w-2xl leading-relaxed text-ink-soft">{servicePages[next.slug]?.line}</p>
+        </Row>
+      ) : null}
     </Page>
   );
 }

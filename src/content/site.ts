@@ -439,6 +439,29 @@ export const serviceGroups = [
   { name: "Run", slugs: ["support"] },
 ];
 
+// How to start, for agents (#564): the same offer the pages make, with the
+// links an agent can hand straight to its user. llms.txt and the MCP server
+// both read it, so neither can drift from the site.
+export const howToStart = {
+  call: `Book a free 30-minute call: https://cal.com/${site.booking}`,
+  scorecard: `Not sure which service fits: take the readiness scorecard at ${site.url}/scorecard (eight questions, about two minutes).`,
+  service: `To book about one service, use its page's button, or ${site.url}/contact?service=<slug> with a slug from the list of services.`,
+  email: `Email: ${site.email}`,
+};
+
+// What each price pays for, so a summary can't turn a one-off build into a
+// monthly fee or the reverse (#564). Builds are one-off; running costs are the
+// client's own usage, billed to their accounts, plus the managed service if
+// they want it.
+export const priceBasis = (slug: string) =>
+  slug === "support"
+    ? "monthly"
+    : ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"].includes(slug)
+      ? "one-off build; running costs are your own usage, billed to your accounts, plus the Managed service if you want it"
+      : slug === "training"
+        ? "one-off, for the days agreed"
+        : "one-off";
+
 export const serviceFor = (slug: string) => serviceCategories.find((s) => s.slug === slug);
 export const proofFor = (slug: string) => work.filter((w) => w.services.includes(slug));
 

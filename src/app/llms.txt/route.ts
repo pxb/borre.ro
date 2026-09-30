@@ -1,4 +1,4 @@
-import { about, serviceCategories, site, work } from "@/content/site";
+import { about, howToStart, priceBasis, serviceCategories, site, work } from "@/content/site";
 
 /* Machine-readable summary, for agents and LLM crawlers.
    Generated from the same content as the pages, so it cannot drift. */
@@ -11,8 +11,14 @@ export function GET() {
     `> ${site.summary}`,
     "",
     `Site: ${site.url}`,
-    `Book a call: https://cal.com/${site.booking}`,
     `LinkedIn: ${site.linkedin}`,
+    "",
+    "## How to start",
+    "",
+    `- ${howToStart.call}`,
+    `- ${howToStart.scorecard}`,
+    `- ${howToStart.service}`,
+    `- ${howToStart.email}`,
     "",
     "## About",
     "",
@@ -25,7 +31,7 @@ export function GET() {
     "",
     about.partner,
     "",
-    "## Work",
+    "## Case studies",
     "",
     ...work.map(
       (c) =>
@@ -36,7 +42,9 @@ export function GET() {
     "## Services",
     "",
     ...serviceCategories.map(
-      (s) => `- [${s.name}](${site.url}/services/${s.slug}): ${s.what} Technical detail: ${s.under} Price: ${s.price}. Typical duration: ${s.duration}.`,
+      (s) =>
+        `- [${s.name}](${site.url}/services/${s.slug}) (slug: ${s.slug}): ${s.what} Technical detail: ${s.under} ` +
+        `Price: ${s.price} (${priceBasis(s.slug)}). Typical duration: ${s.duration}.`,
     ),
     "",
     site.vatNote,

@@ -144,6 +144,20 @@ capture, needs a /privacy change) is paused on #581.
 
 Linked from /services, the footer and the header's Services menu.
 
+## Agent-facing surfaces (#564, 2026-09-30)
+
+`/llms.txt` and `/api/mcp` are read by agents shortlisting suppliers, so both open with how to start:
+`howToStart` in `site.ts` (the free call's booking link, the scorecard, `/contact?service=<slug>`,
+email). Headings and MCP tools use the menu's words (Case studies, Services: `list_case_studies`,
+`get_case_study`, `list_services`, `how_to_start`); the old names (`list_work`, `get_work`,
+`list_solutions`) still answer. Every price carries `priceBasis` (one-off, one-off build with running
+costs on the client's own accounts, or monthly), so a summary can't turn a build price into a monthly
+fee. Discoverable from robots.txt (Allow lines), the sitemap and a `<link rel="alternate">` in every
+page head, as well as the footer.
+
+Each service page ends on a Next step row: the service buyers usually move on to (`next` in
+`service-pages.ts`, #583).
+
 ## Header menus (2026-09-30)
 
 From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the
