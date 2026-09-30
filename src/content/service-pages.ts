@@ -136,7 +136,7 @@ export const servicePages: Record<string, ServicePage> = {
     priceNote: "Includes 30 days of fixes after each phase goes live.",
     faqs: [
       {
-        q: "How does this compare to enterprise AI search tools?",
+        q: "How does this compare to enterprise AI platforms?",
         a: "It does the same job: unified search and chat across your company's knowledge, with agents on top. It runs on accounts you own, and we build it around how your business works.",
       },
       { q: "Which models can we use?", a: "A choice including Claude, ChatGPT, Gemini and Grok." },

@@ -395,7 +395,7 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "agentic-platform",
-    name: "Full agentic platform",
+    name: "Company AI platform",
     what: "Company-wide AI on accounts you own. Your team searches and asks across the CRM, documents and email from one workspace, agents take on the repeat work, and every release is checked against questions your team has signed off.",
     includes: [
       "Search across your CRM, documents, email and drives, with every answer linked to its source",

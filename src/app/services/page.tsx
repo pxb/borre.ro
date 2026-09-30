@@ -11,7 +11,7 @@ import { servicePages } from "@/content/service-pages";
 export const metadata: Metadata = pageMeta({
   title: "Services",
   description:
-    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, workflow automation, custom apps and dashboards, a full agentic platform, and a managed service to keep it running.",
+    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, workflow automation, custom apps and dashboards, a company AI platform, and a managed service to keep it running.",
   path: "/services",
 });
 

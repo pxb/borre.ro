@@ -101,7 +101,7 @@ function FlowPreview({ run }: { run: FlowRun }) {
   );
 }
 
-// Company-wide AI (full agentic platform), which has no case study yet: one
+// Company-wide AI (the Company AI platform), which has no case study yet: one
 // question searched across several systems, answered with a source from each
 // and a check mark, over the platform's parts. Invented facts at the invented
 // client, consistent with the Context Engine preview.
