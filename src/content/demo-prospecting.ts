@@ -50,8 +50,14 @@ export const batches = [
   { label: "W37", wc: "W/C 8 Sep" },
 ] as const;
 
-// Shape only: the narrowing from the register to the week's list. Used for the
-// funnel strip; no stage carries a count (method, not a scoreboard).
+// The funnel from the register to the week's list. The top stages carry
+// rounded, approximate counts for the invented client (Pedro, 2026-09-30: the
+// dots read as missing data). Invented like everything else here, and the same
+// wherever they appear: every organisation in the area that could buy, those
+// matching the client's customer profile, and the buying signals found each week.
+export const demoReach = { TAM: "18.4k", "ICP match": "2.3k" } as const;
+export const signalsByBatch: Record<string, number> = { W38: 34, W37: 29 };
+
 export const demoFunnel = [
   "TAM",
   "ICP match",

@@ -85,19 +85,24 @@ before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
 under their own treads stepped down the page and read as falling. The loop carries short headlines
-only (the full list is the managed service on /services#support). No footer states the obvious
+and, since 2026-09-30, is a tab set like the other slides (Pedro: not a dot circling on its own):
+hover, tap, arrow keys or the story's scroll pick a stop, the accent dot runs clockwise round the ring
+to it, and its one line shows under the loop. The 02 Review stop fills in place (a marker flying in
+from the side was distracting). The 04 ladder uses one short word per tread (Audit, Workshop,
+Training, First build) so nothing wraps, with each service's own line of value under it. The 03
+Ask demo uses the portal's design, like the Context Engine preview on /work. No footer states the obvious
 ("free, and booked straight into the calendar" was cut), and no footer repeats the left paragraph.
 
 Where a slide has several items, only the picked item's description shows (hover, focus, tap or the
 arrow keys; a tab set). In the pinned story the scroll also picks (2026-09-25): a timeline of 14
 stops in `how-we-work.tsx` (one unit of 64vh to move between slides, half a unit per item), `x`
 flat across each slide's own stops, and a snap that settles on the next stop in the direction of
-travel. `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
+travel (17 stops since 2026-09-30, when 06 Support became pickable). `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
 focus is inside the set; hover picks on pointer movement, not entry, so a slide moving in under a
 resting pointer picks nothing. Checked in headless Edge by `Lab/borre-tools/cdp-story.mjs` (every
 stop, wheel steps, keyboard, reduced motion, no-JS) and `cdp-story-wheel.mjs`. All descriptions sit in one grid cell so the slot never jumps. Server render
 and no-JS show every description inline, so no copy is lost. Reduced motion keeps the forms and drops
-the animation (bars drawn full, no figure roll-up, no travelling dot on the loop). Slides are
+the animation (bars drawn full, no figure roll-up, the loop's dot jumps). Slides are
 top-aligned with an even gap under the step bar. The booking offer is not in the story; it is the
 site-wide fixed `OfferBar`.
 
@@ -190,7 +195,7 @@ client's stack can't be fingerprinted.
 
 ## Numbers
 
-Real measured figures, rounded, marked approximate. No per-render randomiser: fuzzing stages independently breaks the funnel narrowing and makes a figure disagree with itself across pages. Companies are invented and checked against the Companies House register. Nothing that identifies a client ships without sign-off.
+Real measured figures, rounded, marked approximate. Exception (Pedro, 2026-09-30): the prospecting demo's top-of-funnel counts (TAM 18.4k, ICP match 2.3k, buying signals 34 and 29 a week) are invented for the invented client, rounded, and identical everywhere (`demoReach`, `signalsByBatch`); the dots read as missing data. No per-render randomiser: fuzzing stages independently breaks the funnel narrowing and makes a figure disagree with itself across pages. Companies are invented and checked against the Companies House register. Nothing that identifies a client ships without sign-off.
 
 ## Analytics and privacy
 
@@ -310,8 +315,8 @@ picked all three directions proposed on #585, with two limits: **ink is used spa
 every page gets a diagram**. The point is to break up patterns, so each page gets a different
 treatment rather than one treatment everywhere.
 
-**Ink is for the offer only:** the footer offer band (`footer-cta.tsx`), full bleed on every inner
-page, and the fixed `OfferBar` on the homepage, where it rides over the story (on inner pages the bar
+**Ink is for the offer only:** the footer offer band (`footer-cta.tsx`), full bleed on every page
+but /contact (on the homepage too since 2026-09-30, closing the story instead of an empty stretch), and the fixed `OfferBar` on the homepage, where it rides over the story (on inner pages the bar
 stays paper). Do not add more dark bands without asking. On ink, measured: paper 14.5:1; `--rule` 11.2:1 and is the
 secondary text there; `--ink-soft` 2.3:1 and is unusable; the accent 2.8:1, so on ink the accent is
 only ever the button ground, and focus rings are paper. An accent lightened for ink (`#D16651`,
@@ -368,6 +373,8 @@ NET over the other effects for two reasons. It argues the headline: the site say
 talk to each other, and a mesh finding its connections is the thing being sold. And WAVES is a
 full-bleed effect that needs a wide, short band; in a bounded panel the camera sits inside the wave
 surface and it renders as a flat block. Verified twice.
+
+**Update 2026-09-30 (Pedro): fewer junctions, more zoomed in:** points 9 (was 13), spacing 24 (15), maxDistance 25 (16).
 
 **Update 2026-09-24 (Pedro):** dots OFF (`showDots: false`) and the lines are one soft warm tone,
 `0xc2b6a4`. The lit dot spheres rendered grey and pulled focus off the text; white lines barely showed.

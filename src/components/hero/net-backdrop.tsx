@@ -76,9 +76,12 @@ export function NetBackdrop() {
         // spheres read grey and pulled focus off the text; white lines barely showed.
         color: 0xc2b6a4,
         backgroundColor: 0xf2ede4, // cream, identical to the page
-        points: 13.0,
-        maxDistance: 16.0,
-        spacing: 15.0,
+        // Fewer points, further apart: fewer junctions and bigger cells, so it
+        // reads zoomed in (Pedro, 2026-09-30; was 13 / 16 / 15). maxDistance
+        // grows with the spacing so neighbouring points still join up.
+        points: 9.0,
+        maxDistance: 25.0,
+        spacing: 24.0,
         showDots: false,
       });
       // Dots to white. See the note above: Vanta has no separate dot colour.

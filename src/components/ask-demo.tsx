@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
+import "@/components/demo/portal.css";
+import { demoClient } from "@/content/demo-prospecting";
 
 // The Context Engine answering one question, typed out when the Idea slide
 // arrives. Server and no-JS render the finished exchange; the typing is a
 // client enhancement. The company is invented and checked against the
-// Companies House register (no match).
+// Companies House register (no match). In the portal's own design, like the
+// Context Engine demo on /work (Pedro, 2026-09-30), so it reads as the product.
 const Q = "Which customers have gone quiet this quarter?";
 const A =
   "Three. The biggest is Fenwick Holt, who asked for a revised quote on 12 March and haven't replied since.";
@@ -58,34 +61,42 @@ export function AskDemo() {
   }, [animate, inView]);
 
   return (
-    <div ref={ref} className="border border-rule bg-paper p-5">
-      <p className="label">Ask the Context Engine</p>
-      {/* Each line reserves its full height with an invisible copy, so the
-          card does not grow while it types. */}
-      <p className="mt-3 grid font-medium text-ink">
-        <span aria-hidden="true" className="invisible col-start-1 row-start-1">
-          {Q}
-        </span>
-        <span className="col-start-1 row-start-1">{Q.slice(0, q)}</span>
-      </p>
-      <p className="mt-2 grid text-sm leading-relaxed text-ink-soft">
-        <span aria-hidden="true" className="invisible col-start-1 row-start-1">
-          {A}
-        </span>
-        <span className="col-start-1 row-start-1">{A.slice(0, a)}</span>
-      </p>
-      <ul className="mt-4 flex flex-wrap gap-2" aria-label="Sources">
-        {SOURCES.map((s, i) => (
-          <li
-            key={s}
-            className={`border border-rule px-2 py-0.5 text-xs text-ink-soft transition-opacity duration-300 ${
-              i < src ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {s}
-          </li>
-        ))}
-      </ul>
+    <div ref={ref} className="portal mini" aria-label="Ask the Context Engine: an example">
+      <div className="p-top">
+        <span className="p-brand">{demoClient.short}</span>
+        <nav className="p-nav" aria-hidden="true">
+          <span className="on">Context Engine</span>
+        </nav>
+      </div>
+      <div className="mini-chat">
+        {/* Each line reserves its full height with an invisible copy, so the
+            card does not grow while it types. */}
+        <p className="ask grid">
+          <span aria-hidden="true" className="invisible col-start-1 row-start-1">
+            {Q}
+          </span>
+          <span className="col-start-1 row-start-1">{Q.slice(0, q)}</span>
+        </p>
+        <div className="ans">
+          <p className="by">Context Engine · {SOURCES.length} sources</p>
+          <p className="grid">
+            <span aria-hidden="true" className="invisible col-start-1 row-start-1">
+              {A}
+            </span>
+            <span className="col-start-1 row-start-1">{A.slice(0, a)}</span>
+          </p>
+          <ul className="ce-cites" aria-label="Sources">
+            {SOURCES.map((s, i) => (
+              <li
+                key={s}
+                className={`chip dot t-ver transition-opacity duration-300 ${i < src ? "opacity-100" : "opacity-0"}`}
+              >
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

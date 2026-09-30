@@ -7,11 +7,12 @@ import { ctaFor, site } from "@/content/site";
 // The site's one closing offer, and its one ink band (#585): full bleed, so
 // every inner page ends on a change of ground. On ink the secondary text is
 // --rule (11.2:1) and the accent is only the button ground: accent text on
-// ink measures 2.8:1. Hidden on /contact, where the page itself is the offer,
-// and on /, where the story's last slide already closes on it.
+// ink measures 2.8:1. Hidden on /contact, where the page itself is the offer.
+// Shown on / too since 2026-09-30: the story's last slide no longer closes on
+// the offer, and without the band the page ended on an empty stretch.
 export function FooterCta() {
   const path = usePathname();
-  if (path === "/contact" || path === "/") return null;
+  if (path === "/contact") return null;
   // On a service page the button names that service.
   const cta = ctaFor(path);
   return (

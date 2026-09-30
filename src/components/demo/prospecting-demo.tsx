@@ -6,6 +6,8 @@ import {
   batches,
   demoClient,
   demoFunnel,
+  demoReach,
+  signalsByBatch,
   demoLeads,
   wonMix,
   type DemoLead,
@@ -111,11 +113,20 @@ function Board({
     });
   }, [inBatch, q, sort, status]);
 
-  // Counts only for the demo's own pipeline stages; the top of the funnel is shape.
+  // The top of the funnel is the client's reach (rounded, the same in every
+  // week); signals follow the week; the rest counts this demo's own leads.
   const counts = useMemo(() => {
     const at = (s: Status) => inBatch.filter((l) => STATUS_ORDER.indexOf(status[l.id]) >= STATUS_ORDER.indexOf(s)).length;
-    return { Researched: inBatch.length, Sent: at("sent"), Reply: at("reply"), Meeting: at("meeting") } as Record<string, number>;
-  }, [inBatch, status]);
+    const signals = batch === "All" ? Object.values(signalsByBatch).reduce((a, b) => a + b, 0) : (signalsByBatch[batch] ?? 0);
+    return {
+      ...demoReach,
+      "Buying signal": signals,
+      Researched: inBatch.length,
+      Sent: at("sent"),
+      Reply: at("reply"),
+      Meeting: at("meeting"),
+    } as Record<string, number | string>;
+  }, [inBatch, status, batch]);
 
   const wc = batches.find((b) => b.label === batch)?.wc;
   const sortBtn = (key: SortKey, label: string) => (

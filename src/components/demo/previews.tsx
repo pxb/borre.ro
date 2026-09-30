@@ -1,5 +1,5 @@
 import "./portal.css";
-import { demoClient, demoLeads, type Status } from "@/content/demo-prospecting";
+import { demoClient, demoLeads, demoReach, signalsByBatch, type Status } from "@/content/demo-prospecting";
 import { ceQuestions, leadEnrichmentRun, postCallRun, type FlowRun } from "@/content/demo-showcases";
 
 // Still, server-rendered previews of each case study's interactive piece, in
@@ -52,10 +52,10 @@ function ProspectingPreview() {
   const week = demoLeads.filter((l) => l.batch === "W38");
   const at = (s: Status[]) => week.filter((l) => s.includes(l.status)).length;
   const strip = [
-    { k: "TAM", n: "·" },
-    { k: "ICP match", n: "·" },
+    { k: "TAM", n: demoReach.TAM },
+    { k: "ICP", n: demoReach["ICP match"] },
+    { k: "Signals", n: String(signalsByBatch.W38) },
     { k: "Researched", n: String(week.length) },
-    { k: "Sent", n: String(at(["sent", "reply", "meeting"])) },
     { k: "Reply", n: String(at(["reply", "meeting"])) },
   ];
   return (

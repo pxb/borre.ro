@@ -98,16 +98,3 @@ export function Wipe({ children, className }: { children: React.ReactNode; class
 
 // The picked-item marker: one element per set, shared by layoutId, so picking
 // another item slides the accent across instead of switching it off and on.
-export function Marker({ id, className, style }: { id: string; className: string; style?: CSSProperties }) {
-  const on = useMotionOn();
-  if (!on) return <span aria-hidden="true" className={className} style={style} />;
-  return (
-    <motion.span
-      aria-hidden="true"
-      layoutId={id}
-      className={className}
-      style={style}
-      transition={{ type: "spring", stiffness: 480, damping: 38 }}
-    />
-  );
-}

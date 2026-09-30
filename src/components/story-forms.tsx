@@ -1,12 +1,13 @@
 "use client";
 
 import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { motion, useAnimate } from "motion/react";
+import { animate, motion, useAnimate, useMotionValue, useTransform } from "motion/react";
 import Link from "next/link";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
 import { Figure } from "@/components/figure";
-import { After, DrawLine, DrawRing, Marker, useMotionOn } from "@/components/draw";
+import { After, DrawLine, DrawRing, useMotionOn } from "@/components/draw";
+import { servicePages } from "@/content/service-pages";
 import { evidence, value } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
@@ -138,6 +139,7 @@ export function itemCount(id: string) {
   if (id === "review") return CALL.length;
   if (id === "method") return AI3.length;
   if (id === "engagement") return STARTS.length;
+  if (id === "support") return SUPPORT.length;
   return 1;
 }
 
@@ -147,7 +149,7 @@ export function Example({ id, go, at = null }: { id: string; go: (id: string) =>
   if (id === "method") return <Formula at={at} />;
   if (id === "engagement") return <Ladder go={go} at={at} />;
   if (id === "value") return <Worth />;
-  return <Loop />;
+  return <Loop at={at} />;
 }
 
 // 01 Problem: each barrier with our answer under it, so the slide turns from
@@ -219,7 +221,13 @@ function Timeline({ at }: { at: number | null }) {
                 aria-hidden="true"
                 className="relative mt-0.5 size-4 shrink-0 rounded-full border-2 border-ink bg-paper sm:mt-0"
               >
-                {on ? <Marker id={`${p.uid}m`} className="absolute -inset-0.5 rounded-full bg-accent" /> : null}
+                {/* The picked stop fills in place (Pedro, 2026-09-30: a marker
+                    sliding in from the side was distracting). */}
+                <span
+                  className={`absolute -inset-0.5 rounded-full bg-accent transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
+                    on ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                  }`}
+                />
               </span>
               <span
                 className={`font-medium leading-snug transition-colors ${
@@ -478,7 +486,7 @@ function Ladder({ go, at }: { go: (id: string) => void; at: number | null }) {
                 </span>
                 <span className="block pr-3 sm:pt-4">
                   <span
-                    className={`block text-[0.95rem] font-medium leading-snug transition-colors sm:min-h-[2lh] ${
+                    className={`block text-[0.95rem] font-medium leading-snug transition-colors sm:whitespace-nowrap ${
                       on ? "text-ink" : "text-ink-soft group-hover:text-ink"
                     }`}
                   >
@@ -546,24 +554,52 @@ function Worth() {
 // 06 Support: the service as a monthly loop.
 const LABEL_POS = [
   "top-0 left-1/2 w-60 -translate-x-1/2 text-center",
-  "top-1/2 left-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2",
+  "top-1/2 left-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2 text-left",
   "bottom-0 left-1/2 w-60 -translate-x-1/2 text-center",
   "top-1/2 right-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2 text-right",
 ];
 
-function Loop() {
+function Loop({ at }: { at: number | null }) {
   return (
     <Frame heading="Managed service">
-      <LoopShape />
+      <LoopShape at={at} />
     </Frame>
   );
 }
 
 // The loop without its frame, also used for the managed service on /services.
 // No price in the centre: slides carry no prices (Pedro, 2026-09-24); they
-// live on /services, under each service name.
-export function LoopShape() {
+// live on /services, under each service name. A tab set like the other slides
+// (Pedro, 2026-09-30: not a dot rotating on its own): hover, tap, the arrow
+// keys or the story's scroll pick a stop; the accent dot travels clockwise
+// round the ring to it, and its line shows under the loop.
+const STOP_XY = [
+  [100, 10],
+  [190, 100],
+  [100, 190],
+  [10, 100],
+] as const;
+
+export function LoopShape({ at = null }: { at?: number | null }) {
+  const p = usePick(SUPPORT.length, "Managed service", at);
   const moving = useMotionOn();
+  // The dot runs along the ring by angle, always forward (clockwise), so a
+  // loop reads as a loop. Degrees from the top stop.
+  const angle = useMotionValue(0);
+  const cx = useTransform(angle, (a) => 100 + 90 * Math.sin((a * Math.PI) / 180));
+  const cy = useTransform(angle, (a) => 100 - 90 * Math.cos((a * Math.PI) / 180));
+  const last = useRef(p.on);
+  useEffect(() => {
+    const step = (p.on - last.current + SUPPORT.length) % SUPPORT.length;
+    last.current = p.on;
+    if (!step) return;
+    const to = angle.get() + step * 90;
+    if (!moving) angle.set(to);
+    else {
+      const run = animate(angle, to, { duration: 0.35 * step + 0.25, ease: "easeInOut" });
+      return () => run.stop();
+    }
+  }, [p.on, moving, angle]);
   return (
     <>
       <div className="relative mx-auto hidden h-[290px] max-w-[540px] sm:block">
@@ -591,41 +627,46 @@ export function LoopShape() {
                 />
               );
             })}
-            {[
-              [100, 10],
-              [190, 100],
-              [100, 190],
-              [10, 100],
-            ].map(([x, y]) => (
+            {STOP_XY.map(([x, y]) => (
               <circle key={`${x}-${y}`} cx={x} cy={y} r="6" fill="var(--paper)" stroke="var(--ink)" strokeWidth="2" />
             ))}
           </After>
-          {moving ? (
-            <After delay={1.3}>
-              <circle r="5" fill="var(--accent)">
-                <animateMotion dur="16s" repeatCount="indefinite" path="M100 10 A90 90 0 0 1 100 190 A90 90 0 0 1 100 10" />
-              </circle>
-            </After>
-          ) : null}
+          {p.js ? <motion.circle cx={cx} cy={cy} r="6" fill="var(--accent)" /> : null}
         </svg>
-        <ol>
+        <div {...p.list}>
           {SUPPORT.map((t, i) => (
-            <li key={t} className={`absolute font-medium leading-snug text-ink ${LABEL_POS[i]}`}>
+            <button
+              key={t}
+              {...p.tab(i)}
+              className={`absolute font-medium leading-snug transition-colors ${LABEL_POS[i]} ${
+                p.on === i ? "text-ink" : "text-ink-soft hover:text-ink"
+              } ${FOCUS}`}
+            >
               {t}
-            </li>
+            </button>
           ))}
-        </ol>
+        </div>
       </div>
+      <Detail
+        pick={p}
+        className="mt-4 hidden sm:grid"
+        items={SUPPORT_DETAIL.map((d) => (
+          <p key={d} className="text-center text-lg leading-snug text-ink">
+            {d}
+          </p>
+        ))}
+      />
       <div className="sm:hidden">
         <ol className="relative ml-2">
           <DrawLine axis="y" className="absolute inset-y-0 -left-0.5 w-0.5 origin-top bg-ink" />
-          {SUPPORT.map((t) => (
-            <li key={t} className="relative py-2.5 pl-6 font-medium leading-snug text-ink">
+          {SUPPORT.map((t, i) => (
+            <li key={t} className="relative py-2.5 pl-6 leading-snug">
               <span
                 aria-hidden="true"
                 className="absolute top-[0.95rem] -left-[7px] size-3 rounded-full border-2 border-ink bg-paper"
               />
-              {t}
+              <span className="font-medium text-ink">{t}</span>
+              <span className="mt-1 block text-sm text-ink-soft">{SUPPORT_DETAIL[i]}</span>
             </li>
           ))}
         </ol>
@@ -644,13 +685,16 @@ const CALL: Omit<Row, "href">[] = [
   { t: "What to do next", d: "A clear recommendation: an audit, training, a build, or nothing yet." },
 ];
 
-// The entry points, in the industry's terms. None assumes a build.
-const STARTS: Row[] = [
-  { t: "AI readiness audit", d: "Your workflows, data and tools reviewed, ending in a prioritised roadmap with ROI estimates.", href: "/services/audit" },
-  { t: "Leadership workshop", d: "Use cases, risks and priorities agreed in one session.", href: "/services/workshop" },
-  { t: "Training and enablement", d: "Your AI tools set up properly and your team trained on real work.", href: "/services/training" },
-  { t: "Pilot build", d: "One high-value use case built at a fixed price and running in production.", href: "/services/agentic-workflows" },
+// The ways in, smallest first. One short word per tread so no label wraps
+// (Pedro, 2026-09-30); the line under the ladder is each service's own line of
+// value, so the slide and the service pages say the same thing.
+const START_SLUGS: [string, string][] = [
+  ["Audit", "audit"],
+  ["Workshop", "workshop"],
+  ["Training", "training"],
+  ["First build", "agentic-workflows"],
 ];
+const STARTS: Row[] = START_SLUGS.map(([t, slug]) => ({ t, d: servicePages[slug]?.line ?? "", href: `/services/${slug}` }));
 
 // The three parts of every build, each linked to the case study that shows it.
 const AI3 = [
@@ -662,3 +706,10 @@ const AI3 = [
 // Clockwise from the top. Headlines only; the full list is the managed
 // service on /services.
 const SUPPORT = ["Monitor and fix", "Adapt as you change", "Report usage and cost", "Monthly KPI review"];
+// One line each, from the managed service's own page and scope.
+const SUPPORT_DETAIL = [
+  "We watch every run and fix what breaks.",
+  "Small changes as your tools, team and customers change.",
+  "What ran, what it cost and what changed, every month.",
+  "A call on the numbers and what to do next.",
+];
