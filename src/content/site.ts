@@ -1,4 +1,9 @@
 import { servicePages } from "./service-pages";
+import { words, type Page } from "./copy";
+import copyContextEngine from "./copy.gen/case-context-engine";
+import copyProspectingLoop from "./copy.gen/case-prospecting-loop";
+import copyLeadResearch from "./copy.gen/case-lead-research";
+import copyPostCall from "./copy.gen/case-post-call";
 
 export const site = {
   name: "borre.ro",
@@ -73,131 +78,41 @@ export type CaseStudy = {
   testimonial?: { quote: string; name: string; role: string };
 };
 
+// The case studies' words live in src/content/copy/case-<slug>.md (#561), so
+// Pedro can rewrite them without touching code. What stays here: the slug, the
+// figures (each backed by evidence), the services that deliver it, and flags.
+function caseStudy(
+  page: Page,
+  rest: { slug: string; figures: string[]; services: string[]; resultsProven?: boolean },
+): CaseStudy {
+  const w = words(page);
+  const { figures, resultsProven, ...keep } = rest;
+  return {
+    ...(resultsProven === false ? { resultsProven } : {}),
+    ...keep,
+    title: w.t("title"),
+    tagline: w.t("tagline"),
+    problem: w.ps("challenge"),
+    drawsOn: w.li("draws-on"),
+    does: w.li("solution"),
+    metrics: figures.map((value, i) => ({ value, label: w.t(`result.${i + 1}`) })),
+    involved: w.ps("involved"),
+    stack: w.li("connected-systems"),
+    tech: w.li("technology"),
+    ...(w.has("journey") ? { journey: w.ps("journey") } : {}),
+  };
+}
+
 export const work: CaseStudy[] = [
-  {
-    slug: "context-engine",
-    title: "Context Engine",
-    tagline: "The company's knowledge in one place, so the sales team and their AI tools can ask about any account, deal or past conversation.",
-    problem: [
-      "HubSpot held the deals, but the account history was spread across emails, call notes, proposals and a few people's heads. Simple questions meant finding the one person who remembered.",
-    ],
-    drawsOn: [
-      "HubSpot deals, companies and contacts",
-      "Emails, notes, calls, meetings and tasks from HubSpot",
-      "Proposals and documents",
-      "Facts the team has signed off as correct",
-    ],
-    does: [
-      "Syncs the CRM every hour and indexes proposals and documents alongside it",
-      "Answers account, deal and pipeline questions in plain language, using RAG that cites the record behind every answer",
-      "Repeats only facts the team has signed off, like the ideal customer profile",
-      "Follows the access rules the business agreed, inside the team's AI assistants",
-    ],
-    journey: [
-      "Working on the client's own data within a day, it is now the shared record behind their prospecting and follow-up.",
-    ],
-    metrics: [
-      { value: "100%", label: "of the open pipeline visible in one answer, every figure traced to its deal in the CRM" },
-      { value: "1 day", label: "from the client's own data to a first working version" },
-      { value: "8", label: "CRM record types synced every hour, from deals to call notes" },
-    ],
-    involved: [
-      "The team decides what it can rely on and approves anything it drafts.",
-    ],
-    stack: ["HubSpot", "Proposals and documents", "AI assistants"],
-    tech: ["Hybrid RAG", "Vector database", "Row-level security", "MCP", "Workflow automation", "Document parsing"],
-    services: ["context-engine"],
-  },
-  {
+  caseStudy(copyContextEngine, { slug: "context-engine", figures: ["100%", "1 day", "8"], services: ["context-engine"] }),
+  caseStudy(copyProspectingLoop, {
     slug: "prospecting-loop",
-    title: "Outbound prospecting",
-    tagline: "A researched list of target accounts every week, built from the whole market and the deals already won.",
-    problem: [
-      "Years of won deals sat in HubSpot with nothing connecting them to the thousands of companies in the territory. Reps built lists by hand and opened calls with nothing specific to say.",
-    ],
-    drawsOn: [
-      "Won deals and existing customers in HubSpot",
-      "Every active company in the territory, from Companies House",
-      "Buying signals from job boards, filings and company websites",
-      "The sales lead's feedback on every batch",
-    ],
-    does: [
-      "Maps the TAM: every active company in the territory",
-      "Scores each one against an ICP built from won deals, holding back existing customers and open deals",
-      "Watches for buying signals like hiring, fresh investment or a move to new premises",
-      "Delivers researched briefs, checked contacts and a four-email sequence to the rep's portal each week",
-    ],
-    journey: [
-      "Built in stages with the client's sales lead, from a pilot of hand-picked accounts to the live portal. Each round of feedback sharpened the profile: multi-site groups first, a recent investment required, businesses in financial distress screened out.",
-    ],
-    metrics: [
-      { value: "~1 hour", label: "of account research done for the rep on every lead, estimated for a UK solar installer" },
-      { value: "6", label: "buying signals watched across the whole territory, from hiring to new premises" },
-    ],
-    involved: [
-      "The rep stays the human in the loop, sending from their own inbox and logging the outcome.",
-    ],
-    stack: ["HubSpot", "Companies House", "Job boards", "Company websites", "Data enrichment", "Email verification"],
-    tech: ["Context Engine", "Workflow automation", "Web app", "Serverless API", "Passwordless sign-in"],
+    figures: ["~1 hour", "6"],
     services: ["agentic-workflows", "apps-dashboards"],
-  },
-  {
-    slug: "lead-research",
-    title: "Inbound lead enrichment",
-    tagline: "Log a new lead in HubSpot and the rep has a researched brief on the contact before the first call.",
-    problem: [
-      "Every new enquiry meant half an hour in Companies House, the company website and LinkedIn before a sensible first conversation, and the findings rarely made it back into HubSpot.",
-    ],
-    drawsOn: ["Companies House filings and officers", "The company's own website", "Group and ownership structure", "Certification directories"],
-    does: [
-      "Picks up each new lead logged in HubSpot, including from Outlook",
-      "Matches the right company, including the right entity in a group",
-      "Pulls ownership, filings, buying signals and ESG commitments, and checks the contact is current",
-      "Writes a research note onto the contact, with a source link on every claim",
-    ],
-    journey: [
-      "It also watches for deeper buying signals, and uses paid research only where free sources come up short.",
-    ],
-    metrics: [
-      { value: "20 to 40 min", label: "of rep time saved on every inbound lead, estimated" },
-      { value: "~10 min", label: "from a lead being logged to a researched brief on the contact" },
-    ],
-    involved: [
-      "Everything the AI suggests is checked against an official record before the rep sees it.",
-    ],
-    stack: ["HubSpot", "Outlook", "Companies House", "Company websites", "Certification directories", "Email verification"],
-    tech: ["Workflow automation", "LLM with source verification", "Web extraction", "Context Engine"],
-    services: ["agentic-workflows"],
-  },
-  {
-    resultsProven: false,
-    slug: "post-call",
-    title: "Post-call follow-up and handoff",
-    tagline: "When a discovery call moves the deal forward, the follow-up, the notes and the handoff are ready for review.",
-    problem: [
-      "Good discovery calls went cold while the follow-up waited to be written. The client wanted it out within twenty minutes, with the notes in the CRM and a brief to the design team.",
-    ],
-    drawsOn: ["The call transcript", "The HubSpot deal and contact", "Account history from the Context Engine", "How the rep writes"],
-    does: [
-      "Starts when a deal moves out of Discovery and Qualification, the stage change the rep already makes",
-      "Matches the call transcript to the right contact and deal, and pulls the account history",
-      "Drafts the follow-up in the rep's voice, the CRM notes and a brief for the design team",
-      "Waits for the rep's approval before sending anything or updating the CRM",
-    ],
-    journey: [
-      "Built around the moment a deal leaves Discovery, so the follow-up is ready while the call is still fresh. Nothing reaches the customer or the CRM until the rep approves it.",
-    ],
-    metrics: [
-      { value: "20 min", label: "from the end of the call to a follow-up ready for the rep to review" },
-      { value: "4 jobs", label: "prepared for the rep after each discovery call: the email, the CRM notes, the project folder and the team brief" },
-    ],
-    involved: [
-      "The rep is the human in the loop and sends the follow-up themselves.",
-    ],
-    stack: ["HubSpot", "Outlook", "Call recorder", "Document storage"],
-    tech: ["Workflow automation", "LLM", "Context Engine", "Human-in-the-loop approval"],
-    services: ["agentic-workflows"],
-  },
+  }),
+  caseStudy(copyLeadResearch, { slug: "lead-research", figures: ["20 to 40 min", "~10 min"], services: ["agentic-workflows"] }),
+  // Results are targets until it runs live; keeps it off the "done" slide.
+  caseStudy(copyPostCall, { slug: "post-call", figures: ["20 min", "4 jobs"], services: ["agentic-workflows"], resultsProven: false }),
 ];
 
 

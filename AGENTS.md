@@ -471,3 +471,20 @@ slide titles to 60px, both above the hero headline and louder than the CTA. Stor
 - Header: full links from 1024px, menu button below, nothing wraps.
 - Checked by `Lab/borre-tools/cdp-mobile-pass.mjs` (header on one line, hero line still across word
   changes, bar fits and names the current step at every step; 375, 390, 430, 768, 820, 1024, 1180).
+
+## Copy system (#561, 2026-09-30)
+
+Every visible word is moving into `src/content/copy/<page>.md` (done: /work and the four case studies,
+`case-<slug>.md` and `work.md`; next: services, homepage story, the rest). A `## key` heading is a
+slot; plain text, paragraphs or a `- ` list under it; `>` lines are notes and budgets (`max N`
+characters, a warning not a failure). `scripts/copy.mjs build` compiles them to
+`src/content/copy.gen/<page>.ts` (git-ignored; runs as `predev` and `prebuild`, so Vercel runs it);
+code reads them through `words(page)` in `src/content/copy.ts` (`t` one paragraph, `ps` paragraphs,
+`li` list, `has`). A missing slot, or two paragraphs where one is expected, throws during the build
+with the file and heading named. Figures, sources, URLs, slugs, prices and layout stay in code.
+`npm run copy -- deck [out]` writes the whole site as one document (COPY.md, git-ignored) and
+`npm run copy -- apply <file>` writes an edited deck back, slot by slot. Proof of a migration:
+`Lab/borre-tools/text-snapshot.py` before and after must print "identical". After any copy change run
+the layout checks (`cdp-slide-fit`, `cdp-mobile-pass`, `cdp-route-audit`, `cdp-story`). The dev
+launch config calls `next dev` directly, so run `npm run copy -- build` first when copy has changed.
+Writer's guide for Pedro: `src/content/copy/_README.md`.

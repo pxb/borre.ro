@@ -48,3 +48,7 @@ next-env.d.ts
 .claude/
 .agents/
 .codex/
+
+# Compiled from src/content/copy/*.md by scripts/copy.mjs (runs before dev and build)
+/src/content/copy.gen/
+/COPY.md

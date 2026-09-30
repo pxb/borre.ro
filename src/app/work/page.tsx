@@ -5,11 +5,15 @@ import { Page } from "@/components/section";
 import { Figure } from "@/components/figure";
 import { CasePreview } from "@/components/demo/previews";
 import { work } from "@/content/site";
+import { words } from "@/content/copy";
+import copyWork from "@/content/copy.gen/work";
+
+// The words: src/content/copy/work.md (#561).
+const w = words(copyWork);
 
 export const metadata: Metadata = pageMeta({
-  title: "Case studies",
-  description:
-    "Four AI systems built from real client work: a Context Engine with RAG over the CRM, outbound prospecting, inbound lead enrichment and post-call follow-up.",
+  title: w.t("meta.title"),
+  description: w.t("meta.description"),
   path: "/work",
 });
 
@@ -18,7 +22,7 @@ export const metadata: Metadata = pageMeta({
 // index reads like the pages it leads to.
 export default function Work() {
   return (
-    <Page title="Case studies" bare>
+    <Page title={w.t("heading")} bare>
       <div>
         {work.map((c, i) => (
           <article key={c.slug} className="grid gap-10 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
@@ -47,7 +51,7 @@ export default function Work() {
 
               <Link
                 href={`/work/${c.slug}`}
-                aria-label={`${c.title} case study`}
+                aria-label={w.t("preview-label").replace("{title}", c.title)}
                 className="block focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
               >
                 <CasePreview slug={c.slug} />
