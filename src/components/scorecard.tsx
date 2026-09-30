@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Figure } from "@/components/figure";
 import { questions, result, SCORECARD_KEY, SHARE, type Answers } from "@/content/scorecard";
@@ -19,6 +19,24 @@ export function Scorecard() {
   const r = done ? result(a) : null;
   const s = r ? serviceFor(r.service) : undefined;
   const cta = r ? ctaFor(`/services/${r.service}`) : null;
+
+  // Log each finished set of answers once, anonymously (/api/scorecard), after
+  // a pause so a reader changing answers sends only where they settle.
+  const sent = useRef(new Set<string>());
+  const key = done ? questions.map((q) => a[q.id]).join("") : "";
+  useEffect(() => {
+    if (!key || sent.current.has(key)) return;
+    const t = setTimeout(() => {
+      sent.current.add(key);
+      fetch("/api/scorecard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: a }),
+        keepalive: true,
+      }).catch(() => {});
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [key, a]);
 
   // Carry the result into the booking notes when they click through.
   const remember = () => {
@@ -66,7 +84,12 @@ export function Scorecard() {
               <Figure value={`${r.low} to ${r.high}`}>
                 <span className="block text-sm text-ink-soft">
                   hours a week back, estimated. About {Math.round(r.weekly)} hours of repeated admin a week, assuming{" "}
-                  {pct(SHARE.low)} to {pct(SHARE.high)} of it moves to software.
+                  {pct(SHARE.low)} to {pct(SHARE.high)} of it moves to software. McKinsey puts what current AI and
+                  other technology could automate at{" "}
+                  <a href={SHARE.source} target="_blank" rel="noreferrer" className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                    60 to 70% of work time
+                  </a>
+                  .
                 </span>
               </Figure>
             </div>

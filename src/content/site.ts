@@ -431,6 +431,14 @@ export const prospectingDemo = {
     "A working demo of the prospecting portal we build, run on an invented coffee roaster and invented prospects.",
 };
 
+// The three groups the services sit in (AI³ method, kept by Pedro): on
+// /services and in the header's Services menu.
+export const serviceGroups = [
+  { name: "Start", slugs: ["audit", "workshop", "training"] },
+  { name: "Build", slugs: ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"] },
+  { name: "Run", slugs: ["support"] },
+];
+
 export const serviceFor = (slug: string) => serviceCategories.find((s) => s.slug === slug);
 export const proofFor = (slug: string) => work.filter((w) => w.services.includes(slug));
 

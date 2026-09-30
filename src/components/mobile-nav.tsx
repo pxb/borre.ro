@@ -4,11 +4,20 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Menu, X } from "lucide-react";
 
+type NavLink = { href: string; label: string };
+
 // The phone menu on the browser's own modal <dialog>: it traps focus, closes on
 // Escape, makes the page behind inert and returns focus to the button, with no
 // component library (that library was 33 KB gzipped on every page for this one
-// panel). A tap on the backdrop closes it too.
-export function MobileNav({ items }: { items: { href: string; label: string }[] }) {
+// panel). A tap on the backdrop closes it too. Under Services, every service by
+// group, so a phone reader can go straight to one.
+export function MobileNav({
+  items,
+  services,
+}: {
+  items: NavLink[];
+  services: { name: string; links: NavLink[] }[];
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   const close = () => ref.current?.close();
 
@@ -45,16 +54,39 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
               <X className="size-5" aria-hidden="true" />
             </button>
           </div>
-          <nav aria-label="Menu" className="mt-2 flex flex-col px-6">
+          <nav aria-label="Menu" className="mt-2 flex flex-col overflow-y-auto px-6 pb-8">
             {items.map((i) => (
-              <Link
-                key={i.href}
-                href={i.href}
-                onClick={close}
-                className="border-b border-rule py-4 text-lg text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {i.label}
-              </Link>
+              <div key={i.href} className="border-b border-rule">
+                <Link
+                  href={i.href}
+                  onClick={close}
+                  className="block py-4 text-lg text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {i.label}
+                </Link>
+                {i.href === "/services" ? (
+                  <div className="grid gap-4 pb-5">
+                    {services.map((g) => (
+                      <div key={g.name}>
+                        <p className="label">{g.name}</p>
+                        <ul className="mt-1">
+                          {[...g.links, ...(g.name === "Run" ? [{ href: "/scorecard", label: "Readiness scorecard" }] : [])].map((l) => (
+                            <li key={l.href}>
+                              <Link
+                                href={l.href}
+                                onClick={close}
+                                className="flex min-h-11 items-center text-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                              >
+                                {l.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             ))}
           </nav>
         </div>

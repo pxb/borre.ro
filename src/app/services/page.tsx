@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview, PlatformPreview } from "@/components/demo/previews";
-import { costNotes, ctaFor, serviceFor, site, type ServiceCategory } from "@/content/site";
+import { costNotes, ctaFor, serviceFor, serviceGroups, site, type ServiceCategory } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
 
 export const metadata: Metadata = pageMeta({
@@ -19,8 +19,7 @@ export const metadata: Metadata = pageMeta({
 // identical rows: the ways to start side by side, the builds beside the product
 // they make, and the managed service as its monthly loop. Prices sit small under
 // each name: the name and what it does lead, not the cost.
-const START = ["audit", "workshop", "training"];
-const BUILD = ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"];
+const [START, BUILD] = serviceGroups.map((g) => g.slugs);
 // The case study whose product still stands in for each build.
 const STILL: Record<string, string> = {
   "context-engine": "context-engine",

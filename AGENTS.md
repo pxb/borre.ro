@@ -126,13 +126,33 @@ gives it to the page header, the footer band and the offer bar on that service's
 `/scorecard`: eight multiple-choice questions (`src/content/scorecard.ts`), native radios in
 `src/components/scorecard.tsx`. Two questions size the repeated admin (people x hours, at midpoints);
 the result shows a band, the hours back as a range in the figure form, labelled as an estimate with
-its assumption on screen (a quarter to a half of that time moving to software), and one service to
+its assumption on screen (a quarter to a half of that time moving to software, set under McKinsey's
+60 to 70% technical potential, linked), and one service to
 start with (audit by default; training if they want the team using AI well; workshop if leadership
 has talked but not agreed; workflow automation when everything is in place). Its button stores a
-one-line summary in sessionStorage, which `BookingFrame` adds to the Cal.com notes. Answers never
-leave the browser and are never put in a URL, so /privacy is unchanged. Linked from /services and
-the footer. Pedro, 2026-09-30: keep it small; email capture and saved results only if bookings show
-it works.
+one-line summary in sessionStorage, which `BookingFrame` adds to the Cal.com notes. Answers are
+never put in a URL.
+
+**Results log (option A, Pedro 2026-09-30).** Each finished set of answers is posted once, after a
+1.5 s pause, to `/api/scorecard`, which recomputes the result from the same code and forwards it to
+the n8n workflow `W8RamKJvJGkWRaLG` ("borre.ro: scorecard results (anonymous)", export in
+`ai-stack/n8n-workflows`), which keeps known fields only and inserts into the data table
+`borre_scorecard_results` (`rQRs5Sb1TVVgw8Rg`). No name, email or IP: n8n sees Vercel, and the
+workflow keeps no run data for successful runs, so /privacy is unchanged. The webhook URL is in this
+public repo; the n8n side drops anything malformed. Option B ("email me my result", real lead
+capture, needs a /privacy change) is paused on #581.
+
+Linked from /services, the footer and the header's Services menu.
+
+## Header menus (2026-09-30)
+
+From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the
+scorecard, on hover or keyboard focus, in CSS only (`services-menu.tsx`): hidden with `invisible`
+so its links stay out of the tab order until Services has focus, hung from the right edge of the
+header's links so it never runs past the page, and no wider than the viewport less 3rem. The phone
+menu lists the same services under Services. Groups live in `serviceGroups` in `site.ts`, shared
+with /services. Checked by `Lab/borre-tools/cdp-nav.mjs` (hover, moving into the panel, keyboard,
+640 and 1280 widths, phone menu links).
 
 ## Case studies
 

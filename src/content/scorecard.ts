@@ -75,10 +75,17 @@ export const questions: Question[] = [
 ];
 
 // Midpoints for the two sizing questions, and the share of that time we assume
-// moves to software: a quarter to a half. An assumption, shown on the result.
+// moves to software: a quarter to a half. An assumption, shown on the result,
+// set under McKinsey's 60 to 70% of work time that current AI and other
+// technology could technically automate ("The economic potential of generative
+// AI", 14 June 2023; checked 2026-09-30).
 const PEOPLE = [1.5, 6, 18, 30];
 const HOURS = [1, 3.5, 7.5, 12];
-export const SHARE = { low: 0.25, high: 0.5 };
+export const SHARE = {
+  low: 0.25,
+  high: 0.5,
+  source: "https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier",
+};
 
 export type Answers = Record<string, number>; // question id -> option index
 

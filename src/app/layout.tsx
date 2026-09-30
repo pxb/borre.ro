@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Martian_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { serviceCategories, site, work } from "@/content/site";
+import { serviceCategories, serviceFor, serviceGroups, site, work } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
+import { ServicesMenu } from "@/components/services-menu";
 import { HomeLink } from "@/components/home-link";
 import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
@@ -83,17 +84,27 @@ function Header() {
           AI and <span className="text-accent">R</span>evenue{" "}
           <span className="text-accent">O</span>perations
         </p>
-        <MobileNav items={nav} />
-        <div className="ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
-          {nav.map((n) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
-              {n.label}
-            </Link>
-          ))}
+        <MobileNav
+          items={nav}
+          services={serviceGroups.map((g) => ({
+            name: g.name,
+            links: g.slugs.map((slug) => ({ href: `/services/${slug}`, label: serviceFor(slug)?.name ?? slug })),
+          }))}
+        />
+        <div className="relative ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
+          {nav.map((n) =>
+            n.href === "/services" ? (
+              <ServicesMenu key={n.href} />
+            ) : (
+              <Link
+                key={n.href}
+                href={n.href}
+                className="transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              >
+                {n.label}
+              </Link>
+            ),
+          )}
         </div>
       </nav>
     </header>
