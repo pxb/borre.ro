@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMeta({
 });
 
 // Trust and security (#580). Every line is true of how we build today (the
-// Insight build, checked 2026-09-30): client-owned Supabase, n8n and AI
+// live client build, checked 2026-09-30): client-owned Supabase, n8n and AI
 // accounts; access tiers enforced by Postgres row-level security, mirroring
 // what each person can see at source; draft by default with human approval;
 // sourced answers and a run log; business APIs. The live client database is

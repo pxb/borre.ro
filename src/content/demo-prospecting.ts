@@ -2,7 +2,7 @@
 // invented: the client (a coffee roaster), every prospect and every person.
 // Company names were checked against the Companies House register (no match).
 // Emails are masked so no address can belong to a real person. The shape
-// mirrors the real research pack (insight-energy docs/prospecting-pack-shape.md).
+// mirrors the real research pack delivered to the client.
 
 export type Status = "new" | "sent" | "reply" | "meeting";
 export type Evidence = "Verified" | "Likely" | "Unverified";

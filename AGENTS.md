@@ -237,7 +237,7 @@ Pedro Borrero" and the email; `site.address` adds a business address service whe
 and letters, not the site.
 
 **Trust and security (#580, 2026-09-30).** `/security`: six short rows, each true of how we build
-today (the Insight build): accounts in the client's name; their own database in a UK or EU region
+today (the live client build): accounts in the client's name; their own database in a UK or EU region
 (the live client project is eu-central-1, so never "UK only"); access that follows existing
 permissions, enforced by row-level security; draft by default with team approval; business APIs kept
 out of training, sourced answers and a run log; the main suppliers by name. Not claimed until true: a
@@ -261,7 +261,8 @@ Archivo and Martian Mono under the OFL in `src/app/_og/fonts`, read by module-re
 
 ## Repo
 
-Public. No secrets. Commits terse, imperative, impersonal.
+Public. No secrets, and no client names anywhere, comments included: clients are "the client" or
+"the live client build" (2026-09-30 audit found and removed five mentions; old commits keep them). Commits terse, imperative, impersonal.
 
 ## Colour
 
