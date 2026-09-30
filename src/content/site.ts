@@ -208,7 +208,7 @@ export const evidence = [
   {
     stat: "35%",
     claim: "of UK businesses say the biggest barrier to using AI is not having the expertise",
-    answer: "We bring the expertise, and train your team to run it.",
+    answer: "We bring the expertise and train your team.",
     source: "ANS and YouGov, via techUK, 2025",
     href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
   },
@@ -224,7 +224,7 @@ export const evidence = [
   {
     stat: "40%",
     claim: "of AI agent projects are expected to be cancelled by 2027, over unclear business value",
-    answer: "We start with the job that pays, and measure it.",
+    answer: "We agree the value up front, then measure it.",
     source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
   },
@@ -232,13 +232,26 @@ export const evidence = [
 
 // Slide 05: what AI done properly is worth, in general rather than per client
 // (client results live on /work). Sources checked 2026-09-24.
+// Under the ways to start on /services (Pedro, 2026-09-30: market data can
+// address the problem there). Microsoft 2026 Work Trend Index (5 May 2026,
+// 20,000 AI users in 10 countries): "organizational factors like culture,
+// manager support, and talent practices account for more than 2x the reported
+// AI impact of individual factors like mindset and behavior (67% vs. 32%)".
+export const startWhy = {
+  stat: "67%",
+  claim: "of the impact people report from AI comes from the business around them, like culture and manager support, twice the share of individual effort",
+  source: "Microsoft Work Trend Index, 2026",
+  href: "https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization",
+  answer: "So we start with how your business works, not with the tools.",
+};
+
 // The upside at the foot of the Problem slide (05 Value folded into it,
 // 2026-09-30). PwC measures labour productivity, not revenue. Press release,
 // 15 June 2026: "The top 20% of the most AI-exposed companies achieved average
 // labour productivity growth of 163% relative to 2018 – nearly five times
 // higher than the most AI-exposed companies overall". The other two Value
-// figures (Brynjolfsson et al. 14%; Microsoft Work Trend Index 2026, 67% of
-// reported impact from organisational factors) are kept in git history.
+// figures: Brynjolfsson et al. 14% (in git history) and Microsoft's 67%
+// (now `startWhy`, on /services).
 export const upside = {
   stat: "163%",
   claim: "labour productivity growth since 2018 at the top fifth of the companies most exposed to AI, nearly five times that group's average",

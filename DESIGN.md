@@ -53,7 +53,7 @@ Never on body text, labels or structural linework, never in the backdrop.
 One component, `src/components/figure.tsx`, for every number on the site: figure bar, figure, label.
 
 - **Over** its label when the label is short (/work, case-study results).
-- **Beside** its label when the label is a sentence (slides 01 and 05), figure in a 5.5rem column.
+- **Beside** its label when the label is a sentence (slide 01, the /services Start figure), figure in a 5.5rem column.
 - Mono and tabular for numbers; words ("Minutes") in the sans face.
 - One size: 24px, 28px from lg. Always below the slide titles and the hero headline.
 - No bars or charts beside similar percentages; they read as progress bars.
@@ -76,8 +76,9 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 - **A problem is always followed by our answer.** Slide 01 pairs each barrier with the line that fixes
   it, so the story turns from the fear to the fix. No figure is there only to frighten.
-- **Why now, why us.** Slide 05 sells the value of doing AI properly in general terms, with sources;
-  client-specific results stay on /work and the case studies.
+- **Why now, why us.** Slide 01 ends on the value of doing AI properly in general terms, with a source
+  (under the paragraph when pinned, after the problems when stacked); client-specific results stay on
+  /work and the case studies. /services carries one market figure under Start, in the problem form.
 
 ## Headers
 

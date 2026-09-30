@@ -96,7 +96,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
             <div className="min-w-0">
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">
-                <Link href={`/work/${lead.slug}`} className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                <Link href={`/work/${lead.slug}`} className="-my-2 inline-block py-2 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
                   {lead.title}
                 </Link>
               </h3>

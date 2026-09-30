@@ -758,6 +758,12 @@
   font-weight: 600;
   font-size: 13px;
 }
+/* A 44px target on touch screens (2026-09-30 review). */
+@media (pointer: coarse) {
+  .portal details.ce-bonnet summary {
+    padding-block: 12px;
+  }
+}
 .portal details.ce-bonnet dl {
   display: grid;
   gap: 10px;

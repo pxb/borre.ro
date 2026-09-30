@@ -142,8 +142,10 @@ export function itemCount(id: string) {
   return 1;
 }
 
-export function Example({ id, at = null }: { id: string; at?: number | null }) {
-  if (id === "problem") return <Gap />;
+// `pinned`: the desktop story, where a slide can't scroll, so the Problem
+// slide's upside moves to the left column (see Upside).
+export function Example({ id, at = null, pinned = false }: { id: string; at?: number | null; pinned?: boolean }) {
+  if (id === "problem") return <Gap upside={!pinned} />;
   if (id === "review") return <Timeline at={at} />;
   if (id === "method") return <Formula at={at} />;
   return <Ladder at={at} />;
@@ -170,7 +172,7 @@ function Source({ e }: { e: { source: string; href: string } }) {
 
 const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-function Gap() {
+function Gap({ upside = true }: { upside?: boolean }) {
   return (
     <Frame>
       <ul className="grid gap-6">
@@ -188,17 +190,26 @@ function Gap() {
           </li>
         ))}
       </ul>
-      <div className="mt-8 border-t border-rule pt-6">
-        <p className="font-medium text-ink">Done properly, AI pulls you ahead.</p>
-        <div className="mt-4">
-          <Figure value={upside.stat} beside count>
-            <p className="text-ink">
-              {sentence(upside.claim)}. <Source e={upside} />
-            </p>
-          </Figure>
-        </div>
-      </div>
+      {upside ? <Upside className="mt-8 border-t border-rule pt-6" /> : null}
     </Frame>
+  );
+}
+
+// The upside, after the three problems when the story is stacked; under the
+// slide's paragraph when it's pinned on the desktop, where the right column
+// had no room left on a 1366x768 laptop (2026-09-30 review).
+export function Upside({ className = "" }: { className?: string }) {
+  return (
+    <div className={className}>
+      <p className="font-medium text-ink">Done properly, AI pulls you ahead.</p>
+      <div className="mt-4">
+        <Figure value={upside.stat} beside count>
+          <p className="text-ink">
+            {sentence(upside.claim)}. <Source e={upside} />
+          </p>
+        </Figure>
+      </div>
+    </div>
   );
 }
 
