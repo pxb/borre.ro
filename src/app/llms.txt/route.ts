@@ -51,7 +51,18 @@ export function GET() {
     site.vatNote,
     "",
     ...(posts().length
-      ? ["## Newsletter", "", ...posts().map((p) => `- [${p.title}](${site.url}/newsletter/${p.slug}) (${p.date}): ${p.description}`), ""]
+      ? [
+          "## Newsletter",
+          "",
+          ...posts().map(
+            (p) =>
+              `- [${p.title}](${site.url}/newsletter/${p.slug}) (${p.date}, sources checked ${p.checked}): ${p.description}` +
+              (p.skill
+                ? ` Companion Agent Skill: ${site.url}/newsletter/skills/${p.skill.name}/SKILL.md (ZIP: ${site.url}/newsletter/skills/${p.skill.name}.zip).`
+                : ""),
+          ),
+          "",
+        ]
       : []),
     "## Notes for agents",
     "",

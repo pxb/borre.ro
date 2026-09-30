@@ -174,6 +174,15 @@ quotes). **Drafts show everywhere except the live site** (Vercel production), ca
 llms.txt and the RSS feed (`/newsletter/feed.xml`) only when something is published on that deploy.
 Each piece has its own share image. borre.ro publishes first; Substack and LinkedIn link back.
 
+**Freshness and companion skills (Pedro, 2026-09-30).** AI moves fast, so every post carries `checked`
+(the day every source was last read at the source), shown as "Sources checked <date>"; a published post
+dated more than 30 days after its check fails the build. Figures carry their date or the model they were
+measured on. Every post can carry a companion Agent Skill (open standard, agentskills.io) in
+`src/content/newsletter/skills/<name>/`, validated at build (name matches folder, description length),
+served as `/newsletter/skills/<name>.zip` (for the Claude and ChatGPT apps; stored ZIP from `src/lib/zip.ts`)
+and `/newsletter/skills/<name>/SKILL.md` (coding agents), listed in llms.txt with the post, and offered
+under "Use this with your AI" with a plain `skill_note`. A draft's skill stays off the live site with it.
+
 ## Header menus (2026-09-30)
 
 From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the

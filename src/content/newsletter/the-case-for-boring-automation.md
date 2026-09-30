@@ -1,69 +1,80 @@
 ---
 title: The case for boring automation
-description: Agents are sold as the end of the step-by-step workflow. For most business work the better build is plain steps that fetch the facts, AI only where it needs judgement, and a check after every AI step.
+description: Agents can now write their own code and run on a schedule. Workflow platforms still earn their place, for reasons that have little to do with intelligence. Both sides, as of October 2026.
 date: 2026-10-06
+checked: 2026-09-30
 type: article
+skill: workflow-or-agent
+skill_note: Give your AI this skill and it will help you plan an automation: which steps stay fixed, where AI helps, where a person approves, and where it should run.
 draft: true
 ---
 
-There's a view going round that step-by-step automation is finished. Why wire up twenty steps in a workflow tool when you can give an AI agent the goal and let it work out the steps itself?
+There's a view going round that step-by-step automation is finished. Why wire up twenty steps in a workflow tool when an AI agent can take the goal and work out the steps itself?
 
-I build both, and for most of the work a business actually runs, I think that view is wrong. Agents aren't useless. But the builds that hold up, including the ones I run, are mostly plain steps, with AI placed where it earns its keep.
+I build both. For most of the work a business actually runs, I think that view is wrong, but not for the reasons it used to be. Agents have got much better this year. The case for plain, fixed steps now rests less on what AI can't do and more on what a business needs from anything that runs without a person watching.
 
-## The pitch, and what's behind it
+## The hype, and what's behind it
 
-Gartner expects over 40% of agentic AI projects to be cancelled by the end of 2027, "due to escalating costs, unclear business value or inadequate risk controls". In the same release it says only about 130 of the thousands of vendors selling agentic AI are the real thing. The rest is what it calls agent washing: chatbots and older automation, relabelled. ([Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027))
+Gartner expects over 40% of agentic AI projects to be cancelled by the end of 2027, "due to escalating costs, unclear business value or inadequate risk controls". It also reckons only about 130 of the thousands of vendors selling agentic AI are the real thing ([Gartner, June 2025](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027)).
 
-The people who build agents for a living are calmer about it than the people selling them. Anthropic's advice is to start with "the simplest solution possible", and to use workflows where you want predictability and consistency ([Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)). The 12-Factor Agents project found that agents in production are often "mostly deterministic code, with LLM steps sprinkled in at just the right points" ([HumanLayer](https://github.com/humanlayer/12-factor-agents)). McKinsey, writing up more than 50 agentic builds, put it plainly: "It's not about the agent; it's about the workflow." ([QuantumBlack, September 2025](https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work))
+The people who build agents are calmer about it than the people selling them. Anthropic still advises starting with "the simplest solution possible", and using workflows where you want predictability and consistency ([Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)).
 
-## Agents cost more to run
+## The agent side has moved
 
-An agent decides its own next step. It reasons, calls a tool, reads the result and reasons again, and all of that is tokens, which is what you're billed for. Anthropic measured its own research agents at about 4 times the tokens of a normal chat, and about 15 times when several agents work together ([Anthropic, June 2025](https://www.anthropic.com/engineering/multi-agent-research-system)).
+Two things changed in the last year, and anyone arguing for workflows should say so.
 
-That's worth paying when the task needs it. It isn't worth paying to look up a company number, check a date or copy a field from the CRM, which a plain step does for next to nothing, the same way every time.
+Agents write the steps now. Instead of calling tools one at a time, an agent can write a short program that does the job. In Anthropic's example that cut the tokens used from 150,000 to 2,000, a 98.7% saving ([Anthropic, November 2025](https://www.anthropic.com/engineering/code-execution-with-mcp)). A program runs the same way every time. So the agent is choosing deterministic steps for itself.
 
-And it isn't getting cheaper as fast as people assume. Gartner expects the cost of each customer service query resolved by AI to pass $3 by 2030, more than many offshore human agents, partly because vendors stop subsidising prices and partly because use cases get more complex and "consume more tokens" ([Gartner, January 2026](https://www.gartner.com/en/newsroom/press-releases/2026-01-26-gartner-predicts-genai-cost-per-resolution-for-customer-service-will-exceed-offshore-human-agent-costs-by-2030)).
+Personal AI runs on its own. Claude and ChatGPT can both run tasks on a schedule while you're away from the screen. Claude's scheduled tasks already run remotely when your computer is asleep, unless they need local files, and from 6 October new Claude tasks on Pro and Max run in the cloud by default ([Claude Help Center](https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork)). ChatGPT can also start a task when a new email, Slack message or GitHub pull request arrives ([OpenAI Help Center](https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt)).
+
+So "the AI can't do it reliably" is a weaker argument than it was. What's left is still a strong one.
+
+## The platform side
+
+Code has to live somewhere. An agent that writes a useful script in a chat can lose it when the chat ends, unless it's saved. Anthropic's answer is to save it as a skill, a folder of instructions and scripts the agent can reuse. It also says plainly that running agent-written code needs "a secure execution environment with appropriate sandboxing, resource limits, and monitoring", which adds "operational overhead" ([Anthropic, November 2025](https://www.anthropic.com/engineering/code-execution-with-mcp)). A workflow platform is that environment, already built.
+
+Personal automations belong to a person. A scheduled task in Claude or ChatGPT is set up by one person, on their account, with the apps they've connected, and they review the results. That's fine for their morning briefing. It's a problem for the invoice chaser when they're on holiday, or after they leave.
+
+Triggers are narrow. Claude's scheduled tasks run hourly, daily, weekly, on weekdays or when you press go. ChatGPT's event triggers cover Gmail, Slack and GitHub. A business process usually starts somewhere else: a deal moving stage in the CRM, a form, a payment, a message from another system. n8n lists over 2,000 integrations ([n8n](https://n8n.io/integrations/)), and any system that can send a webhook can start a workflow.
+
+Limits. ChatGPT allows 5 active tasks on Plus and 15 on Pro. Most businesses run more processes than that.
+
+Failure has to be loud. OpenAI's advice if a task stops responding is to check whether it's paused, waiting for approval, or lost its connection. In a workflow platform you set an error workflow that emails or messages someone the moment a run fails, and every run leaves a record you can open later ([n8n docs](https://docs.n8n.io/build/flow-logic/handle-errors-gracefully)).
+
+Credentials belong to the business. Keys and logins are stored once, in a system the business controls, and shared by the workflows that need them, not scattered across personal chat accounts.
+
+None of that is intelligence. It's the plumbing that lets you trust something running at 3am.
 
 ## Every model still makes things up
 
-OpenAI's own researchers say models hallucinate "because the training and evaluation procedures reward guessing over acknowledging uncertainty" ([Kalai et al., 2025](https://arxiv.org/abs/2509.04664)). A confident guess scores better than "I don't know".
+The argument that hasn't moved is accuracy. OpenAI's own researchers say models hallucinate "because the training and evaluation procedures reward guessing over acknowledging uncertainty" ([Kalai et al., 2025](https://arxiv.org/abs/2509.04664)).
 
-Handing the model the facts doesn't make this go away. Vectara's leaderboard asks models only to summarise an article they've been given, and still finds them adding facts that aren't in it: 1.8% of the time for the best model, between 7% and 12% for the well-known ones, and over 20% for the worst ([Vectara, September 2026](https://github.com/vectara/hallucination-leaderboard)). Legal research tools built on retrieval, the approach sold as the fix, still got it wrong 17% to 33% of the time in Stanford's testing ([Magesh et al., 2024](https://arxiv.org/abs/2405.20362)).
+Handing the model the facts doesn't fix it. Vectara's leaderboard asks models only to summarise an article they've been given, and still finds them adding facts that aren't in it. On the September 2026 update the flagship models sit between 6.5% (GPT-6 Sol) and 12% (Claude Opus 4.7), with Gemini 3.1 Pro at 10.4% ([Vectara, 22 September 2026](https://github.com/vectara/hallucination-leaderboard)). Newer isn't always lower.
 
-On business tasks, reliability drops as the conversation goes on. Salesforce tested the leading agents of early 2025 on CRM work: about 58% success in a single turn, about 35% over several turns. They did best, above 83%, on tasks that meant following set business rules ([CRMArena-Pro, 2025](https://arxiv.org/abs/2505.18878)). Models have improved since, but the pattern is the point: the more a task follows rules, the better it goes.
+So where a fact can be read exactly, from the CRM, Companies House or the price list, a fixed step should read it. The AI should do the judgement on top.
 
-## What I build instead
+## What I build
 
-A workflow drawn as a graph of different kinds of step, each doing what it's good at.
+A workflow drawn as a graph of different kinds of step, each doing what it's good at:
 
-Plain steps fetch the facts, exactly, from where they live: the CRM, Companies House, the price list, the contract. No model is involved, so there's no chance of a made-up company number.
+- plain steps fetch the facts, exactly, from where they live
+- AI steps do the judgement on those facts, and read only what they need
+- plain steps check the AI's work before anything moves on: right shape, the quote is really in the source, the number is in range
+- a person approves anything that leaves the business
+- every step records what it did and what it cost
 
-AI steps do the judgement on those facts. Is this company a fit? What does this call mean for the deal? What should the follow-up say? They get only what they need to read, which keeps the token bill down.
-
-Plain steps then check the AI's work before anything moves on. Is the output in the right shape, is the quote actually in the source, is the number in range? n8n's own guidance says the same: use fast, inexpensive deterministic checks "wherever possible", and save model-based checks for problems that need semantic understanding ([n8n, July 2026](https://blog.n8n.io/llm-guardrails/)).
-
-A person approves anything that leaves the business. Everything is a draft until then.
-
-Every step logs what it did and what it cost, so when something goes wrong you can see which step and why.
+The AI steps can be agents, and they can write their own code. They run inside a frame the business owns, can see and can switch off.
 
 ## Six statistics that didn't exist
 
 The research for this piece followed the same shape: search for sources, have AI pull out the claims, then fetch each source and look for the exact words before anything is used.
 
-The AI search tool came back with six confident statistics: a 75% failure rate for agents built in-house, a $4.4 million average loss, 4.3 hours a week per employee spent checking AI output, and three more like them. It said they came from a Zapier survey and a Gartner report. None of them is in either. The check caught all six, and none made it into this article.
+The AI search tool came back with six confident statistics: a 75% failure rate for agents built in-house, a $4.4 million average loss, 4.3 hours a week per employee spent checking AI output, and three more like them. It said they came from a Zapier survey and a Gartner report. None of them is in either. The check caught all six.
 
-That's the argument in one example. The AI step was useful, and it found the real sources too. It just couldn't be trusted to check itself.
+The AI step was useful. It found the real sources too. It just couldn't be trusted to check itself.
 
-## When an agent is the right call
+## Where each belongs
 
-When the path can't be known in advance: open-ended research, a messy inbox, a question nobody wrote a step for. Even then I'd put the agent inside a workflow, so plain steps hand it the facts and plain steps check what it hands back. When something unexpected turns up, send it to the agent or to a person. Don't make everything an agent just in case.
+A personal AI task is right for work one person owns and reads: a briefing, a research digest, a first draft. An agent is right for the parts no one can map in advance. A workflow platform is right for anything the business depends on: it runs whoever is in, alerts someone when it breaks, and leaves a record.
 
-## Five questions to ask a supplier
-
-1. Which steps use AI, which don't, and why?
-2. What does one run cost, and where is that recorded?
-3. When the AI gets something wrong, what catches it before a customer sees it?
-4. Where does each fact come from, and can I see the source?
-5. What needs a person's approval?
-
-If the answer to most of them is "the agent handles it", ask again.
+Most good builds use all three.

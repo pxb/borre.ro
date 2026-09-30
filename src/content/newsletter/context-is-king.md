@@ -1,50 +1,65 @@
 ---
 title: Context is king
-description: The model isn't what's holding your AI back. What it knows about your business is, and in most firms that's scattered across the CRM, inboxes and a dozen private chat histories.
+description: What your AI knows about your business matters more than which model you pay for. How to give it that knowledge for one person, a team and a whole company, as of October 2026.
 date: 2026-10-13
+checked: 2026-09-30
 type: article
+skill: business-context-map
+skill_note: Give your AI this skill and it will map where your business knowledge lives, draft your standing notes and suggest a folder layout your team can share.
 draft: true
 ---
 
-Two years ago the advice was to write better prompts. There were courses, prompt libraries and cheat sheets. The people who build these systems now say something different. Gartner titled a piece "Context Engineering Is the New Prompt Engineering", arguing that agentic AI "suffers high failure rates due to misalignment and poor coordination" and that context is the fix ([Gartner, October 2025](https://www.gartner.com/en/articles/context-engineering)). Anthropic describes the job as finding "the smallest possible set of high-signal tokens" for the outcome you want ([Anthropic, September 2025](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
+Microsoft's 2026 Work Trend Index surveyed 20,000 people who use AI at work. Organisational factors like culture, manager support and talent practices accounted for 67% of the impact they reported. Individual factors, the person and their prompts, accounted for 32% ([Microsoft, May 2026](https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization)).
 
-Put simply, the model can only be as good as what it's given to read. Most businesses give it very little of what matters.
+That matches what I see. The model isn't what holds most businesses back. What it knows about the business is. In most firms that knowledge sits in the CRM, inboxes, proposals and a few people's heads, and each person's AI has its own partial copy.
 
-## More isn't better
+## The method has changed
 
-The obvious fix is to give it everything. That doesn't work either.
+A couple of years ago the answer was better prompts, then "upload everything". Neither holds up.
 
-Chroma tested 18 models and found performance "grows increasingly unreliable as input length grows", even on simple tasks ([Chroma, July 2025](https://research.trychroma.com/context-rot)). Researchers found models use information best when it sits at the start or the end of what they're given, and worst when it's in the middle ([Liu et al.](https://arxiv.org/abs/2307.03172)). Anthropic calls the context window an attention budget, and a finite one.
+More text makes models worse, not better. Chroma tested 18 models and found performance "grows increasingly unreliable as input length grows" ([Chroma, July 2025](https://research.trychroma.com/context-rot)). Anthropic says models have an "attention budget", and that the job is to find "the smallest possible set of high-signal tokens" for the outcome you want ([Anthropic, September 2025](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
 
-So pasting the whole shared drive into a chat makes answers worse, and you pay for every word of it.
+The newer approach is closer to how people work. You don't memorise the filing cabinet, you know where things are. Anthropic describes agents that keep file paths, saved queries and links, and load the content only when they need it. Its own coding agent reads a notes file at the start, then searches folders as it goes, which avoids a stale index. Folder and file names tell the agent what to open.
 
-## Where your context actually lives
+So "second brain" is the wrong picture. It's closer to a well-organised office: a short brief on the desk, labelled folders, and a records room with a key.
 
-In most businesses I work with, the deals are in the CRM and the account history is spread across emails, call notes, proposals and a few people's heads. McKinsey estimated back in 2012 that people spend nearly 20% of their week looking for internal information or tracking down the colleague who knows ([McKinsey Global Institute](https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/the-social-economy)).
+How you set that up depends on scale.
 
-AI hasn't fixed that. In most firms it has copied it. Microsoft's 2024 survey found 75% of knowledge workers using AI at work, and 78% of them bringing their own tools ([Work Trend Index](https://blogs.microsoft.com/blog/2024/05/08/microsoft-and-linkedin-release-the-2024-work-trend-index-on-the-state-of-ai-at-work/)). Each of those people has their own partial copy of the business: a chat history, a personal project, whatever they pasted in last Tuesday.
+## You
 
-The tools are built that way. Claude projects are "self-contained workspaces", and sharing one with colleagues needs a Team or Enterprise plan ([Claude Help Center](https://support.claude.com/en/articles/9517075-what-are-projects)). ChatGPT's memory "decides which available information is relevant", on its own terms ([OpenAI Help Center](https://help.openai.com/en/articles/8590148-memory-in-chatgpt)).
+For one person, the brief on the desk is a page of standing notes: what you sell, who buys, how you write, the decisions already made, and what the AI must never do. Keep it short and put the important things first.
 
-One director I worked with had seven separate Claude projects, each holding a different slice of the business. The problem was obvious the moment we drew it.
+Both main tools support this through projects: a workspace with its own instructions and files that every chat inside it reads ([Claude](https://support.claude.com/en/articles/9517075-what-are-projects)). Don't rely on memory alone. ChatGPT's memory "does not retain every detail from every conversation" and decides for itself what's relevant ([OpenAI](https://help.openai.com/en/articles/8590148-memory-in-chatgpt)). Your notes are what you decide it should know.
 
-## Exact questions need exact answers
+Date the page. When the AI gets something wrong and you correct it, add the correction, so you only correct it once.
 
-"Which open deals haven't had a reply in two weeks?" "Which customers haven't we spoken to in 30 days?" These aren't questions for a chatbot reading documents. They're queries, with one right answer in the records.
+## Your team
 
-Most "chat with your documents" tools work by similarity: they find the passages that look most like your question. That's good for "what did we propose to them last year?" and wrong for "how many?". It can't count what it didn't retrieve.
+Five people with five private notes files give five different answers about your prices. At team level the knowledge has to be shared, and the procedures too.
 
-So the systems I build route each question. Questions about the records go to the records, as a query. Open questions go to the documents, and every answer cites where it came from. Questions about a named account find the account first, then pull everything linked to it. For one client that meant the whole open pipeline in one answer, with every figure traced back to its deal in the CRM, working on their own data within a day ([case study](/work/context-engine)).
+That's what skills are for. A skill is a folder of instructions, and optionally scripts and templates, that the AI loads only when a task needs it. Only each skill's name and description load at the start, so a team can keep many of them without filling up the AI's attention ([Anthropic, October 2025](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)). The format is an open standard, supported by Claude, ChatGPT and Codex, GitHub Copilot and others ([agentskills.io](https://agentskills.io/home)). Write the proposal checklist once, and everyone's AI follows it.
 
-Retrieval isn't magic, which is why the citations matter. Legal research tools built this way were still wrong 17% to 33% of the time in Stanford's testing ([Magesh et al., 2024](https://arxiv.org/abs/2405.20362)). An answer with its source attached can be checked in seconds. One without can't.
+Sharing depends on the plan. Shared projects in Claude need Team or Enterprise. Skills in ChatGPT are for Business, Enterprise and Edu workspaces ([OpenAI](https://help.openai.com/en/articles/20001066-skills-in-chatgpt)). Claude has skills on every plan, including Free ([Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude)).
 
-## One source, everyone's AI
+## Your company
 
-The context should belong to the business, not sit in each person's chat history. That means one shared source that everyone's AI and every workflow reads from.
+At company level the knowledge is too big, changes too fast and is too sensitive to put in anyone's project. Customer history, every email, every proposal, who may see what.
 
-It follows the permissions you already have, so sales doesn't see payroll because the systems already say they shouldn't. It repeats the facts the team has signed off, like who your ideal customer is, word for word instead of paraphrased. And when someone leaves, what they knew stays with the business.
+This is where retrieval earns its keep, but it needs two different routes.
 
-## Three questions before you buy another AI seat
+Questions about records need an exact query. "Which open deals haven't had a reply in two weeks?" has one right answer in the CRM. A search for passages that look like the question can't count what it didn't find.
+
+Questions about documents need search, and search works best when it combines meaning and keywords. Anthropic found that adding a short note of context to each chunk of a document, and searching by both meaning and keywords, cut failed searches by 49%, and by 67% with a reranking step ([Anthropic, 2024](https://www.anthropic.com/engineering/contextual-retrieval)).
+
+Every answer should cite where it came from, so a person can check it in seconds, and the whole thing should follow the permissions you already have. Sales doesn't see payroll because the systems already say so.
+
+For one client, this meant the whole open pipeline in one answer, every figure traced back to its deal in the CRM, working on their own data within a day ([case study](/work/context-engine)). Each person's AI reads the same source, and what someone knew stays with the business when they leave.
+
+## Where to start
+
+Most firms don't need the company layer first. The ONS found that of UK businesses using AI, only 10% use it extensively ([ONS, July 2026](https://www.ons.gov.uk/businessindustryandtrade/business/businessservices/articles/artificialintelligenceinukbusinesses/2023to2026)). Start with the page of notes, then the shared folders and skills. Move to a shared company source when two people get different answers to the same question, or when the knowledge you need is in a system nobody can paste into a chat.
+
+Three questions to ask this week:
 
 1. Where does our AI get its facts about the business today?
 2. If two people ask it the same question, do they get the same answer?

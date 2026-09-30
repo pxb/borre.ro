@@ -40,9 +40,37 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
           {site.founder} · {longDate(p.date)} · {p.type === "roundup" ? "Monthly roundup" : `${p.minutes} min read`}
           {p.draft ? " · Draft, preview only" : ""}
         </p>
+        <p className="mt-1 text-sm text-ink-soft">Sources checked {longDate(p.checked)}</p>
         {/* Trusted content: markdown from this repo, rendered at build time. */}
         <div className="prose mt-8" dangerouslySetInnerHTML={{ __html: p.html }} />
       </article>
+
+      {p.skill ? (
+        <section aria-labelledby="skill" className="border-t border-rule py-10">
+          <h2 id="skill" className="text-xl font-medium text-ink">
+            Use this with your AI
+          </h2>
+          <p className="mt-3 max-w-2xl leading-relaxed text-ink">
+            {p.skillNote ?? `This post comes with a skill your AI can use: ${p.skill.description}`}
+          </p>
+          <ul className="mt-4 space-y-2 leading-relaxed text-ink">
+            <li>
+              <a href={`/newsletter/skills/${p.skill.name}.zip`} download className={LINK} data-track="skill-download" data-track-skill={p.skill.name}>
+                Download the skill
+              </a>{" "}
+              <span className="text-ink-soft">
+                (ZIP). In Claude: Customize, Skills, Upload a skill. In ChatGPT, where your workspace has skills: Skills, Create, Upload from your computer.
+              </span>
+            </li>
+            <li>
+              <a href={`/newsletter/skills/${p.skill.name}/SKILL.md`} className={LINK}>
+                SKILL.md
+              </a>{" "}
+              <span className="text-ink-soft">for Claude Code, Codex and other coding agents.</span>
+            </li>
+          </ul>
+        </section>
+      ) : null}
 
       {/* The close: the newsletter when it exists, then the call. */}
       <section className="border-t border-rule py-10">
