@@ -10,6 +10,7 @@ import { After, DrawLine, DrawRing, useMotionOn } from "@/components/draw";
 import { servicePages } from "@/content/service-pages";
 import { words } from "@/content/copy";
 import copyServices from "@/content/copy.gen/services";
+import copyHome from "@/content/copy.gen/home";
 import { evidence, upside } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
@@ -180,7 +181,7 @@ function Gap() {
           <li key={e.stat}>
             <Figure value={e.stat} beside tone="ink" count>
               <p className="text-ink-soft">
-                {sentence(e.claim)}. <Source e={e} />
+                <span>{sentence(e.claim)}.</span> <Source e={e} />
               </p>
               <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
                 <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
@@ -196,11 +197,11 @@ function Gap() {
         <li className="border-t border-rule pt-6 [@media(max-height:800px)]:pt-4">
           <Figure value={upside.stat} beside count>
             <p className="text-ink-soft">
-              {sentence(upside.claim)}. <Source e={upside} />
+              <span>{sentence(upside.claim)}.</span> <Source e={upside} />
             </p>
             <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
               <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
-              Done properly, AI pulls you ahead.
+              {upside.answer}
             </p>
           </Figure>
         </li>
@@ -211,7 +212,7 @@ function Gap() {
 
 // 02 Review: the call as a 0 to 30 minute track with four stops. Vertical on phones.
 function Timeline({ at }: { at: number | null }) {
-  const p = usePick(CALL.length, "In the 30 minutes", at);
+  const p = usePick(CALL.length, hw.t("review.call.label"), at);
   return (
     <Frame>
       <div
@@ -341,7 +342,7 @@ function Cube({ level }: { level: number }) {
 
 // 03 Method: the three parts as the formula they multiply into, the demo beneath.
 function Formula({ at }: { at: number | null }) {
-  const p = usePick(AI3.length, "Context, agents and evals", at);
+  const p = usePick(AI3.length, hw.t("method.ai3.label"), at);
   return (
     <Frame
       heading={
@@ -461,7 +462,7 @@ const RISE = 28;
 const STAIR = RISE * 3 + 4;
 
 function Ladder({ at }: { at: number | null }) {
-  const p = usePick(STARTS.length, "Ways to start", at);
+  const p = usePick(STARTS.length, hw.t("engagement.ladder.label"), at);
   const n = STARTS.length;
   return (
     <Frame>
@@ -525,7 +526,7 @@ function Ladder({ at }: { at: number | null }) {
           <span className="flex items-start gap-1.5 sm:pt-4">
             <Repeat aria-hidden className="mt-0.5 size-4 shrink-0 transition-transform group-hover:rotate-45" />
             <span>
-              Then we keep it running
+              {hw.t("engagement.run-on")}
             </span>
           </span>
         </Link>
@@ -663,30 +664,23 @@ export function LoopShape({ at = null }: { at?: number | null }) {
 
 type Row = { t: string; d: string; href: string };
 
-const CALL: Omit<Row, "href">[] = [
-  { t: "How the work flows today", d: "From first enquiry to invoice: who does what, and where the time goes." },
-  { t: "What you already pay for", d: "The AI tools, CRM and data you have, and how much of it the team uses." },
-  { t: "Where AI would pay first", d: "The one or two jobs worth doing first, and roughly what they would take." },
-  { t: "What to do next", d: "A clear recommendation: an audit, training, a build, or nothing yet." },
-];
+// The homepage slides' words: src/content/copy/home.md (#561).
+const hw = words(copyHome);
+const CALL: Omit<Row, "href">[] = [1, 2, 3, 4].map((i) => ({ t: hw.t(`review.call.${i}.title`), d: hw.t(`review.call.${i}.text`) }));
 
 // The ways in, smallest first. One short word per tread so no label wraps
 // (Pedro, 2026-09-30); the line under the ladder is each service's own line of
 // value, so the slide and the service pages say the same thing.
-const START_SLUGS: [string, string][] = [
-  ["Audit", "audit"],
-  ["Workshop", "workshop"],
-  ["Training", "training"],
-  ["Automation", "agentic-workflows"],
-];
+const LADDER = hw.li("engagement.ladder");
+const START_SLUGS: [string, string][] = ["audit", "workshop", "training", "agentic-workflows"].map((slug, i) => [LADDER[i], slug]);
 const STARTS: Row[] = START_SLUGS.map(([t, slug]) => ({ t, d: servicePages[slug]?.line ?? "", href: `/services/${slug}` }));
 
 // The three parts of every build, each linked to the case study that shows it.
-const AI3 = [
-  { term: "Context", plain: "What your business knows, in one place your team and its AI tools can ask.", href: "/work/context-engine" },
-  { term: "Agents", plain: "Software that does the repeatable work, with a person checking before anything goes out.", href: "/work/lead-research" },
-  { term: "Evals", plain: "Proof it worked: each system measured against the job it was built to do.", href: "/work/prospecting-loop" },
-];
+const AI3 = ["/work/context-engine", "/work/lead-research", "/work/prospecting-loop"].map((href, i) => ({
+  term: hw.t(`method.ai3.${i + 1}.term`),
+  plain: hw.t(`method.ai3.${i + 1}.text`),
+  href,
+}));
 
 // Clockwise from the top. Headlines only; the full list is the managed
 // service on /services.

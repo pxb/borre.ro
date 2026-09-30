@@ -4,6 +4,11 @@ import { HeroHeadline } from "@/components/hero-headline";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { HowWeWork } from "@/components/how-we-work";
 import { site } from "@/content/site";
+import { words } from "@/content/copy";
+import copyHome from "@/content/copy.gen/home";
+
+// The words: src/content/copy/home.md (#561).
+const hero = words(copyHome);
 import { pageMeta } from "@/lib/meta";
 
 export const metadata = pageMeta({ description: site.summary, path: "/" });
@@ -34,7 +39,7 @@ export default function Home() {
                 href="/work"
                 className="border-2 border-ink bg-cream px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
-                Case studies
+                {hero.t("hero.case-studies")}
               </Link>
             </div>
           </div>
