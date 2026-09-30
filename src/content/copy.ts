@@ -6,7 +6,12 @@
 // and the heading instead of shipping a broken page.
 
 export type Slot = { t: "text" | "list"; v: string[]; max?: number };
-export type Page = { name: string; route: string; slots: Record<string, Slot> };
+// `route` is the page the file feeds; `shared` names the slots (by prefix)
+// that also appear on the pages under it, e.g. work.md's "label." row labels
+// on every case study; `also` lists other pages that show some of its lines
+// (each case study's title and results on /work). The review mode uses these to
+// credit a line on the page to the file it comes from.
+export type Page = { name: string; route: string; shared?: string; also?: string; slots: Record<string, Slot> };
 
 export function words(page: Page) {
   const get = (key: string) => {

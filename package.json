@@ -9,7 +9,8 @@
     "lint": "eslint",
     "copy": "node scripts/copy.mjs",
     "predev": "node scripts/copy.mjs build",
-    "prebuild": "node scripts/copy.mjs build"
+    "prebuild": "node scripts/copy.mjs build",
+    "copy:live": "node scripts/copy-live.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

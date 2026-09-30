@@ -1,6 +1,7 @@
 ---
 page: case study, Inbound lead enrichment
 route: /work/lead-research
+also: /work
 ---
 
 > The case study page. The title and the line under it also appear on /work, in the menus and footer, on the service pages and on the share image. Figures stay in code with their evidence: change the words around them, not the numbers.

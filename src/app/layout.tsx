@@ -9,6 +9,7 @@ import { HomeLink } from "@/components/home-link";
 import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
+import { CopyReviewLoader } from "@/components/copy-review-loader";
 import { OfferBar } from "@/components/offer-bar";
 
 // Archivo carries a real width axis (62-125), so the display cuts are genuinely
@@ -300,6 +301,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <OfferBar />
         <BackToTop />
         <Analytics />
+        {/* Copy review mode (?copy), on previews and local builds only: never on the live site (#561). */}
+        <CopyReviewLoader />
       </body>
     </html>
   );

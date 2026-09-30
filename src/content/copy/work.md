@@ -1,6 +1,7 @@
 ---
 page: case studies index, and the labels on every case study page
 route: /work
+shared: label.
 ---
 
 > The /work page and the row labels shared by every case study page. Each case study's own words are in case-<name>.md.

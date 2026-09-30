@@ -52,3 +52,7 @@ next-env.d.ts
 # Compiled from src/content/copy/*.md by scripts/copy.mjs (runs before dev and build)
 /src/content/copy.gen/
 /COPY.md
+
+# Obsidian, when src/content/copy is opened as a vault
+.obsidian/
+.trash/
