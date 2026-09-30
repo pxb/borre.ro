@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 /* Cycles a word in place.
-   An invisible copy of the active word sits in normal flow and sets the
-   slot's width and height; the coloured word is painted over it. That
-   keeps the word on its own line, sized to itself, with only ever one
-   word visible. Holds on the first word under reduced motion, and that
-   word is what the server renders. */
+   Every word sits invisibly in the same grid cell, so the slot is as wide as
+   the widest word and the rest of the line never moves as the word changes
+   (2026-09-30, iPhone feedback: "AI" jumped about). The coloured word is
+   painted in the same cell. Holds on the first word under reduced motion, and
+   that word is what the server renders. */
 export function CyclingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0);
 
@@ -20,11 +20,13 @@ export function CyclingWord({ words }: { words: string[] }) {
   const word = words[index];
 
   return (
-    <span className="relative inline-block whitespace-nowrap">
-      <span aria-hidden="true" className="invisible">
-        {word}
-      </span>
-      <span key={word} className="cycling-word absolute inset-0 text-action">
+    <span className="inline-grid whitespace-nowrap">
+      {words.map((w) => (
+        <span key={w} aria-hidden="true" className="invisible col-start-1 row-start-1">
+          {w}
+        </span>
+      ))}
+      <span key={word} className="cycling-word col-start-1 row-start-1 text-action">
         {word}
       </span>
     </span>

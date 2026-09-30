@@ -1,41 +1,36 @@
-import { Wipe } from "@/components/draw";
+import { ArrowRight } from "lucide-react";
 
-// A case study's connected systems drawn as what they are (#585): the
-// business's own tools, all feeding one build. Lines are SVG stretched over the
-// gutter with `non-scaling-stroke`, so they stay hairline at any height; rows
-// are equal so each line meets the middle of its box. The lines wipe in left
-// to right once, the tools connecting into the build. Stacks on phones.
+// A case study's connected systems feeding one build, drawn as a track (#585;
+// redrawn 2026-09-30: boxed names read as form fields, and six lines fanning
+// into one point looked odd on both desktop and phone). The systems hang off a
+// 2px ink spine, one tick each; the spine runs on into the build, and the
+// accent arrow leads into it, as it leads into our answer on slide 01. Each row
+// draws its own piece of the spine, so the lines meet the middle of every row at
+// any text size. Same shape on every screen.
+const SPINE = "absolute left-0 w-0.5 bg-ink";
+const TICK = "absolute top-1/2 left-0 h-0.5 w-4 -translate-y-1/2 bg-ink";
+
 export function SystemsHub({ systems, name }: { systems: string[]; name: string }) {
-  const n = systems.length;
   return (
-    <div className="mt-5 grid sm:grid-cols-[minmax(0,1fr)_4rem_minmax(0,14rem)]">
-      <ul className="grid gap-2 sm:gap-0" style={{ gridTemplateRows: `repeat(${n}, minmax(0, 1fr))` }}>
-        {systems.map((x) => (
-          <li key={x} className="flex flex-col justify-center sm:py-1">
-            <span className="border border-ink px-3 py-2 text-sm leading-snug text-ink">{x}</span>
+    <div className="mt-5">
+      <ul>
+        {systems.map((x, i) => (
+          <li key={x} className="relative py-1.5 pl-7 leading-snug text-ink">
+            <span aria-hidden="true" className={`${SPINE} ${i === 0 ? "top-1/2" : "top-0"} bottom-0`} />
+            <span aria-hidden="true" className={TICK} />
+            {x}
           </li>
         ))}
       </ul>
-      <span aria-hidden="true" className="mx-auto block h-6 w-px bg-ink sm:hidden" />
-      <Wipe className="hidden h-full sm:block">
-        <svg aria-hidden="true" className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {systems.map((x, i) => (
-            <line
-              key={x}
-              x1={0}
-              y1={((2 * i + 1) * 100) / (2 * n)}
-              x2={100}
-              y2={50}
-              stroke="var(--ink)"
-              strokeWidth="1"
-              vectorEffect="non-scaling-stroke"
-            />
-          ))}
-        </svg>
-      </Wipe>
-      <div className="flex items-center">
-        <p className="w-full border-2 border-ink px-4 py-4 text-base font-medium leading-snug text-ink">{name}</p>
-      </div>
+      <p className="relative pt-3 pl-7 text-lg font-medium leading-snug text-ink">
+        <span aria-hidden="true" className={`${SPINE} top-0 h-[calc(50%+0.375rem)]`} />
+        <span aria-hidden="true" className="absolute top-[calc(50%+0.375rem)] left-0 flex -translate-y-1/2 items-center">
+          <span className="h-0.5 w-2.5 bg-ink" />
+          <ArrowRight className="-ml-1.5 size-4 text-accent" strokeWidth={2.5} />
+        </span>
+        <span className="sr-only">All feeding </span>
+        {name}
+      </p>
     </div>
   );
 }

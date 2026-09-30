@@ -28,7 +28,7 @@ export function MobileNav({
         onClick={() => ref.current?.showModal()}
         aria-label="Open menu"
         aria-haspopup="dialog"
-        className="flex size-11 items-center justify-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:hidden"
+        className="flex size-11 items-center justify-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ml-auto lg:hidden"
       >
         <Menu className="size-5" aria-hidden="true" />
       </button>

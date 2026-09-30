@@ -23,17 +23,17 @@ Four kinds, each with one job.
 | Block rule | 2px ink, full width, a label under it only when the label names something the title doesn't | Opens a block: a slide's right side (`Frame`), a /services group, the call track. One per block |
 | Hairline | 1px `--rule`, horizontal | Divides sibling rows or groups. Never vertical |
 | Figure bar | 2px `--rule`, vertical, left of a figure | Only in the figure form (below). The one vertical hairline |
-| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (slide 06, /services Run), the systems hub |
+| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (/services Run), the systems track on each case study (names off a 2px spine, one tick each, the spine running on into the build with the accent arrow; boxes and a fan of lines were cut 2026-09-30) |
 
-No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into 06
-Support.
+No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into the managed
+service.
 
 ## Accent
 
 The accent means **act here** or **a good result**. Nothing else.
 
 - The primary CTA ground, once per view.
-- Figures that are results or value: case-study results, /work, slide 05 (Value). Problem figures
+- Figures that are results or value: case-study results, /work, the upside figure at the foot of slide 01. Problem figures
   (slide 01) are ink, so the good number reads as the good number.
 - The accent mark: a 4px by 40px bar over the items a page is built on: the ways to start (/services
   Start) and our commitments (/about).
@@ -42,7 +42,7 @@ The accent means **act here** or **a good result**. Nothing else.
 - **Where you start**: the first stop of the call track on /contact.
 - **A picked answer** on the readiness scorecard: its radio fills in the accent, like a picked stop.
 - **The picked item on a slide**: the stop on the slide 02 track, the newest edges of the cube on
-  slide 03, the tread on the slide 04 ladder. The moving dot on the slide 06 loop. Every slide carries
+  slide 03, the tread on the slide 04 ladder. The moving dot on the /services loop. Every slide carries
   the accent.
 - Brand: the `.ro` wordmark, the cycling word in the headline.
 
@@ -53,7 +53,7 @@ Never on body text, labels or structural linework, never in the backdrop.
 One component, `src/components/figure.tsx`, for every number on the site: figure bar, figure, label.
 
 - **Over** its label when the label is short (/work, case-study results).
-- **Beside** its label when the label is a sentence (slides 01 and 05), figure in a 5.5rem column.
+- **Beside** its label when the label is a sentence (slide 01, the /services Start figure), figure in a 5.5rem column.
 - Mono and tabular for numbers; words ("Minutes") in the sans face.
 - One size: 24px, 28px from lg. Always below the slide titles and the hero headline.
 - No bars or charts beside similar percentages; they read as progress bars.
@@ -76,8 +76,10 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 - **A problem is always followed by our answer.** Slide 01 pairs each barrier with the line that fixes
   it, so the story turns from the fear to the fix. No figure is there only to frighten.
-- **Why now, why us.** Slide 05 sells the value of doing AI properly in general terms, with sources;
-  client-specific results stay on /work and the case studies.
+- **Why now, why us.** Slide 01 ends on the value of doing AI properly in general terms, with a source
+  (a fourth row after the three problems, same shape, figure in the accent, the takeaway where the
+  answers sit; under the paragraph was tried and read oddly); client-specific results stay on
+  /work and the case studies. /services carries one market figure under Start, in the problem form.
 
 ## Headers
 
@@ -107,9 +109,8 @@ fade on every block was removed for that reason). Two kinds, both in `src/compon
 motion.dev (Pedro, 2026-09-24):
 
 - **Drawn lines draw themselves once** as they come into view: the call track (slide 02, /contact),
-  the ladder tread by tread (slide 04), the support loop (slide 06, /services Run) with its stops
-  and moving dot after it, and the systems hub on each case study (a left-to-right wipe, because its
-  non-scaling strokes would mis-measure a dash draw).
+  the ladder tread by tread (slide 04), the support loop (/services Run) with its stops
+  and moving dot after it. The systems track on each case study is static.
 - **The pick moves along the drawing it belongs to.** On slide 02 the stop marker runs along the
   track (`layoutId`). On slide 04 it climbs the staircase: up each riser, then across the next tread,
   never a diagonal glide (Pedro: it should climb the steps). On slide 03 nothing slides sideways: the

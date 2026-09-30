@@ -59,7 +59,7 @@ Rule: **one** signature visual on the site, not four. Everything else stays flat
 
 ## Copy
 
-Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
+Written for non-technical founders and revenue leaders. Plain language first: describe what it does for the business. Technical terms (RAG, hybrid retrieval, MCP, n8n) live only in a named layer below the plain copy, the small technical line under each service on /services, the "Built with" row near the end of each service page (moved below the questions 2026-09-30: under "What you get" it made the page read technical to a non-technical reviewer), the "Runs on" row and the machine surfaces (llms.txt, /api/mcp, JSON-LD). Never in the hero or the first screen. Internal jargon (corpus, canon, entities, RRF) never ships.
 
 No unsourced claims: every figure links to its source or comes from the client work and is labelled if estimated. No defining by negation, no status badges, no "most" claims. One offer name, `site.cta`, on every CTA that points at /contact, except a service's own button (below).
 
@@ -67,20 +67,20 @@ Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, di
 
 ## Homepage story
 
-Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of six steps:
+Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of four steps (2026-09-30, when the homepage felt endless on a phone: 06 Support came off, the managed service is on /services; 05 Value folded into 01 Problem as its upside figure):
 01 Problem, 02 Review (the free 30-minute call; "Discovery" read as a sales stage and is a paid phase
 elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
-the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
-05 Value (what AI done properly is worth, sourced; client results live on /work), 06 Support. Content and
-step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `value` in `site.ts`.
+the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices).
+Content and
+step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `upside` in `site.ts`.
 
 **Slide standard (#584, 2026-09-24; labels and accents per DESIGN.md):** left, the title and one
 short paragraph. Right, one `Frame`: a 2px ink rule, a label only where it names something the title
 doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 three barriers in ink, each followed by our answer (the fear, then the fix), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
-formula over the Ask demo, Engagement as a ladder of entry points that runs on into 06 Support,
-Value as three sourced figures in the accent, Support as a monthly loop. No prices on the slides. The six were all one row list
+formula over the Ask demo, Engagement as a ladder of entry points that runs on, dashed, into "Then we keep it running" (a link to /services/support),
+Problem ends on the upside: a fourth row after the three problems, same shape, the figure (`upside` in site.ts, PwC 163%) in the accent and "Done properly, AI pulls you ahead." where the answers sit. Every pinned slide must fit above the offer bar down to 1280x720 (`Lab/borre-tools/cdp-slide-fit.mjs`); short screens tighten the slide padding and the Method slide (`max-height` variants). No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
@@ -97,7 +97,7 @@ Where a slide has several items, only the picked item's description shows (hover
 arrow keys; a tab set). In the pinned story the scroll also picks (2026-09-25): a timeline of 14
 stops in `how-we-work.tsx` (one unit of 64vh to move between slides, half a unit per item), `x`
 flat across each slide's own stops, and a snap that settles on the next stop in the direction of
-travel (17 stops since 2026-09-30, when 06 Support became pickable). `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
+travel (12 stops since 2026-09-30). `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
 focus is inside the set; hover picks on pointer movement, not entry, so a slide moving in under a
 resting pointer picks nothing. Checked in headless Edge by `Lab/borre-tools/cdp-story.mjs` (every
 stop, wheel steps, keyboard, reduced motion, no-JS) and `cdp-story-wheel.mjs`. All descriptions sit in one grid cell so the slot never jumps. Server render
@@ -176,13 +176,13 @@ Each piece has its own share image. borre.ro publishes first; Substack and Linke
 
 ## Header menus (2026-09-30)
 
-From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the
+From 1024px (640px until 2026-09-30, when the link row wrapped to two lines on an iPad; tablets now get the menu button), Services opens a panel of every service in its group (Start, Build, Run) plus the
 scorecard, on hover or keyboard focus, in CSS only (`services-menu.tsx`): hidden with `invisible`
 so its links stay out of the tab order until Services has focus, hung from the right edge of the
 header's links so it never runs past the page, and no wider than the viewport less 3rem. The phone
 menu lists the same services under Services. Groups live in `serviceGroups` in `site.ts`, shared
 with /services. Checked by `Lab/borre-tools/cdp-nav.mjs` (hover, moving into the panel, keyboard,
-640 and 1280 widths, phone menu links).
+1024 and 1280 widths, phone menu links).
 
 ## Case studies
 
@@ -328,7 +328,7 @@ Per page, each deliberately different:
 |---|---|
 | /services | No visible header (see below). Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, each under a short accent bar (the page's accent), Build beside the product still it makes, Run as the monthly loop. Each service in short: name (the link to its page), one small price line, one line of value, its own button |
 | /work | No visible header. Previews alternate sides; figures in the accent |
-| Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
+| Case studies | Results figures in the accent; connected systems drawn as a track into the build (`systems-hub.tsx`) |
 | /contact | No visible header. The 0 to 30 minute call, every stop described (`CallTrack`), beside the calendar; calendar first on phones |
 | /about | The mark; no diagram |
 
@@ -448,3 +448,13 @@ slide titles to 60px, both above the hero headline and louder than the CTA. Stor
 `FIGURE` class in `story-forms.tsx`; change it there, not per slide.
 
 **No uppercase anywhere** (Pedro, 2026-09-23): all-caps reads as a font accent rather than a style accent. Labels use the one `.label` class (normal case, weight 500, ink-soft); emphasis comes from weight and position.
+
+## Mobile and tablet pass (2026-09-30, iPhone and iPad feedback)
+
+- Hero cycling word: every word sits invisibly in one grid cell, so the slot is as wide as the widest
+  word and the rest of the headline never moves (`cycling-word.tsx`).
+- Story step bar below 1024px: numbers only, the current step opens to show its name (flex-grow eases,
+  none under reduced motion), so all six fit and you can see where you are without swiping the bar.
+- Header: full links from 1024px, menu button below, nothing wraps.
+- Checked by `Lab/borre-tools/cdp-mobile-pass.mjs` (header on one line, hero line still across word
+  changes, bar fits and names the current step at every step; 375, 390, 430, 768, 820, 1024, 1180).

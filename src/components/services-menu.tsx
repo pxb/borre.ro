@@ -4,7 +4,7 @@ import { serviceFor, serviceGroups } from "@/content/site";
 const ITEM =
   "block py-1.5 text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
-// The header's Services link with its menu on screens from 640px: the three
+// The header's Services link with its menu on screens from 1024px: the three
 // groups and every service, opened by hover or by keyboard focus (CSS only, no
 // script). Hidden panels are `invisible`, so their links are out of the tab
 // order until the Services link itself has focus. The panel hangs from the

@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
 import { LoopShape } from "@/components/story-forms";
 import { CasePreview, PlatformPreview } from "@/components/demo/previews";
-import { costNotes, ctaFor, serviceFor, serviceGroups, site, type ServiceCategory } from "@/content/site";
+import { costNotes, ctaFor, serviceFor, serviceGroups, site, startWhy, type ServiceCategory } from "@/content/site";
+import { Figure } from "@/components/figure";
 import { servicePages } from "@/content/service-pages";
 
 export const metadata: Metadata = pageMeta({
@@ -43,7 +44,7 @@ function Summary({ s }: { s: ServiceCategory }) {
       <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">
         <Link
           href={`/services/${s.slug}`}
-          className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          className="-my-2 inline-block py-2 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
           {s.name}
         </Link>
@@ -91,6 +92,23 @@ export default function Services() {
                 <Summary s={s} />
             </article>
           ))}
+        </div>
+        {/* Why the ways in come first: market data under the Start group, in
+            the problem form (figure in ink, our answer after the arrow), so the
+            short accent bars stay the page's only accent. */}
+        <div className="mt-14 max-w-2xl">
+          <Figure value={startWhy.stat} beside tone="ink">
+            <p className="text-ink-soft">
+              {startWhy.claim.charAt(0).toUpperCase() + startWhy.claim.slice(1)}.{" "}
+              <a href={startWhy.href} target="_blank" rel="noreferrer" className="text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                {startWhy.source}
+              </a>
+            </p>
+            <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
+              <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
+              {startWhy.answer}
+            </p>
+          </Figure>
         </div>
       </section>
 

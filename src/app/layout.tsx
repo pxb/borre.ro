@@ -83,7 +83,7 @@ function Header() {
         </HomeLink>
         {/* R and O accented so the category line reads back to the .ro domain:
             borre.RO = Revenue Operations. One typeface, Archivo, throughout. */}
-        <p className="ml-3 border-l border-rule pl-3 text-xs text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
+        <p className="ml-3 border-l border-rule pl-3 text-xs whitespace-nowrap text-ink-soft sm:ml-5 sm:pl-5 sm:text-sm">
           AI and <span className="text-accent">R</span>evenue{" "}
           <span className="text-accent">O</span>perations
         </p>
@@ -94,7 +94,9 @@ function Header() {
             links: g.slugs.map((slug) => ({ href: `/services/${slug}`, label: serviceFor(slug)?.name ?? slug })),
           }))}
         />
-        <div className="relative ml-auto hidden items-center gap-8 text-sm text-ink-soft sm:flex">
+        {/* The full links from 1024px; below that, tablets included, the menu
+            button (2026-09-30: on an iPad the row wrapped to two lines). */}
+        <div className="relative ml-auto hidden items-center gap-8 text-sm whitespace-nowrap text-ink-soft lg:flex">
           {nav.map((n) =>
             n.href === "/services" ? (
               <ServicesMenu key={n.href} />
@@ -146,8 +148,10 @@ function Footer() {
       <FooterCta />
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
 
-        <div className="grid gap-12 border-b border-rule py-16 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+        {/* Two columns on phones too (2026-09-30: stacked, the footer alone was
+            over two screens and the homepage felt endless). */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-b border-rule py-12 sm:gap-12 sm:py-16 lg:grid-cols-4">
+          <div className="col-span-2 sm:col-span-1">
             <HomeLink className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
               borre<span className="text-accent">.ro</span>
             </HomeLink>

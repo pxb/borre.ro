@@ -13,7 +13,10 @@ import { scrollToId } from "@/lib/scroll";
 import { Example, itemCount } from "@/components/story-forms";
 import { site } from "@/content/site";
 
-// One story, six steps: Problem, Review, Method, Engagement, Value, Support. Two modes:
+// One story, four steps: Problem, Review, Method, Engagement. On 2026-09-30,
+// when the page felt endless on a phone, 06 Support came off (the managed
+// service lives on /services and the ladder links to it) and 05 Value folded
+// into Problem as its upside figure. Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
 // A title may be several short headlines, each on its own line (slide 01).
@@ -47,20 +50,6 @@ const STEPS: Step[] = [
     label: "Engagement",
     title: "Sized to your business.",
     body: "From a half-day workshop to a full build, each engagement is scoped to what you need and priced before we start.",
-  },
-  {
-    id: "value",
-    n: "05",
-    label: "Value",
-    title: "Done properly, AI pulls you ahead.",
-    body: "The companies connecting AI to their own data and work are already pulling ahead. We get you there on the tools you already pay for, without hiring an AI team.",
-  },
-  {
-    id: "support",
-    n: "06",
-    label: "Support",
-    title: "We keep it running.",
-    body: "Once it's live, we look after it for you. It keeps working as your tools and team change, and each month we go through the numbers with you and agree what comes next.",
   },
 ];
 
@@ -134,9 +123,9 @@ export function HowWeWork() {
     <div ref={wrap}>
       <StepBar active={active} go={go} progress={scrollYProgress} u={u} horizontal={horizontal} />
       {horizontal ? (
-        <Horizontal onActive={setActive} go={go} u={u} />
+        <Horizontal onActive={setActive} u={u} />
       ) : (
-        <Vertical onActive={setActive} go={go} />
+        <Vertical onActive={setActive} />
       )}
     </div>
   );
@@ -163,6 +152,11 @@ function scrollToY(y: number) {
 // the page edge, and each step carries a track that fills as the story moves
 // through it. In vertical mode it jumps by anchor; in horizontal mode it
 // drives the pinned section's scroll position.
+// Below 1024px (phones and tablets, where the story is stacked) the six labels
+// don't fit, and a bar that scrolled sideways hid where you were (2026-09-30,
+// iPhone feedback: you had to swipe the bar to see 04 onwards). There each step
+// shows its number only and the current one opens to show its name, so all six
+// are always on screen; the widths ease rather than jump.
 function StepBar({
   active,
   go,
@@ -179,7 +173,7 @@ function StepBar({
   return (
     <div className="sticky top-20 z-30 border-b border-rule bg-paper">
       <nav aria-label="Story steps" className="mx-auto max-w-6xl px-6 sm:px-10">
-        <ol className="flex gap-4 overflow-x-auto sm:gap-6">
+        <ol className="flex gap-2 sm:gap-4 lg:gap-6">
           {STEPS.map((s, i) => (
             <StepItem
               key={s.id}
@@ -223,18 +217,22 @@ function StepItem({
   const pinned = useTransform(u, (t) => clamp((t - FIRST[index] + MOVE) / (LAST[index] - FIRST[index] + MOVE)));
   const fill = horizontal ? pinned : stacked;
   return (
-    <li className="min-w-[6.5rem] flex-1">
+    <li
+      className={`min-w-0 basis-9 transition-[flex-grow] duration-300 ease-out motion-reduce:transition-none lg:min-w-[6.5rem] lg:grow lg:basis-0 ${
+        on ? "grow" : "shrink-0 grow-0"
+      }`}
+    >
       <button
         onClick={onClick}
         aria-current={on ? "step" : undefined}
-        className={`flex min-h-11 w-full items-baseline gap-2 pt-3 pb-2.5 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        className={`flex min-h-11 w-full items-baseline gap-2 whitespace-nowrap pt-3 pb-2.5 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           on ? "text-ink" : "text-ink-soft hover:text-ink"
         }`}
       >
         <span className={`font-mono text-xs tabular-nums ${on ? "text-accent" : "text-ink-soft"}`}>
           {step.n}
         </span>
-        {step.label}
+        <span className={on ? "min-w-0 truncate" : "sr-only lg:not-sr-only"}>{step.label}</span>
       </button>
       <div aria-hidden="true" className="h-0.5 bg-rule">
         <motion.div style={{ scaleX: fill }} className="h-full origin-left bg-ink" />
@@ -260,15 +258,7 @@ STEPS.forEach((_, i) => {
   }
 });
 
-function Horizontal({
-  onActive,
-  go,
-  u,
-}: {
-  onActive: (id: string) => void;
-  go: (id: string) => void;
-  u: MotionValue<number>;
-}) {
+function Horizontal({ onActive, u }: { onActive: (id: string) => void; u: MotionValue<number> }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, X_IN, X_OUT);
@@ -342,11 +332,11 @@ function Horizontal({
               const here = STOPS[stop];
               const at = here.slide === i ? here.item : here.slide > i ? itemCount(s.id) - 1 : 0;
               return (
-                <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(2rem,7vh,4.5rem)]">
+                <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(1.25rem,6vh,4.5rem)]">
                   <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
                     <StepText step={s} large />
                     <div>
-                      <Example id={s.id} go={go} at={at} />
+                      <Example id={s.id} at={at} />
                     </div>
                   </div>
                 </div>
@@ -360,7 +350,7 @@ function Horizontal({
 }
 
 // Vertical fallback: the same panels stacked.
-function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
+function Vertical({ onActive }: { onActive: (id: string) => void }) {
   useEffect(() => {
     const els = STEPS.map((s) => document.getElementById(s.id)).filter(
       (el): el is HTMLElement => el != null,
@@ -388,7 +378,7 @@ function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: s
           className="grid scroll-mt-[7.5rem] gap-8 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20"
         >
           <StepText step={s} />
-          <Example id={s.id} go={go} />
+          <Example id={s.id} />
         </section>
       ))}
     </div>

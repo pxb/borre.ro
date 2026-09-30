@@ -22,7 +22,12 @@ export default function ProspectingDemoPage() {
         { href: "/work/prospecting-loop", label: "Case study" },
       ]}
     >
-      <section className="py-10">
+      <section aria-labelledby="demo-heading" className="py-10">
+        {/* The demo's own headings are h3 (as on the case study), so the page
+            needs an h2 between them and the h1 (2026-09-30 review). */}
+        <h2 id="demo-heading" className="sr-only">
+          The portal
+        </h2>
         <ProspectingDemo />
       </section>
     </Page>
