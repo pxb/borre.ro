@@ -10,7 +10,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
-import { Example, itemCount, Upside } from "@/components/story-forms";
+import { Example, itemCount } from "@/components/story-forms";
 import { site } from "@/content/site";
 
 // One story, four steps: Problem, Review, Method, Engagement. On 2026-09-30,
@@ -332,14 +332,11 @@ function Horizontal({ onActive, u }: { onActive: (id: string) => void; u: Motion
               const here = STOPS[stop];
               const at = here.slide === i ? here.item : here.slide > i ? itemCount(s.id) - 1 : 0;
               return (
-                <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(2rem,7vh,4.5rem)]">
+                <div key={s.id} className="h-full w-screen shrink-0 pt-[clamp(1.25rem,6vh,4.5rem)]">
                   <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+                    <StepText step={s} large />
                     <div>
-                      <StepText step={s} large />
-                      {s.id === "problem" ? <Upside className="mt-10 max-w-md" /> : null}
-                    </div>
-                    <div>
-                      <Example id={s.id} at={at} pinned />
+                      <Example id={s.id} at={at} />
                     </div>
                   </div>
                 </div>

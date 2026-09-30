@@ -142,10 +142,8 @@ export function itemCount(id: string) {
   return 1;
 }
 
-// `pinned`: the desktop story, where a slide can't scroll, so the Problem
-// slide's upside moves to the left column (see Upside).
-export function Example({ id, at = null, pinned = false }: { id: string; at?: number | null; pinned?: boolean }) {
-  if (id === "problem") return <Gap upside={!pinned} />;
+export function Example({ id, at = null }: { id: string; at?: number | null }) {
+  if (id === "problem") return <Gap />;
   if (id === "review") return <Timeline at={at} />;
   if (id === "method") return <Formula at={at} />;
   return <Ladder at={at} />;
@@ -172,10 +170,10 @@ function Source({ e }: { e: { source: string; href: string } }) {
 
 const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-function Gap({ upside = true }: { upside?: boolean }) {
+function Gap() {
   return (
     <Frame>
-      <ul className="grid gap-6">
+      <ul className="grid gap-6 [@media(max-height:800px)]:gap-4">
         {evidence.map((e: Evidence) => (
           <li key={e.stat}>
             <Figure value={e.stat} beside tone="ink" count>
@@ -189,27 +187,23 @@ function Gap({ upside = true }: { upside?: boolean }) {
             </Figure>
           </li>
         ))}
+        {/* The upside, the old 05 Value slide folded in (2026-09-30): the same
+            row shape as the problems, the figure in the accent as a result and
+            the takeaway where the answers sit. Tried under the paragraph on the
+            left, which read oddly (Pedro). */}
+        <li className="border-t border-rule pt-6 [@media(max-height:800px)]:pt-4">
+          <Figure value={upside.stat} beside count>
+            <p className="text-ink-soft">
+              {sentence(upside.claim)}. <Source e={upside} />
+            </p>
+            <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
+              <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
+              Done properly, AI pulls you ahead.
+            </p>
+          </Figure>
+        </li>
       </ul>
-      {upside ? <Upside className="mt-8 border-t border-rule pt-6" /> : null}
     </Frame>
-  );
-}
-
-// The upside, after the three problems when the story is stacked; under the
-// slide's paragraph when it's pinned on the desktop, where the right column
-// had no room left on a 1366x768 laptop (2026-09-30 review).
-export function Upside({ className = "" }: { className?: string }) {
-  return (
-    <div className={className}>
-      <p className="font-medium text-ink">Done properly, AI pulls you ahead.</p>
-      <div className="mt-4">
-        <Figure value={upside.stat} beside count>
-          <p className="text-ink">
-            {sentence(upside.claim)}. <Source e={upside} />
-          </p>
-        </Figure>
-      </div>
-    </div>
   );
 }
 
@@ -397,14 +391,14 @@ function Formula({ at }: { at: number | null }) {
       ) : null}
       <Detail
         pick={p}
-        className="mt-4"
+        className="mt-4 [@media(max-height:760px)]:mt-2"
         items={AI3.map((a) => (
           <DetailLink key={a.term} href={a.href}>
             {a.plain}
           </DetailLink>
         ))}
       />
-      <div className="mt-6 border-t border-rule pt-5">
+      <div className="mt-6 border-t border-rule pt-5 [@media(max-height:760px)]:mt-2 [@media(max-height:760px)]:pt-2">
         <AskDemo />
       </div>
     </Frame>

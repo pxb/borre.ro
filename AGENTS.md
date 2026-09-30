@@ -80,7 +80,7 @@ doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 three barriers in ink, each followed by our answer (the fear, then the fix), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on, dashed, into "Then we keep it running" (a link to /services/support),
-Problem ends on the upside, "Done properly, AI pulls you ahead.", with one sourced figure in the accent (`upside` in site.ts, PwC 163%). No prices on the slides. The six were all one row list
+Problem ends on the upside: a fourth row after the three problems, same shape, the figure (`upside` in site.ts, PwC 163%) in the accent and "Done properly, AI pulls you ahead." where the answers sit. Every pinned slide must fit above the offer bar down to 1280x720 (`Lab/borre-tools/cdp-slide-fit.mjs`); short screens tighten the slide padding and the Method slide (`max-height` variants). No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
@@ -328,7 +328,7 @@ Per page, each deliberately different:
 |---|---|
 | /services | No visible header (see below). Three groups (Start, Build, Run: the AI³ method, kept by Pedro), each with its own shape: Start side by side, each under a short accent bar (the page's accent), Build beside the product still it makes, Run as the monthly loop. Each service in short: name (the link to its page), one small price line, one line of value, its own button |
 | /work | No visible header. Previews alternate sides; figures in the accent |
-| Case studies | Results figures in the accent; connected systems drawn as a hub into the build (`systems-hub.tsx`) |
+| Case studies | Results figures in the accent; connected systems drawn as a track into the build (`systems-hub.tsx`) |
 | /contact | No visible header. The 0 to 30 minute call, every stop described (`CallTrack`), beside the calendar; calendar first on phones |
 | /about | The mark; no diagram |
 

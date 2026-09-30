@@ -23,7 +23,7 @@ Four kinds, each with one job.
 | Block rule | 2px ink, full width, a label under it only when the label names something the title doesn't | Opens a block: a slide's right side (`Frame`), a /services group, the call track. One per block |
 | Hairline | 1px `--rule`, horizontal | Divides sibling rows or groups. Never vertical |
 | Figure bar | 2px `--rule`, vertical, left of a figure | Only in the figure form (below). The one vertical hairline |
-| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (/services Run), the systems hub |
+| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (/services Run), the systems track on each case study (names off a 2px spine, one tick each, the spine running on into the build with the accent arrow; boxes and a fan of lines were cut 2026-09-30) |
 
 No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into the managed
 service.
@@ -77,7 +77,8 @@ A thing in a list (a service, a case study, a stop on the call track):
 - **A problem is always followed by our answer.** Slide 01 pairs each barrier with the line that fixes
   it, so the story turns from the fear to the fix. No figure is there only to frighten.
 - **Why now, why us.** Slide 01 ends on the value of doing AI properly in general terms, with a source
-  (under the paragraph when pinned, after the problems when stacked); client-specific results stay on
+  (a fourth row after the three problems, same shape, figure in the accent, the takeaway where the
+  answers sit; under the paragraph was tried and read oddly); client-specific results stay on
   /work and the case studies. /services carries one market figure under Start, in the problem form.
 
 ## Headers
@@ -109,8 +110,7 @@ motion.dev (Pedro, 2026-09-24):
 
 - **Drawn lines draw themselves once** as they come into view: the call track (slide 02, /contact),
   the ladder tread by tread (slide 04), the support loop (/services Run) with its stops
-  and moving dot after it, and the systems hub on each case study (a left-to-right wipe, because its
-  non-scaling strokes would mis-measure a dash draw).
+  and moving dot after it. The systems track on each case study is static.
 - **The pick moves along the drawing it belongs to.** On slide 02 the stop marker runs along the
   track (`layoutId`). On slide 04 it climbs the staircase: up each riser, then across the next tread,
   never a diagonal glide (Pedro: it should climb the steps). On slide 03 nothing slides sideways: the
