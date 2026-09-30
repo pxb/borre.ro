@@ -488,3 +488,16 @@ with the file and heading named. Figures, sources, URLs, slugs, prices and layou
 the layout checks (`cdp-slide-fit`, `cdp-mobile-pass`, `cdp-route-audit`, `cdp-story`). The dev
 launch config calls `next dev` directly, so run `npm run copy -- build` first when copy has changed.
 Writer's guide for Pedro: `src/content/copy/_README.md`.
+
+**Review mode and live editing (2026-09-30).** `?copy` on any preview or local page loads
+`copy-review.tsx` (through `copy-review-loader.tsx`; `COPY_REVIEW` is set in next.config.ts from
+VERCEL_ENV, "off" in production, so the code is not in the live bundle: check with a
+`VERCEL_ENV=production` build that no static chunk contains "copy-review-changes"). It finds each
+line of the page's copy files in `<main>` by its text (a file's `route`, `shared` slot prefix and
+`also` routes decide which files feed a page), outlines it, edits in place with a budget count,
+keeps edits in sessionStorage only, and copies a change list (`file.md ## slot` / `was:` / `now:`)
+that `npm run copy -- changes <file>` applies, refusing any change whose old words are no longer in
+the slot. Live editing: `npm run copy:live [port]` (copy watcher plus next dev, default 3012), run
+from the `Lab/borre-copy` worktree on branch `copy` (launch config "borre.ro copy (live)"); Pedro
+opens `Lab/borre-copy/src/content/copy` in Obsidian. Nothing publishes automatically: copy edits
+reach main only by a merge Pedro approves after checking the preview.

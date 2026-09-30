@@ -10,12 +10,22 @@ Every word on the site lives in these files, one per page. Change the words, and
 - Lines starting `>` are notes for you: where the words appear, and a budget such as `max 110` (characters). Going over is allowed, but the build warns you, because a longer line can wrap or push something off the screen.
 - Figures (100%, 1 day, £450) stay in code with their evidence. Change the words around a figure, never the number.
 - `{title}` or `{n}` inside a line is filled in by the site. Keep it.
+- The lines at the top between `---` (route, also, shared) tell the site and the review mode where the words appear. Leave them.
 
-## Three ways to edit
+## Reviewing and editing
 
-1. **Read the whole site in one go.** Ask Claude for the deck (`COPY.md`): every page in the order a visitor meets them. Mark it up however you like and pass it back. Claude applies it slot by slot and checks the layout.
-2. **On your phone.** In the GitHub app, open this folder on a `copy` branch, edit a file and commit. Vercel builds a preview; Claude checks it and merges.
-3. **On your desktop.** Open this folder as its own vault in Obsidian and edit there.
+**In Obsidian, with the page beside it (desktop).** Open `Lab/borre-copy/src/content/copy` as its own vault. It's a separate working copy on the `copy` branch, so nothing you do there touches the live site. Ask Claude to start live editing (or run `npm run copy:live` in `Lab/borre-copy`) and open http://localhost:3012. Every save shows on the page within a second or two.
+
+**On the page itself.** Add `?copy` to any preview or local address. Every line from these files gets a dashed outline; click one to edit it in place, with a count against its budget (Enter keeps, Esc undoes). Nothing is saved: the panel collects your changes, and "Copy changes" gives you a list to paste back to Claude. `?copy=off` or Exit leaves review mode. The live site never has it.
+
+**The whole site in one read.** Ask Claude for the deck (`COPY.md`), mark it up and pass it back.
+
+## Nothing publishes by itself
+
+- Your edits live on the `copy` branch in `Lab/borre-copy`. The live site only changes when that branch is merged into `main`, and that only happens when you say so.
+- When you're ready, tell Claude "publish the copy". Claude commits your edits, pushes the branch and checks the Vercel preview and the layout. You look at the preview and approve, and only then is it merged and tagged.
+- Every change is a commit with a diff you can read, and any version can be brought back.
+- Don't add an auto-commit or auto-push plugin to this vault, and keep it out of LiveSync.
 
 ## If the build fails
 
