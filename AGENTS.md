@@ -121,6 +121,19 @@ gives it to the page header, the footer band and the offer bar on that service's
 `/contact?service=<slug>`; `BookingFrame` passes the service name into Cal.com's notes field
 (`notes=` prefill, checked 2026-09-29). Clicks carry `data-track-service`.
 
+## Readiness scorecard (#581, 2026-09-30)
+
+`/scorecard`: eight multiple-choice questions (`src/content/scorecard.ts`), native radios in
+`src/components/scorecard.tsx`. Two questions size the repeated admin (people x hours, at midpoints);
+the result shows a band, the hours back as a range in the figure form, labelled as an estimate with
+its assumption on screen (a quarter to a half of that time moving to software), and one service to
+start with (audit by default; training if they want the team using AI well; workshop if leadership
+has talked but not agreed; workflow automation when everything is in place). Its button stores a
+one-line summary in sessionStorage, which `BookingFrame` adds to the Cal.com notes. Answers never
+leave the browser and are never put in a URL, so /privacy is unchanged. Linked from /services and
+the footer. Pedro, 2026-09-30: keep it small; email capture and saved results only if bookings show
+it works.
+
 ## Case studies
 
 Challenge → Solution (four points, one how-it-was-built line, the human-in-the-loop line) → the

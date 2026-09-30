@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { serviceFor, site } from "@/content/site";
+import { SCORECARD_KEY } from "@/content/scorecard";
 
 const FRAME = "h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border";
 
@@ -11,7 +12,13 @@ const FRAME = "h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:bo
 // static): the server sends an empty frame of the same size, so nothing shifts.
 export function BookingFrame() {
   const service = serviceFor(useSearchParams().get("service") ?? "");
-  const notes = service ? `&notes=${encodeURIComponent(`About: ${service.name}`)}` : "";
+  // A scorecard result, kept in this tab only, joins the note.
+  let scorecard = "";
+  try {
+    scorecard = sessionStorage.getItem(SCORECARD_KEY) ?? "";
+  } catch {}
+  const note = [service ? `About: ${service.name}` : "", scorecard].filter(Boolean).join(". ");
+  const notes = note ? `&notes=${encodeURIComponent(note)}` : "";
   return (
     <iframe
       src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view${notes}`}

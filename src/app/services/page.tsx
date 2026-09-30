@@ -151,6 +151,14 @@ export default function Services() {
         ))}
       </section>
 
+      {/* For the reader who can't yet say which of the eight they need. */}
+      <p className="border-t border-rule py-10 text-lg text-ink">
+        Not sure where to start?{" "}
+        <Link href="/scorecard" className={LINK}>
+          Take the readiness scorecard
+        </Link>
+      </p>
+
       <section id="pricing" className="scroll-mt-28 border-t border-rule py-16">
         <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Pricing</h2>
         <div className="mt-10 grid gap-10 sm:grid-cols-3">
