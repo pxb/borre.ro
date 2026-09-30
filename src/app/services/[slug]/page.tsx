@@ -5,13 +5,13 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Page, Row } from "@/components/section";
 import { Figure } from "@/components/figure";
-import { CasePreview } from "@/components/demo/previews";
+import { CasePreview, PlatformPreview } from "@/components/demo/previews";
 import { ctaFor, proofFor, serviceCategories, serviceFor, site } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
 
-// One page per service, in the order a buyer decides (#602): their problem,
-// what we do about it, what they get, how it runs, a case study, the price, the
-// questions they ask. The button names the service at the top; the footer
+// One page per service, in the order a buyer decides (#602): the outcome in
+// the lead, their problem, what they get, how it runs, a case study, the price,
+// the questions they ask. Each thing said once. The button names the service at the top; the footer
 // band closes on the same button.
 export function generateStaticParams() {
   return serviceCategories.map((s) => ({ slug: s.slug }));
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const page = servicePages[slug];
   if (!s || !page) return {};
   const path = `/services/${s.slug}`;
-  return pageMeta({ title: s.name, description: `${page.line} ${page.answer}`, path, image: { url: `${path}/opengraph-image`, alt: s.name } });
+  return pageMeta({ title: s.name, description: `${page.line} ${s.what}`, path, image: { url: `${path}/opengraph-image`, alt: s.name } });
 }
 
 const LINK =
@@ -70,19 +70,6 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
     >
       <Row label="The problem">
         <p className="max-w-2xl text-lg leading-relaxed text-ink">{page.problem}</p>
-      </Row>
-
-      <Row label="What we do">
-        <p className="max-w-2xl leading-relaxed text-ink">{page.answer}</p>
-        {/* The upside, so each outcome carries the accent mark (DESIGN.md). */}
-        <ul className="mt-10 grid gap-8 sm:grid-cols-3">
-          {page.outcomes.map((c) => (
-            <li key={c} className="leading-snug text-ink">
-              <span aria-hidden="true" className="mb-4 block h-1 w-10 bg-accent" />
-              {c}
-            </li>
-          ))}
-        </ul>
       </Row>
 
       <Row label="What you get">
@@ -147,10 +134,20 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         </Row>
       ) : null}
 
+      {/* A service with no case study yet shows the product it makes. */}
+      {!lead && slug === "agentic-platform" ? (
+        <Row label="Example">
+          <div className="max-w-xl">
+            <PlatformPreview />
+          </div>
+        </Row>
+      ) : null}
+
       <Row label="Price">
         <p className="font-medium text-ink">
           {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
         </p>
+        {page.priceNote ? <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink">{page.priceNote}</p> : null}
         <p className="mt-3 text-sm text-ink-soft">{site.vatNote}</p>
       </Row>
 

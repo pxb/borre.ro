@@ -23,7 +23,8 @@ function Frame({ nav, children }: { nav: string; children: React.ReactNode }) {
   );
 }
 
-// A chat: the question, a grounded answer with its citations, an input bar.
+// A chat: the question and a grounded answer with its citations. No input bar:
+// a still that looks typeable reads as broken.
 function ContextPreview() {
   const q = ceQuestions.find((x) => x.id === "pipeline") ?? ceQuestions[0];
   return (
@@ -41,7 +42,6 @@ function ContextPreview() {
             ))}
           </div>
         </div>
-        <p className="bar">Ask about any account, deal or call…</p>
       </div>
     </Frame>
   );
@@ -97,6 +97,48 @@ function FlowPreview({ run }: { run: FlowRun }) {
           </li>
         ))}
       </ol>
+    </Frame>
+  );
+}
+
+// The team workspace (full agentic platform), which has no case study yet: the
+// models, teams and people on it, each person with their model and the
+// knowledge their access reaches. Invented people at the invented client.
+const PEOPLE = [
+  { i: "PS", n: "Priya Shah", team: "Sales", model: "Claude", reach: "CRM and proposals" },
+  { i: "TO", n: "Tom Okafor", team: "Operations", model: "ChatGPT", reach: "Orders and suppliers" },
+  { i: "SM", n: "Sam Moore", team: "Finance", model: "Gemini", reach: "Invoices" },
+];
+export function PlatformPreview() {
+  const strip = [
+    { k: "Models", n: "4" },
+    { k: "Teams", n: "3" },
+    { k: "People", n: "18" },
+  ];
+  return (
+    <Frame nav="Workspace">
+      <div className="p-wrap">
+        <ol className="mini-strip">
+          {strip.map((x) => (
+            <li key={x.k}>
+              <span className="n">{x.n}</span>
+              <span className="k">{x.k}</span>
+            </li>
+          ))}
+        </ol>
+        <ul className="mini-rows">
+          {PEOPLE.map((p) => (
+            <li key={p.n}>
+              <span className="av">{p.i}</span>
+              <span className="lname">{p.n}</span>
+              <span className="p-sub">
+                {p.team} · {p.reach}
+              </span>
+              <span className="chip">{p.model}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Frame>
   );
 }

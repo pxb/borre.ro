@@ -401,8 +401,8 @@ export const serviceCategories: ServiceCategory[] = [
       "Per-person access, with usage and cost you can see",
     ],
     under: "Open WebUI with RAG over the Context Engine, model gateway, per-user access, usage and cost tracking.",
-    price: "Priced per phase",
-    duration: "Scoped after a first project",
+    price: "From £7,500 a phase",
+    duration: "Each phase 4 to 8 weeks",
   },
   {
     slug: "support",

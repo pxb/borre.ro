@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Page } from "@/components/section";
 import { LoopShape } from "@/components/story-forms";
-import { CasePreview } from "@/components/demo/previews";
+import { CasePreview, PlatformPreview } from "@/components/demo/previews";
 import { costNotes, ctaFor, serviceFor, site, type ServiceCategory } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
 
@@ -116,6 +116,15 @@ export default function Services() {
                     className="block min-w-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
                   >
                     <CasePreview slug={still} />
+                  </Link>
+                ) : s.slug === "agentic-platform" ? (
+                  // No case study yet: the workspace it makes, linked to its page.
+                  <Link
+                    href={`/services/${s.slug}`}
+                    aria-label={`${s.name}: see the service`}
+                    className="block min-w-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
+                  >
+                    <PlatformPreview />
                   </Link>
                 ) : null}
               </article>
