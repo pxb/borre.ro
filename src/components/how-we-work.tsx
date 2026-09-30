@@ -13,9 +13,10 @@ import { scrollToId } from "@/lib/scroll";
 import { Example, itemCount } from "@/components/story-forms";
 import { site } from "@/content/site";
 
-// One story, five steps: Problem, Review, Method, Engagement, Value (06 Support
-// came off the homepage 2026-09-30: on a phone the page felt endless; the
-// managed service lives on /services and the ladder links to it). Two modes:
+// One story, four steps: Problem, Review, Method, Engagement. On 2026-09-30,
+// when the page felt endless on a phone, 06 Support came off (the managed
+// service lives on /services and the ladder links to it) and 05 Value folded
+// into Problem as its upside figure. Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
 // A title may be several short headlines, each on its own line (slide 01).
@@ -49,13 +50,6 @@ const STEPS: Step[] = [
     label: "Engagement",
     title: "Sized to your business.",
     body: "From a half-day workshop to a full build, each engagement is scoped to what you need and priced before we start.",
-  },
-  {
-    id: "value",
-    n: "05",
-    label: "Value",
-    title: "Done properly, AI pulls you ahead.",
-    body: "The companies connecting AI to their own data and work are already pulling ahead. We get you there on the tools you already pay for, without hiring an AI team.",
   },
 ];
 

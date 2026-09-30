@@ -8,7 +8,7 @@ import { AskDemo } from "@/components/ask-demo";
 import { Figure } from "@/components/figure";
 import { After, DrawLine, DrawRing, useMotionOn } from "@/components/draw";
 import { servicePages } from "@/content/service-pages";
-import { evidence, value } from "@/content/site";
+import { evidence, upside } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
 // 2px ink rule, and inside it a shape that matches what the slide says:
@@ -146,12 +146,12 @@ export function Example({ id, at = null }: { id: string; at?: number | null }) {
   if (id === "problem") return <Gap />;
   if (id === "review") return <Timeline at={at} />;
   if (id === "method") return <Formula at={at} />;
-  if (id === "engagement") return <Ladder at={at} />;
-  return <Worth />;
+  return <Ladder at={at} />;
 }
 
 // 01 Problem: each barrier with our answer under it, so the slide turns from
-// the fear to the fix. Figures in ink: these are problems, not results; the
+// the fear to the fix, then the upside when it's done properly (the old 05
+// Value slide, folded in 2026-09-30), its figure in the accent as a result. Figures in ink: these are problems, not results; the
 // accent is the arrow that leads into each answer.
 type Evidence = (typeof evidence)[number];
 
@@ -188,6 +188,16 @@ function Gap() {
           </li>
         ))}
       </ul>
+      <div className="mt-8 border-t border-rule pt-6">
+        <p className="font-medium text-ink">Done properly, AI pulls you ahead.</p>
+        <div className="mt-4">
+          <Figure value={upside.stat} beside count>
+            <p className="text-ink">
+              {sentence(upside.claim)}. <Source e={upside} />
+            </p>
+          </Figure>
+        </div>
+      </div>
     </Frame>
   );
 }
@@ -522,26 +532,6 @@ function Ladder({ at }: { at: number | null }) {
           </DetailLink>
         ))}
       />
-    </Frame>
-  );
-}
-
-// 05 Value: what AI done properly is worth, in general. Results figures, so
-// in the accent. Client results live on /work and each case study.
-function Worth() {
-  return (
-    <Frame>
-      <ul className="grid gap-6">
-        {value.map((e) => (
-          <li key={e.stat}>
-            <Figure value={e.stat} beside count>
-              <p className="text-ink">
-                {sentence(e.claim)}. <Source e={e} />
-              </p>
-            </Figure>
-          </li>
-        ))}
-      </ul>
     </Frame>
   );
 }

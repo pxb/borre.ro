@@ -67,12 +67,12 @@ Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, di
 
 ## Homepage story
 
-Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of five steps (06 Support came off the homepage 2026-09-30: on a phone the page felt endless; the managed service is on /services):
+Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of four steps (2026-09-30, when the homepage felt endless on a phone: 06 Support came off, the managed service is on /services; 05 Value folded into 01 Problem as its upside figure):
 01 Problem, 02 Review (the free 30-minute call; "Discovery" read as a sales stage and is a paid phase
 elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
-the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices),
-05 Value (what AI done properly is worth, sourced; client results live on /work). Content and
-step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `value` in `site.ts`.
+the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices).
+Content and
+step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `upside` in `site.ts`.
 
 **Slide standard (#584, 2026-09-24; labels and accents per DESIGN.md):** left, the title and one
 short paragraph. Right, one `Frame`: a 2px ink rule, a label only where it names something the title
@@ -80,7 +80,7 @@ doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 three barriers in ink, each followed by our answer (the fear, then the fix), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on, dashed, into "Then we keep it running" (a link to /services/support),
-Value as three sourced figures in the accent (the third, since 2026-09-30, Microsoft's 67% of reported AI impact from the organisation; the prompt-caching discount read technical). No prices on the slides. The six were all one row list
+Problem ends on the upside, "Done properly, AI pulls you ahead.", with one sourced figure in the accent (`upside` in site.ts, PwC 163%). No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
@@ -97,7 +97,7 @@ Where a slide has several items, only the picked item's description shows (hover
 arrow keys; a tab set). In the pinned story the scroll also picks (2026-09-25): a timeline of 14
 stops in `how-we-work.tsx` (one unit of 64vh to move between slides, half a unit per item), `x`
 flat across each slide's own stops, and a snap that settles on the next stop in the direction of
-travel (13 stops since 06 Support left the homepage, 2026-09-30). `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
+travel (12 stops since 2026-09-30). `usePick(n, label, at)` takes the reached item and picks only when it changes, never while
 focus is inside the set; hover picks on pointer movement, not entry, so a slide moving in under a
 resting pointer picks nothing. Checked in headless Edge by `Lab/borre-tools/cdp-story.mjs` (every
 stop, wheel steps, keyboard, reduced motion, no-JS) and `cdp-story-wheel.mjs`. All descriptions sit in one grid cell so the slot never jumps. Server render

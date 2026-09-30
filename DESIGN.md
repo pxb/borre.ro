@@ -33,7 +33,7 @@ service.
 The accent means **act here** or **a good result**. Nothing else.
 
 - The primary CTA ground, once per view.
-- Figures that are results or value: case-study results, /work, slide 05 (Value). Problem figures
+- Figures that are results or value: case-study results, /work, the upside figure at the foot of slide 01. Problem figures
   (slide 01) are ink, so the good number reads as the good number.
 - The accent mark: a 4px by 40px bar over the items a page is built on: the ways to start (/services
   Start) and our commitments (/about).
