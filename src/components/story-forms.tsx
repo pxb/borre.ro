@@ -139,17 +139,15 @@ export function itemCount(id: string) {
   if (id === "review") return CALL.length;
   if (id === "method") return AI3.length;
   if (id === "engagement") return STARTS.length;
-  if (id === "support") return SUPPORT.length;
   return 1;
 }
 
-export function Example({ id, go, at = null }: { id: string; go: (id: string) => void; at?: number | null }) {
+export function Example({ id, at = null }: { id: string; at?: number | null }) {
   if (id === "problem") return <Gap />;
   if (id === "review") return <Timeline at={at} />;
   if (id === "method") return <Formula at={at} />;
-  if (id === "engagement") return <Ladder go={go} at={at} />;
-  if (id === "value") return <Worth />;
-  return <Loop at={at} />;
+  if (id === "engagement") return <Ladder at={at} />;
+  return <Worth />;
 }
 
 // 01 Problem: each barrier with our answer under it, so the slide turns from
@@ -440,11 +438,12 @@ function Climber({ at, n }: { at: number; n: number }) {
 // 04 Engagement: the ways in as a ladder, smallest first. The staircase is
 // drawn above and every label sits on one baseline under it, so the text
 // never steps down with the treads. The top step runs on into the managed
-// service, because the work does not stop at the build.
+// service (its own page since 06 left the homepage), because the work does
+// not stop at the build.
 const RISE = 28;
 const STAIR = RISE * 3 + 4;
 
-function Ladder({ go, at }: { go: (id: string) => void; at: number | null }) {
+function Ladder({ at }: { at: number | null }) {
   const p = usePick(STARTS.length, "Ways to start", at);
   const n = STARTS.length;
   return (
@@ -498,12 +497,8 @@ function Ladder({ go, at }: { go: (id: string) => void; at: number | null }) {
             );
           })}
         </div>
-        <a
-          href="#support"
-          onClick={(e) => {
-            e.preventDefault();
-            go("support");
-          }}
+        <Link
+          href="/services/support"
           style={{ "--indent": `${n * 14}px` } as React.CSSProperties}
           className={`group mt-2 ml-[var(--indent)] block min-h-11 border-t-2 border-dashed border-ink pt-3 text-sm text-ink-soft transition-colors hover:text-ink sm:mt-0 sm:ml-0 sm:w-24 sm:border-t-0 sm:pt-0 ${FOCUS}`}
         >
@@ -513,10 +508,10 @@ function Ladder({ go, at }: { go: (id: string) => void; at: number | null }) {
           <span className="flex items-start gap-1.5 sm:pt-4">
             <Repeat aria-hidden className="mt-0.5 size-4 shrink-0 transition-transform group-hover:rotate-45" />
             <span>
-              <span className="font-mono text-xs tabular-nums">06</span> Support
+              Then we keep it running
             </span>
           </span>
-        </a>
+        </Link>
       </div>
       <Detail
         pick={p}
@@ -551,7 +546,7 @@ function Worth() {
   );
 }
 
-// 06 Support: the service as a monthly loop.
+// The managed service as a monthly loop, on /services (LoopShape).
 const LABEL_POS = [
   "top-0 left-1/2 w-60 -translate-x-1/2 text-center",
   "top-1/2 left-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2 text-left",
@@ -559,13 +554,6 @@ const LABEL_POS = [
   "top-1/2 right-[calc(50%+124px)] w-[calc(50%-124px)] -translate-y-1/2 text-right",
 ];
 
-function Loop({ at }: { at: number | null }) {
-  return (
-    <Frame heading="Managed service">
-      <LoopShape at={at} />
-    </Frame>
-  );
-}
 
 // The loop without its frame, also used for the managed service on /services.
 // No price in the centre: slides carry no prices (Pedro, 2026-09-24); they

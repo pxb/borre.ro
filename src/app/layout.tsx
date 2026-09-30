@@ -148,8 +148,10 @@ function Footer() {
       <FooterCta />
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
 
-        <div className="grid gap-12 border-b border-rule py-16 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+        {/* Two columns on phones too (2026-09-30: stacked, the footer alone was
+            over two screens and the homepage felt endless). */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-b border-rule py-12 sm:gap-12 sm:py-16 lg:grid-cols-4">
+          <div className="col-span-2 sm:col-span-1">
             <HomeLink className="inline-flex min-h-11 items-center text-lg font-medium tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
               borre<span className="text-accent">.ro</span>
             </HomeLink>

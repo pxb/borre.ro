@@ -15,8 +15,10 @@ export const site = {
   headlines: [
     "You have {n} AI tools. None of them talk to each other.",
     "You have {n} AI tools. None of them know your business.",
-    "You pay for {n} AI tools and your team still does the work by hand.",
-    "{N} AI tools, and your team still copies and pastes between them.",
+    // Two of four say "tools", not "AI tools" (Pedro, 2026-09-30): we connect
+    // the CRM, the accounts package and the inbox as well as the AI.
+    "You pay for {n} tools and your team still does the work by hand.",
+    "{N} tools, and your team still copies and pastes between them.",
   ],
   // The line that sat under the headline, now the Problem slide's opener,
   // extended to name the tools people search for.
@@ -250,13 +252,17 @@ export const value = [
     source: "Brynjolfsson, Li and Raymond, 2025",
     href: "https://academic.oup.com/qje/article/140/2/889/7990658",
   },
-  // A pricing fact, not a measured outcome: cached input is billed at 0.1x
-  // the base input price.
+  // Microsoft 2026 Work Trend Index (5 May 2026, 20,000 AI users in 10
+  // countries): "organizational factors like culture, manager support, and
+  // talent practices account for more than 2x the reported AI impact of
+  // individual factors like mindset and behavior (67% vs. 32%)". Replaced the
+  // prompt-caching discount (2026-09-30): a pricing fact that read technical
+  // to an owner.
   {
-    stat: "90%",
-    claim: "off the price of business context the AI reuses, once it's cached",
-    source: "Anthropic pricing",
-    href: "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+    stat: "67%",
+    claim: "of the impact people report from AI comes from the business around them, like culture and manager support, twice the share of individual effort",
+    source: "Microsoft Work Trend Index, 2026",
+    href: "https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization",
   },
 ];
 

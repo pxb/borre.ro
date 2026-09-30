@@ -23,10 +23,10 @@ Four kinds, each with one job.
 | Block rule | 2px ink, full width, a label under it only when the label names something the title doesn't | Opens a block: a slide's right side (`Frame`), a /services group, the call track. One per block |
 | Hairline | 1px `--rule`, horizontal | Divides sibling rows or groups. Never vertical |
 | Figure bar | 2px `--rule`, vertical, left of a figure | Only in the figure form (below). The one vertical hairline |
-| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (slide 06, /services Run), the systems hub |
+| Track | 2px ink, straight or curved; stops are 16px circles, 2px ink, filled in the accent when picked | Drawn sequences: the call track (slide 02, /contact), the ladder (slide 04), the loop (/services Run), the systems hub |
 
-No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into 06
-Support.
+No other borders, no side tabs, no dashed rules except the dashed run-on from the ladder into the managed
+service.
 
 ## Accent
 
@@ -42,7 +42,7 @@ The accent means **act here** or **a good result**. Nothing else.
 - **Where you start**: the first stop of the call track on /contact.
 - **A picked answer** on the readiness scorecard: its radio fills in the accent, like a picked stop.
 - **The picked item on a slide**: the stop on the slide 02 track, the newest edges of the cube on
-  slide 03, the tread on the slide 04 ladder. The moving dot on the slide 06 loop. Every slide carries
+  slide 03, the tread on the slide 04 ladder. The moving dot on the /services loop. Every slide carries
   the accent.
 - Brand: the `.ro` wordmark, the cycling word in the headline.
 
@@ -107,7 +107,7 @@ fade on every block was removed for that reason). Two kinds, both in `src/compon
 motion.dev (Pedro, 2026-09-24):
 
 - **Drawn lines draw themselves once** as they come into view: the call track (slide 02, /contact),
-  the ladder tread by tread (slide 04), the support loop (slide 06, /services Run) with its stops
+  the ladder tread by tread (slide 04), the support loop (/services Run) with its stops
   and moving dot after it, and the systems hub on each case study (a left-to-right wipe, because its
   non-scaling strokes would mis-measure a dash draw).
 - **The pick moves along the drawing it belongs to.** On slide 02 the stop marker runs along the

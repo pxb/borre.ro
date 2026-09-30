@@ -13,7 +13,9 @@ import { scrollToId } from "@/lib/scroll";
 import { Example, itemCount } from "@/components/story-forms";
 import { site } from "@/content/site";
 
-// One story, six steps: Problem, Review, Method, Engagement, Value, Support. Two modes:
+// One story, five steps: Problem, Review, Method, Engagement, Value (06 Support
+// came off the homepage 2026-09-30: on a phone the page felt endless; the
+// managed service lives on /services and the ladder links to it). Two modes:
 // a horizontal pinned scroll on the desktop, and a vertical stack as the
 // fallback for narrow screens and reduced motion.
 // A title may be several short headlines, each on its own line (slide 01).
@@ -54,13 +56,6 @@ const STEPS: Step[] = [
     label: "Value",
     title: "Done properly, AI pulls you ahead.",
     body: "The companies connecting AI to their own data and work are already pulling ahead. We get you there on the tools you already pay for, without hiring an AI team.",
-  },
-  {
-    id: "support",
-    n: "06",
-    label: "Support",
-    title: "We keep it running.",
-    body: "Once it's live, we look after it for you. It keeps working as your tools and team change, and each month we go through the numbers with you and agree what comes next.",
   },
 ];
 
@@ -134,9 +129,9 @@ export function HowWeWork() {
     <div ref={wrap}>
       <StepBar active={active} go={go} progress={scrollYProgress} u={u} horizontal={horizontal} />
       {horizontal ? (
-        <Horizontal onActive={setActive} go={go} u={u} />
+        <Horizontal onActive={setActive} u={u} />
       ) : (
-        <Vertical onActive={setActive} go={go} />
+        <Vertical onActive={setActive} />
       )}
     </div>
   );
@@ -269,15 +264,7 @@ STEPS.forEach((_, i) => {
   }
 });
 
-function Horizontal({
-  onActive,
-  go,
-  u,
-}: {
-  onActive: (id: string) => void;
-  go: (id: string) => void;
-  u: MotionValue<number>;
-}) {
+function Horizontal({ onActive, u }: { onActive: (id: string) => void; u: MotionValue<number> }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, X_IN, X_OUT);
@@ -355,7 +342,7 @@ function Horizontal({
                   <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
                     <StepText step={s} large />
                     <div>
-                      <Example id={s.id} go={go} at={at} />
+                      <Example id={s.id} at={at} />
                     </div>
                   </div>
                 </div>
@@ -369,7 +356,7 @@ function Horizontal({
 }
 
 // Vertical fallback: the same panels stacked.
-function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: string) => void }) {
+function Vertical({ onActive }: { onActive: (id: string) => void }) {
   useEffect(() => {
     const els = STEPS.map((s) => document.getElementById(s.id)).filter(
       (el): el is HTMLElement => el != null,
@@ -397,7 +384,7 @@ function Vertical({ onActive, go }: { onActive: (id: string) => void; go: (id: s
           className="grid scroll-mt-[7.5rem] gap-8 border-b border-rule py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20"
         >
           <StepText step={s} />
-          <Example id={s.id} go={go} />
+          <Example id={s.id} />
         </section>
       ))}
     </div>
