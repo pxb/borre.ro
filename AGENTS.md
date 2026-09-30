@@ -158,6 +158,17 @@ page head, as well as the footer.
 Each service page ends on a Next step row: the service buyers usually move on to (`next` in
 `service-pages.ts`, #583).
 
+## Writing (#606, 2026-09-30)
+
+`/writing`: articles and the monthly roundup (The Boring Bits, AI for UK Business Leaders; name and
+Substack address in `site.newsletter`). Each piece is a markdown file in `src/content/writing/<slug>.md`
+with front matter (title, description, date, type: article or roundup, draft), rendered to HTML at
+build time by `marked` in `src/lib/writing.ts`, styled by `.prose` in globals.css (no side bars on
+quotes). **Drafts show everywhere except the live site** (Vercel production), carry
+"Draft, preview only" and noindex, so Pedro reads them on a preview. Writing joins the nav, sitemap,
+llms.txt and the RSS feed (`/writing/feed.xml`) only when something is published on that deploy.
+Each piece has its own share image. borre.ro publishes first; Substack and LinkedIn link back.
+
 ## Header menus (2026-09-30)
 
 From 640px, Services opens a panel of every service in its group (Start, Build, Run) plus the

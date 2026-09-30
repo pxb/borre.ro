@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { serviceCategories, site, work } from "@/content/site";
+import { posts } from "@/lib/writing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -15,5 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}/services/${s.slug}`,
     lastModified: now,
   }));
-  return [...fixed, ...studies, ...services];
+  const writing = posts().length
+    ? [{ url: `${site.url}/writing`, lastModified: now }, ...posts().map((p) => ({ url: `${site.url}/writing/${p.slug}`, lastModified: new Date(p.date) }))]
+    : [];
+  return [...fixed, ...studies, ...services, ...writing];
 }

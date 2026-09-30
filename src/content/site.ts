@@ -43,6 +43,9 @@ export const site = {
   // Reg 6(2): where prices are shown, say whether they include VAT.
   // Pedro is not VAT registered (2026-09-28).
   vatNote: "We're not VAT registered, so no VAT is added to our prices.",
+  // The monthly roundup (#221, #607). Its Substack address goes in `url` once
+  // Pedro has set it up; until then no subscribe link shows.
+  newsletter: { name: "The Boring Bits", strap: "AI for UK Business Leaders", url: "" },
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
