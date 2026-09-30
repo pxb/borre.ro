@@ -477,7 +477,8 @@ slide titles to 60px, both above the hero headline and louder than the CTA. Stor
 
 Every visible word is moving into `src/content/copy/<page>.md` (done: /work and the four case studies,
 `case-<slug>.md` and `work.md`; /services and the eight service pages, `service-<slug>.md` and
-`services.md` (prices and timings stay in code); next: homepage story, the rest). A `## key` heading is a
+`services.md` (prices and timings stay in code); the homepage, `home.md` (hero headlines and numbers, summary, the
+four steps, the figures' words, the call track also used on /contact, AI³, the ladder); next: the rest). A `## key` heading is a
 slot; plain text, paragraphs or a `- ` list under it; `>` lines are notes and budgets (`max N`
 characters, a warning not a failure). `scripts/copy.mjs build` compiles them to
 `src/content/copy.gen/<page>.ts` (git-ignored; runs as `predev` and `prebuild`, so Vercel runs it);

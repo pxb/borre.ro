@@ -11,7 +11,8 @@ import {
 } from "motion/react";
 import { scrollToId } from "@/lib/scroll";
 import { Example, itemCount } from "@/components/story-forms";
-import { site } from "@/content/site";
+import { words } from "@/content/copy";
+import copyHome from "@/content/copy.gen/home";
 
 // One story, four steps: Problem, Review, Method, Engagement. On 2026-09-30,
 // when the page felt endless on a phone, 06 Support came off (the managed
@@ -22,36 +23,14 @@ import { site } from "@/content/site";
 // A title may be several short headlines, each on its own line (slide 01).
 type Step = { id: string; n: string; label: string; title: string | string[]; lead?: string; body: string };
 
-const STEPS: Step[] = [
-  {
-    id: "problem",
-    n: "01",
-    label: "Problem",
-    title: ["The work still gets done by hand.", "AI spend grows, productivity doesn't."],
-    body: `${site.recognition} Each holds its own piece of the picture, so someone on your team ends up copying between them.`,
-  },
-  {
-    id: "review",
-    n: "02",
-    label: "Review",
-    title: "It starts with a free 30-minute call.",
-    body: "We look at how your business runs and where AI would pay first. You leave with a clear recommendation, whether or not it involves us.",
-  },
-  {
-    id: "method",
-    n: "03",
-    label: "Method",
-    title: "AI that knows your business, and proves it works.",
-    body: "What your business knows, the software that does the repeatable work and the measurement that proves it, all running on accounts in your name.",
-  },
-  {
-    id: "engagement",
-    n: "04",
-    label: "Engagement",
-    title: "Sized to your business.",
-    body: "From a half-day workshop to a full build, each engagement is scoped to what you need and priced before we start.",
-  },
-];
+// The words: src/content/copy/home.md (#561). What stays here: the ids and
+// numbers the story, the step bar and the tests hang off.
+const hw = words(copyHome);
+const step = (id: string, n: string): Step => {
+  const title = hw.ps(`${id}.title`);
+  return { id, n, label: hw.t(`${id}.label`), title: title.length > 1 ? title : title[0], body: hw.t(`${id}.body`) };
+};
+const STEPS: Step[] = [step("problem", "01"), step("review", "02"), step("method", "03"), step("engagement", "04")];
 
 // The pinned story's timeline, in units of 64vh of scroll. Each slide holds
 // still while the scroll walks its items (half a unit per item, so the story

@@ -18,7 +18,7 @@ Every word on the site lives in these files, one per page. Change the words, and
 
 **On the page itself.** Add `?copy` to any preview or local address. Every line from these files gets a dashed outline; click one to edit it in place, with a count against its budget (Enter keeps, Esc undoes). Nothing is saved: the panel collects your changes, and "Copy changes" gives you a list to paste back to Claude. `?copy=off` or Exit leaves review mode. The live site never has it.
 
-One catch: when two files hold exactly the same words (a case study called "Context Engine" on the Context Engine service page), the page credits the line to its own file. If an edit lands in the wrong place, say which you meant.
+One catch: when two files hold exactly the same words (a case study called "Context Engine" on the Context Engine service page), the page credits the line to its own file. If an edit lands in the wrong place, say which you meant. Lines with `{n}` in them (the homepage headlines) can't be edited on the page; change them in `home.md`.
 
 **The whole site in one read.** Ask Claude for the deck (`COPY.md`), mark it up and pass it back.
 

@@ -5,6 +5,7 @@ import copyProspectingLoop from "./copy.gen/case-prospecting-loop";
 import copyLeadResearch from "./copy.gen/case-lead-research";
 import copyPostCall from "./copy.gen/case-post-call";
 import copyServices from "./copy.gen/services";
+import copyHome from "./copy.gen/home";
 import copyAudit from "./copy.gen/service-audit";
 import copyWorkshop from "./copy.gen/service-workshop";
 import copyTraining from "./copy.gen/service-training";
@@ -16,6 +17,13 @@ import copySupport from "./copy.gen/service-support";
 
 // /services and what every service page shares: src/content/copy/services.md.
 const svc = words(copyServices);
+// The homepage: src/content/copy/home.md.
+const home = words(copyHome);
+const count = (w: ReturnType<typeof words>, prefix: string) => {
+  let n = 0;
+  while (w.has(`${prefix}.${n + 1}`)) n++;
+  return n;
+};
 
 export const site = {
   name: "borre.ro",
@@ -26,23 +34,12 @@ export const site = {
   // The eyebrow that carried this was dropped from the hero, so the phrase
   // does its work in the page title and the structured data instead.
   tagline: "AI and Revenue Operations",
-  headlineCounts: ["five", "seven", "three", "nine", "twelve", "more"],
-  // One headline per visit, picked before first paint (see HeroHeadline). The
-  // first is what renders without JavaScript. `{n}` is the cycling count.
-  headlines: [
-    "You have {n} AI tools. None of them talk to each other.",
-    "You have {n} AI tools. None of them know your business.",
-    // Two of four say "tools", not "AI tools" (Pedro, 2026-09-30): we connect
-    // the CRM, the accounts package and the inbox as well as the AI.
-    "You pay for {n} tools and your team still does the work by hand.",
-    "{N} tools, and your team still copies and pastes between them.",
-  ],
-  // The line that sat under the headline, now the Problem slide's opener,
-  // extended to name the tools people search for.
-  recognition:
-    "ChatGPT here, Claude there, Copilot in Office, Gemini in Google, an AI feature in the CRM and another in accounting.",
-  summary:
-    "We build and run the systems that take busywork off small and medium-sized UK businesses, using the tools you already pay for. Your team signs off everything before a customer sees it.",
+  // The rolling number and the four headlines (one per visit, picked before
+  // first paint; see HeroHeadline): home.md. `{n}` is the number, `{N}` the
+  // same capitalised.
+  headlineCounts: home.li("hero.numbers"),
+  headlines: Array.from({ length: count(home, "hero.headline") }, (_, i) => home.t(`hero.headline.${i + 1}`)),
+  summary: home.t("hero.summary"),
   // One offer name, repeated everywhere a CTA points at /contact.
   cta: "Book a free 30-minute call",
   ctaLine: "What's slowing your team down?",
@@ -134,8 +131,8 @@ export const work: CaseStudy[] = [
 export const evidence = [
   {
     stat: "35%",
-    claim: "of UK businesses say the biggest barrier to using AI is not having the expertise",
-    answer: "We bring the expertise and train your team.",
+    claim: home.t("problem.figure.1.claim"),
+    answer: home.t("problem.figure.1.answer"),
     source: "ANS and YouGov, via techUK, 2025",
     href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
   },
@@ -143,15 +140,15 @@ export const evidence = [
   // integrate AI" with existing systems; 500+ enterprise leaders, October 2025.
   {
     stat: "78%",
-    claim: "of organisations are struggling to connect AI to the systems they already run",
-    answer: "We connect it to the systems you already use.",
+    claim: home.t("problem.figure.2.claim"),
+    answer: home.t("problem.figure.2.answer"),
     source: "Zapier survey, 2025",
     href: "https://zapier.com/blog/ai-resistance-survey/",
   },
   {
     stat: "40%",
-    claim: "of AI agent projects are expected to be cancelled by 2027, over unclear business value",
-    answer: "We agree the value up front, then measure it.",
+    claim: home.t("problem.figure.3.claim"),
+    answer: home.t("problem.figure.3.answer"),
     source: "Gartner",
     href: "https://www.gartner.com/en/articles/context-engineering",
   },
@@ -181,7 +178,8 @@ export const startWhy = {
 // (now `startWhy`, on /services).
 export const upside = {
   stat: "163%",
-  claim: "labour productivity growth since 2018 at the top fifth of the companies most exposed to AI, nearly five times that group's average",
+  claim: home.t("problem.upside.claim"),
+  answer: home.t("problem.upside.answer"),
   source: "PwC Global AI Jobs Barometer, 2026",
   href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
 };
