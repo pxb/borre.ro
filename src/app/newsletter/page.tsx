@@ -51,7 +51,8 @@ export default function Newsletter() {
             ))}
           </ol>
         ) : (
-          <p className="mt-10 border-t-2 border-ink pt-8 text-ink-soft">The first article is on its way.</p>
+          // No issues yet: the rule alone, no placeholder text (Pedro, 2026-09-30).
+          <div aria-hidden="true" className="mt-10 border-t-2 border-ink" />
         )}
       </section>
     </Page>
