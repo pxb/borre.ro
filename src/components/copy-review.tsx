@@ -20,6 +20,18 @@ type Change = { file: string; slot: string; item: number | null; was: string; no
 const FLAG = "copy-review";
 const STORE = "copy-review-changes";
 const norm = (s: string) => s.replace(/\s+/g, " ").trim();
+// A line may be shown sentence-cased or with a full stop added (a figure's
+// claim: "Of the impact ... effort."). `form` records which, so an edit is
+// turned back into the slot's own form before it is recorded.
+type Form = { cap: boolean; dot: boolean };
+const capFirst = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
+const toDisplay = (v: string, f: Form) => (f.cap ? capFirst(v) : v) + (f.dot ? "." : "");
+const toSlot = (shown: string, f: Form, original: string) => {
+  let v = f.dot && shown.endsWith(".") ? shown.slice(0, -1) : shown;
+  if (f.cap && original.charAt(0) !== original.charAt(0).toUpperCase()) v = v.charAt(0).toLowerCase() + v.slice(1);
+  return v;
+};
+const formOf = (el: HTMLElement): Form => ({ cap: el.dataset.copyForm?.includes("cap") ?? false, dot: el.dataset.copyForm?.includes("dot") ?? false });
 
 function load<T>(key: string, fallback: T): T {
   try {
@@ -126,38 +138,52 @@ export function CopyReview() {
               ? 2
               : -1;
       const entries = entriesOf(pages).filter((e) => rank(e) >= 0);
-      const byValue = new Map<string, Entry[]>();
-      for (const e of entries) byValue.set(e.value, [...(byValue.get(e.value) ?? []), e]);
-      for (const list of byValue.values()) list.sort((x, y) => rank(x) - rank(y));
+      type Hit = { e: Entry; form: Form };
+      const byValue = new Map<string, Hit[]>();
+      const add = (text: string, e: Entry, form: Form) => byValue.set(text, [...(byValue.get(text) ?? []), { e, form }]);
+      const addForms = (v: string, e: Entry) => {
+        for (const cap of [false, true]) for (const dot of [false, true]) {
+          const f = { cap, dot };
+          if (cap && capFirst(v) === v && dot === false) continue;
+          add(toDisplay(v, f), e, f);
+        }
+      };
+      for (const e of entries) {
+        if (e.joined) add(e.value, e, { cap: false, dot: false });
+        else addForms(e.value, e);
+      }
+      for (const list of byValue.values()) list.sort((x, y) => rank(x.e) - rank(y.e) || Number(x.form.cap || x.form.dot) - Number(y.form.cap || y.form.dot));
       const current = changesRef.current;
       // Show pending edits on the page, so a reload keeps the review in view.
       for (const c of current) {
         const e = entries.find((x) => x.file === c.file && x.slot === c.slot && x.item === c.item && !x.joined);
-        if (e) byValue.set(norm(c.now), [...(byValue.get(norm(c.now)) ?? []), e]);
+        if (e) addForms(norm(c.now), e);
       }
       // The page's content only: the header and footer come from other files.
       const root = document.querySelector("main") ?? document.body;
       const els = [...root.querySelectorAll<HTMLElement>("*")].filter(
         (el) => !el.closest("[data-copy-review-ui],script,style,svg,noscript,template,[aria-hidden=true],.sr-only"),
       );
-      const found: { el: HTMLElement; e: Entry }[] = [];
+      const found: { el: HTMLElement; e: Entry; form: Form }[] = [];
       for (const el of els) {
         const text = norm(el.textContent ?? "");
         if (!text || text.length < 3 || !byValue.has(text)) continue;
         // The deepest element holding exactly this text.
         if ([...el.children].some((c) => norm(c.textContent ?? "") === text)) continue;
-        found.push({ el, e: byValue.get(text)![0] });
+        const hit = byValue.get(text)![0];
+        found.push({ el, e: hit.e, form: hit.form });
       }
       // A list the page shows as one dotted line is edited as that line: drop
       // single-item matches of it (they are some other element with the same word).
       const joinedSlots = new Set(found.filter((f) => f.e.joined).map((f) => `${f.e.file} ## ${f.e.slot}`));
-      for (const { el, e } of found) {
+      for (const { el, e, form } of found) {
         if (!e.joined && joinedSlots.has(`${e.file} ## ${e.slot}`)) continue;
         el.dataset.copySlot = `${e.file} ## ${e.slot}`;
         el.dataset.copyItem = e.item ? String(e.item) : "";
         el.dataset.copyOriginal = e.joined ? e.joined.join(" · ") : e.value;
         if (e.joined) el.dataset.copyJoined = "1";
         if (e.max) el.dataset.copyMax = String(e.max);
+        if (form.cap || form.dot) el.dataset.copyForm = `${form.cap ? "cap " : ""}${form.dot ? "dot" : ""}`.trim();
         // Pending edits show on every page the line appears on.
         const slotChanges = current.filter((c) => `${c.file} ## ${c.slot}` === el.dataset.copySlot);
         if (e.joined && slotChanges.length) {
@@ -169,7 +195,7 @@ export function CopyReview() {
         } else {
           const c = slotChanges.find((x) => String(x.item ?? "") === el.dataset.copyItem);
           if (c) {
-            el.textContent = c.now;
+            el.textContent = toDisplay(c.now, form);
             el.dataset.copyOriginal = c.now;
             el.dataset.copyChanged = "";
           }
@@ -198,10 +224,10 @@ export function CopyReview() {
         setEditing(null);
         const before = el.dataset.copyOriginal ?? "";
         if (!keep) {
-          el.textContent = before;
+          el.textContent = el.dataset.copyJoined ? before : toDisplay(before, formOf(el));
           return;
         }
-        const now = norm(el.textContent ?? "");
+        const now = el.dataset.copyJoined ? norm(el.textContent ?? "") : toSlot(norm(el.textContent ?? ""), formOf(el), before);
         el.dataset.copyOriginal = now;
         const item = el.dataset.copyItem ? Number(el.dataset.copyItem) : null;
         if (el.dataset.copyJoined) {
@@ -216,7 +242,7 @@ export function CopyReview() {
         // Every other place showing the same line follows.
         for (const other of marked) {
           if (other !== el && other.dataset.copySlot === el.dataset.copySlot && other.dataset.copyItem === el.dataset.copyItem) {
-            other.textContent = now;
+            other.textContent = toDisplay(now, formOf(other));
             other.dataset.copyOriginal = now;
             other.dataset.copyChanged = "";
           }
@@ -261,7 +287,7 @@ export function CopyReview() {
       document.removeEventListener("keydown", onKeyOpen, true);
       style.remove();
       for (const el of marked) {
-        for (const k of ["copySlot", "copyItem", "copyOriginal", "copyJoined", "copyMax", "copyChanged"]) delete el.dataset[k];
+        for (const k of ["copySlot", "copyItem", "copyOriginal", "copyJoined", "copyMax", "copyChanged", "copyForm"]) delete el.dataset[k];
         el.removeAttribute("tabindex");
       }
       marked = [];

@@ -4,6 +4,18 @@ import copyContextEngine from "./copy.gen/case-context-engine";
 import copyProspectingLoop from "./copy.gen/case-prospecting-loop";
 import copyLeadResearch from "./copy.gen/case-lead-research";
 import copyPostCall from "./copy.gen/case-post-call";
+import copyServices from "./copy.gen/services";
+import copyAudit from "./copy.gen/service-audit";
+import copyWorkshop from "./copy.gen/service-workshop";
+import copyTraining from "./copy.gen/service-training";
+import copyContextEngineService from "./copy.gen/service-context-engine";
+import copyWorkflows from "./copy.gen/service-agentic-workflows";
+import copyApps from "./copy.gen/service-apps-dashboards";
+import copyPlatform from "./copy.gen/service-agentic-platform";
+import copySupport from "./copy.gen/service-support";
+
+// /services and what every service page shares: src/content/copy/services.md.
+const svc = words(copyServices);
 
 export const site = {
   name: "borre.ro",
@@ -49,7 +61,7 @@ export const site = {
   location: "Chiswick, London",
   // Reg 6(2): where prices are shown, say whether they include VAT.
   // Pedro is not VAT registered (2026-09-28).
-  vatNote: "We're not VAT registered, so no VAT is added to our prices.",
+  vatNote: svc.t("vat"),
   // The monthly roundup (#221, #607). Its Substack address goes in `url` once
   // Pedro has set it up; until then no subscribe link shows.
   newsletter: { name: "The Boring Bits", strap: "AI for UK Business Leaders", url: "" },
@@ -154,10 +166,10 @@ export const evidence = [
 // AI impact of individual factors like mindset and behavior (67% vs. 32%)".
 export const startWhy = {
   stat: "67%",
-  claim: "of the impact people report from AI comes from the business around them, like culture and manager support, twice the share of individual effort",
+  claim: svc.t("start-why.claim"),
   source: "Microsoft Work Trend Index, 2026",
   href: "https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization",
-  answer: "So we start with how your business works, not with the tools.",
+  answer: svc.t("start-why.answer"),
 };
 
 // The upside at the foot of the Problem slide (05 Value folded into it,
@@ -174,20 +186,7 @@ export const upside = {
   href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
 };
 
-export const costNotes = [
-  {
-    title: "You own the accounts",
-    body: "The AI subscription, the database and the hosting are in your name and billed to you directly. If we stop working together, you keep all of it.",
-  },
-  {
-    title: "Usage you can see",
-    body: "You pay the provider's own price for what you use, and you can see it at any time.",
-  },
-  {
-    title: "Fixed prices, agreed up front",
-    body: "We agree a fixed price before any work starts. Our rates will go up over time, and work you've already agreed stays at the price you signed.",
-  },
-];
+export const costNotes = [1, 2, 3].map((i) => ({ title: svc.t(`pricing.${i}.title`), body: svc.t(`pricing.${i}.text`) }));
 
 // Agency-framed (we, not I). The employers are a credibility block, not a bio.
 export const about = {
@@ -224,120 +223,23 @@ export type ServiceCategory = {
   duration: string;
 };
 
+// The services' words live in src/content/copy/service-<slug>.md (#561). What
+// stays here: the slug, the price and the timing (terms, backed by the scope
+// sheet), so the words can change without the terms moving.
+function service(page: Page, slug: string, price: string, duration: string): ServiceCategory {
+  const w = words(page);
+  return { slug, name: w.t("name"), what: w.t("what"), includes: w.li("includes"), under: w.t("built-with"), price, duration };
+}
+
 export const serviceCategories: ServiceCategory[] = [
-  {
-    slug: "audit",
-    name: "AI readiness audit",
-    what: "We review how your business runs, the tools you pay for and the data you hold, and give you a written plan of the jobs to automate first, with costs and estimated savings. You keep it, whoever builds it.",
-    includes: [
-      "Interviews with the people who do the work",
-      "A map of your workflows, tools and data",
-      "The jobs worth automating, ranked by return and effort",
-      "A written plan with costs and timings",
-    ],
-    under: "Process mapping, AI readiness scoring, use-case prioritisation, ROI modelling.",
-    price: "From £450",
-    duration: "Usually 1 to 2 weeks",
-  },
-  {
-    slug: "workshop",
-    name: "Leadership workshop",
-    what: "A working session with your leadership team to agree where AI fits the business: the use cases worth pursuing, the risks, and who owns what. You leave with priorities everyone has signed up to.",
-    includes: [
-      "A short briefing on what AI can do for a business your size",
-      "Ideas taken from your own processes",
-      "Risks, data and governance covered",
-      "Agreed priorities and next steps, written up afterwards",
-    ],
-    under: "AI strategy, use-case discovery, governance and risk, change management.",
-    price: "From £950",
-    duration: "Half or full day",
-  },
-  {
-    slug: "training",
-    name: "AI-native training and setup",
-    what: "We set up ChatGPT, Claude or Copilot properly for your business and train your team to use it on their real work.",
-    includes: [
-      "Workspace setup for ChatGPT, Claude, Copilot or Gemini",
-      "Data and security settings to suit your business",
-      "Hands-on sessions on your team's own work",
-      "Shared prompts and templates for the jobs you repeat",
-    ],
-    under: "Workspace and model setup, secure usage, prompt patterns, team adoption.",
-    price: "From £950 a day",
-    duration: "Set up in a week, sessions over 2 to 4 weeks",
-  },
-  {
-    slug: "context-engine",
-    name: "Context Engine",
-    what: "We gather your proposals, call notes and customer records into one place that your team and your AI tools can ask questions of. Every answer links to where it came from.",
-    includes: [
-      "Documents, proposals and call notes brought into one place",
-      "Connected to your CRM, so it knows your customers and deals",
-      "The same access rules as your CRM",
-      "Available inside Claude, ChatGPT and your other AI tools",
-    ],
-    under: "RAG and hybrid retrieval over documents and CRM, provenance on every answer, permissions that follow existing access, MCP access for your AI tools.",
-    price: "From £5,000",
-    duration: "Working on your data in days, live in 3 to 6 weeks",
-  },
-  {
-    slug: "agentic-workflows",
-    name: "Workflow automation",
-    what: "We automate the repeatable work around sales and service, such as researching a company before a call or writing up the notes afterwards. Your team reviews everything before it goes out.",
-    includes: [
-      "Mapping who does what today, and what should move to software",
-      "Research on each company before the first call, from Companies House, its website and whatever else the job needs",
-      "Call summaries and follow-up drafts after it",
-      "Finding companies worth calling each week",
-      "Keeping the CRM up to date",
-    ],
-    under: "n8n orchestration, tool use, HubSpot and CRM integration, human approval gates, draft by default.",
-    price: "From £1,500 per workflow",
-    duration: "Each workflow live in 1 to 2 weeks",
-  },
-  {
-    slug: "apps-dashboards",
-    name: "Custom apps and dashboards",
-    what: "We build the screens your team works in, such as a portal for this week's leads or a dashboard of what the system has done and what it cost.",
-    includes: [
-      "A portal your sales team works through each week",
-      "Dashboards of what the system did and what it cost",
-      "Internal tools built on your own data",
-      "Sign-in by email link for your team",
-    ],
-    under: "React, scoped read APIs, magic-link sign-in, hosted on your own accounts.",
-    price: "From £7,500",
-    duration: "3 to 6 weeks",
-  },
-  {
-    slug: "agentic-platform",
-    name: "Company AI platform",
-    what: "Company-wide AI on accounts you own. Your team searches and asks across the CRM, documents and email from one workspace, agents take on the repeat work, and every release is checked against questions your team has signed off.",
-    includes: [
-      "Search across your CRM, documents, email and drives, with every answer linked to its source",
-      "One chat workspace for every team, with a choice of models including Claude, ChatGPT and Gemini",
-      "Agents that do the repeat work, with your team approving what goes out",
-      "Answers checked on every release against questions your team has signed off",
-      "Access that follows your existing permissions, with usage and cost per person",
-    ],
-    under: "Enterprise search and chat: Open WebUI over the Context Engine (hybrid RAG), agents on n8n, an eval suite run per release, a model gateway, per-user access, usage and cost tracking.",
-    price: "From £7,500 a phase",
-    duration: "Each phase 4 to 8 weeks",
-  },
-  {
-    slug: "support",
-    name: "Managed service",
-    what: "Once a system is live, we look after it. We keep it working as your tools, team and customers change, make small changes each month, and go through the numbers with you.",
-    includes: [
-      "Monitoring, and fixing what breaks",
-      "Small changes as your business changes",
-      "A monthly report and review call",
-    ],
-    under: "Run monitoring and alerts, error handling, usage and cost tracking, change control.",
-    price: "From £1,000 a month",
-    duration: "Month to month",
-  },
+  service(copyAudit, "audit", "From £450", "Usually 1 to 2 weeks"),
+  service(copyWorkshop, "workshop", "From £950", "Half or full day"),
+  service(copyTraining, "training", "From £950 a day", "Set up in a week, sessions over 2 to 4 weeks"),
+  service(copyContextEngineService, "context-engine", "From £5,000", "Working on your data in days, live in 3 to 6 weeks"),
+  service(copyWorkflows, "agentic-workflows", "From £1,500 per workflow", "Each workflow live in 1 to 2 weeks"),
+  service(copyApps, "apps-dashboards", "From £7,500", "3 to 6 weeks"),
+  service(copyPlatform, "agentic-platform", "From £7,500 a phase", "Each phase 4 to 8 weeks"),
+  service(copySupport, "support", "From £1,000 a month", "Month to month"),
 ];
 
 // The standalone portal demo's page title and description, shared with its
@@ -351,9 +253,9 @@ export const prospectingDemo = {
 // The three groups the services sit in (AI³ method, kept by Pedro): on
 // /services and in the header's Services menu.
 export const serviceGroups = [
-  { name: "Start", slugs: ["audit", "workshop", "training"] },
-  { name: "Build", slugs: ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"] },
-  { name: "Run", slugs: ["support"] },
+  { name: svc.t("group.start"), slugs: ["audit", "workshop", "training"] },
+  { name: svc.t("group.build"), slugs: ["context-engine", "agentic-workflows", "apps-dashboards", "agentic-platform"] },
+  { name: svc.t("group.run"), slugs: ["support"] },
 ];
 
 // How to start, for agents (#564): the same offer the pages make, with the

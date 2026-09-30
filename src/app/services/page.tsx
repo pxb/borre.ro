@@ -8,11 +8,15 @@ import { CasePreview, PlatformPreview } from "@/components/demo/previews";
 import { costNotes, ctaFor, serviceFor, serviceGroups, site, startWhy, type ServiceCategory } from "@/content/site";
 import { Figure } from "@/components/figure";
 import { servicePages } from "@/content/service-pages";
+import { words } from "@/content/copy";
+import copyServices from "@/content/copy.gen/services";
+
+// The words: src/content/copy/services.md (#561).
+const w = words(copyServices);
 
 export const metadata: Metadata = pageMeta({
-  title: "Services",
-  description:
-    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, workflow automation, custom apps and dashboards, a company AI platform, and a managed service to keep it running.",
+  title: w.t("meta.title"),
+  description: w.t("meta.description"),
   path: "/services",
 });
 
@@ -80,10 +84,10 @@ function GroupHead({ id, children }: { id: string; children: React.ReactNode }) 
 
 export default function Services() {
   return (
-    <Page title="Services" bare>
+    <Page title={w.t("heading")} bare>
       {/* Start: side by side. */}
       <section aria-labelledby="start" className="pt-12 pb-20 sm:pt-16">
-        <GroupHead id="start">Start</GroupHead>
+        <GroupHead id="start">{serviceGroups[0].name}</GroupHead>
         <div className="mt-6 grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
           {pick(START).map((s) => (
             <article key={s.slug} id={s.slug} className="scroll-mt-28">
@@ -99,7 +103,7 @@ export default function Services() {
         <div className="mt-14 max-w-2xl">
           <Figure value={startWhy.stat} beside tone="ink">
             <p className="text-ink-soft">
-              {startWhy.claim.charAt(0).toUpperCase() + startWhy.claim.slice(1)}.{" "}
+              <span>{startWhy.claim.charAt(0).toUpperCase() + startWhy.claim.slice(1)}.</span>{" "}
               <a href={startWhy.href} target="_blank" rel="noreferrer" className="text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
                 {startWhy.source}
               </a>
@@ -114,7 +118,7 @@ export default function Services() {
 
       {/* Build: each beside the product it makes. */}
       <section aria-labelledby="build" className="pb-8">
-        <GroupHead id="build">Build</GroupHead>
+        <GroupHead id="build">{serviceGroups[1].name}</GroupHead>
         {pick(BUILD).map((s, i) => {
           const still = STILL[s.slug];
           return (
@@ -129,7 +133,7 @@ export default function Services() {
                 {still ? (
                   <Link
                     href={`/work/${still}`}
-                    aria-label={`${s.name}: see the case study`}
+                    aria-label={w.t("preview-case").replace("{name}", s.name)}
                     className="block min-w-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
                   >
                     <CasePreview slug={still} />
@@ -138,7 +142,7 @@ export default function Services() {
                   // No case study yet: the workspace it makes, linked to its page.
                   <Link
                     href={`/services/${s.slug}`}
-                    aria-label={`${s.name}: see the service`}
+                    aria-label={w.t("preview-service").replace("{name}", s.name)}
                     className="block min-w-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
                   >
                     <PlatformPreview />
@@ -151,7 +155,7 @@ export default function Services() {
 
       {/* Run: the managed service as the loop it is. */}
       <section aria-labelledby="run" className="pt-12 pb-16">
-        <GroupHead id="run">Run</GroupHead>
+        <GroupHead id="run">{serviceGroups[2].name}</GroupHead>
         {pick(["support"]).map((s) => (
           <article
             key={s.slug}
@@ -170,14 +174,14 @@ export default function Services() {
 
       {/* For the reader who can't yet say which of the eight they need. */}
       <p className="border-t border-rule py-10 text-lg text-ink">
-        Not sure where to start?{" "}
+        {w.t("scorecard.lead")}{" "}
         <Link href="/scorecard" className={LINK}>
-          Take the readiness scorecard
+          {w.t("scorecard.link")}
         </Link>
       </p>
 
       <section id="pricing" className="scroll-mt-28 border-t border-rule py-16">
-        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">Pricing</h2>
+        <h2 className="text-2xl font-medium tracking-[-0.01em] text-ink">{w.t("pricing.heading")}</h2>
         <div className="mt-10 grid gap-10 sm:grid-cols-3">
           {costNotes.map((c) => (
             <div key={c.title}>
@@ -189,7 +193,7 @@ export default function Services() {
         <p className="mt-10 text-sm text-ink-soft">
           {site.vatNote}{" "}
           <Link href="/security" className={LINK}>
-            How we look after your data
+            {w.t("security-link")}
           </Link>
         </p>
       </section>
