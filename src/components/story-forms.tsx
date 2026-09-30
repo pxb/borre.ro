@@ -8,6 +8,8 @@ import { AskDemo } from "@/components/ask-demo";
 import { Figure } from "@/components/figure";
 import { After, DrawLine, DrawRing, useMotionOn } from "@/components/draw";
 import { servicePages } from "@/content/service-pages";
+import { words } from "@/content/copy";
+import copyServices from "@/content/copy.gen/services";
 import { evidence, upside } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
@@ -564,7 +566,7 @@ const STOP_XY = [
 ] as const;
 
 export function LoopShape({ at = null }: { at?: number | null }) {
-  const p = usePick(SUPPORT.length, "Managed service", at);
+  const p = usePick(SUPPORT.length, loopWords.t("loop.label"), at);
   const moving = useMotionOn();
   // The dot runs along the ring by angle, always forward (clockwise), so a
   // loop reads as a loop. Degrees from the top stop.
@@ -688,11 +690,7 @@ const AI3 = [
 
 // Clockwise from the top. Headlines only; the full list is the managed
 // service on /services.
-const SUPPORT = ["Monitor and fix", "Adapt as you change", "Report usage and cost", "Monthly KPI review"];
-// One line each, from the managed service's own page and scope.
-const SUPPORT_DETAIL = [
-  "We watch every run and fix what breaks.",
-  "Small changes as your tools, team and customers change.",
-  "What ran, what it cost and what changed, every month.",
-  "A call on the numbers and what to do next.",
-];
+// The loop's words: src/content/copy/services.md (#561).
+const loopWords = words(copyServices);
+const SUPPORT = [1, 2, 3, 4].map((i) => loopWords.t(`loop.${i}.title`));
+const SUPPORT_DETAIL = [1, 2, 3, 4].map((i) => loopWords.t(`loop.${i}.text`));

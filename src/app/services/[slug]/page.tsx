@@ -8,11 +8,16 @@ import { Figure } from "@/components/figure";
 import { CasePreview, PlatformPreview } from "@/components/demo/previews";
 import { ctaFor, proofFor, serviceCategories, serviceFor, site } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
+import { words } from "@/content/copy";
+import copyServices from "@/content/copy.gen/services";
 
 // One page per service, in the order a buyer decides (#602): the outcome in
 // the lead, their problem, what they get, how it runs, a case study, the price,
 // the questions they ask. Each thing said once. The button names the service at the top; the footer
 // band closes on the same button.
+// Labels shared by every service page: src/content/copy/services.md (#561).
+const w = words(copyServices);
+
 export function generateStaticParams() {
   return serviceCategories.map((s) => ({ slug: s.slug }));
 }
@@ -69,17 +74,17 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         </Link>
       }
     >
-      <Row label="The problem">
+      <Row label={w.t("label.problem")}>
         <p className="max-w-2xl text-lg leading-relaxed text-ink">{page.problem}</p>
       </Row>
 
-      <Row label="What you get">
+      <Row label={w.t("label.includes")}>
         <div className="max-w-2xl">
           <List items={s.includes} />
         </div>
       </Row>
 
-      <Row label="How it runs">
+      <Row label={w.t("label.steps")}>
         <ol className={`grid gap-8 sm:grid-cols-2 ${page.steps.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
           {page.steps.map((step, i) => (
             <li key={step.t}>
@@ -92,7 +97,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
       </Row>
 
       {lead ? (
-        <Row label={more.length ? "Case studies" : "Case study"}>
+        <Row label={more.length ? w.t("label.case-studies") : w.t("label.case-study")}>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
             <div className="min-w-0">
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">
@@ -110,7 +115,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
               ) : null}
               {more.length ? (
                 <p className="mt-6 text-sm text-ink-soft">
-                  Also:{" "}
+                  {w.t("label.also")}{" "}
                   {more.map((w, i) => (
                     <span key={w.slug}>
                       {i ? " · " : ""}
@@ -125,7 +130,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
             </div>
             <Link
               href={`/work/${lead.slug}`}
-              aria-label={`${lead.title}: see the case study`}
+              aria-label={w.t("preview-case").replace("{name}", lead.title)}
               className="block min-w-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-accent"
             >
               <CasePreview slug={lead.slug} />
@@ -136,14 +141,14 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
 
       {/* A service with no case study yet shows the product it makes. */}
       {!lead && slug === "agentic-platform" ? (
-        <Row label="Example">
+        <Row label={w.t("label.example")}>
           <div className="max-w-xl">
             <PlatformPreview />
           </div>
         </Row>
       ) : null}
 
-      <Row label="Price">
+      <Row label={w.t("label.price")}>
         <p className="font-medium text-ink">
           {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
         </p>
@@ -151,7 +156,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         <p className="mt-3 text-sm text-ink-soft">{site.vatNote}</p>
       </Row>
 
-      <Row label="Questions">
+      <Row label={w.t("label.questions")}>
         <dl className="max-w-2xl space-y-6">
           {page.faqs.map((f) => (
             <div key={f.q}>
@@ -166,13 +171,13 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
           below the questions so an owner reads the value first (2026-09-30:
           a reviewer found the page leaned technical where it sat under
           "What you get"). */}
-      <Row label="Built with">
+      <Row label={w.t("label.built-with")}>
         <p className="max-w-2xl text-sm leading-relaxed text-ink-soft">{s.under}</p>
       </Row>
 
       {/* Where buyers usually go next, one line (#583). */}
       {next ? (
-        <Row label="Next step">
+        <Row label={w.t("label.next")}>
           <p className="text-lg text-ink">
             <Link href={`/services/${next.slug}`} className={`font-medium ${LINK}`}>
               {next.name}
