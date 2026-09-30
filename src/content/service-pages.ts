@@ -11,14 +11,8 @@ export type ServicePage = {
   cta: string; // the button, naming the service
   problem: string; // the buyer's situation, in their terms
   steps: { t: string; d: string }[]; // how it runs, 3 or 4 steps
-  priceNote?: string; // one commercial term beside the price
+  priceNote?: string; // one commercial term beside the price; the detail is in the scope sheet
   faqs: { q: string; a: string }[];
-};
-
-// Where the in-person services run.
-const ONSITE_FAQ = {
-  q: "Can you come to us?",
-  a: "Yes, in London and the South West. We can also run it remotely.",
 };
 
 // Asked of every service that touches business data.
@@ -58,7 +52,6 @@ export const servicePages: Record<string, ServicePage> = {
     faqs: [
       { q: "Who should attend?", a: "The people who set priorities and budgets. Usually the owner and the heads of sales, operations and finance." },
       { q: "Half day or full day?", a: "A half day is enough to agree priorities. A full day leaves time to work through your own processes in detail." },
-      ONSITE_FAQ,
     ],
   },
   training: {
@@ -74,7 +67,6 @@ export const servicePages: Record<string, ServicePage> = {
     faqs: [
       { q: "Which tools do you work with?", a: "ChatGPT, Claude, Copilot and Gemini, on your own company account." },
       { q: "How many days will we need?", a: "We agree the number before we start, based on the size of the team and the work they do." },
-      ONSITE_FAQ,
     ],
   },
   "context-engine": {
@@ -88,6 +80,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Sign-off", d: "Your team confirms the facts it will rely on." },
       { t: "Live", d: "In your AI tools and updated on a schedule." },
     ],
+    priceNote: "Includes 30 days of fixes after go-live.",
     faqs: [
       { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
       { q: "Where does our data live?", a: "On accounts in your name. If we stop working together, you keep all of it." },
@@ -105,6 +98,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Test", d: "Your team tests it and approves what it produces." },
       { t: "Live", d: "Each workflow live in one to two weeks." },
     ],
+    priceNote: "Includes 30 days of fixes after go-live.",
     faqs: [
       { q: "Which CRMs do you work with?", a: "HubSpot, Salesforce, Pipedrive and any other CRM with an API." },
       { q: "Does anything go out without us seeing it?", a: "Your team approves every email and CRM update before it's sent or saved." },
@@ -122,6 +116,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Build", d: "On your own data and accounts." },
       { t: "Test", d: "One of your team runs the job in it and signs it off." },
     ],
+    priceNote: "Includes 30 days of fixes after go-live.",
     faqs: [
       { q: "Who owns it?", a: "You do. It runs on accounts in your name." },
       { q: "How do people sign in?", a: "With a link sent to their work email." },
@@ -138,6 +133,7 @@ export const servicePages: Record<string, ServicePage> = {
       { t: "Build", d: "Each phase built and checked with the people who will use it." },
       { t: "Roll out", d: "Team by team, with access and costs you can see." },
     ],
+    priceNote: "Includes 30 days of fixes after each phase goes live.",
     faqs: [
       { q: "Which models can we use?", a: "A choice including Claude, ChatGPT, Gemini and Grok." },
       DATA_FAQ,

@@ -49,6 +49,7 @@ const jsonLd = {
   slogan: site.role,
   description: site.summary,
   areaServed: "GB",
+  address: { "@type": "PostalAddress", addressLocality: site.location, addressCountry: "GB" },
   founder: { "@type": "Person", name: site.founder, sameAs: [site.linkedin] },
   knowsAbout: [
     "Revenue operations",
@@ -147,6 +148,7 @@ function Footer() {
               </a>
               .
             </p>
+            <p className="mt-2 text-ink-soft">{site.location}</p>
           </div>
 
           <FooterCol

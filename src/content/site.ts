@@ -37,6 +37,9 @@ export const site = {
   // The address is a business address service, never Pedro's home (Pedro,
   // 2026-09-28); empty hides it until he has one.
   address: "",
+  // Where we are, so buyers can place us (Pedro, 2026-09-30). An area, not an
+  // address: it does not meet reg 6, which still waits on `address`.
+  location: "Chiswick, London",
   // Reg 6(2): where prices are shown, say whether they include VAT.
   // Pedro is not VAT registered (2026-09-28).
   vatNote: "We're not VAT registered, so no VAT is added to our prices.",
