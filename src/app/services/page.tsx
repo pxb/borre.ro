@@ -11,7 +11,7 @@ import { servicePages } from "@/content/service-pages";
 export const metadata: Metadata = pageMeta({
   title: "Services",
   description:
-    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, agentic workflows, custom apps and dashboards, a full agentic platform, and a managed service to keep it running.",
+    "AI services for small and medium-sized UK businesses, with prices: an AI readiness audit, a leadership workshop, training and setup, a Context Engine, workflow automation, custom apps and dashboards, a full agentic platform, and a managed service to keep it running.",
   path: "/services",
 });
 
@@ -34,7 +34,8 @@ const LINK =
 const pick = (slugs: string[]) => slugs.map(serviceFor).filter((s): s is ServiceCategory => s != null);
 
 // Each service in short (#602): its name linking to its own page, the price,
-// one line of value, and its own button. The detail lives on the page.
+// one line of value, and its own button. The detail lives on the page, one click
+// from the name.
 function Summary({ s }: { s: ServiceCategory }) {
   const page = servicePages[s.slug];
   const cta = ctaFor(`/services/${s.slug}`);
@@ -50,13 +51,10 @@ function Summary({ s }: { s: ServiceCategory }) {
       </h3>
       <Price s={s} />
       <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{page?.line ?? s.what}</p>
-      <p className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+      <p className="mt-5 text-sm">
         <Link href={cta.href} data-track="cta" data-track-where="services" data-track-service={s.slug} className={`inline-flex min-h-11 items-center font-medium sm:min-h-0 ${LINK}`}>
           {cta.label}
           <ArrowRight aria-hidden className="ml-1 inline size-3.5" />
-        </Link>
-        <Link href={`/services/${s.slug}`} className={`inline-flex min-h-11 items-center sm:min-h-0 ${LINK}`}>
-          How it works
         </Link>
       </p>
     </>

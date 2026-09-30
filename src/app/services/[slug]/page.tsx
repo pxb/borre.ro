@@ -9,8 +9,8 @@ import { CasePreview } from "@/components/demo/previews";
 import { ctaFor, proofFor, serviceCategories, serviceFor, site } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
 
-// One page per service, in the order a buyer decides (#602): who it's for,
-// what changes, what you get, how it works, proof, price and timing, the
+// One page per service, in the order a buyer decides (#602): their problem,
+// what we do about it, what they get, how it runs, a case study, the price, the
 // questions they ask. The button names the service at the top; the footer
 // band closes on the same button.
 export function generateStaticParams() {
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const page = servicePages[slug];
   if (!s || !page) return {};
   const path = `/services/${s.slug}`;
-  return pageMeta({ title: s.name, description: `${page.line} ${s.what}`, path, image: { url: `${path}/opengraph-image`, alt: s.name } });
+  return pageMeta({ title: s.name, description: `${page.line} ${page.answer}`, path, image: { url: `${path}/opengraph-image`, alt: s.name } });
 }
 
 const LINK =
@@ -68,17 +68,15 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         </Link>
       }
     >
-      <Row label="Who it's for">
-        <div className="max-w-2xl space-y-4">
-          <p className="text-lg leading-relaxed text-ink">{page.forWho}</p>
-          <p className="leading-relaxed text-ink-soft">{s.what}</p>
-        </div>
+      <Row label="The problem">
+        <p className="max-w-2xl text-lg leading-relaxed text-ink">{page.problem}</p>
       </Row>
 
-      <Row label="What changes">
+      <Row label="What we do">
+        <p className="max-w-2xl leading-relaxed text-ink">{page.answer}</p>
         {/* The upside, so each outcome carries the accent mark (DESIGN.md). */}
-        <ul className="grid gap-8 sm:grid-cols-3">
-          {page.changes.map((c) => (
+        <ul className="mt-10 grid gap-8 sm:grid-cols-3">
+          {page.outcomes.map((c) => (
             <li key={c} className="leading-snug text-ink">
               <span aria-hidden="true" className="mb-4 block h-1 w-10 bg-accent" />
               {c}
@@ -94,7 +92,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         </div>
       </Row>
 
-      <Row label="How it works">
+      <Row label="How it runs">
         <ol className={`grid gap-8 sm:grid-cols-2 ${page.steps.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
           {page.steps.map((step, i) => (
             <li key={step.t}>
@@ -107,7 +105,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
       </Row>
 
       {lead ? (
-        <Row label="In practice">
+        <Row label={more.length ? "Case studies" : "Case study"}>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
             <div className="min-w-0">
               <h3 className="text-xl font-medium tracking-[-0.01em] text-ink">
@@ -123,17 +121,20 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
                   </Figure>
                 </div>
               ) : null}
-              <p className="mt-6 text-sm text-ink-soft">
-                {[lead, ...more].map((w, i) => (
-                  <span key={w.slug}>
-                    {i ? " · " : ""}
-                    <Link href={`/work/${w.slug}`} className={`whitespace-nowrap ${LINK}`}>
-                      {i ? w.title : "See the case study"}
-                      <ArrowRight aria-hidden className="ml-1 inline size-3.5 align-[-2px]" />
-                    </Link>
-                  </span>
-                ))}
-              </p>
+              {more.length ? (
+                <p className="mt-6 text-sm text-ink-soft">
+                  Also:{" "}
+                  {more.map((w, i) => (
+                    <span key={w.slug}>
+                      {i ? " · " : ""}
+                      <Link href={`/work/${w.slug}`} className={`whitespace-nowrap ${LINK}`}>
+                        {w.title}
+                        <ArrowRight aria-hidden className="ml-1 inline size-3.5 align-[-2px]" />
+                      </Link>
+                    </span>
+                  ))}
+                </p>
+              ) : null}
             </div>
             <Link
               href={`/work/${lead.slug}`}
@@ -146,19 +147,14 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
         </Row>
       ) : null}
 
-      <Row label="Price and timing">
+      <Row label="Price">
         <p className="font-medium text-ink">
           {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
         </p>
-        <p className="mt-3 text-sm text-ink-soft">
-          {site.vatNote}{" "}
-          <Link href="/services#pricing" className={LINK}>
-            How our pricing works
-          </Link>
-        </p>
+        <p className="mt-3 text-sm text-ink-soft">{site.vatNote}</p>
       </Row>
 
-      <Row label="Common questions">
+      <Row label="Questions">
         <dl className="max-w-2xl space-y-6">
           {page.faqs.map((f) => (
             <div key={f.q}>

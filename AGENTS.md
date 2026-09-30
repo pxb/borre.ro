@@ -104,8 +104,10 @@ site-wide fixed `OfferBar`.
 ## Service pages (#602, 2026-09-29)
 
 Pedro: the site sells, the scope protects. /services is a short overview; every service has its own
-page at `/services/<slug>`, in the order a buyer decides: who it's for, what changes, what you get,
-how it works, proof (the case studies that use it), price and timing (small), common questions. Page
+page at `/services/<slug>`, in the order a buyer decides: the problem (the buyer's situation in their
+terms), what we do (with the outcomes), what you get, how it runs, the case studies that use it, the
+price (small), questions (the objections competitors' pages answer: who builds it, who takes part,
+who owns it). Row labels are plain business words, never "who it's for" or "where it pays". Page
 content lives in `src/content/service-pages.ts`; name, what, includes, price and duration stay in
 `serviceCategories` so the overview and the page cannot drift. Scope, exclusions and change terms
 never go on the site: they live in the scope sheet shared with a proposal (#603). Positive wording

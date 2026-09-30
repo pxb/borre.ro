@@ -661,4 +661,4 @@ const AI3 = [
 
 // Clockwise from the top. Headlines only; the full list is the managed
 // service on /services.
-const SUPPORT = ["Monitor and fix", "Adapt as you change", "Add new workflows", "Monthly KPI review"];
+const SUPPORT = ["Monitor and fix", "Adapt as you change", "Report usage and cost", "Monthly KPI review"];
