@@ -291,7 +291,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          // "<" escaped so no text in the data (copy files included, #561) can close the tag.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
         <Header />
         <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
