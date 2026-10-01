@@ -193,6 +193,7 @@ function deck(out = join(ROOT, "COPY.md")) {
   const base = git("rev-parse", "--short=10", "HEAD");
   const all = pages().sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
   const head =
+    `---\ntags: [project, ai-cubed, website, copy]\nstatus: working-copy\nbase: ${base}\n---\n\n` +
     `# borre.ro copy\n\n` +
     `> Every word on the site, page by page. Change the words under any "##" heading; lines starting ">" are notes (where the words show, and a budget in characters).\n` +
     `> Keep the "#" and "##" headings as they are, and keep lists as lists ("- " per line). Figures and prices are in the site's code, not here.\n` +
