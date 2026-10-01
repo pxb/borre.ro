@@ -12,22 +12,21 @@ Every word on the site lives in these files, one per page. Change the words, and
 - `{title}` or `{n}` inside a line is filled in by the site. Keep it.
 - The lines at the top between `---` (route, also, shared) tell the site and the review mode where the words appear. Leave them.
 
-## Reviewing and editing
+## Two ways to edit
 
-**In Obsidian, with the page beside it (desktop).** Open `Lab/borre-copy/src/content/copy` as its own vault. It's a separate working copy on the `copy` branch, so nothing you do there touches the live site. Ask Claude to start live editing (or run `npm run copy:live` in `Lab/borre-copy`) and open http://localhost:3012. Every save shows on the page within a second or two.
+**1. On the page.** Open the copy preview, https://borre-ro-git-copy-pedro-borrero.vercel.app/?copy (logged in to Vercel, any device). Every editable line has a dashed outline; click one, rewrite it in place and watch the count against its budget (Enter keeps, Esc undoes). Move from page to page: the panel keeps one list of all your changes. "Copy changes", paste the list to Claude. Best for tweaks, in context.
 
-**On the page itself.** Add `?copy` to any preview or local address. Every line from these files gets a dashed outline; click one to edit it in place, with a count against its budget (Enter keeps, Esc undoes). Nothing is saved: the panel collects your changes, and "Copy changes" gives you a list to paste back to Claude. `?copy=off` or Exit leaves review mode. The live site never has it.
+**2. The copy note in your vault.** `01 Projects/AI Cubed/borre.ro Copy.md`: every word on the site in one note, a heading per page, synced to all your devices. Rewrite anything under a "##" heading, then tell Claude "apply the copy note". Only the lines you changed are applied; a line that changed on the site since the note was made is flagged, never overwritten. Ask for a fresh note after a publish. Best for rewriting whole pages.
 
-One catch: when two files hold exactly the same words (a case study called "Context Engine" on the Context Engine service page), the page credits the line to its own file. If an edit lands in the wrong place, say which you meant. Lines with `{n}` in them (the homepage headlines) can't be edited on the page; change them in `home.md`.
+Either way the edits land on the `copy` branch and go live only when you approve the preview.
 
-**The whole site in one read.** Ask Claude for the deck (`COPY.md`), mark it up and pass it back.
+One catch on the page: when two files hold exactly the same words (a case study called "Context Engine" on the Context Engine service page), the line is credited to the page's own file. Lines with `{n}` in them (the homepage headlines) can't be edited on the page; change them in the note.
 
 ## Nothing publishes by itself
 
-- Your edits live on the `copy` branch in `Lab/borre-copy`. The live site only changes when that branch is merged into `main`, and that only happens when you say so.
+- Your edits are applied to the `copy` branch. The live site only changes when that branch is merged into `main`, and that only happens when you say so.
 - When you're ready, tell Claude "publish the copy". Claude commits your edits, pushes the branch and checks the Vercel preview and the layout. You look at the preview and approve, and only then is it merged and tagged.
 - Every change is a commit with a diff you can read, and any version can be brought back.
-- Don't add an auto-commit or auto-push plugin to this vault, and keep it out of LiveSync.
 
 ## If the build fails
 

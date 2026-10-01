@@ -17,6 +17,7 @@
 // fails, when a line runs over, because a longer line may still fit.
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync, existsSync, watch } from "node:fs";
 import { join, dirname } from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -176,43 +177,127 @@ const rank = (n) => {
   return i < 0 ? ORDER.length : i;
 };
 
+// The deck: every page file in one document, for reading and editing in one
+// place (Pedro keeps it in his vault, so it syncs to every device). Each page
+// is a "# file.md" heading, its slots the "##" headings under it. The deck
+// records the commit it was made from, so `apply` can tell Pedro's edits from
+// changes made in the repo since, and never overwrite the latter.
+const git = (...args) => execFileSync("git", args, { cwd: ROOT, encoding: "utf-8" }).trim();
+const stripFront = (text) => text.replace(/\r\n/g, "\n").replace(/^---\n[\s\S]*?\n---\n?/, "");
+
 function deck(out = join(ROOT, "COPY.md")) {
+  if (git("status", "--porcelain", "--", "src/content/copy")) {
+    console.error("copy: src/content/copy has uncommitted changes; commit them first, so the deck's base is exact");
+    process.exit(1);
+  }
+  const base = git("rev-parse", "--short=10", "HEAD");
   const all = pages().sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
   const head =
-    `# borre.ro: every word on the site\n\n` +
-    `> Generated ${new Date().toISOString().slice(0, 10)} from src/content/copy. Edit the words under any "##" heading.\n` +
-    `> Keep the "##" headings and the "<!-- file: ... -->" lines as they are: they are how the edits find their way back.\n` +
-    `> Lines starting ">" are notes: budgets in characters, and what must not change (figures and their sources).\n` +
-    `> Lists stay lists: one "- " line per item.\n\n`;
-  const body = all.map((p) => `<!-- file: ${p.file} -->\n${p.text.replace(/\r\n/g, "\n").trim()}\n`).join("\n---\n\n");
+    `# borre.ro copy\n\n` +
+    `> Every word on the site, page by page. Change the words under any "##" heading; lines starting ">" are notes (where the words show, and a budget in characters).\n` +
+    `> Keep the "#" and "##" headings as they are, and keep lists as lists ("- " per line). Figures and prices are in the site's code, not here.\n` +
+    `> When you're done, tell Claude "apply the copy note". Only the lines you changed are applied, on the copy branch, and nothing goes live until you approve the preview.\n` +
+    `> Base: ${base} (${new Date().toISOString().slice(0, 10)}). Leave this line as it is.\n\n`;
+  const body = all
+    .map((p) => {
+      const page = (p.text.match(/^page:\s*(.+)$/m) ?? [])[1];
+      return `# ${p.file}${page ? ` · ${page}` : ""}\n\n${stripFront(p.text).trim()}\n`;
+    })
+    .join("\n");
   writeFileSync(out, head + body);
-  console.log(`copy: wrote ${out} (${all.length} pages)`);
+  console.log(`copy: wrote ${out} (${all.length} pages, base ${base})`);
 }
 
+// Slot bodies by file, from a deck or a page file: { "home.md": { "hero.summary": ["line", ...] } }.
+function deckSlots(text) {
+  const files = {};
+  const parts = text.replace(/\r\n/g, "\n").split(/^# ([a-z0-9-]+\.md)\b.*$/m);
+  for (let i = 1; i < parts.length; i += 2) files[parts[i]] = bodies(parts[i + 1]);
+  return files;
+}
+function bodies(text) {
+  const out = {};
+  const parts = stripFront(text).split(/^## /m);
+  for (const part of parts.slice(1)) {
+    const nl = part.indexOf("\n");
+    const key = (nl < 0 ? part : part.slice(0, nl)).trim();
+    const lines = (nl < 0 ? "" : part.slice(nl + 1)).split("\n").filter((l) => !/^>\s?/.test(l));
+    while (lines.length && !lines[0].trim()) lines.shift();
+    while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+    out[key] = lines.map((l) => l.trimEnd());
+  }
+  return out;
+}
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+// Applies a deck: three-way, slot by slot. For each slot the deck changed
+// since its base commit, the page file must still hold the base words;
+// otherwise it is a conflict and nothing is written. Notes are never changed.
 function apply(file) {
-  const text = readFileSync(file, "utf-8").replace(/\r\n/g, "\n");
-  const chunks = text.split(/^<!-- file: (.+?\.md) -->\n/m);
-  let changed = 0;
-  for (let i = 1; i < chunks.length; i += 2) {
-    const name = chunks[i];
-    const content = chunks[i + 1].replace(/\n---\n*$/, "").trim() + "\n";
+  const text = readFileSync(file, "utf-8");
+  const base = (text.match(/^> Base: ([0-9a-f]{7,40})\b/m) ?? [])[1];
+  if (!base) {
+    console.error('copy: the deck has no "> Base:" line, so its edits can\'t be told apart from newer changes; ask for a fresh deck');
+    process.exit(1);
+  }
+  const edited = deckSlots(text);
+  const edits = [];
+  const conflicts = [];
+  for (const [name, slots] of Object.entries(edited)) {
     const target = join(SRC, name);
     if (!existsSync(target)) {
       console.error(`copy: ${name} is not a page file; skipped`);
       continue;
     }
-    const { errors } = parse(name, content);
-    if (errors.length) {
-      for (const e of errors) console.error(`copy: ${e}`);
-      process.exit(1);
+    let baseText;
+    try {
+      baseText = git("show", `${base}:src/content/copy/${name}`);
+    } catch {
+      console.error(`copy: ${name} isn't in the base commit ${base}; skipped`);
+      continue;
     }
-    if (readFileSync(target, "utf-8").replace(/\r\n/g, "\n") !== content) {
-      writeFileSync(target, content);
-      changed++;
-      console.log(`copy: updated ${name}`);
+    const was = bodies(baseText);
+    const now = bodies(readFileSync(target, "utf-8"));
+    for (const [key, lines] of Object.entries(slots)) {
+      if (!(key in was)) {
+        console.error(`copy: ${name} "## ${key}" is new or renamed; slots are added in code, so it was skipped`);
+        continue;
+      }
+      if (same(lines, was[key])) continue; // not edited in the deck
+      if (!(key in now)) conflicts.push(`${name} ## ${key}: the slot no longer exists`);
+      else if (same(now[key], lines)) continue; // already applied
+      else if (!same(now[key], was[key])) conflicts.push(`${name} ## ${key}: changed in the repo since the deck was made`);
+      else edits.push({ name, key, lines });
     }
   }
-  console.log(`copy: ${changed} page file(s) changed`);
+  if (conflicts.length) {
+    for (const c of conflicts) console.error(`copy: conflict: ${c}`);
+    console.error("copy: nothing written. Ask for a fresh deck, or say which version to keep.");
+    process.exit(1);
+  }
+  const touched = new Map();
+  for (const e of edits) {
+    const target = join(SRC, e.name);
+    const src = touched.get(e.name) ?? readFileSync(target, "utf-8").replace(/\r\n/g, "\n");
+    const start = src.search(new RegExp(`^## ${e.key.replace(/\./g, "\\.")}$`, "m"));
+    const next = src.slice(start + 3).search(/^## /m);
+    const end = next < 0 ? src.length : start + 3 + next;
+    const section = src.slice(start, end).split("\n");
+    const notes = section.slice(1).filter((l) => /^>\s?/.test(l));
+    const rebuilt = [section[0], ...notes, ...e.lines].join("\n") + (next < 0 ? "\n" : "\n\n");
+    touched.set(e.name, src.slice(0, start) + rebuilt + src.slice(end));
+  }
+  for (const [name, content] of touched) {
+    const { errors } = parse(name, content);
+    if (errors.length) {
+      for (const err of errors) console.error(`copy: ${err}`);
+      console.error("copy: nothing written.");
+      process.exit(1);
+    }
+  }
+  for (const [name, content] of touched) writeFileSync(join(SRC, name), content);
+  for (const e of edits) console.log(`copy: applied ${e.name} ## ${e.key}`);
+  console.log(`copy: ${edits.length} slot(s) changed in ${touched.size} file(s)`);
 }
 
 const [cmd, arg] = process.argv.slice(2);

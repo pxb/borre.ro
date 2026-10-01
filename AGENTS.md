@@ -497,7 +497,14 @@ with the file and heading named. Figures, sources, URLs, slugs, prices, timings 
 `Lab/borre-tools/text-snapshot.py` before and after must print "identical". After any copy change run
 the layout checks (`cdp-slide-fit`, `cdp-mobile-pass`, `cdp-route-audit`, `cdp-story`). The dev
 launch config calls `next dev` directly, so run `npm run copy -- build` first when copy has changed.
-Writer's guide for Pedro: `src/content/copy/_README.md`.
+Writer's guide for Pedro: `src/content/copy/_README.md`. Pedro edits two ways (2026-10-01, simplified from three): `?copy` on the
+`copy` branch's preview (change list applied with `npm run copy -- changes <file>`), and the copy note in his
+vault, `01 Projects/AI Cubed/borre.ro Copy.md`, written by `npm run copy -- deck <path>` (a `# file.md` heading
+per page, the base commit on a "> Base:" line; refuses to run with uncommitted copy changes) and applied by
+`npm run copy -- apply <path>`: three-way per slot against the base commit, so only slots Pedro changed are
+written, a slot changed in the repo since the base is a conflict and nothing is written, notes are never
+changed, and new slot names are skipped. Refresh the note only when Pedro asks (or after a publish), never
+while he may be editing it on another device (LiveSync).
 
 **Review mode and live editing (2026-09-30).** `?copy` on any preview or local page loads
 `copy-review.tsx` (through `copy-review-loader.tsx`; `COPY_REVIEW` is set in next.config.ts from
