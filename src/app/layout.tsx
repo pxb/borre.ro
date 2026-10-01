@@ -276,7 +276,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* For agents: the plain-text summary and the MCP server (#564). */}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
         <link rel="alternate" type="application/json" href="/api/mcp" title="MCP server" />
-        <link rel="alternate" type="application/rss+xml" href="/newsletter/feed.xml" title="The Boring Bits" />
+        <link rel="alternate" type="application/rss+xml" href="/newsletter/feed.xml" title={site.newsletter.name} />
       </head>
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         <a

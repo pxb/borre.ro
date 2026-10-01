@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Figure } from "@/components/figure";
-import { questions, result, SCORECARD_KEY, SHARE, type Answers } from "@/content/scorecard";
+import { questions, result, SCORECARD_KEY, scorecardWords as w, SHARE, type Answers } from "@/content/scorecard";
+import { fill } from "@/components/fill";
 import { servicePages } from "@/content/service-pages";
 import { ctaFor, serviceFor } from "@/content/site";
 
@@ -74,7 +75,7 @@ export function Scorecard() {
       </ol>
 
       <section aria-live="polite" className="grid gap-6 py-12 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-16">
-        <h2 className="label">Your result</h2>
+        <h2 className="label">{w.t("result.label")}</h2>
         {r && s && cta ? (
           <div className="min-w-0">
             <p className="text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-tight tracking-[-0.02em] text-ink">{r.band.name}</p>
@@ -83,18 +84,21 @@ export function Scorecard() {
             <div className="mt-10 max-w-md">
               <Figure value={`${r.low} to ${r.high}`}>
                 <span className="block text-sm text-ink-soft">
-                  hours a week back, estimated. About {Math.round(r.weekly)} hours of repeated admin a week, assuming{" "}
-                  {pct(SHARE.low)} to {pct(SHARE.high)} of it moves to software. McKinsey puts what current AI and
-                  other technology could automate at{" "}
-                  <a href={SHARE.source} target="_blank" rel="noreferrer" className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
-                    60 to 70% of work time
-                  </a>
-                  .
+                  {fill(w.t("result.estimate"), {
+                    weekly: String(Math.round(r.weekly)),
+                    low: pct(SHARE.low),
+                    high: pct(SHARE.high),
+                    source: (
+                      <a href={SHARE.source} target="_blank" rel="noreferrer" className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                        {w.t("result.source")}
+                      </a>
+                    ),
+                  })}
                 </span>
               </Figure>
             </div>
 
-            <p className="label mt-12">Where to start</p>
+            <p className="label mt-12">{w.t("result.start")}</p>
             <p className="mt-3 text-xl font-medium tracking-[-0.01em] text-ink">
               <Link
                 href={`/services/${s.slug}`}
@@ -117,7 +121,7 @@ export function Scorecard() {
           </div>
         ) : (
           <p className="text-ink-soft">
-            {answered} of {questions.length} answered.
+            {w.t("progress").replace("{answered}", String(answered)).replace("{total}", String(questions.length))}
           </p>
         )}
       </section>

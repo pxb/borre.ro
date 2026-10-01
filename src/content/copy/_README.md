@@ -33,4 +33,12 @@ One catch: when two files hold exactly the same words (a case study called "Cont
 
 The message names the file and the heading, for example `case-lead-research.md has no "## tagline"`. A heading was renamed or deleted; put it back.
 
+## Which file is which
+
+- `home.md`: the homepage. `work.md` and `case-*.md`: case studies. `services.md` and `service-*.md`: services.
+- `about.md`, `contact.md`, `security.md`, `privacy.md`, `scorecard.md`, `newsletter.md`: those pages.
+- `chrome.md`: what every page shares: the offer, the menu, the footer, the page-not-found screen.
+
+Privacy and security say what is true today; change them only when the facts change. The scorecard's answers are scored in order, so keep each list in the same order and length.
+
 Files starting with `_` (like this one) are ignored.
