@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Martian_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { serviceCategories, serviceFor, serviceGroups, site, work } from "@/content/site";
+import { serviceCategories, serviceFor, serviceGroups, site, work, nav, ui } from "@/content/site";
 import { MobileNav } from "@/components/mobile-nav";
 import { ServicesMenu } from "@/components/services-menu";
 import { HomeLink } from "@/components/home-link";
@@ -10,6 +10,7 @@ import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
 import { CopyReviewLoader } from "@/components/copy-review-loader";
+import { fill } from "@/components/fill";
 import { OfferBar } from "@/components/offer-bar";
 
 // Archivo carries a real width axis (62-125), so the display cuts are genuinely
@@ -67,13 +68,6 @@ const jsonLd = {
 
 // The newsletter is in the nav from the start (Pedro, 2026-09-30: the page
 // structure goes live before the first issue).
-const nav = [
-  { href: "/work", label: "Case studies" },
-  { href: "/services", label: "Services" },
-  { href: "/newsletter", label: "Newsletter" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
 
 function Header() {
   return (
@@ -157,36 +151,38 @@ function Footer() {
               borre<span className="text-accent">.ro</span>
             </HomeLink>
             <p className="mt-4 max-w-xs leading-relaxed text-ink-soft">
-              AI and Revenue Operations, delivered with{" "}
-              <a
-                href="https://www.amplifymyai.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action"
-              >
-                Amplify My AI
-              </a>
-              .
+              {fill(ui.t("footer.about"), {
+                partner: (
+                  <a
+                    href="https://www.amplifymyai.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action"
+                  >
+                    {ui.t("footer.partner")}
+                  </a>
+                ),
+              })}
             </p>
             <p className="mt-2 text-ink-soft">{site.location}</p>
           </div>
 
           <FooterCol
-            title="Case studies"
+            title={ui.t("footer.case-studies")}
             links={work.map((w) => ({ href: `/work/${w.slug}`, label: w.title }))}
           />
 
           <FooterCol
-            title="Services"
+            title={ui.t("footer.services")}
             links={[
               ...serviceCategories.slice(0, 4).map((x) => ({ href: `/services/${x.slug}`, label: x.name })),
-              { href: "/scorecard", label: "Readiness scorecard" },
-              { href: "/services", label: "Prices" },
+              { href: "/scorecard", label: ui.t("nav.scorecard") },
+              { href: "/services", label: ui.t("footer.prices") },
             ]}
           />
 
           <div>
-            <h2 className="label">Contact</h2>
+            <h2 className="label">{ui.t("footer.contact")}</h2>
             <ul className="mt-3 text-sm sm:mt-5 sm:space-y-3">
               <li>
                 <Link
@@ -195,7 +191,7 @@ function Footer() {
                   data-track-where="footer-link"
                   className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
-                  Book a call
+                  {ui.t("footer.book")}
                 </Link>
               </li>
               <li>
@@ -213,7 +209,7 @@ function Footer() {
                   target="_blank"
                   className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
-                  LinkedIn
+                  {ui.t("footer.linkedin")}
                 </a>
               </li>
               <li>
@@ -221,7 +217,7 @@ function Footer() {
                   href="/about"
                   className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
                 >
-                  About
+                  {ui.t("footer.about-link")}
                 </Link>
               </li>
             </ul>
@@ -242,13 +238,13 @@ function Footer() {
               href="/privacy"
               className="inline-flex min-h-11 items-center underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
-              Privacy
+              {ui.t("footer.privacy")}
             </Link>
             <Link
               href="/security"
               className="inline-flex min-h-11 items-center underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
-              Security
+              {ui.t("footer.security")}
             </Link>
             <a
               href="/llms.txt"
@@ -287,7 +283,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href="#main-content"
           className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-50 focus-visible:border-2 focus-visible:border-ink focus-visible:bg-paper focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-medium focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          Skip to content
+          {ui.t("skip")}
         </a>
         <script
           type="application/ld+json"

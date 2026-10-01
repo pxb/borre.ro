@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Page } from "@/components/section";
 import { longDate, post, posts, skillPrompt } from "@/lib/newsletter";
 import { CopyPrompt } from "@/components/copy-prompt";
-import { site } from "@/content/site";
+import { navLabel, site, ui } from "@/content/site";
 
 // One article or roundup (#606). The body is markdown rendered at build time
 // into the `.prose` styles in globals.css. Only built slugs exist.
@@ -35,7 +35,7 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
   if (!p) notFound();
 
   return (
-    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: "Home" }, { href: "/newsletter", label: "Newsletter" }]}>
+    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: ui.t("crumb.home") }, { href: "/newsletter", label: navLabel("/newsletter") }]}>
       <article className="py-12">
         <p className="text-sm text-ink-soft">
           {site.founder} · {longDate(p.date)} · {p.type === "roundup" ? "Monthly roundup" : `${p.minutes} min read`}

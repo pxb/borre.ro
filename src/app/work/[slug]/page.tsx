@@ -19,7 +19,7 @@ const SHOWCASE: Record<string, () => React.ReactNode> = {
   "lead-research": () => <WorkflowDemo run={leadEnrichmentRun} title="Inbound lead enrichment" />,
   "post-call": () => <WorkflowDemo run={postCallRun} title="Post-call follow-up" />,
 };
-import { serviceFor, work } from "@/content/site";
+import { navLabel, serviceFor, ui, work } from "@/content/site";
 
 export function generateStaticParams() {
   return work.map((c) => ({ slug: c.slug }));
@@ -63,7 +63,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
     <Page
       title={c.title}
       lead={c.tagline}
-      crumbs={[{ href: "/", label: "Home" }, { href: "/work", label: "Case studies" }]}
+      crumbs={[{ href: "/", label: ui.t("crumb.home") }, { href: "/work", label: navLabel("/work") }]}
     >
       <Row label={w.t("label.challenge")}>
         <div className="max-w-2xl space-y-4">

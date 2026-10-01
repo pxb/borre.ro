@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import { Page, Row } from "@/components/section";
+import { ui } from "@/content/site";
+import { words } from "@/content/copy";
+import copySecurity from "@/content/copy.gen/security";
 
 export const metadata: Metadata = pageMeta({
-  title: "Trust and security",
-  description:
-    "How we look after your data and systems: accounts in your name, access that follows your permissions, your team approving what goes out, and your data kept out of AI training.",
+  title: words(copySecurity).t("meta.title"),
+  description: words(copySecurity).t("meta.description"),
   path: "/security",
 });
 
@@ -19,48 +21,16 @@ export const metadata: Metadata = pageMeta({
 // registration (deferred), backup schedules and uptime figures. Positive
 // wording only (Pedro): say what we do.
 
-const ROWS: { label: string; body: string[] }[] = [
-  {
-    label: "Your accounts",
-    body: [
-      "Everything we build runs on accounts in your name: the database, the workflows and the AI subscription. You can see all of it, and if we stop working together, you keep all of it.",
-    ],
-  },
-  {
-    label: "Where your data lives",
-    body: [
-      "In your own database, with a major cloud provider, in a UK or EU region. Data moves between your systems encrypted.",
-    ],
-  },
-  {
-    label: "Who sees what",
-    body: [
-      "Access follows the permissions you already have, so people see through AI what they can already see in your CRM and documents. The rules are enforced in the database itself.",
-    ],
-  },
-  {
-    label: "Your team approves",
-    body: [
-      "Our systems draft and your team decides. Emails, CRM updates and anything a customer will see wait for someone on your team to approve them.",
-    ],
-  },
-  {
-    label: "AI and your data",
-    body: [
-      "We use business accounts and APIs that keep your data out of model training. Every answer links to the record it came from, and each system keeps a log of what it did, so you can check any result.",
-    ],
-  },
-  {
-    label: "What we build on",
-    body: [
-      "Supabase for the database, n8n for workflows, and OpenAI and Anthropic for AI models, alongside the systems you already use, such as HubSpot and Microsoft 365. Each is set up in your name wherever it can be.",
-    ],
-  },
-];
+// The words: src/content/copy/security.md (#561).
+const w = words(copySecurity);
+const ROWS: { label: string; body: string[] }[] = [1, 2, 3, 4, 5, 6].map((i) => ({
+  label: w.t(`row.${i}.label`),
+  body: w.ps(`row.${i}.text`),
+}));
 
 export default function Security() {
   return (
-    <Page title="Trust and security" crumbs={[{ href: "/", label: "Home" }]}>
+    <Page title={w.t("meta.title")} crumbs={[{ href: "/", label: ui.t("crumb.home") }]}>
       {ROWS.map((r) => (
         <Row key={r.label} label={r.label}>
           <div className="max-w-2xl space-y-4 leading-relaxed text-ink">
