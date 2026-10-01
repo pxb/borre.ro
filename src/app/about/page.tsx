@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import { Row } from "@/components/section";
 import { VoxelMark } from "@/components/mark/mark";
-import { about, site } from "@/content/site";
+import { about, site, ui } from "@/content/site";
 
 export const metadata: Metadata = pageMeta({
-  title: "About",
+  title: about.title,
   description: about.lead,
   path: "/about",
 });
@@ -26,7 +26,7 @@ export default function About() {
         <VoxelMark className="mx-auto aspect-square w-full max-w-[18rem] lg:max-w-xs" />
       </header>
 
-      <Row label="Who we are">
+      <Row label={about.labels.who}>
         <div className="max-w-2xl space-y-5">
           <p className="text-xl leading-relaxed text-ink">{about.intro}</p>
           {about.body.map((p) => (
@@ -37,7 +37,7 @@ export default function About() {
         </div>
       </Row>
 
-      <Row label="What we stand for">
+      <Row label={about.labels.standFor}>
         <ul className="grid gap-8 md:grid-cols-3 md:gap-8">
           {about.principles.map((x) => (
             <li key={x.t}>
@@ -49,12 +49,12 @@ export default function About() {
         </ul>
       </Row>
 
-      <Row label="Who we work with">
+      <Row label={about.labels.workWith}>
         <div className="max-w-2xl">
           <p className="text-lg leading-relaxed text-ink">{about.partner}</p>
           <p className="mt-4">
             <a href={site.linkedin} target="_blank" rel="me noreferrer" className={`inline-flex min-h-11 items-center sm:min-h-0 ${LINK}`}>
-              LinkedIn
+              {ui.t("footer.linkedin")}
             </a>
           </p>
         </div>

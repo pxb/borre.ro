@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { serviceFor, site } from "@/content/site";
+import { serviceFor, site, ui } from "@/content/site";
 import { SCORECARD_KEY } from "@/content/scorecard";
 
 const FRAME = "h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border";
@@ -22,7 +22,7 @@ export function BookingFrame() {
   return (
     <iframe
       src={`https://cal.com/${site.booking}?embed=true&theme=light&layout=month_view${notes}`}
-      title="Book a free 30-minute call"
+      title={ui.t("booking.frame")}
       loading="lazy"
       className={FRAME}
     />

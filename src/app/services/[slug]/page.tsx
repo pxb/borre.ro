@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Page, Row } from "@/components/section";
 import { Figure } from "@/components/figure";
 import { CasePreview, PlatformPreview } from "@/components/demo/previews";
-import { ctaFor, proofFor, serviceCategories, serviceFor, site } from "@/content/site";
+import { ctaFor, navLabel, proofFor, serviceCategories, serviceFor, site, ui } from "@/content/site";
 import { servicePages } from "@/content/service-pages";
 import { words } from "@/content/copy";
 import copyServices from "@/content/copy.gen/services";
@@ -61,7 +61,7 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
     <Page
       title={s.name}
       lead={page.line}
-      crumbs={[{ href: "/", label: "Home" }, { href: "/services", label: "Services" }]}
+      crumbs={[{ href: "/", label: ui.t("crumb.home") }, { href: "/services", label: navLabel("/services") }]}
       action={
         <Link
           href={cta.href}

@@ -478,7 +478,14 @@ slide titles to 60px, both above the hero headline and louder than the CTA. Stor
 Every visible word is moving into `src/content/copy/<page>.md` (done: /work and the four case studies,
 `case-<slug>.md` and `work.md`; /services and the eight service pages, `service-<slug>.md` and
 `services.md` (prices and timings stay in code); the homepage, `home.md` (hero headlines and numbers, summary, the
-four steps, the figures' words, the call track also used on /contact, AI³, the ladder); next: the rest). A `## key` heading is a
+four steps, the figures' words, the call track also used on /contact, AI³, the ladder); `about.md`,
+`contact.md`, `security.md`, `privacy.md` (a legal notice: `{email}` and `{ico}` become links via `fill()` in
+`src/components/fill.tsx`; the date stays in code), `scorecard.md` (questions, answers, bands, result words; scores,
+the two sizing questions' ranges and the logic stay in code; `scripts/scorecard-fingerprint.mjs` proves every
+answer combination gives the same result), `newsletter.md` (name, strapline, the words around every article) and
+`chrome.md` (the offer, menu, footer, breadcrumbs, skip link, 404). Still in code: the brand line with its R and O
+accents, the footer's trading-name sentence (a legal requirement), the machine surfaces' own wording (llms.txt,
+/api/mcp), and the demos' invented content. The menus find the scorecard's group by position, not by name). A `## key` heading is a
 slot; plain text, paragraphs or a `- ` list under it; `>` lines are notes and budgets (`max N`
 characters, a warning not a failure). `scripts/copy.mjs build` compiles them to
 `src/content/copy.gen/<page>.ts` (git-ignored; runs as `predev` and `prebuild`, so Vercel runs it);

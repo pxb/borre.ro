@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import { Page } from "@/components/section";
 import { ProspectingDemo } from "@/components/demo/prospecting-demo";
-import { prospectingDemo } from "@/content/site";
+import { prospectingDemo, ui } from "@/content/site";
 
 // Standalone, shareable version of the portal demo (#560). Copy is minimal and
 // parked for Pedro's review with the rest of the site (#561).
@@ -18,8 +18,8 @@ export default function ProspectingDemoPage() {
     <Page
       title="Prospecting portal demo."
       crumbs={[
-        { href: "/", label: "Home" },
-        { href: "/work/prospecting-loop", label: "Case study" },
+        { href: "/", label: ui.t("crumb.home") },
+        { href: "/work/prospecting-loop", label: ui.t("crumb.case-study") },
       ]}
     >
       <section aria-labelledby="demo-heading" className="py-10">

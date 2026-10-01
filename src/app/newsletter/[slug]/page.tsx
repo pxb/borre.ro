@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Page } from "@/components/section";
 import { longDate, post, posts, skillPrompt } from "@/lib/newsletter";
 import { CopyPrompt } from "@/components/copy-prompt";
-import { site } from "@/content/site";
+import { navLabel, site, ui, nl } from "@/content/site";
+import { fill } from "@/components/fill";
 
 // One article or roundup (#606). The body is markdown rendered at build time
 // into the `.prose` styles in globals.css. Only built slugs exist.
@@ -35,13 +36,13 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
   if (!p) notFound();
 
   return (
-    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: "Home" }, { href: "/newsletter", label: "Newsletter" }]}>
+    <Page title={p.title} lead={p.description} crumbs={[{ href: "/", label: ui.t("crumb.home") }, { href: "/newsletter", label: navLabel("/newsletter") }]}>
       <article className="py-12">
         <p className="text-sm text-ink-soft">
-          {site.founder} · {longDate(p.date)} · {p.type === "roundup" ? "Monthly roundup" : `${p.minutes} min read`}
-          {p.draft ? " · Draft, preview only" : ""}
+          {site.founder} · {longDate(p.date)} · {p.type === "roundup" ? nl.t("article.roundup") : nl.t("article.minutes").replace("{n}", String(p.minutes))}
+          {p.draft ? ` · ${nl.t("article.draft")}` : ""}
         </p>
-        <p className="mt-1 text-sm text-ink-soft">Sources checked {longDate(p.checked)}</p>
+        <p className="mt-1 text-sm text-ink-soft">{nl.t("article.checked").replace("{date}", longDate(p.checked))}</p>
         {/* Trusted content: markdown from this repo, rendered at build time. */}
         <div className="prose mt-8" dangerouslySetInnerHTML={{ __html: p.html }} />
       </article>
@@ -49,34 +50,34 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
       {p.skill ? (
         <section aria-labelledby="skill" className="border-t border-rule py-10">
           <h2 id="skill" className="text-xl font-medium text-ink">
-            Use this with your AI
+            {nl.t("article.skill.heading")}
           </h2>
           <p className="mt-3 max-w-2xl leading-relaxed text-ink">
-            {p.skillNote ?? `This post comes with a skill your AI can use: ${p.skill.description}`}
+            {p.skillNote ?? nl.t("article.skill.default").replace("{description}", p.skill.description)}
           </p>
           <p className="mt-6 max-w-2xl leading-relaxed text-ink">
-            The quickest way: paste this into Claude, ChatGPT or any AI that can read a web page.
+            {nl.t("article.skill.quick")}
           </p>
           <CopyPrompt text={skillPrompt(p)} track={p.skill.name} />
-          <p className="mt-6 max-w-2xl leading-relaxed text-ink">To keep it for next time:</p>
+          <p className="mt-6 max-w-2xl leading-relaxed text-ink">{nl.t("article.skill.keep")}</p>
           <ul className="mt-2 space-y-2 leading-relaxed text-ink">
             <li>
               <a href={`/newsletter/skills/${p.skill.name}.zip`} download className={LINK} data-track="skill-download" data-track-skill={p.skill.name}>
-                Download the skill
+                {nl.t("article.skill.download")}
               </a>{" "}
               <span className="text-ink-soft">
-                (ZIP). In Claude: Customize, Skills, Upload a skill. In ChatGPT, where your workspace has skills: Skills, Create, Upload from your computer.
+                {nl.t("article.skill.download-help")}
               </span>
             </li>
             <li>
               <a href={`/newsletter/skills/${p.skill.name}/SKILL.md`} className={LINK}>
                 SKILL.md
               </a>{" "}
-              <span className="text-ink-soft">for Claude Code, Codex and other coding agents.</span>
+              <span className="text-ink-soft">{nl.t("article.skill.raw-help")}</span>
             </li>
           </ul>
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">
-            Made by {site.name}. Free to use and share under CC BY 4.0. Provided as is, with no support.
+            {nl.t("article.skill.terms").replace("{name}", site.name)}
           </p>
         </section>
       ) : null}
@@ -86,14 +87,17 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
         <p className="max-w-2xl leading-relaxed text-ink">
           {site.newsletter.url ? (
             <>
-              <a href={site.newsletter.url} className={LINK}>
-                Subscribe to {site.newsletter.name}
-              </a>
-              , {site.newsletter.strap}, once a month.{" "}
+              {fill(nl.t("article.subscribe").replace("{strap}", site.newsletter.strap), {
+                link: (
+                  <a href={site.newsletter.url} className={LINK}>
+                    {nl.t("article.subscribe-link").replace("{name}", site.newsletter.name)}
+                  </a>
+                ),
+              })}{" "}
             </>
           ) : null}
           <Link href="/newsletter" className={LINK}>
-            More from the newsletter
+            {nl.t("article.more")}
           </Link>
         </p>
       </section>

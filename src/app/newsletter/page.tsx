@@ -3,11 +3,14 @@ import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import { Page } from "@/components/section";
 import { longDate, posts } from "@/lib/newsletter";
-import { site } from "@/content/site";
+import { site, nl } from "@/content/site";
+
+// {name} and {strap} in the newsletter's copy.
+const brand = (t: string) => t.replace("{name}", site.newsletter.name).replace("{strap}", site.newsletter.strap);
 
 export const metadata: Metadata = pageMeta({
-  title: "Newsletter",
-  description: `${site.newsletter.name}: ${site.newsletter.strap}. Articles and a monthly roundup on what's worth doing with AI, from someone who builds it.`,
+  title: nl.t("meta.title"),
+  description: brand(nl.t("meta.description")),
   path: "/newsletter",
 });
 
@@ -17,16 +20,16 @@ export const metadata: Metadata = pageMeta({
 export default function Newsletter() {
   const all = posts();
   return (
-    <Page title="Newsletter" bare>
+    <Page title={nl.t("meta.title")} bare>
       <section className="pt-12 pb-16 sm:pt-16">
         <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
-          {site.newsletter.name}: {site.newsletter.strap}.{" "}
+          {brand(nl.t("intro"))}{" "}
           {site.newsletter.url ? (
             <a
               href={site.newsletter.url}
               className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
-              Subscribe
+              {nl.t("subscribe")}
             </a>
           ) : null}
         </p>
@@ -35,8 +38,8 @@ export default function Newsletter() {
             {all.map((p) => (
               <li key={p.slug} className="border-b border-rule py-8">
                 <p className="text-sm text-ink-soft">
-                  {longDate(p.date)} · {p.type === "roundup" ? "Monthly roundup" : `${p.minutes} min read`}
-                  {p.draft ? " · Draft, preview only" : ""}
+                  {longDate(p.date)} · {p.type === "roundup" ? nl.t("article.roundup") : nl.t("article.minutes").replace("{n}", String(p.minutes))}
+                  {p.draft ? ` · ${nl.t("article.draft")}` : ""}
                 </p>
                 <h2 className="mt-2 text-[clamp(1.35rem,2.4vw,1.75rem)] font-medium leading-snug tracking-[-0.015em] text-ink">
                   <Link

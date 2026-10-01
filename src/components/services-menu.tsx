@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { serviceFor, serviceGroups } from "@/content/site";
+import { navLabel, serviceFor, serviceGroups, ui } from "@/content/site";
 
 const ITEM =
   "block py-1.5 text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
@@ -17,12 +17,12 @@ export function ServicesMenu() {
         href="/services"
         className="transition-colors group-hover:text-ink hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
       >
-        Services
+        {navLabel("/services")}
       </Link>
       {/* pt-6 bridges the gap under the link, so the pointer can reach the panel. */}
       <div className="invisible absolute top-full right-0 z-50 pt-6 opacity-0 transition-[opacity,visibility] duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 motion-reduce:transition-none">
         <div className="grid w-[min(40rem,calc(100vw-3rem))] grid-cols-3 gap-8 bg-paper p-8 shadow-[0_1px_2px_rgb(25_23_18/0.06),0_24px_50px_-20px_rgb(25_23_18/0.3)]">
-          {serviceGroups.map((g) => (
+          {serviceGroups.map((g, gi) => (
             <div key={g.name}>
               <p className="label">{g.name}</p>
               <ul className="mt-3 text-sm">
@@ -37,9 +37,10 @@ export function ServicesMenu() {
                   ) : null;
                 })}
               </ul>
-              {g.name === "Run" ? (
+              {/* The scorecard closes the last group (Run), by position, so a renamed group keeps it. */}
+              {gi === serviceGroups.length - 1 ? (
                 <Link href="/scorecard" className={`${ITEM} mt-6 border-t border-rule pt-4 text-sm`}>
-                  Readiness scorecard
+                  {ui.t("nav.scorecard")}
                 </Link>
               ) : null}
             </div>

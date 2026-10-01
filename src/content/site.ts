@@ -6,6 +6,9 @@ import copyLeadResearch from "./copy.gen/case-lead-research";
 import copyPostCall from "./copy.gen/case-post-call";
 import copyServices from "./copy.gen/services";
 import copyHome from "./copy.gen/home";
+import copyChrome from "./copy.gen/chrome";
+import copyAbout from "./copy.gen/about";
+import copyNewsletter from "./copy.gen/newsletter";
 import copyAudit from "./copy.gen/service-audit";
 import copyWorkshop from "./copy.gen/service-workshop";
 import copyTraining from "./copy.gen/service-training";
@@ -19,6 +22,14 @@ import copySupport from "./copy.gen/service-support";
 const svc = words(copyServices);
 // The homepage: src/content/copy/home.md.
 const home = words(copyHome);
+// What every page shares (menu, footer, offer bar, 404): src/content/copy/chrome.md.
+export const ui = words(copyChrome);
+// The newsletter's name and the words around every article: newsletter.md.
+export const nl = words(copyNewsletter);
+// The menu: labels from chrome.md, links here, in the same order.
+const NAV_HREFS = ["/work", "/services", "/newsletter", "/about", "/contact"];
+export const nav = NAV_HREFS.map((href, i) => ({ href, label: ui.li("nav")[i] }));
+export const navLabel = (href: string) => nav.find((n) => n.href === href)?.label ?? "";
 const count = (w: ReturnType<typeof words>, prefix: string) => {
   let n = 0;
   while (w.has(`${prefix}.${n + 1}`)) n++;
@@ -41,9 +52,9 @@ export const site = {
   headlines: Array.from({ length: count(home, "hero.headline") }, (_, i) => home.t(`hero.headline.${i + 1}`)),
   summary: home.t("hero.summary"),
   // One offer name, repeated everywhere a CTA points at /contact.
-  cta: "Book a free 30-minute call",
-  ctaLine: "What's slowing your team down?",
-  ctaNote: "Book a free 30-minute call and we'll tell you what we'd do first.",
+  cta: ui.t("cta"),
+  ctaLine: ui.t("cta.line"),
+  ctaNote: ui.t("cta.note"),
   // Cal.com booking link. Empty = /contact falls back to email.
   booking: "pedro-borrero-a4yjyv/30min",
   // Business address, live 2026-09-25. Empty hides every email link.
@@ -61,7 +72,7 @@ export const site = {
   vatNote: svc.t("vat"),
   // The monthly roundup (#221, #607). Its Substack address goes in `url` once
   // Pedro has set it up; until then no subscribe link shows.
-  newsletter: { name: "The Boring Bits", strap: "AI for UK Business Leaders", url: "" },
+  newsletter: { name: nl.t("name"), strap: nl.t("strap"), url: "" },
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
@@ -187,26 +198,17 @@ export const upside = {
 export const costNotes = [1, 2, 3].map((i) => ({ title: svc.t(`pricing.${i}.title`), body: svc.t(`pricing.${i}.text`) }));
 
 // Agency-framed (we, not I). The employers are a credibility block, not a bio.
+// The words: src/content/copy/about.md (#561). Each commitment reuses a line
+// the site already makes, so /about adds no new claim.
+const ab = words(copyAbout);
 export const about = {
-  lead: "We build and run AI systems for small and medium-sized UK businesses.",
-  // Broad on purpose (Pedro, 2026-09-23): no role list, no company list. The
-  // LinkedIn profile carries the detail. Source: his LinkedIn experience, 2007
-  // to now: IT and web development, technical support, systems and sales
-  // engineering, then enterprise account executive roles from 2016.
-  intro:
-    "The practice grew out of nearly twenty years in technology. It started hands-on, building websites and keeping systems running, then moved through technical support and sales engineering into ten years of selling enterprise software.",
-  body: [
-    "So we know what a sales team does all day, because we've done the job, and we know how to build the software that takes work off it.",
-  ],
-  // What we hold to, each line reused from elsewhere on the site so /about
-  // makes no claim the rest of it doesn't (Pedro 2026-09-24: /about is about
-  // us, one structure, not a stack of sections).
-  principles: [
-    { t: "You own it", d: "Everything runs on accounts in your name. If we stop working together, you keep all of it." },
-    { t: "Your team decides", d: "Your team signs off everything before a customer sees it." },
-    { t: "We prove it works", d: "Each system is measured against the job it was built to do." },
-  ],
-  partner: "Client work is delivered with our partner practice, Amplify My AI.",
+  title: ab.t("meta.title"),
+  lead: ab.t("lead"),
+  intro: ab.t("intro"),
+  body: ab.ps("body"),
+  principles: [1, 2, 3].map((i) => ({ t: ab.t(`principle.${i}.title`), d: ab.t(`principle.${i}.text`) })),
+  partner: ab.t("partner"),
+  labels: { who: ab.t("label.who"), standFor: ab.t("label.stand-for"), workWith: ab.t("label.work-with") },
 };
 
 // The services taxonomy (Pedro, 2026-09-22). Plain description first; `under`

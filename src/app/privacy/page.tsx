@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import { Page, Row } from "@/components/section";
-import { site } from "@/content/site";
+import { site, ui } from "@/content/site";
+import { words } from "@/content/copy";
+import copyPrivacy from "@/content/copy.gen/privacy";
+import { fill } from "@/components/fill";
+
+// The words: src/content/copy/privacy.md (#561). The date stays here: it moves
+// only when the notice's facts do.
+const w = words(copyPrivacy);
 
 export const metadata: Metadata = pageMeta({
-  title: "Privacy",
-  description: "What borre.ro collects, why, who handles it, how long we keep it and your rights.",
+  title: words(copyPrivacy).t("meta.title"),
+  description: words(copyPrivacy).t("meta.description"),
   path: "/privacy",
 });
 
@@ -45,63 +52,42 @@ function Email() {
 }
 
 export default function Privacy() {
+  const links = {
+    email: <Email />,
+    ico: (
+      <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noreferrer" className={LINK}>
+        ico.org.uk
+      </a>
+    ),
+  };
   return (
-    <Page title="Privacy" crumbs={[{ href: "/", label: "Home" }]}>
-      <Row label="Who we are">
+    <Page title={w.t("meta.title")} crumbs={[{ href: "/", label: ui.t("crumb.home") }]}>
+      <Row label={w.t("label.who")}>
         <div className="max-w-2xl space-y-4 leading-relaxed text-ink">
-          <p>
-            borre.ro is a trading name of Pedro Borrero, who is the controller of your personal data under the UK GDPR.
-            Contact: <Email />
-          </p>
-          <p className="text-sm text-ink-soft">Last updated {UPDATED}</p>
+          <p>{fill(w.t("who"), links)}</p>
+          <p className="text-sm text-ink-soft">{w.t("updated").replace("{date}", UPDATED)}</p>
         </div>
       </Row>
 
-      <Row label="What we collect and why">
+      <Row label={w.t("label.collect")}>
         <div className="max-w-2xl">
-          <List
-            items={[
-              "When you book a call: your name, email address and anything you add, to arrange and hold the call. Lawful basis: steps you ask us to take before entering into a contract.",
-              "When you email us: your email address and message, to reply. Lawful basis: our legitimate interests in answering enquiries.",
-              "When you visit: page views counted without cookies, and server logs including your IP address, to run and secure the site. Lawful basis: our legitimate interests.",
-            ]}
-          />
-          <p className="mt-6 leading-relaxed text-ink-soft">
-            We don&apos;t use tracking or advertising cookies. The booking calendar may set the cookies it needs to take a
-            booking.
-          </p>
+          <List items={w.li("collect")} />
+          <p className="mt-6 leading-relaxed text-ink-soft">{w.t("cookies")}</p>
         </div>
       </Row>
 
-      <Row label="Who handles it">
-        <p className="max-w-2xl leading-relaxed text-ink-soft">
-          The providers that host the site, run the booking calendar and run our email. Some are in the United States;
-          transfers rely on UK adequacy regulations or standard contractual clauses. We don&apos;t sell your data.
-        </p>
+      <Row label={w.t("label.handles")}>
+        <p className="max-w-2xl leading-relaxed text-ink-soft">{w.t("handles")}</p>
       </Row>
 
-      <Row label="How long we keep it">
+      <Row label={w.t("label.keep")}>
         <div className="max-w-2xl">
-          <List
-            items={[
-              "Bookings and emails: up to two years after our last contact.",
-              "Site statistics: one month.",
-              "Server logs: the short period our host keeps them.",
-            ]}
-          />
+          <List items={w.li("keep")} />
         </div>
       </Row>
 
-      <Row label="Your rights">
-        <p className="max-w-2xl leading-relaxed text-ink-soft">
-          You can ask to see, correct or delete your data, restrict or object to how we use it, or take a copy. Email{" "}
-          <Email /> and we&apos;ll reply within one month. You can also complain to the Information Commissioner&apos;s
-          Office at{" "}
-          <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noreferrer" className={LINK}>
-            ico.org.uk
-          </a>
-          .
-        </p>
+      <Row label={w.t("label.rights")}>
+        <p className="max-w-2xl leading-relaxed text-ink-soft">{fill(w.t("rights"), links)}</p>
       </Row>
     </Page>
   );
