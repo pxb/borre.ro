@@ -160,8 +160,11 @@ export const evidence = [
     stat: "40%",
     claim: home.t("problem.figure.3.claim"),
     answer: home.t("problem.figure.3.answer"),
-    source: "Gartner",
-    href: "https://www.gartner.com/en/articles/context-engineering",
+    // Gartner press release, 25 June 2025: "Over 40% of agentic AI projects
+    // will be canceled by the end of 2027, due to escalating costs, unclear
+    // business value or inadequate risk controls". Checked 2026-10-01.
+    source: "Gartner, 2025",
+    href: "https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027",
   },
 ];
 

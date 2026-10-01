@@ -56,3 +56,6 @@ next-env.d.ts
 # Obsidian, when src/content/copy is opened as a vault
 .obsidian/
 .trash/
+
+# impeccable critique logs (local review notes)
+.impeccable/

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ui } from "@/content/site";
+import { site, ui } from "@/content/site";
 
 // Replaces the raw Next.js default 404.
 export default function NotFound() {
@@ -30,7 +30,7 @@ export default function NotFound() {
             href="/contact" data-track="cta" data-track-where="404"
             className="text-sm text-ink underline decoration-rule underline-offset-8 transition-colors hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           >
-            {ui.t("not-found.contact")}
+            {site.cta}
           </Link>
         </div>
       </section>

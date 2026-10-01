@@ -120,7 +120,3 @@ Back to home
 ## not-found.case-studies
 > Page not found: second button · max 20
 Case studies
-
-## not-found.contact
-> Page not found: third button, to /contact · max 20
-Get in touch
