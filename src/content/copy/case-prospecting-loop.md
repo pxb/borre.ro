@@ -64,3 +64,39 @@ buying signals watched across the whole territory, from hiring to new premises
 - Every active company in the territory, from Companies House
 - Buying signals from job boards, filings and company websites
 - The sales lead's feedback on every batch
+
+## loop.label
+> Above the run-through of one week, over the demo (#622) · max 40
+A week of the loop
+
+## loop.run
+> The button that plays the week · max 24
+Run this week
+
+## loop.again
+> The same button once the week has played · max 24
+Run it again
+
+## loop.approve
+> The rep's approval, when the run stops at it · max 30
+Approve the emails
+
+## loop.stops
+> The stops in order, one word each. The figures over them (18.4k, 2.3k, 34, 5, 2, 1) are the demo's own and stay in code. The fifth stop is the rep's approval and has no figure · max 12
+- Register
+- Profile
+- Signals
+- Research
+- Approve
+- Sent
+- Reply
+
+## loop.lines
+> One line for each stop, in the same order · max 90
+- Every active company in Greater Manchester, from Companies House.
+- Scored against the profile built from won deals. Customers and open deals held back.
+- This week's hiring, moves, funding and refits across those companies.
+- The best five get a brief, checked contacts and a four-email sequence.
+- Nothing goes out until the rep approves it.
+- The rep sends from their own inbox. Two so far this week.
+- Copperfield Hotel Group replied asking for a tasting.
