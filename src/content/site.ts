@@ -137,6 +137,8 @@ export const work: CaseStudy[] = [
 
 
 // Public evidence. Each source was fetched and checked (#565; 2026-09-24).
+// 2026-10-08: each claim now names its source's frame. techUK: "Lack of
+// expertise is the top barrier (35%)", from over 1,000 UK IT decision-makers.
 // Slide 01: each barrier with our answer to it, so the slide ends on the fix
 // rather than the fear (Pedro, 2026-09-24).
 export const evidence = [
@@ -147,8 +149,8 @@ export const evidence = [
     source: "ANS and YouGov, via techUK, 2025",
     href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
   },
-  // Zapier, "Nearly 4 in 5 (78%) indicated that they're struggling to
-  // integrate AI" with existing systems; 500+ enterprise leaders, October 2025.
+  // Zapier: "More than 3 in 4 enterprises (78%) are struggling to integrate
+  // AI with their existing systems"; 500+ enterprise leaders, October 2025.
   {
     stat: "78%",
     claim: home.t("problem.figure.2.claim"),
@@ -207,6 +209,7 @@ const ab = words(copyAbout);
 export const about = {
   title: ab.t("meta.title"),
   lead: ab.t("lead"),
+  founder: ab.t("founder"),
   intro: ab.t("intro"),
   body: ab.ps("body"),
   principles: [1, 2, 3].map((i) => ({ t: ab.t(`principle.${i}.title`), d: ab.t(`principle.${i}.text`) })),

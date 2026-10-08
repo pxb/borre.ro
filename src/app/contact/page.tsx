@@ -25,7 +25,8 @@ export default function Contact() {
       <section className="grid gap-10 pt-12 pb-12 sm:pt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
         <div className="order-2 lg:order-1">
           <CallTrack />
-          <p className="mt-10">
+          <p className="mt-10 text-lg leading-relaxed text-ink">{w.t("who")}</p>
+          <p className="mt-3">
             <a
               href={site.linkedin}
               target="_blank"

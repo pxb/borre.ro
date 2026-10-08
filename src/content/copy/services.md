@@ -116,7 +116,7 @@ Fixed prices, agreed up front
 
 ## pricing.3.text
 > Pricing note 3 · max 200
-We agree a fixed price before any work starts. Our rates will go up over time, and work you've already agreed stays at the price you signed.
+We agree a fixed price before any work starts, and it stays fixed once you've signed.
 
 ## vat
 > Under the pricing notes and on each service page's price (a legal requirement: whether prices include VAT) · max 90

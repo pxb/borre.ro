@@ -28,6 +28,7 @@ export default function About() {
 
       <Row label={about.labels.who}>
         <div className="max-w-2xl space-y-5">
+          <p className="text-xl font-medium tracking-[-0.01em] text-ink">{about.founder}</p>
           <p className="text-xl leading-relaxed text-ink">{about.intro}</p>
           {about.body.map((p) => (
             <p key={p.slice(0, 24)} className="text-lg leading-relaxed text-ink-soft">

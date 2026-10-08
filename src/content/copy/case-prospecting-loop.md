@@ -35,7 +35,7 @@ The rep stays the human in the loop, sending from their own inbox and logging th
 
 ## result.1
 > Under the figure ~1 hour (kept in code). Result 1; the first two also show on /work · max 100
-of account research done for the rep on every lead, estimated for a UK solar installer
+of account research in each brief, estimated
 
 ## result.2
 > Under the figure 6 (kept in code). Result 2; the first two also show on /work · max 100

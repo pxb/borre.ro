@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
    Every word sits invisibly in the same grid cell, so the slot is as wide as
    the widest word and the rest of the line never moves as the word changes
    (2026-09-30, iPhone feedback: "AI" jumped about). The coloured word is
-   painted in the same cell. Holds on the first word under reduced motion, and
+   painted in the same cell. The headline rolls single digits in tabular
+   figures (2026-10-08): all one width, so the slot never leaves a gap. Holds on the first word under reduced motion, and
    that word is what the server renders. */
 export function CyclingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0);
@@ -20,7 +21,7 @@ export function CyclingWord({ words }: { words: string[] }) {
   const word = words[index];
 
   return (
-    <span className="inline-grid whitespace-nowrap">
+    <span className="inline-grid whitespace-nowrap tabular-nums">
       {words.map((w) => (
         <span key={w} aria-hidden="true" className="invisible col-start-1 row-start-1">
           {w}

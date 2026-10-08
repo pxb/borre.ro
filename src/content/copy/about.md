@@ -17,6 +17,10 @@ We build and run AI systems for small and medium-sized UK businesses.
 > Row label · max 24
 Who we are
 
+## founder
+> Above the first paragraph: the founder's name · max 40
+Pedro Borrero, founder
+
 ## intro
 > The first paragraph, larger · max 260
 The practice grew out of nearly twenty years in technology. It started hands-on, building websites and keeping systems running, then moved through technical support and sales engineering into ten years of selling enterprise software.

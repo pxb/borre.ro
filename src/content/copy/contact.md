@@ -16,3 +16,7 @@ Book a free 30-minute call with borre.ro.
 ## heading
 > Read by screen readers only · max 40
 Book a free 30-minute call
+
+## who
+> Under the call track: who the call is with · max 90
+Your call is with Pedro Borrero, who builds the systems himself.

@@ -23,13 +23,11 @@ You pay for {n} tools and your team still does the work by hand.
 {N} tools, and your team still copies and pastes between them.
 
 ## hero.numbers
-> The rolling number, in order. The widest one sets the slot's width · max 8
-- five
-- seven
-- three
-- nine
-- twelve
-- more
+> The rolling number, in order. Single digits only: they are all one width, so the headline never shows a gap or moves · max 1
+- 5
+- 7
+- 3
+- 9
 
 ## hero.summary
 > Under the headline; also the site's description in search results, share cards and for AI agents · max 200
@@ -38,6 +36,10 @@ We build and run the systems that take busywork off small and medium-sized UK bu
 ## hero.case-studies
 > The second hero button · max 20
 Case studies
+
+## hero.try
+> The link under the hero buttons, to the company lookup (/try) · max 30
+Try it on your company
 
 ## problem.label
 > Story step: the name in the step bar · max 12
@@ -91,7 +93,7 @@ From a half-day workshop to a full build, each engagement is scoped to what you 
 
 ## problem.figure.1.claim
 > Under the figure 35% (kept in code with its source, ANS and YouGov, via techUK, 2025). Shown sentence-cased with a full stop · max 110
-of UK businesses say the biggest barrier to using AI is not having the expertise
+of UK IT decision-makers say not having the expertise is the biggest barrier to using AI
 
 ## problem.figure.1.answer
 > Our answer, after the arrow. Keep it to one line on a laptop · max 45
@@ -99,7 +101,7 @@ We bring the expertise and train your team.
 
 ## problem.figure.2.claim
 > Under the figure 78% (kept in code with its source, Zapier survey, 2025). Shown sentence-cased with a full stop · max 110
-of organisations are struggling to connect AI to the systems they already run
+of enterprises are struggling to connect AI to the systems they already run
 
 ## problem.figure.2.answer
 > Our answer, after the arrow. Keep it to one line on a laptop · max 45
