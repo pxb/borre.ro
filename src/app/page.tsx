@@ -42,6 +42,15 @@ export default function Home() {
                 {hero.t("hero.case-studies")}
               </Link>
             </div>
+            <p className="mt-6">
+              <Link
+                href="/try"
+                data-track="try" data-track-where="hero"
+                className="inline-flex min-h-11 items-center text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+              >
+                {hero.t("hero.try")}
+              </Link>
+            </p>
           </div>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { posts } from "@/lib/newsletter";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const fixed = ["", "/work", "/demo/prospecting", "/services", "/about", "/contact", "/privacy", "/scorecard", "/security", "/llms.txt"].map((p) => ({
+  const fixed = ["", "/work", "/demo/prospecting", "/services", "/about", "/contact", "/privacy", "/scorecard", "/try", "/security", "/llms.txt"].map((p) => ({
     url: `${site.url}${p}`,
     lastModified: now,
   }));

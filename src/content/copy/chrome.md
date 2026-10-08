@@ -29,6 +29,10 @@ Book a free 30-minute call and we'll tell you what we'd do first.
 > The scorecard link at the end of the Services menu, the phone menu and the footer · max 28
 Readiness scorecard
 
+## nav.try
+> The company lookup (/try) in the footer · max 28
+Try it on your company
+
 ## menu.title
 > Phone menu: the small label at its top · max 12
 Menu

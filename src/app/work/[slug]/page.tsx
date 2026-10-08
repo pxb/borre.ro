@@ -88,7 +88,21 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
 
       {/* The demo is part of the solution, full width so the product has room. */}
       {SHOWCASE[c.slug] ? (
-        <section className="border-b border-rule pt-2 pb-12">{SHOWCASE[c.slug]()}</section>
+        <section className="border-b border-rule pt-2 pb-12">
+          {SHOWCASE[c.slug]()}
+          {/* The same research, run on the reader's own company (#622). */}
+          {c.slug === "prospecting-loop" ? (
+            <p className="mt-8">
+              <Link
+                href="/try"
+                data-track="try" data-track-where="case-study"
+                className="inline-flex min-h-11 items-center text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+              >
+                {ui.t("nav.try")}
+              </Link>
+            </p>
+          ) : null}
+        </section>
       ) : null}
 
       <Row label={w.t("label.results")}>

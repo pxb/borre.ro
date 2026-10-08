@@ -177,6 +177,7 @@ function Footer() {
             links={[
               ...serviceCategories.slice(0, 4).map((x) => ({ href: `/services/${x.slug}`, label: x.name })),
               { href: "/scorecard", label: ui.t("nav.scorecard") },
+              { href: "/try", label: ui.t("nav.try") },
               { href: "/services", label: ui.t("footer.prices") },
             ]}
           />

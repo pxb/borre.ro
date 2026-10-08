@@ -4,59 +4,74 @@ import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 import "@/components/demo/portal.css";
 import { demoClient } from "@/content/demo-prospecting";
+import { askQuestions as ASKS } from "@/content/demo-showcases";
 
-// The Context Engine answering one question, typed out when the Idea slide
-// arrives. Server and no-JS render the finished exchange; the typing is a
-// client enhancement. The company is invented and checked against the
-// Companies House register (no match). In the portal's own design, like the
-// Context Engine demo on /work (Pedro, 2026-09-30), so it reads as the product.
-const Q = "Which customers have gone quiet this quarter?";
-const A =
-  "Three. The biggest is Fenwick Holt, who asked for a revised quote on 12 March and haven't replied since.";
-const SOURCES = ["Call notes, 12 March", "CRM record, Fenwick Holt", "Quote, version 2"];
-
+// The Context Engine answering a question, typed out when the Method slide
+// arrives; the visitor can then pick any of four questions (2026-10-08, #622),
+// in the card's top bar so the card is no taller on the slide.
+// Server and no-JS render the first exchange finished; the typing is a client
+// enhancement, and under reduced motion a pick shows its answer at once.
+// Companies are invented and checked against the Companies House register (no
+// match). In the portal's own design, like the Context Engine demo on /work
+// (Pedro, 2026-09-30), so it reads as the product.
 export function AskDemo() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const [mounted, setMounted] = useState(false);
+  const [pick, setPick] = useState(0);
   const [qn, setQ] = useState(0);
   const [an, setA] = useState(0);
   const [sn, setSrc] = useState(0);
+  const run = useRef(0);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   const animate = mounted && !reduce;
+  const x = ASKS[pick];
   // Until the client takes over, show the finished exchange.
-  const q = animate ? qn : Q.length;
-  const a = animate ? an : A.length;
-  const src = animate ? sn : SOURCES.length;
+  const q = animate ? qn : x.q.length;
+  const a = animate ? an : x.a.length;
+  const src = animate ? sn : x.sources.length;
 
-  useEffect(() => {
-    if (!animate || !inView) return;
-    let cancelled = false;
+  function play(i: number) {
+    const id = ++run.current;
+    const alive = () => id === run.current;
+    const t = ASKS[i];
+    setPick(i);
+    setQ(0);
+    setA(0);
+    setSrc(0);
     const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
     (async () => {
-      for (let i = 1; i <= Q.length; i++) {
-        if (cancelled) return;
-        setQ(i);
-        await wait(26);
+      for (let k = 1; k <= t.q.length; k++) {
+        if (!alive()) return;
+        setQ(k);
+        await wait(22);
       }
-      await wait(350);
-      for (let i = 2; i <= A.length + 1; i += 2) {
-        if (cancelled) return;
-        setA(Math.min(i, A.length));
-        await wait(16);
+      await wait(320);
+      for (let k = 2; k <= t.a.length + 1; k += 2) {
+        if (!alive()) return;
+        setA(Math.min(k, t.a.length));
+        await wait(14);
       }
-      for (let i = 1; i <= SOURCES.length; i++) {
-        await wait(180);
-        if (cancelled) return;
-        setSrc(i);
+      for (let k = 1; k <= t.sources.length; k++) {
+        await wait(160);
+        if (!alive()) return;
+        setSrc(k);
       }
     })();
+  }
+
+  // The first question plays once, the first time the card is in view.
+  useEffect(() => {
+    if (!animate || !inView) return;
+    const t = setTimeout(() => play(0), 0);
+    const r = run;
     return () => {
-      cancelled = true;
+      clearTimeout(t);
+      r.current++; // stops a run in progress
     };
   }, [animate, inView]);
 
@@ -64,37 +79,69 @@ export function AskDemo() {
     <div ref={ref} className="portal mini" aria-label="Ask the Context Engine: an example">
       <div className="p-top">
         <span className="p-brand">{demoClient.short}</span>
-        <nav className="p-nav" aria-hidden="true">
-          <span className="on">Context Engine</span>
-        </nav>
+        <div className="mini-qs" role="group" aria-label="Ask another question">
+          {ASKS.map((o, i) => (
+            <button
+              key={o.id}
+              type="button"
+              className={`mini-q${i === pick ? " on" : ""}`}
+              aria-pressed={i === pick}
+              onClick={() => (animate ? play(i) : setPick(i))}
+              data-track="demo-ask-question"
+              data-track-question={o.id}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="mini-chat">
-        {/* Each line reserves its full height with an invisible copy, so the
-            card does not grow while it types. */}
+      {/* Screen readers get the whole exchange in one live line, not the typing. */}
+      <p className="sr-only" aria-live="polite">
+        {x.q} {x.a}
+      </p>
+      <div className="mini-chat" aria-hidden="true">
+        {/* Every question, answer and source list sits invisibly in the same
+            cell as the one showing, so the card is as tall as the longest and
+            never changes height while it types or when a new one is picked. */}
         <p className="ask grid">
-          <span aria-hidden="true" className="invisible col-start-1 row-start-1">
-            {Q}
-          </span>
-          <span className="col-start-1 row-start-1">{Q.slice(0, q)}</span>
+          {ASKS.map((o) => (
+            <span key={o.id} aria-hidden="true" className="invisible col-start-1 row-start-1">
+              {o.q}
+            </span>
+          ))}
+          <span className="col-start-1 row-start-1">{x.q.slice(0, q)}</span>
         </p>
         <div className="ans">
-          <p className="by">Context Engine · {SOURCES.length} sources</p>
+          <p className="by">Context Engine · {x.sources.length} sources</p>
           <p className="grid">
-            <span aria-hidden="true" className="invisible col-start-1 row-start-1">
-              {A}
-            </span>
-            <span className="col-start-1 row-start-1">{A.slice(0, a)}</span>
-          </p>
-          <ul className="ce-cites" aria-label="Sources">
-            {SOURCES.map((s, i) => (
-              <li
-                key={s}
-                className={`chip dot t-ver transition-opacity duration-300 ${i < src ? "opacity-100" : "opacity-0"}`}
-              >
-                {s}
-              </li>
+            {ASKS.map((o) => (
+              <span key={o.id} aria-hidden="true" className="invisible col-start-1 row-start-1">
+                {o.a}
+              </span>
             ))}
-          </ul>
+            <span className="col-start-1 row-start-1">{x.a.slice(0, a)}</span>
+          </p>
+          <div className="grid">
+            {ASKS.map((o) => (
+              <ul key={o.id} aria-hidden="true" className="ce-cites invisible col-start-1 row-start-1">
+                {o.sources.map((s) => (
+                  <li key={s} className="chip dot t-ver">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            ))}
+            <ul className="ce-cites col-start-1 row-start-1">
+              {x.sources.map((s, i) => (
+                <li
+                  key={s}
+                  className={`chip dot t-ver transition-opacity duration-300 ${i < src ? "opacity-100" : "opacity-0"}`}
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

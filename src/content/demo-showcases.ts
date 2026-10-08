@@ -72,6 +72,43 @@ export const ceQuestions: CeQuestion[] = [
   },
 ];
 
+// The short Ask demo on the homepage's Method slide (2026-10-08, #622): four
+// questions a visitor can pick, each a short answer with its sources. Same
+// invented accounts as above, kept short so the card stays the same height on
+// the slide whichever is picked.
+export type AskQuestion = { id: string; label: string; q: string; a: string; sources: string[] };
+
+export const askQuestions: AskQuestion[] = [
+  {
+    id: "quiet",
+    label: "Gone quiet",
+    q: "Which customers have gone quiet this quarter?",
+    a: "Three. The biggest is Fenwick Holt, who asked for a revised quote on 12 August and haven't replied since.",
+    sources: ["Call notes, 12 August", "CRM record, Fenwick Holt", "Quote, version 2"],
+  },
+  {
+    id: "pipeline",
+    label: "Q4 pipeline",
+    q: "What's in the pipeline for Q4?",
+    a: "£48k across seven open deals. The largest is the Copperfield relaunch at £12k, now in Proposal.",
+    sources: ["7 open deals, October to December", "Deal: Copperfield relaunch"],
+  },
+  {
+    id: "renewals",
+    label: "Renewals",
+    q: "Which contracts renew before Christmas?",
+    a: "Three. Quayside Yard is first, on 1 November, and its contract includes a price review.",
+    sources: ["Contract: Quayside Yard", "Renewal dates, CRM"],
+  },
+  {
+    id: "promise",
+    label: "Last call",
+    q: "What did we promise Copperfield on the last call?",
+    a: "A tasting by 10 October and a quote covering all three hotels. Tom promised both on 18 September.",
+    sources: ["Call notes, 18 September", "Email, 19 September"],
+  },
+];
+
 export const ceBonnet = [
   ["Hybrid RAG", "Retrieval-augmented generation that combines keyword and vector (semantic) search over documents with SQL over CRM records, so pipeline figures are counted, not guessed."],
   ["Citations and provenance", "Every answer carries the IDs of the records it used, shown as citations the reader can check."],
