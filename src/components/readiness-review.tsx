@@ -46,9 +46,11 @@ export function ReadinessReview() {
     };
     try {
       const res = await fetch("/api/review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: v }) });
+      // Our own refusals (the firewall's rate limit, a server error) aren't
+      // about their site, so they never say we couldn't open it.
       if (!res.ok || !res.body) {
-        const err = await res.json().catch(() => ({ code: "unreachable" }));
-        return set({ error: err.code ?? "unreachable" });
+        const err = await res.json().catch(() => null);
+        return set({ error: err?.code ?? (res.status === 429 ? "busy" : "server") });
       }
       const reader = res.body.getReader();
       const dec = new TextDecoder();
@@ -74,8 +76,10 @@ export function ReadinessReview() {
           } else if (ev.t === "error") set({ error: ev.code });
         }
       }
+      // A stream that stops without finishing was cut off on our side.
+      if (!state.date && !state.error) set({ error: "server" });
     } catch {
-      set({ error: "unreachable" });
+      set({ error: "server" });
     }
   }
 
@@ -87,7 +91,7 @@ export function ReadinessReview() {
   }
 
   const busy = !!s && !s.error && !s.date;
-  const error = s?.error ? w.t(`error.${["bad", "busy", "blocked"].includes(s.error) ? s.error : "unreachable"}`) : "";
+  const error = s?.error ? w.t(`error.${["bad", "busy", "blocked", "slow", "server"].includes(s.error) ? s.error : "unreachable"}`) : "";
 
   return (
     <div className="portal lk rv">

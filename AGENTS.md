@@ -165,7 +165,13 @@ isn't a public web address (other schemes and ports, raw or private IPs, names r
 networks; every redirect hop checked; bodies capped). Measured checks: robots.txt, AI crawlers
 allowed (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others), llms.txt, sitemap, business
 structured data, text readable without scripts, meta description, a chat widget, online booking. A
-"prove you're human" page is reported as such, not reviewed. The company is confirmed **only by the
+"prove you're human" page is reported as such, not reviewed. Waits: 15 s for the homepage (a slow one is
+reported as slow, not as unreachable), 10 s for each other page; a file counts as missing only when the
+site answers 404 or 410, so a timeout leaves that check out instead of claiming robots.txt or a sitemap
+is missing (a slow WordPress site behind Cloudflare took 7 to 12 s per uncached page, 2026-10-09). The
+AI step gets what is left of 55 s. Functions run in London (`vercel.json` regions `lhr1`; Hobby allows
+one region): the default, Washington, made UK sites slower and timed one out. Our own failures (the
+firewall's 429, a cut-off stream) say "on our side", never that their site couldn't be opened. The company is confirmed **only by the
 registered number the site shows** (the law asks limited companies to), scored against the domain
 and the site's own name; a name match alone picked wrong companies and was removed. Then
 `src/lib/review-advice.ts` makes one call to a model through OpenRouter (`src/lib/openrouter.ts`;

@@ -1,4 +1,4 @@
-import { BadUrl, Blocked, findCompany, normalise, readSite } from "@/lib/review";
+import { BadUrl, Blocked, Slow, Unreachable, findCompany, normalise, readSite } from "@/lib/review";
 import { advise } from "@/lib/review-advice";
 import { Busy } from "@/lib/lookup";
 import { serviceFor, work } from "@/content/site";
@@ -11,6 +11,8 @@ import { serviceFor, work } from "@/content/site";
    Nothing is logged but the model's cost. */
 
 export const maxDuration = 60;
+// The AI step gets what's left of this, so the whole review ends in time.
+const BUDGET = 55_000;
 
 type Event = Record<string, unknown>;
 const HOUR = 60 * 60_000;
@@ -40,6 +42,7 @@ export async function POST(request: Request) {
   const enc = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
+      const until = Date.now() + BUDGET;
       const events: Event[] = [];
       const send = (e: Event) => {
         events.push(e);
@@ -71,7 +74,7 @@ export async function POST(request: Request) {
               },
         );
 
-        const a = await advise(site, co);
+        const a = await advise(site, co, until - Date.now() - 1_000);
         send(
           a
             ? {
@@ -99,7 +102,10 @@ export async function POST(request: Request) {
           cache.set(start, { at: Date.now(), events });
         }
       } catch (e) {
-        send({ t: "error", code: e instanceof BadUrl ? "bad" : e instanceof Blocked ? "blocked" : e instanceof Busy ? "busy" : "unreachable" });
+        const code = e instanceof BadUrl ? "bad" : e instanceof Blocked ? "blocked" : e instanceof Slow ? "slow" : e instanceof Busy ? "busy" : e instanceof Unreachable ? "unreachable" : "server";
+        // Why it failed, never which site.
+        console.warn(JSON.stringify({ event: "review-failed", code, reason: e instanceof Unreachable ? e.message : e instanceof Error && code === "server" ? e.name : undefined }));
+        send({ t: "error", code });
       }
       controller.close();
     },

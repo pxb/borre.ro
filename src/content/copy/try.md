@@ -57,6 +57,14 @@ Your site showed us a "prove you're human" check instead of your pages. If AI cr
 > When our limit is reached · max 120
 We're busy right now. Try again in a few minutes.
 
+## error.slow
+> Their homepage didn't load within 15 seconds · max 200
+Your homepage took more than 15 seconds to load for us, so we stopped waiting. Try again in a minute. If it's often this slow, it's worth asking whoever hosts your site.
+
+## error.server
+> Something failed on our side, not theirs · max 120
+Something went wrong on our side, not yours. Try again in a minute.
+
 ## company.verified
 > The company was found from the registered number on the site. {name} and {number} are filled in · max 120
 {name}, company {number}, matched by the registered number on your site

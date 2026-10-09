@@ -123,8 +123,13 @@ function facts(site: SiteRead, co: Company) {
 export const adviceOn = aiOn;
 
 /** The chat and two or three suggestions, or null when off, capped, failed or unusable. */
-export async function advise(site: SiteRead, co: Company): Promise<Advice | null> {
+export async function advise(site: SiteRead, co: Company, budgetMs = 40_000): Promise<Advice | null> {
   if (!aiOn()) return null;
+  // Whatever time the request has left; too little and the review goes out without it.
+  if (budgetMs < 8_000) {
+    console.warn(JSON.stringify({ event: "review-advice-no-time", budgetMs }));
+    return null;
+  }
   const today = new Date().toISOString().slice(0, 10);
   if (today !== day) {
     day = today;
@@ -139,7 +144,7 @@ export async function advise(site: SiteRead, co: Company): Promise<Advice | null
     schema: { name: "readiness_review", schema: schema(site.pages.map((p) => p.url)) },
     maxTokens: 8000,
     effort: EFFORT,
-    timeoutMs: 40_000,
+    timeoutMs: Math.min(40_000, budgetMs),
   });
   if (!r) return null;
   const d = parseJson<{ summary?: unknown; questions?: unknown; picks?: unknown }>(r.text);

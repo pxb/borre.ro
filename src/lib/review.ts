@@ -19,6 +19,11 @@ export class Unreachable extends Error {}
 export class Blocked extends Error {}
 const BOT_WALL = /bot verification|just a moment|attention required|checking (your|if the site connection is) (browser|secure)|verify you are (a )?human|access denied|captcha|ddos protection/i;
 export class BadUrl extends Error {}
+// The homepage didn't arrive in time. Some sites (WordPress behind Cloudflare,
+// 2026-10-09) take 7 to 12 s for a page that isn't cached, more from the US.
+export class Slow extends Error {}
+const HOME_MS = 15_000;
+const PAGE_MS = 10_000;
 
 // ------------------------------------------------------------------ fetching, public addresses only
 
@@ -293,25 +298,36 @@ export function normalise(input: string) {
 }
 
 export async function readSite(start: string): Promise<SiteRead> {
-  const home = (await get(start)) ?? (start.startsWith("https:") ? await get(start.replace("https:", "http:")) : null);
+  const t0 = Date.now();
+  let home = await get(start, HOME_MS);
+  if (!home && Date.now() - t0 >= HOME_MS - 250) throw new Slow();
+  // Only a quick failure is worth a second try over plain http.
+  if (!home && start.startsWith("https:")) home = await get(start.replace("https:", "http:"), HOME_MS);
   if (home && (home.status === 403 || home.status === 429 || home.status === 503) && BOT_WALL.test(home.body)) throw new Blocked();
-  if (!home || home.status >= 400 || !/html/i.test(home.type) || !home.body) throw new Unreachable();
+  // The reason goes in the log, never the address.
+  if (!home) throw new Unreachable("no-response");
+  if (home.status >= 400) throw new Unreachable(`status-${home.status}`);
+  if (!/html/i.test(home.type) || !home.body) throw new Unreachable("not-html");
   // A security check page instead of the site: say so rather than review it.
   const firstText = text(home.body);
   if (words(firstText) < 60 && BOT_WALL.test(meta(home.body, /<title[^>]*>([\s\S]*?)<\/title>/i) + " " + firstText)) throw new Blocked();
   const base = new URL(home.url);
   const root = base.origin;
   const [robots, llms, sitemap, ...inner] = await Promise.all([
-    get(root + "/robots.txt", 5000),
-    get(root + "/llms.txt", 5000),
-    get(root + "/sitemap.xml", 5000),
-    ...innerLinks(home.body, base).map((u) => get(u, 6000)),
+    get(root + "/robots.txt", PAGE_MS),
+    get(root + "/llms.txt", PAGE_MS),
+    get(root + "/sitemap.xml", PAGE_MS),
+    ...innerLinks(home.body, base).map((u) => get(u, PAGE_MS)),
   ]);
 
   const homeText = text(home.body);
   const pages = [{ url: home.url, text: homeText.slice(0, PAGE_TEXT) }];
   for (const p of inner) if (p && p.status < 400 && /html/i.test(p.type)) pages.push({ url: p.url, text: text(p.body).slice(0, PAGE_TEXT) });
 
+  // A file counts as missing only when the site says so (404 or 410, or a
+  // page instead of the file). A timeout, an error or a refusal means we
+  // couldn't check, and that check is left out rather than reported missing.
+  const answered = (g: typeof robots) => !!g && (g.status < 400 || g.status === 404 || g.status === 410);
   const robotsOk = !!robots && robots.status < 400 && !/html/i.test(robots.type) && /user-agent|sitemap|disallow|allow/i.test(robots.body);
   const blocked = robotsOk ? blockedBots(robots!.body) : [];
   const llmsOk = !!llms && llms.status < 400 && !/html/i.test(llms.type) && llms.body.trim().length > 40;
@@ -333,10 +349,10 @@ export async function readSite(start: string): Promise<SiteRead> {
     fullText: [home.body, ...inner.map((p) => p?.body ?? "")].map((h) => text(h, true)).join(" "),
     checks: {
       ai: [
-        { id: "robots", ok: robotsOk },
+        ...(answered(robots) ? [{ id: "robots", ok: robotsOk }] : []),
         ...(robotsOk ? [{ id: "ai-access", ok: !blocked.length, vars: { names: blocked.join(", ") } }] : []),
-        { id: "llms", ok: llmsOk },
-        { id: "sitemap", ok: sitemapOk },
+        ...(answered(llms) ? [{ id: "llms", ok: llmsOk }] : []),
+        ...(sitemapOk || answered(sitemap) ? [{ id: "sitemap", ok: sitemapOk }] : []),
         { id: "schema", ok: BUSINESS.test(allHtml) },
         { id: "readable", ok: n >= 150, vars: { words: n } },
         { id: "description", ok: description.length > 20 },
@@ -374,7 +390,7 @@ export async function findCompany(site: SiteRead): Promise<Company> {
   const first = await company(site.fullText, own);
   if (first.status === "verified") return first;
   // If not, the legal pages.
-  const legal = await Promise.all(legalPages(site).map((u) => get(u, 5000)));
+  const legal = await Promise.all(legalPages(site).map((u) => get(u, 8000)));
   const more = legal.filter((l) => l && l.status < 400).map((l) => text(l!.body, true)).join(" ");
   return more ? company(more, own) : first;
 }
