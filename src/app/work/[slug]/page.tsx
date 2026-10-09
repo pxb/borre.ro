@@ -13,6 +13,7 @@ import { WorkflowDemo } from "@/components/demo/workflow-demo";
 import { leadEnrichmentRun, postCallRun } from "@/content/demo-showcases";
 import { LoopRun } from "@/components/loop-run";
 import { SignalCheckLazy } from "@/components/company-lookup-lazy";
+import { CaseReview } from "@/components/case-review";
 
 // The interactive piece for each case study, shown full width under Solution.
 // Prospecting plays one week of the loop first, then the board it fills (#622).
@@ -131,6 +132,9 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
             </p>
           ))}
       </Row>
+
+      {/* "What would this do for your business?": the review, starting from this case (Pedro, 2026-10-10). */}
+      <CaseReview slug={c.slug} />
 
       {/* Client feedback: only real words from the client, with permission. */}
       {c.testimonial ? (

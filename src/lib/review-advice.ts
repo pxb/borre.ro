@@ -104,7 +104,7 @@ const PHONE = /(\+44\s?(\(0\)\s?)?|\b0)\d[\d ]{8,12}\d/g;
 const SILENT = /\b(pages?|site|website)\b[^.]{0,40}\b(doesn['’]t|does not|don['’]t|do not)\s+(say|mention|give|include|cover)/i;
 const unlisted = (s: string) => s.replace(EMAIL, "the email address on our contact page").replace(PHONE, "the number on our contact page");
 
-function facts(site: SiteRead, co: Company) {
+function facts(site: SiteRead, co: Company, from = "") {
   const reg =
     co.status === "none"
       ? "Not matched to a UK company."
@@ -117,13 +117,17 @@ function facts(site: SiteRead, co: Company) {
           .filter(Boolean)
           .join("; ");
   const pages = site.pages.map((p) => `--- ${p.url}\n${p.text}`).join("\n\n");
-  return `Business: ${site.name} (${site.host})\nCompanies House: ${reg}\n\nTheir web pages:\n${pages}\n\nOur services (slug: name, what it does, what it includes):\n${SERVICES}\n\nOur case studies (slug: title, what it did):\n${CASES}`;
+  const c = from ? work.find((w) => w.slug === from) : undefined;
+  const start = c
+    ? `\n\nThey came from our case study "${c.title}" (${c.slug}): ${c.tagline} If similar work would fit this business, make it your first pick and name that case study. If it wouldn't fit, pick what fits best instead.`
+    : "";
+  return `Business: ${site.name} (${site.host})\nCompanies House: ${reg}\n\nTheir web pages:\n${pages}\n\nOur services (slug: name, what it does, what it includes):\n${SERVICES}\n\nOur case studies (slug: title, what it did):\n${CASES}${start}`;
 }
 
 export const adviceOn = aiOn;
 
 /** The chat and two or three suggestions, or null when off, capped, failed or unusable. */
-export async function advise(site: SiteRead, co: Company, budgetMs = 40_000): Promise<Advice | null> {
+export async function advise(site: SiteRead, co: Company, budgetMs = 40_000, from = ""): Promise<Advice | null> {
   if (!aiOn()) return null;
   // Whatever time the request has left; too little and the review goes out without it.
   if (budgetMs < 8_000) {
@@ -140,7 +144,7 @@ export async function advise(site: SiteRead, co: Company, budgetMs = 40_000): Pr
   const r = await ask({
     model: MODEL,
     system: SYSTEM,
-    user: facts(site, co),
+    user: facts(site, co, from),
     schema: { name: "readiness_review", schema: schema(site.pages.map((p) => p.url)) },
     maxTokens: 8000,
     effort: EFFORT,

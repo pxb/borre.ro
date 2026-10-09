@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import Link from "next/link";
 import { words } from "@/content/copy";
 import copyTry from "@/content/copy.gen/try";
-import { REVIEW_KEY, site as brand } from "@/content/site";
+import { REVIEW_KEY, site as brand, work } from "@/content/site";
 
 // The AI readiness review (/try, Pedro 2026-10-09), in the portal's product
 // design. The answer streams in by stage, so each part appears as it's ready:
@@ -30,8 +30,18 @@ const STAGES = ["stage.site", "stage.company", "stage.advice"];
 export function ReadinessReview() {
   const [url, setUrl] = useState("");
   const [s, setS] = useState<State | null>(null);
+  // Arriving from a case study's "What would this do for my business?":
+  // the suggestions start from that kind of work.
+  const [from, setFrom] = useState("");
   const run = useRef(0);
   const input = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("from") ?? "";
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (work.some((c) => c.slug === slug)) setFrom(slug);
+  }, []);
+  const fromTitle = work.find((c) => c.slug === from)?.title ?? "";
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -45,7 +55,7 @@ export function ReadinessReview() {
       if (id === run.current) setS(state);
     };
     try {
-      const res = await fetch("/api/review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: v }) });
+      const res = await fetch("/api/review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: v, ...(from ? { from } : {}) }) });
       // Our own refusals (the firewall's rate limit, a server error) aren't
       // about their site, so they never say we couldn't open it.
       if (!res.ok || !res.body) {
@@ -123,6 +133,7 @@ export function ReadinessReview() {
                 {w.t("go")}
               </button>
             </div>
+            {fromTitle ? <p className="lk-note">{fill(w.t("from"), { title: fromTitle })}</p> : null}
             <p className="lk-status" role="status" aria-live="polite">
               {error}
             </p>

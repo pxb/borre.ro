@@ -8,7 +8,8 @@
    providers that can't do structured output are skipped (require_parameters);
    if none can, we ask again for plain JSON and parse it ourselves. */
 
-const KEY = process.env.OPENROUTER_API_KEY ?? "";
+// Trimmed: a key pasted with a space or line break would fail every call.
+const KEY = (process.env.OPENROUTER_API_KEY ?? "").trim();
 const URL = "https://openrouter.ai/api/v1/chat/completions";
 
 export const aiOn = () => Boolean(KEY);

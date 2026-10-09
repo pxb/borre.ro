@@ -37,6 +37,22 @@ Try it free
 > The AI readiness review (/try) in the menus and footer · max 28
 AI readiness review
 
+## case.try.label
+> Case studies, the row after Results: its label on the left · max 30
+Your business
+
+## case.try.title
+> Case studies, that row's question · max 60
+What would this do for your business?
+
+## case.try.body
+> Case studies, under the question · max 200
+Give us your website and we'll show where work like this would fit, using only what your pages say. It's free and takes under a minute.
+
+## case.try.go
+> Case studies, the link to the review, which starts from this case study · max 30
+Check my website
+
 ## nav.signals
 > The signal check on the prospecting case study, in the menus · max 28
 Signal check

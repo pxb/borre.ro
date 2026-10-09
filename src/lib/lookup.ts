@@ -16,7 +16,8 @@ import { sic } from "@/content/sic";
      instance, and the credit limit on the key itself (set in OpenRouter). */
 
 const CH = "https://api.company-information.service.gov.uk";
-const KEY = process.env.CH_API_KEY ?? "";
+// Trimmed: a key pasted with a space or line break would fail every call.
+const KEY = (process.env.CH_API_KEY ?? "").trim();
 
 export class Busy extends Error {}
 export class Unavailable extends Error {}

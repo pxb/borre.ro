@@ -202,6 +202,18 @@ Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the 
 hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a bot wall).
 Checked by `cdp-review.mjs` (chat included).
 
+**Counting runs** (Pedro, 2026-10-10; Vercel Hobby keeps logs an hour and drops custom events): each
+review sends one anonymous line to the n8n workflow "borre.ro: readiness review runs (anonymous)"
+(`g8lscLMvhXznYBHV`), stored in the n8n data table `borre_review_runs`: outcome, company found, chat
+and suggestions returned, gaps, seconds, model cost, source (`try` or a case study slug) and
+environment. Never the address or the company, so /privacy stays true. Sent only from a deployment
+(`VERCEL_ENV`), or locally with `REVIEW_LOG=1`; filter on `env = production` for real use.
+
+**From a case study** (Pedro, 2026-10-10): each case study has a "Your business" row after Results,
+"What would this do for your business?", linking to `/try?from=<slug>`. The review then asks the model
+to make that kind of work its first pick where it fits. The row is drawn after load
+(`case-review.tsx`) to keep the case studies' HTML small. Checked by `cdp-case-review.mjs`.
+
 **Signal check** (the company lookup, on `/work/prospecting-loop#signal-check`; it was `/try` until
 2026-10-09): name any UK company, see what the prospecting system reads from the register
 (`src/lib/lookup.ts`, `/api/lookup`, words in `copy/signal-check.md`). Loaded after the page

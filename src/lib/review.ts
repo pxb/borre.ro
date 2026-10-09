@@ -212,7 +212,10 @@ const CHATS: [RegExp, string][] = [
 // Online booking: a booking tool, a form with an email field, or a link that
 // says it books a call, a demo or an appointment.
 const BOOK_LINK = /<a\b[^>]*>[^<]{0,40}\b(book|schedule|arrange)\b[^<]{0,30}\b(call|demo|consultation|meeting|appointment|viewing|table|visit)\b/i;
-const BOOKING = /calendly\.com|cal\.com\/|meetings(-eu1)?\.hubspot\.com|acuityscheduling|youcanbook\.me|outlook\.office\.com\/bookwithme|simplybook|setmore|squareup\.com\/appointments|<form\b[\s\S]*?type=["']?email/i;
+// Booking tools, and contact forms: a plain form with an email field or a
+// message box, or one a form tool draws with script (a HubSpot form isn't in
+// the page's HTML at all; one test site was told it had no form, 2026-10-09).
+const BOOKING = /calendly\.com|cal\.com\/|meetings(-eu1)?\.hubspot\.com|acuityscheduling|youcanbook\.me|outlook\.office\.com\/bookwithme|bookings\.office|simplybook|setmore|squareup\.com\/appointments|tidycal|savvycal|opentable|resdiary|fresha\.com|treatwell|hsforms|hbspt\.forms|hs-form|typeform\.com|jotform|tally\.so|forms\.office\.com|docs\.google\.com\/forms|wpforms|gform_wrapper|wpcf7|ninja-forms|fluentform|forminator|elementor-form|frm_form|wufoo|cognitoforms|paperform|webforms\.pipedrive|<form\b[\s\S]*?(type=["']?email|<textarea)/i;
 const BUSINESS = /"@type"\s*:\s*\[?\s*"(Organization|Corporation|LocalBusiness|ProfessionalService|Store|Restaurant|[A-Za-z]*Business|[A-Za-z]*Service|Hotel|Dentist|Physician|LegalService|AccountingService|RealEstateAgent|AutoDealer|EducationalOrganization|NGO)"/;
 
 // ------------------------------------------------------------------ the company

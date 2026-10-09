@@ -29,6 +29,10 @@ yourcompany.co.uk
 > The button · max 20
 Review my site
 
+## from
+> Under the box when they came from a case study. {title} is the case study's title · max 120
+Suggestions will start with work like {title}.
+
 ## stage.site
 > Progress, step 1 · max 40
 Reading your pages
