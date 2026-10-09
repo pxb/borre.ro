@@ -43,7 +43,7 @@ export function Scorecard() {
   const remember = () => {
     if (!r || !s) return;
     try {
-      sessionStorage.setItem(SCORECARD_KEY, `Scorecard: ${r.band.name}, about ${r.low} to ${r.high} hours a week back`);
+      sessionStorage.setItem(SCORECARD_KEY, `AI value calculator: ${r.band.name}, about ${r.low} to ${r.high} hours a week back`);
     } catch {}
   };
 

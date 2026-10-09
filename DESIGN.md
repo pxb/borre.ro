@@ -40,7 +40,7 @@ The accent means **act here** or **a good result**. Nothing else.
 - **Our answer**: the arrow that leads into each answer on slide 01. The problem is ink; the fix
   carries the accent.
 - **Where you start**: the first stop of the call track on /contact.
-- **A picked answer** on the readiness scorecard: its radio fills in the accent, like a picked stop.
+- **A picked answer** on the AI value calculator: its radio fills in the accent, like a picked stop.
 - **The picked item on a slide**: the stop on the slide 02 track, the newest edges of the cube on
   slide 03, the tread on the slide 04 ladder. The moving dot on the /services loop. Every slide carries
   the accent.

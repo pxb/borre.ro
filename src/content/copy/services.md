@@ -87,8 +87,8 @@ Managed service
 Not sure where to start?
 
 ## scorecard.link
-> The scorecard link · max 40
-Take the readiness scorecard
+> The AI value calculator link (/scorecard) · max 40
+Try the AI value calculator
 
 ## pricing.heading
 > Pricing section heading · max 20

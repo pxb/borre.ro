@@ -26,8 +26,8 @@ Book a free 30-minute call and we'll tell you what we'd do first.
 - Contact
 
 ## nav.scorecard
-> The scorecard link at the end of the Services menu, the phone menu and the footer · max 28
-Readiness scorecard
+> The AI value calculator (/scorecard) at the end of the Services menu, the phone menu and the footer · max 28
+AI value calculator
 
 ## nav.tools
 > Over the free tools in the Services menu and the phone menu · max 24

@@ -269,7 +269,7 @@ export const serviceGroups = [
   { name: svc.t("group.run"), slugs: ["support"] },
 ];
 
-// The free tools (Pedro, 2026-10-09): the readiness review, the scorecard and
+// The free tools (Pedro, 2026-10-09): the readiness review, the AI value calculator (/scorecard) and
 // the signal check, listed under Services in both menus.
 export const tools = [
   { href: "/try", label: ui.t("nav.review") },
@@ -286,7 +286,7 @@ export const REVIEW_KEY = "borre-review";
 // both read it, so neither can drift from the site.
 export const howToStart = {
   call: `Book a free 30-minute call: https://cal.com/${site.booking}`,
-  scorecard: `Not sure which service fits: take the readiness scorecard at ${site.url}/scorecard (eight questions, about two minutes), or get a free AI readiness review of your website at ${site.url}/try.`,
+  scorecard: `Not sure which service fits: try the AI value calculator at ${site.url}/scorecard (eight questions, about two minutes), or get a free AI readiness review of your website at ${site.url}/try.`,
   service: `To book about one service, use its page's button, or ${site.url}/contact?service=<slug> with a slug from the list of services.`,
   email: `Email: ${site.email}`,
 };

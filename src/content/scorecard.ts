@@ -1,5 +1,5 @@
-// The readiness scorecard (#581). Eight questions about how the business works
-// today. Two size the repeated admin, for a rough estimate of the time AI could
+// The AI value calculator, /scorecard (#581; the readiness scorecard until
+// 2026-10-09). Eight questions about how the business works today. Two size the repeated admin, for a rough estimate of the time AI could
 // give back; the rest score readiness and pick the service to start with. Runs
 // in the browser only: answers are never sent anywhere (Pedro, 2026-09-30).
 

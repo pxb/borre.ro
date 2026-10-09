@@ -1,5 +1,5 @@
 ---
-page: readiness scorecard
+page: AI value calculator
 route: /scorecard
 ---
 
@@ -7,11 +7,11 @@ route: /scorecard
 
 ## title
 > The page title; also the browser tab and search result title · max 40
-AI readiness scorecard
+AI value calculator
 
 ## lead
 > Under the title; also the search and share description · max 200
-Eight questions about how your business works today. You get a readiness score, an estimate of the hours AI could give back each week, and where to start.
+Eight questions about how your business works today. You get an estimate of the hours AI could give back each week, a readiness score and where to start.
 
 ## q.1
 > Question 1. Its answers (1 or 2, 3 to 10, 11 to 25, More than 25) are in code · max 140

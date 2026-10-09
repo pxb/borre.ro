@@ -32,7 +32,7 @@ const TOOLS = [
   {
     name: "how_to_start",
     description:
-      "How to start working with borre.ro: the free 30-minute call booking link, the readiness scorecard, and how to book about one service.",
+      "How to start working with borre.ro: the free 30-minute call booking link, the AI value calculator, and how to book about one service.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
 ];
