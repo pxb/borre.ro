@@ -19,7 +19,8 @@ type Ask = {
   user: string;
   schema?: { name: string; schema: Record<string, unknown> };
   maxTokens?: number;
-  effort?: "low" | "medium" | "high";
+  // "none" turns thinking off; thinking counts against maxTokens.
+  effort?: "none" | "low" | "medium" | "high";
   timeoutMs?: number;
 };
 
@@ -41,7 +42,7 @@ async function call(a: Ask, structured: boolean): Promise<Response> {
         { role: "system", content: a.system },
         { role: "user", content: a.user },
       ],
-      reasoning: { effort: a.effort ?? "low", exclude: true },
+      reasoning: a.effort === "none" ? { effort: "none" } : { effort: a.effort ?? "low", exclude: true },
       provider: { data_collection: "deny", ...(structured ? { require_parameters: true } : {}) },
       ...(a.schema
         ? structured
@@ -62,10 +63,19 @@ export async function ask(a: Ask): Promise<Answer | null> {
     let res = await call(a, true);
     // No provider for this model can do structured output: ask for plain JSON.
     if (a.schema && (res.status === 400 || res.status === 404)) res = await call(a, false);
-    if (!res.ok) return null;
+    // Failures are logged by status and OpenRouter's own message only, never
+    // the prompt or the answer, so the logs hold nothing a visitor typed.
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(JSON.stringify({ event: "openrouter-error", status: res.status, model: a.model, error: body.slice(0, 300) }));
+      return null;
+    }
     const d = await res.json();
     const text: string = d?.choices?.[0]?.message?.content ?? "";
-    if (!text.trim()) return null;
+    if (!text.trim()) {
+      console.warn(JSON.stringify({ event: "openrouter-empty", model: a.model, finish: d?.choices?.[0]?.finish_reason, tokensOut: d?.usage?.completion_tokens }));
+      return null;
+    }
     return {
       text,
       model: d?.model ?? a.model,
@@ -73,7 +83,8 @@ export async function ask(a: Ask): Promise<Answer | null> {
       tokensIn: d?.usage?.prompt_tokens,
       tokensOut: d?.usage?.completion_tokens,
     };
-  } catch {
+  } catch (e) {
+    console.warn(JSON.stringify({ event: "openrouter-failed", model: a.model, error: e instanceof Error ? e.name : "unknown" }));
     return null;
   }
 }

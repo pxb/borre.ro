@@ -196,7 +196,6 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
         ) : (
           <>
             <h3 className="lk-h">{w.t("group.picks")}</h3>
-            {s.advice.summary ? <p className="rv-summary">{s.advice.summary}</p> : null}
             <ol className="rv-picks">
               {s.advice.picks.map((p) => (
                 <li key={p.service}>

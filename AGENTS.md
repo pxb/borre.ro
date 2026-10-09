@@ -167,8 +167,14 @@ and the site's own name; a name match alone picked wrong companies and was remov
 `src/lib/review-advice.ts` asks a model through OpenRouter (`src/lib/openrouter.ts`; providers that
 don't keep data; structured output) for two or three of our services with one specific automation
 each and the closest case study, and the server keeps only known slugs. Model: `REVIEW_MODEL`,
-DeepSeek V4.1 Flash by default (Pedro). The checks are measured; the suggestions are labelled as
-written by AI. Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the
+Claude Sonnet 5.5 by default: Pedro asked for quality first, and on the 17-site eval it was the most
+specific and invented least (about 1.4p a review; DeepSeek V4.1 Flash and Claude Haiku 5.5 about
+0.1p, but generic or borrowing our own service wording as if it were theirs). `REVIEW_EFFORT` sets
+the model's thinking: `low` by default, which Sonnet 5.5 needs (it refuses `none`); DeepSeek needs
+`none` (at `low` it ran past 40 s). The summary in the answer is for checking only and isn't shown
+(it would tell visitors what their own business does). Passed checks are one short line; only
+misses say why they matter. The checks are measured; the suggestions are labelled as written by
+AI. Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the
 prospecting pack's hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a
 bot wall). Checked by `cdp-review.mjs`.
 
@@ -179,7 +185,7 @@ bot wall). Checked by `cdp-review.mjs`.
 
 **Settings (Vercel, Preview and Production):** `CH_API_KEY` (a Companies House key for the site only),
 `OPENROUTER_API_KEY` (a key with a credit limit; without it both AI parts switch off and the rest still
-works), optional `REVIEW_MODEL`, `REVIEW_DAILY` (default 300 per instance), `LOOKUP_AI_MODEL`,
+works), optional `REVIEW_MODEL`, `REVIEW_EFFORT`, `REVIEW_DAILY` (default 150 per instance), `LOOKUP_AI_MODEL`,
 `LOOKUP_AI_DAILY`. One firewall rate-limit rule (Hobby allows one): paths starting `/api/`, per IP.
 Same-site requests only; nothing typed is stored or logged (only the model's cost is). /privacy
 names both tools.

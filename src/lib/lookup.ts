@@ -243,6 +243,7 @@ const SYSTEM = `You write the first sentence of a cold email from a sales rep at
 - Use only the facts given. Never guess why something happened, never add numbers, names or events that are not in the facts.
 - One sentence, at most 35 words, plain UK English.
 - No pitch, no greeting, no sign-off, no flattery, no exclamation marks, no em dashes.
+- Don't open with "I noticed", "I saw" or "I see". Start with the company or the filing.
 - If the facts include a recent filing, open with the most recent one. Otherwise open with what the company does.
 Reply with the sentence only.`;
 

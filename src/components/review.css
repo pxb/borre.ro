@@ -72,10 +72,6 @@
 .portal .rv-checks li.no .rv-mark {
   color: var(--p-warn);
 }
-.portal .rv-summary {
-  margin: 0 0 10px;
-  color: var(--p-body);
-}
 .portal .rv-picks {
   display: grid;
   gap: 10px;

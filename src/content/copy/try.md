@@ -3,7 +3,7 @@ page: AI readiness review
 route: /try
 ---
 
-> /try: the free AI readiness review (Pedro, 2026-10-09). A visitor pastes their website; we read a few of its pages, confirm the company on Companies House, check whether AI assistants can find and read the site, and suggest two or three places our services would help, each with a similar case study. The checks are measured; the suggestions are written by AI from the visitor's own pages.
+> /try: the free AI readiness review (Pedro, 2026-10-09). We read a few public pages of the visitor's site, match the company on Companies House by the registered number on the site, run fixed checks, and AI suggests two or three of our services with the closest case study. Passed checks are one short line; only misses say why they matter.
 
 ## meta.title
 > Browser tab, search result and page title · max 40
@@ -11,7 +11,7 @@ AI readiness review
 
 ## lead
 > Under the title; also the page's search description · max 200
-Paste your website. In under a minute we'll check whether AI assistants can find and read it, and show two or three places AI could take work off your team.
+We read your website the way an AI crawler does and tell you what's missing. Then we suggest where AI would save your team time first, from what your site says you do.
 
 ## brand
 > Top left of the card · max 30
@@ -31,15 +31,15 @@ Review my site
 
 ## stage.site
 > Progress, step 1 · max 40
-Reading your site
+Reading your pages
 
 ## stage.company
 > Progress, step 2 · max 40
-Checking Companies House
+Looking you up on Companies House
 
 ## stage.advice
 > Progress, step 3 · max 40
-Finding where AI fits
+Working out where to start
 
 ## error.bad
 > When what was typed isn't a web address · max 120
@@ -47,11 +47,11 @@ That doesn't look like a web address. Try something like yourcompany.co.uk.
 
 ## error.unreachable
 > When the site can't be read · max 140
-We couldn't read that site. Check the address, or it may block automated visits.
+We couldn't open that site. Check the address, or it may be turning away automated visits.
 
 ## error.blocked
 > The site showed a "prove you're human" page instead of its content · max 220
-Your site asked us to prove we're human before showing anything, so we couldn't read it. AI assistants meet the same wall, so they can't read you either.
+Your site showed us a "prove you're human" check instead of your pages. If AI crawlers get the same check, they can't read you either. Worth raising with whoever runs your hosting.
 
 ## error.busy
 > When our limit is reached · max 120
@@ -59,95 +59,95 @@ We're busy right now. Try again in a few minutes.
 
 ## company.verified
 > The company was found from the registered number on the site. {name} and {number} are filled in · max 120
-{name}, company {number}, confirmed by the registered number on your site
+{name}, company {number}, matched by the registered number on your site
 
 ## company.none
 > No registered number found on the pages read · max 200
-We couldn't find a registered company number on the pages we read. Limited companies have to show it on their website, and it's how buyers and AI assistants confirm who you are.
+We couldn't find your company number on the pages we read. Limited companies have to show it on their website, and buyers use it to check who they're dealing with.
 
 ## group.ai
 > Heading over the first set of checks · max 60
-Can AI assistants find and read you?
+Can AI tools read your site?
 
 ## group.customers
 > Heading over the second set of checks · max 60
-Can customers get answers and book?
+Can customers ask and book?
 
 ## group.picks
 > Heading over the suggestions · max 60
-Where AI could help first
+Where we'd start
 
 ## check.robots.ok
 > robots.txt found · max 120
-You have a robots.txt, the file that tells search engines and AI assistants what they may read.
+You have a robots.txt.
 
 ## check.robots.no
 > No robots.txt · max 140
-No robots.txt. Add one so search engines and AI assistants know what they may read.
+No robots.txt. It's the first file crawlers look for, to see what they're allowed to read.
 
 ## check.ai-access.ok
 > AI crawlers allowed · max 120
-AI assistants such as ChatGPT, Claude and Perplexity are allowed to read your site.
+ChatGPT, Claude and Perplexity can all crawl your site.
 
 ## check.ai-access.no
 > Some AI crawlers blocked. {names} lists them · max 160
-Your robots.txt blocks {names}, so those assistants can't read your site.
+Your robots.txt turns away {names}, so they can't read your pages.
 
 ## check.llms.ok
 > llms.txt found · max 120
-You have an llms.txt, a plain summary of your business written for AI assistants.
+You have an llms.txt.
 
 ## check.llms.no
 > No llms.txt · max 160
-No llms.txt, the short plain-text summary of your business that AI assistants can read first.
+No llms.txt. It's a short plain-text guide to your business for AI tools. Not all of them read it yet, but it takes minutes to write.
 
 ## check.sitemap.ok
 > Sitemap found · max 100
-You have a sitemap, so every page can be found.
+You have a sitemap.
 
 ## check.sitemap.no
 > No sitemap · max 120
-No sitemap. Without one, pages deeper in your site are easy to miss.
+No sitemap, so pages deeper in your site are easy to miss.
 
 ## check.schema.ok
 > Structured business details found · max 140
-Your business details are marked up in a way machines can read (name, address, what you do).
+Your business details are marked up for machines to read.
 
 ## check.schema.no
 > None found · max 160
-Your business details aren't marked up for machines, so assistants have to guess your name, address and what you do.
+Your name, address and what you do aren't marked up, so crawlers have to work them out from the page.
 
 ## check.readable.ok
 > Text readable without scripts. {words} is filled in · max 120
-Your homepage reads clearly without scripts ({words} words).
+Crawlers can read your homepage text ({words} words).
 
 ## check.readable.no
 > Little text without scripts. {words} is filled in · max 160
-Your homepage shows only {words} words without scripts. AI tools that don't run scripts see an almost empty page.
+Crawlers see only {words} words on your homepage. The rest needs scripts to load, and many AI crawlers don't run them.
 
 ## check.description.ok
 > Meta description found · max 100
-Your homepage has a description for search results.
+Your homepage has a search description.
 
 ## check.description.no
 > Missing · max 120
-Your homepage has no description, so search results and assistants write their own.
+No homepage description, so search engines pick a snippet for you.
 
 ## check.chat.ok
 > A chat was found. {name} is filled in · max 120
-Visitors can ask questions in a chat on your site ({name}).
+There's a chat on your homepage ({name}).
 
 ## check.chat.no
 > No chat found · max 160
-We didn't find a chat on your homepage, so questions outside office hours wait for a reply.
+No chat on your homepage, so a question asked after hours waits until someone's in.
 
 ## check.booking.ok
 > Online booking or a contact form found · max 120
-Visitors can book or get in touch online.
+Customers can book or get in touch online.
 
 ## check.booking.no
 > Neither found · max 140
-We didn't find online booking or a contact form on the pages we read.
+We didn't find a booking link or contact form on the pages we read.
 
 ## pick.similar
 > Before the case study link under a suggestion · max 30
@@ -155,15 +155,15 @@ Similar work
 
 ## advice.off
 > When the suggestions can't be written right now · max 160
-We couldn't write suggestions just now. The checks above stand; book a call and we'll go through them with you.
+The suggestions didn't come through this time. The checks above still stand, and we can go through them on a call.
 
 ## next.title
 > Above the next step · max 60
-Want the inside view?
+That's the outside view
 
 ## next.body
 > max 240
-This review only sees your public pages. On a free 30-minute call we look at how the work actually flows, and what to do first.
+Most of the time AI saves is in work your website doesn't show, like quotes, follow-ups and reports. On a free 30-minute call we look at how yours runs and pick where to start.
 
 ## next.scorecard
 > Link to the scorecard · max 60
@@ -175,7 +175,7 @@ Review another site
 
 ## source
 > Under the review. {host} and {date} are filled in · max 200
-Read from {host} on {date}. The checks are measured; the suggestions are written by AI from your public pages. Nothing you type is stored.
+Read from {host} on {date}. AI wrote the suggestions from your public pages, so treat them as a starting point. We don't save what you type.
 
 ## no-js
 > Shown without JavaScript · max 120
