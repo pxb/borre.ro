@@ -12,9 +12,6 @@ import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
 import { WorkflowDemo } from "@/components/demo/workflow-demo";
 import { leadEnrichmentRun, postCallRun } from "@/content/demo-showcases";
 import { LoopRun } from "@/components/loop-run";
-import copyProspectingLoop from "@/content/copy.gen/case-prospecting-loop";
-
-const loop = words(copyProspectingLoop);
 
 // The interactive piece for each case study, shown full width under Solution.
 // Prospecting plays one week of the loop first, then the board it fills (#622).
@@ -22,14 +19,7 @@ const SHOWCASE: Record<string, () => React.ReactNode> = {
   "context-engine": () => <ContextEngineDemo />,
   "prospecting-loop": () => (
     <div className="pt-10">
-      <LoopRun
-        label={loop.t("loop.label")}
-        stops={loop.li("loop.stops")}
-        lines={loop.li("loop.lines")}
-        run={loop.t("loop.run")}
-        again={loop.t("loop.again")}
-        approve={loop.t("loop.approve")}
-      />
+      <LoopRun />
       <div className="mt-14">
         <ProspectingDemo />
       </div>

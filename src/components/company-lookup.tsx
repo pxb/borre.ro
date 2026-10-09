@@ -1,6 +1,7 @@
 "use client";
 
 import "@/components/demo/portal.css";
+import "@/components/lookup.css";
 import { useRef, useState, type FormEvent } from "react";
 import { words } from "@/content/copy";
 import copyTry from "@/content/copy.gen/try";

@@ -6,6 +6,15 @@ import "@/components/demo/portal.css";
 import { demoClient } from "@/content/demo-prospecting";
 import { askQuestions as ASKS } from "@/content/demo-showcases";
 
+// The longest question, answer and source list, laid invisibly under the one
+// showing so the card is as tall as the tallest pick and never jumps. One
+// copy each, not all four, to keep the homepage's HTML small (it sits just
+// under the first network round trip).
+const longest = (xs: string[]) => xs.reduce((a, b) => (b.length > a.length ? b : a));
+const LONG_Q = longest(ASKS.map((o) => o.q));
+const LONG_A = longest(ASKS.map((o) => o.a));
+const LONG_S = ASKS.reduce((a, b) => (b.sources.join("").length > a.sources.join("").length ? b : a)).sources;
+
 // The Context Engine answering a question, typed out when the Method slide
 // arrives; the visitor can then pick any of four questions (2026-10-08, #622),
 // in the card's top bar so the card is no taller on the slide.
@@ -100,37 +109,24 @@ export function AskDemo() {
         {x.q} {x.a}
       </p>
       <div className="mini-chat" aria-hidden="true">
-        {/* Every question, answer and source list sits invisibly in the same
-            cell as the one showing, so the card is as tall as the longest and
-            never changes height while it types or when a new one is picked. */}
         <p className="ask grid">
-          {ASKS.map((o) => (
-            <span key={o.id} aria-hidden="true" className="invisible col-start-1 row-start-1">
-              {o.q}
-            </span>
-          ))}
+          <span className="invisible col-start-1 row-start-1">{LONG_Q}</span>
           <span className="col-start-1 row-start-1">{x.q.slice(0, q)}</span>
         </p>
         <div className="ans">
           <p className="by">Context Engine · {x.sources.length} sources</p>
           <p className="grid">
-            {ASKS.map((o) => (
-              <span key={o.id} aria-hidden="true" className="invisible col-start-1 row-start-1">
-                {o.a}
-              </span>
-            ))}
+            <span className="invisible col-start-1 row-start-1">{LONG_A}</span>
             <span className="col-start-1 row-start-1">{x.a.slice(0, a)}</span>
           </p>
           <div className="grid">
-            {ASKS.map((o) => (
-              <ul key={o.id} aria-hidden="true" className="ce-cites invisible col-start-1 row-start-1">
-                {o.sources.map((s) => (
-                  <li key={s} className="chip dot t-ver">
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            ))}
+            <ul className="ce-cites invisible col-start-1 row-start-1">
+              {LONG_S.map((s) => (
+                <li key={s} className="chip dot t-ver">
+                  {s}
+                </li>
+              ))}
+            </ul>
             <ul className="ce-cites col-start-1 row-start-1">
               {x.sources.map((s, i) => (
                 <li

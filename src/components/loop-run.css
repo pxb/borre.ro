@@ -1,0 +1,159 @@
+/* A week of the loop (loop-run.tsx, #622). The stops' styles live here rather
+   than as utility classes on each of the seven stops, so the case study's HTML
+   stays small. Down the page below 1024px, across one track from 1024px.
+   DESIGN.md's track: 2px lines, 16px stops, the reached stop in the accent. */
+
+.lp-stops {
+  margin: 1.5rem 0 0 7px;
+}
+.lp-stop {
+  position: relative;
+  padding: 0 0 1.5rem 1.75rem;
+}
+.lp-stop:last-child {
+  padding-bottom: 0;
+}
+/* The track to the next stop, and the ink that fills it as the week moves on. */
+.lp-seg {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0;
+  left: -0.125rem;
+  width: 2px;
+  background: var(--rule);
+}
+.lp-seg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 0.7s ease-out;
+}
+.lp-stop.past .lp-seg::after {
+  transform: none;
+}
+.lp-dot {
+  position: absolute;
+  top: 0.125rem;
+  left: -9px;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--rule);
+  border-radius: 50%;
+  background: var(--paper);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.lp-stop.on .lp-dot {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+.lp-stop.at .lp-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.lp-fig {
+  margin-right: 0.75rem;
+  font-family: var(--font-mono-face), monospace;
+  font-size: 1.25rem;
+  font-stretch: 88%;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--rule);
+  transition: color 0.3s;
+}
+.lp-stop.on .lp-fig {
+  color: var(--ink);
+}
+.lp-stop.good.on .lp-fig {
+  color: var(--accent);
+}
+.lp-name {
+  font-weight: 500;
+  line-height: 1.375;
+  color: var(--ink-soft);
+  transition: color 0.3s;
+}
+.lp-stop.on .lp-name {
+  color: var(--ink);
+}
+.lp-line {
+  display: block;
+  margin-top: 0.25rem;
+  line-height: 1.375;
+  color: var(--ink-soft);
+}
+.lp-now,
+.lp-blank {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .lp-stops {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin: 2rem 0 0;
+  }
+  .lp-stop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    text-align: center;
+  }
+  /* Across, at the stops' centre: under a 32px figure and a 12px gap. */
+  .lp-seg {
+    top: 51px;
+    bottom: auto;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+  }
+  .lp-seg::after {
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  .lp-fig {
+    order: 1;
+    min-height: 2rem;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  .lp-blank {
+    display: block;
+  }
+  .lp-dot {
+    position: relative;
+    top: 0;
+    left: 0;
+    order: 2;
+    margin-top: 0.75rem;
+  }
+  .lp-name {
+    order: 3;
+    margin-top: 0.75rem;
+  }
+  .lp-line {
+    display: none;
+  }
+  /* Only the reached stop's line, under the track; one line's height held. */
+  .lp-now {
+    display: block;
+    min-height: 1.625em;
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    line-height: 1.625;
+    color: var(--ink-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-seg::after,
+  .lp-dot,
+  .lp-fig,
+  .lp-name {
+    transition: none;
+  }
+}
