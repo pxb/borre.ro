@@ -76,7 +76,9 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/pedromborrero/",
 };
 
-export type Metric = { value: string; label: string };
+// `note`: how an estimate was worked out, shown under the case study's results
+// with an asterisk on its label (not on /work).
+export type Metric = { value: string; label: string; note?: string };
 
 export type CaseStudy = {
   slug: string;
@@ -115,7 +117,11 @@ function caseStudy(
     problem: w.ps("challenge"),
     drawsOn: w.li("draws-on"),
     does: w.li("solution"),
-    metrics: figures.map((value, i) => ({ value, label: w.t(`result.${i + 1}`) })),
+    metrics: figures.map((value, i) => ({
+      value,
+      label: w.t(`result.${i + 1}`),
+      ...(w.has(`result.${i + 1}.note`) ? { note: w.t(`result.${i + 1}.note`) } : {}),
+    })),
     involved: w.ps("involved"),
     stack: w.li("connected-systems"),
     tech: w.li("technology"),
@@ -127,7 +133,7 @@ export const work: CaseStudy[] = [
   caseStudy(copyContextEngine, { slug: "context-engine", figures: ["100%", "1 day", "8"], services: ["context-engine"] }),
   caseStudy(copyProspectingLoop, {
     slug: "prospecting-loop",
-    figures: ["~1 hour", "6"],
+    figures: ["20 to 30 min", "6"],
     services: ["agentic-workflows", "apps-dashboards"],
   }),
   caseStudy(copyLeadResearch, { slug: "lead-research", figures: ["20 to 40 min", "~10 min"], services: ["agentic-workflows"] }),
@@ -263,12 +269,24 @@ export const serviceGroups = [
   { name: svc.t("group.run"), slugs: ["support"] },
 ];
 
+// The free tools (Pedro, 2026-10-09): the readiness review, the scorecard and
+// the signal check, listed under Services in both menus.
+export const tools = [
+  { href: "/try", label: ui.t("nav.review") },
+  { href: "/scorecard", label: ui.t("nav.scorecard") },
+  { href: "/work/prospecting-loop#signal-check", label: ui.t("nav.signals") },
+];
+
+// sessionStorage key: a finished readiness review's one line, added to the
+// booking notes like the scorecard's (BookingFrame).
+export const REVIEW_KEY = "borre-review";
+
 // How to start, for agents (#564): the same offer the pages make, with the
 // links an agent can hand straight to its user. llms.txt and the MCP server
 // both read it, so neither can drift from the site.
 export const howToStart = {
   call: `Book a free 30-minute call: https://cal.com/${site.booking}`,
-  scorecard: `Not sure which service fits: take the readiness scorecard at ${site.url}/scorecard (eight questions, about two minutes).`,
+  scorecard: `Not sure which service fits: take the readiness scorecard at ${site.url}/scorecard (eight questions, about two minutes), or get a free AI readiness review of your website at ${site.url}/try.`,
   service: `To book about one service, use its page's button, or ${site.url}/contact?service=<slug> with a slug from the list of services.`,
   email: `Email: ${site.email}`,
 };

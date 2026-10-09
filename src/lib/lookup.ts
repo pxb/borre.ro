@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { aiOn, ask } from "@/lib/openrouter";
 import { sic } from "@/content/sic";
 
 /* The company lookup behind /try (2026-10-08, #622): the visitor names a UK
@@ -12,8 +12,8 @@ import { sic } from "@/content/sic";
      dashboard, Pedro), so a single visitor can't run the key into its limit.
    - Here: a budget of Companies House calls per instance per five minutes,
      well under the key's 600, and an hour's cache, so repeats cost nothing.
-   - The AI line: off unless LOOKUP_AI_KEY is set, a daily cap per instance,
-     and the spend limit on the key itself (set in the Claude Console). */
+   - The AI line: off unless OPENROUTER_API_KEY is set, a daily cap per
+     instance, and the credit limit on the key itself (set in OpenRouter). */
 
 const CH = "https://api.company-information.service.gov.uk";
 const KEY = process.env.CH_API_KEY ?? "";
@@ -232,13 +232,12 @@ export async function brief(number: string): Promise<Brief | null> {
 
 // ------------------------------------------------------------------ the AI line (off by default)
 
-const AI_KEY = process.env.LOOKUP_AI_KEY ?? "";
-const AI_MODEL = process.env.LOOKUP_AI_MODEL ?? "claude-opus-5-5";
+const AI_MODEL = process.env.LOOKUP_AI_MODEL ?? "deepseek/deepseek-v4.1-flash";
 const AI_DAILY = Number(process.env.LOOKUP_AI_DAILY ?? 200);
 let aiDay = "";
 let aiUsed = 0;
 
-export const lineOn = () => Boolean(AI_KEY);
+export const lineOn = aiOn;
 
 const SYSTEM = `You write the first sentence of a cold email from a sales rep at a UK business-to-business supplier to the company described. It shows the rep has read the company's public record. Rules:
 - Use only the facts given. Never guess why something happened, never add numbers, names or events that are not in the facts.
@@ -249,7 +248,7 @@ Reply with the sentence only.`;
 
 /** One opening line from the register's facts, or null when off, capped or declined. */
 export async function line(b: Brief, facts: string): Promise<string | null> {
-  if (!AI_KEY) return null;
+  if (!aiOn()) return null;
   const today = new Date().toISOString().slice(0, 10);
   if (today !== aiDay) {
     aiDay = today;
@@ -260,28 +259,10 @@ export async function line(b: Brief, facts: string): Promise<string | null> {
   if (hit) return hit;
   if (aiUsed >= AI_DAILY) return null;
   aiUsed++;
-  const client = new Anthropic({ apiKey: AI_KEY, timeout: 20_000, maxRetries: 1 });
-  try {
-    const r = await client.beta.messages.create({
-      model: AI_MODEL,
-      max_tokens: 2000,
-      output_config: { effort: "low" },
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-      system: SYSTEM,
-      messages: [{ role: "user", content: facts }],
-    });
-    if (r.stop_reason === "refusal") return null;
-    const text = r.content
-      .flatMap((block) => (block.type === "text" ? [block.text] : []))
-      .join(" ")
-      .replace(/\s*[—–]\s*/g, ", ")
-      .trim();
-    if (!text) return null;
-    keep(key, text);
-    return text;
-  } catch {
-    // Rate limits, a spent key, an outage: the brief stands without the line.
-    return null;
-  }
+  // Rate limits, a spent key, an outage: the brief stands without the line.
+  const r = await ask({ model: AI_MODEL, system: SYSTEM, user: facts, maxTokens: 800, effort: "low", timeoutMs: 20_000 });
+  const text = r?.text.replace(/\s*[\u2014\u2013]\s*/g, ", ").trim();
+  if (!text) return null;
+  keep(key, text);
+  return text;
 }

@@ -34,8 +34,12 @@ Built in stages with the client's sales lead, from a pilot of hand-picked accoun
 The rep stays the human in the loop, sending from their own inbox and logging the outcome.
 
 ## result.1
-> Under the figure ~1 hour (kept in code). Result 1; the first two also show on /work · max 100
-of account research in each brief, estimated
+> Under the figure 20 to 30 min (kept in code). Result 1; the first two also show on /work · max 100
+of rep research time saved on each lead, estimated
+
+## result.1.note
+> How the estimate was worked out, under the results on the case study (with an asterisk on result 1; not on /work) · max 260
+Our estimate: by hand, a rep checking the same sources spends 20 to 30 minutes on each lead, and a thorough check of every source takes about an hour. Reading the brief takes about three minutes.
 
 ## result.2
 > Under the figure 6 (kept in code). Result 2; the first two also show on /work · max 100

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ui } from "@/content/site";
 
@@ -20,6 +20,13 @@ export function MobileNav({
   services: { name: string; links: NavLink[] }[];
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  // The list renders once the page has loaded, not in the server's HTML: the
+  // menu only opens with JavaScript, the same links are in the header and the
+  // footer, and leaving it out keeps every page's HTML inside the first
+  // network round trip (2026-10-09). The dialog is closed then, so nothing moves.
+  const [ready, setReady] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setReady(true), []);
   const close = () => ref.current?.close();
 
   return (
@@ -55,47 +62,48 @@ export function MobileNav({
               <X className="size-5" aria-hidden="true" />
             </button>
           </div>
-          <nav aria-label={ui.t("menu.title")} className="mt-2 flex flex-col overflow-y-auto px-6 pb-8">
-            {items.map((i) => (
-              <div key={i.href} className="border-b border-rule">
-                <Link
-                  href={i.href}
-                  onClick={close}
-                  className="block py-4 text-lg text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  {i.label}
-                </Link>
-                {i.href === "/services" ? (
-                  <div className="grid gap-5 pb-5">
-                    {/* Group names are dividers, not links: a hairline over a small grey
-                        label, with the services under it in ink. */}
-                    {services.map((g, gi) => (
-                      <div key={g.name}>
-                        <p className="flex items-center gap-3 text-xs font-medium text-ink-soft">
-                          <span>{g.name}</span>
-                          <span aria-hidden="true" className="h-px flex-1 bg-rule" />
-                        </p>
-                        <ul className="mt-1">
-                          {/* The scorecard closes the last group (Run), found by position so renaming the group in the copy files can't drop it. */}
-                          {[...g.links, ...(gi === services.length - 1 ? [{ href: "/scorecard", label: ui.t("nav.scorecard") }] : [])].map((l) => (
-                            <li key={l.href}>
-                              <Link
-                                href={l.href}
-                                onClick={close}
-                                className="flex min-h-11 items-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                              >
-                                {l.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+          {ready ? (
+            <nav aria-label={ui.t("menu.title")} className="mt-2 flex flex-col overflow-y-auto px-6 pb-8">
+              {items.map((i) => (
+                <div key={i.href} className="border-b border-rule">
+                  <Link
+                    href={i.href}
+                    onClick={close}
+                    className="block py-4 text-lg text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    {i.label}
+                  </Link>
+                  {i.href === "/services" ? (
+                    <div className="grid gap-5 pb-5">
+                      {/* Group names are dividers, not links: a hairline over a small grey
+                          label, with the services under it in ink. */}
+                      {services.map((g) => (
+                        <div key={g.name}>
+                          <p className="flex items-center gap-3 text-xs font-medium text-ink-soft">
+                            <span>{g.name}</span>
+                            <span aria-hidden="true" className="h-px flex-1 bg-rule" />
+                          </p>
+                          <ul className="mt-1">
+                            {g.links.map((l) => (
+                              <li key={l.href}>
+                                <Link
+                                  href={l.href}
+                                  onClick={close}
+                                  className="flex min-h-11 items-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                >
+                                  {l.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                 ) : null}
               </div>
             ))}
           </nav>
+          ) : null}
         </div>
       </dialog>
     </>

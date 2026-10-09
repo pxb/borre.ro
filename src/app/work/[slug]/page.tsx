@@ -12,6 +12,7 @@ import { ContextEngineDemo } from "@/components/demo/context-engine-demo";
 import { WorkflowDemo } from "@/components/demo/workflow-demo";
 import { leadEnrichmentRun, postCallRun } from "@/content/demo-showcases";
 import { LoopRun } from "@/components/loop-run";
+import { SignalCheckLazy } from "@/components/company-lookup-lazy";
 
 // The interactive piece for each case study, shown full width under Solution.
 // Prospecting plays one week of the loop first, then the board it fills (#622).
@@ -99,17 +100,12 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
       {SHOWCASE[c.slug] ? (
         <section className="border-b border-rule pt-2 pb-12">
           {SHOWCASE[c.slug]()}
-          {/* The same research, run on the reader's own company (#622). */}
+          {/* The signal check: the same research, run on any UK company
+              (moved here from /try, Pedro 2026-10-09). */}
           {c.slug === "prospecting-loop" ? (
-            <p className="mt-8">
-              <Link
-                href="/try"
-                data-track="try" data-track-where="case-study"
-                className="inline-flex min-h-11 items-center text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
-              >
-                {ui.t("nav.try")}
-              </Link>
-            </p>
+            <div id="signal-check" className="mt-14 scroll-mt-28">
+              <SignalCheckLazy />
+            </div>
           ) : null}
         </section>
       ) : null}
@@ -118,10 +114,22 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {c.metrics.map((m) => (
             <Figure key={m.label} value={m.value} dl>
-              <span className="block max-w-[16rem] text-sm text-ink-soft">{m.label}</span>
+              <span className="block max-w-[16rem] text-sm text-ink-soft">
+                {m.label}
+                {m.note ? <span aria-hidden="true">*</span> : null}
+              </span>
             </Figure>
           ))}
         </dl>
+        {/* How an estimate was worked out (Pedro, 2026-10-09). */}
+        {c.metrics
+          .filter((m) => m.note)
+          .map((m) => (
+            <p key={m.label} className="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">
+              <span aria-hidden="true">* </span>
+              {m.note}
+            </p>
+          ))}
       </Row>
 
       {/* Client feedback: only real words from the client, with permission. */}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navLabel, serviceFor, serviceGroups, ui } from "@/content/site";
+import { navLabel, serviceFor, serviceGroups, tools, ui } from "@/content/site";
 
 const ITEM =
   "block py-1.5 text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
@@ -37,11 +37,20 @@ export function ServicesMenu() {
                   ) : null;
                 })}
               </ul>
-              {/* The scorecard closes the last group (Run), by position, so a renamed group keeps it. */}
+              {/* The free tools close the last group (Run), by position, so a renamed group keeps them. */}
               {gi === serviceGroups.length - 1 ? (
-                <Link href="/scorecard" className={`${ITEM} mt-6 border-t border-rule pt-4 text-sm`}>
-                  {ui.t("nav.scorecard")}
-                </Link>
+                <div className="mt-6 border-t border-rule pt-4">
+                  <p className="label">{ui.t("nav.tools")}</p>
+                  <ul className="mt-3 text-sm">
+                    {tools.map((t) => (
+                      <li key={t.href}>
+                        <Link href={t.href} className={ITEM}>
+                          {t.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
             </div>
           ))}

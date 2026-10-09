@@ -149,6 +149,45 @@ capture, needs a /privacy change) is paused on #581.
 
 Linked from /services, the footer and the header's Services menu.
 
+## Free tools (#622, 2026-10-09)
+
+Three, listed together as "Try it free" under Services in both menus (`tools` in `site.ts`): the
+readiness scorecard (above), the AI readiness review and the signal check.
+
+**AI readiness review, `/try`** (Pedro's spec, 2026-10-09). A visitor pastes a website; `/api/review`
+streams one JSON line per stage (site and checks, company, suggestions, done), so the card fills in as
+it goes. `src/lib/review.ts` reads the homepage and up to three inner pages, refusing anything that
+isn't a public web address (other schemes and ports, raw or private IPs, names resolving to private
+networks; every redirect hop checked; bodies capped). Measured checks: robots.txt, AI crawlers
+allowed (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others), llms.txt, sitemap, business
+structured data, text readable without scripts, meta description, a chat widget, online booking. A
+"prove you're human" page is reported as such, not reviewed. The company is confirmed **only by the
+registered number the site shows** (the law asks limited companies to), scored against the domain
+and the site's own name; a name match alone picked wrong companies and was removed. Then
+`src/lib/review-advice.ts` asks a model through OpenRouter (`src/lib/openrouter.ts`; providers that
+don't keep data; structured output) for two or three of our services with one specific automation
+each and the closest case study, and the server keeps only known slugs. Model: `REVIEW_MODEL`,
+DeepSeek V4.1 Flash by default (Pedro). The checks are measured; the suggestions are labelled as
+written by AI. Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the
+prospecting pack's hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a
+bot wall). Checked by `cdp-review.mjs`.
+
+**Signal check** (the company lookup, on `/work/prospecting-loop#signal-check`; it was `/try` until
+2026-10-09): name any UK company, see what the prospecting system reads from the register
+(`src/lib/lookup.ts`, `/api/lookup`, words in `copy/signal-check.md`). Loaded after the page
+(`company-lookup-lazy.tsx`). Checked by `cdp-try.mjs`.
+
+**Settings (Vercel, Preview and Production):** `CH_API_KEY` (a Companies House key for the site only),
+`OPENROUTER_API_KEY` (a key with a credit limit; without it both AI parts switch off and the rest still
+works), optional `REVIEW_MODEL`, `REVIEW_DAILY` (default 300 per instance), `LOOKUP_AI_MODEL`,
+`LOOKUP_AI_DAILY`. One firewall rate-limit rule (Hobby allows one): paths starting `/api/`, per IP.
+Same-site requests only; nothing typed is stored or logged (only the model's cost is). /privacy
+names both tools.
+
+**Page size.** Mobile Lighthouse adds a round trip (about 150 ms of first paint) once a page's
+compressed HTML and headers pass about 14.6 KB. The homepage and the prospecting case study sit just
+under it; check with `Lab/borre-tools/html-budget.mjs` after any change to them, copy included.
+
 ## Agent-facing surfaces (#564, 2026-09-30)
 
 `/llms.txt` and `/api/mcp` are read by agents shortlisting suppliers, so both open with how to start:
@@ -190,7 +229,7 @@ maker, CC BY 4.0, provided as is with no support (Pedro, 2026-09-30).
 ## Header menus (2026-09-30)
 
 From 1024px (640px until 2026-09-30, when the link row wrapped to two lines on an iPad; tablets now get the menu button), Services opens a panel of every service in its group (Start, Build, Run) plus the
-scorecard, on hover or keyboard focus, in CSS only (`services-menu.tsx`): hidden with `invisible`
+free tools ("Try it free", since 2026-10-09), on hover or keyboard focus, in CSS only (`services-menu.tsx`): hidden with `invisible`
 so its links stay out of the tab order until Services has focus, hung from the right edge of the
 header's links so it never runs past the page, and no wider than the viewport less 3rem. The phone
 menu lists the same services under Services. Groups live in `serviceGroups` in `site.ts`, shared

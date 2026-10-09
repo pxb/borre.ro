@@ -38,8 +38,8 @@ We build and run the systems that take busywork off small and medium-sized UK bu
 Case studies
 
 ## hero.try
-> The link under the hero buttons, to the company lookup (/try) · max 30
-Try it on your company
+> The link under the hero buttons, to the AI readiness review (/try) · max 40
+Get a free AI readiness review
 
 ## problem.label
 > Story step: the name in the step bar · max 12

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { serviceFor, site, ui } from "@/content/site";
+import { REVIEW_KEY, serviceFor, site, ui } from "@/content/site";
 import { SCORECARD_KEY } from "@/content/scorecard";
 
 const FRAME = "h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:border";
@@ -12,12 +12,14 @@ const FRAME = "h-[60rem] w-full border-y border-rule bg-paper sm:h-[44rem] sm:bo
 // static): the server sends an empty frame of the same size, so nothing shifts.
 export function BookingFrame() {
   const service = serviceFor(useSearchParams().get("service") ?? "");
-  // A scorecard result, kept in this tab only, joins the note.
+  // A scorecard result or a readiness review, kept in this tab only, joins the note.
   let scorecard = "";
+  let review = "";
   try {
     scorecard = sessionStorage.getItem(SCORECARD_KEY) ?? "";
+    review = sessionStorage.getItem(REVIEW_KEY) ?? "";
   } catch {}
-  const note = [service ? `About: ${service.name}` : "", scorecard].filter(Boolean).join(". ");
+  const note = [service ? `About: ${service.name}` : "", scorecard, review].filter(Boolean).join(". ");
   const notes = note ? `&notes=${encodeURIComponent(note)}` : "";
   return (
     <iframe

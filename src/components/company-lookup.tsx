@@ -2,15 +2,15 @@
 
 import "@/components/demo/portal.css";
 import "@/components/lookup.css";
-import { useRef, useState, type FormEvent } from "react";
+import { useCallback, useRef, useState, type FormEvent } from "react";
 import { words } from "@/content/copy";
-import copyTry from "@/content/copy.gen/try";
+import copySignals from "@/content/copy.gen/signal-check";
 import type { Brief, Match } from "@/lib/lookup";
 
 // The company lookup (/try, #622), in the portal's product design like the
 // prospecting brief it borrows from: search the register, pick the company,
 // read what the prospecting system would. The words are in copy/try.md.
-const w = words(copyTry);
+const w = words(copySignals);
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
@@ -37,7 +37,6 @@ export function CompanyLookup() {
   const [q, setQ] = useState("");
   const [s, setS] = useState<State>({ at: "idle" });
   const input = useRef<HTMLInputElement>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
   const run = useRef(0);
 
   const fail = (e: unknown) => {
@@ -52,7 +51,6 @@ export function CompanyLookup() {
       const { brief, line } = (await post({ number })) as { brief: Brief; line: boolean };
       if (id !== run.current) return;
       setS({ at: "brief", brief, line: line ? "writing" : "off" });
-      requestAnimationFrame(() => heading.current?.focus());
       if (!line) return;
       const r = (await post({ number, line: true }).catch(() => ({ line: null }))) as { line: string | null };
       if (id !== run.current) return;
@@ -143,7 +141,7 @@ export function CompanyLookup() {
           </div>
         ) : null}
 
-        {s.at === "brief" ? <BriefView b={s.brief} line={s.line} heading={heading} onReset={reset} /> : null}
+        {s.at === "brief" ? <BriefView b={s.brief} line={s.line} onReset={reset} /> : null}
       </div>
     </div>
   );
@@ -152,14 +150,14 @@ export function CompanyLookup() {
 function BriefView({
   b,
   line,
-  heading,
   onReset,
 }: {
   b: Brief;
   line: "off" | "writing" | string | null;
-  heading: React.RefObject<HTMLHeadingElement | null>;
   onReset: () => void;
 }) {
+  // Focus moves to the brief's heading once it is on the page.
+  const heading = useCallback((el: HTMLHeadingElement | null) => el?.focus(), []);
   const active = b.status === "active";
   // Whole years to the day the register was read.
   const years = b.incorporated ? Math.floor((Date.parse(b.asOf) - Date.parse(b.incorporated)) / (365.25 * 864e5)) : null;

@@ -1,13 +1,13 @@
 import { brief, Busy, companyNumber, line, lineOn, search, type Brief } from "@/lib/lookup";
 import { words } from "@/content/copy";
-import copyTry from "@/content/copy.gen/try";
+import copySignals from "@/content/copy.gen/signal-check";
 
 /* The company lookup (/try, #622). One POST route, so one firewall rule covers
    it: { q } searches the register, { number } builds the brief, { number,
    line: true } writes the optional AI opening line from that brief. Nothing
    in the request is logged or stored. Only this site's pages may call it. */
 
-const w = words(copyTry);
+const w = words(copySignals);
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 

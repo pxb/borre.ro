@@ -25,7 +25,7 @@ export const metadata: Metadata = pageMeta({
 // are in the UK Extension to the EU-US Data Privacy Framework; Cal.com says
 // standard contractual clauses or the Framework. Vercel's Hobby plan has no
 // data processing addendum, so the page claims no contract with providers.
-const UPDATED = "8 October 2026";
+const UPDATED = "9 October 2026";
 
 const LINK =
   "text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
