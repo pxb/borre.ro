@@ -87,7 +87,7 @@ A thing in a list (a service, a case study, a stop on the call track):
   open on their content (`Page bare`, h1 for screen readers only). /about and the case studies keep a
   visible title because it says something the nav does not.
 - **Document pages** (/about, the case studies) are one structure: label-left rows (`Row`) divided by
-  hairlines. /about: the title beside the mark, then Who we are, What we stand for, Who we work with.
+  hairlines. /about: the title beside the mark, then Who we are (with LinkedIn), What we stand for.
   Each commitment reuses a line the site already makes, so /about adds no new claim.
 - Breadcrumbs only where there is a level to go back to (case studies).
 - Slides: the title and one short paragraph left, one `Frame` right.

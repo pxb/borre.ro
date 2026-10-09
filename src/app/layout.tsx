@@ -10,7 +10,6 @@ import { Analytics } from "@/components/analytics";
 import { FooterCta } from "@/components/footer-cta";
 import { BackToTop } from "@/components/back-to-top";
 import { CopyReviewLoader } from "@/components/copy-review-loader";
-import { fill } from "@/components/fill";
 import { OfferBar } from "@/components/offer-bar";
 
 // Archivo carries a real width axis (62-125), so the display cuts are genuinely
@@ -151,18 +150,7 @@ function Footer() {
               borre<span className="text-accent">.ro</span>
             </HomeLink>
             <p className="mt-4 max-w-xs leading-relaxed text-ink-soft">
-              {fill(ui.t("footer.about"), {
-                partner: (
-                  <a
-                    href="https://www.amplifymyai.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action"
-                  >
-                    {ui.t("footer.partner")}
-                  </a>
-                ),
-              })}
+              {ui.t("footer.about")}
             </p>
             <p className="mt-2 text-ink-soft">{site.location}</p>
           </div>

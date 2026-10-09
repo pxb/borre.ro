@@ -46,12 +46,8 @@ Open menu
 Close menu
 
 ## footer.about
-> Footer, under the logo. {partner} is the link to the partner practice · max 80
-AI and Revenue Operations, delivered with {partner}.
-
-## footer.partner
-> The partner practice's name, as the link text · max 30
-Amplify My AI
+> Footer, under the logo · max 80
+AI and Revenue Operations.
 
 ## footer.case-studies
 > Footer column heading · max 20

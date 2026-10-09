@@ -56,11 +56,3 @@ We prove it works
 ## principle.3.text
 > Commitment 3: one line · max 110
 Each system is measured against the job it was built to do.
-
-## label.work-with
-> Row label · max 24
-Who we work with
-
-## partner
-> One line about the partner practice · max 100
-Client work is delivered with our partner practice, Amplify My AI.

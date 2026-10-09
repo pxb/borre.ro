@@ -14,7 +14,7 @@ const LINK =
   "text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
 
 // One document about the practice, in the same label-left rows as the case
-// studies (DESIGN.md): who we are, what we hold to, who we work with. The mark
+// studies (DESIGN.md): who we are and what we hold to. The mark
 // stands beside the title in place of a photograph.
 export default function About() {
   return (
@@ -35,6 +35,11 @@ export default function About() {
               {p}
             </p>
           ))}
+          <p>
+            <a href={site.linkedin} target="_blank" rel="me noreferrer" className={`inline-flex min-h-11 items-center sm:min-h-0 ${LINK}`}>
+              {ui.t("footer.linkedin")}
+            </a>
+          </p>
         </div>
       </Row>
 
@@ -50,16 +55,6 @@ export default function About() {
         </ul>
       </Row>
 
-      <Row label={about.labels.workWith}>
-        <div className="max-w-2xl">
-          <p className="text-lg leading-relaxed text-ink">{about.partner}</p>
-          <p className="mt-4">
-            <a href={site.linkedin} target="_blank" rel="me noreferrer" className={`inline-flex min-h-11 items-center sm:min-h-0 ${LINK}`}>
-              {ui.t("footer.linkedin")}
-            </a>
-          </p>
-        </div>
-      </Row>
     </div>
   );
 }

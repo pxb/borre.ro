@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # borre.ro — build standards
 
-Profile site for an AI and Revenue Operations practice, written as "we" (a practice, not a sole trader). Client work is delivered with the partner practice Amplify My AI; this site is the proof behind it. Positioning lives in the Obsidian vault at `01 Projects/AI Cubed/`. Build spec is Baserow card #327.
+Profile site for an AI and Revenue Operations practice, written as "we" (a practice, not a sole trader), run by Pedro Borrero. The site no longer credits a partner practice (Pedro, 2026-10-09). Positioning lives in the Obsidian vault at `01 Projects/AI Cubed/`. Build spec is Baserow card #327.
 
 ## Design
 

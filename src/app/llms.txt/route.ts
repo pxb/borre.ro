@@ -30,8 +30,6 @@ export function GET() {
     "",
     ...about.principles.map((x) => `- ${x.t}: ${x.d}`),
     "",
-    about.partner,
-    "",
     "## Case studies",
     "",
     ...work.map(

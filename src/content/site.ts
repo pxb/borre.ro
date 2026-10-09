@@ -213,8 +213,7 @@ export const about = {
   intro: ab.t("intro"),
   body: ab.ps("body"),
   principles: [1, 2, 3].map((i) => ({ t: ab.t(`principle.${i}.title`), d: ab.t(`principle.${i}.text`) })),
-  partner: ab.t("partner"),
-  labels: { who: ab.t("label.who"), standFor: ab.t("label.stand-for"), workWith: ab.t("label.work-with") },
+  labels: { who: ab.t("label.who"), standFor: ab.t("label.stand-for") },
 };
 
 // The services taxonomy (Pedro, 2026-09-22). Plain description first; `under`
