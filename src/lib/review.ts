@@ -12,7 +12,7 @@ import { brief, companyNumber, type Brief } from "@/lib/lookup";
 const UA = "Mozilla/5.0 (compatible; borre.ro readiness review; +https://borre.ro/try)";
 const MAX_PAGE = 1_500_000; // bytes read from any one page
 const PAGE_TEXT = 4_000; // characters of text kept per page
-const PAGES = 3; // inner pages read besides the homepage
+const PAGES = 4; // inner pages read besides the homepage: two about the business, two customers use
 
 export class Unreachable extends Error {}
 // The site answered with a "prove you're human" page instead of its content.
@@ -123,12 +123,14 @@ function text(html: string, keepChrome = false) {
 const meta = (html: string, re: RegExp) => decode((html.match(re)?.[1] ?? "").trim());
 const words = (t: string) => (t ? t.split(" ").length : 0);
 
-// Inner pages worth reading, by what their links say: what the business does,
-// who it serves, how to reach it.
-const WANT = /about|service|what-we-do|solutions|products|sectors|industr|who-we|our-work|work|case|clients|pricing|contact/i;
+// Inner pages worth reading, by what their links say: two on what the
+// business does and who it serves (for the suggestions), two that answer
+// customers' questions (for the chat): help, delivery, returns, booking.
+const WANT = /about|service|what-we-do|solutions|products|sectors|industr|who-we|our-work|\bwork\b|case|clients/i;
+const ASKED = /faq|help|question|support|deliver|shipping|returns|refund|booking|book|appointment|pricing|prices|fees|how-it-works|contact/i;
 function innerLinks(html: string, base: URL) {
   const seen = new Set<string>([base.pathname.replace(/\/$/, "") || "/"]);
-  const scored: { url: string; score: number }[] = [];
+  const scored: { url: string; score: number; asked: boolean }[] = [];
   for (const m of html.matchAll(/<a\b[^>]*href=["']([^"'#]+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
     let u: URL;
     try {
@@ -141,13 +143,20 @@ function innerLinks(html: string, base: URL) {
     const path = u.pathname.replace(/\/$/, "") || "/";
     if (seen.has(path) || path.split("/").length > 3) continue;
     const label = text(m[2]).toLowerCase();
-    const score = (WANT.test(path) ? 2 : 0) + (WANT.test(label) ? 1 : 0) - (/blog|news|privacy|terms|cookie|login|cart|account/i.test(path) ? 3 : 0);
+    const asked = ASKED.test(path) || ASKED.test(label);
+    const want = (WANT.test(path) ? 2 : 0) + (WANT.test(label) ? 1 : 0);
+    const score = Math.max(want, asked ? (ASKED.test(path) ? 2 : 1) : 0) - (/blog|news|privacy|terms|cookie|login|cart|account/i.test(path) ? 3 : 0);
     if (score > 0) {
       seen.add(path);
-      scored.push({ url: u.origin + path, score });
+      scored.push({ url: u.origin + path, score, asked: asked && !want });
     }
   }
-  return scored.sort((a, b) => b.score - a.score).slice(0, PAGES).map((s) => s.url);
+  scored.sort((a, b) => b.score - a.score);
+  // Half each where the site has both; otherwise whatever it has.
+  const half = PAGES / 2;
+  const asked = scored.filter((s) => s.asked).slice(0, half);
+  const rest = scored.filter((s) => !asked.includes(s)).slice(0, PAGES - asked.length);
+  return [...rest, ...asked].map((s) => s.url);
 }
 
 // ------------------------------------------------------------------ the checks

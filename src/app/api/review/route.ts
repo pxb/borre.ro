@@ -4,11 +4,11 @@ import { Busy } from "@/lib/lookup";
 import { serviceFor, work } from "@/content/site";
 
 /* The AI readiness review (/try, 2026-10-09). POST { url } and the answer
-   streams back one JSON line per stage as it finishes: the site and its
-   checks, the company, the suggestions, then done. Same-site requests only;
-   the firewall's per-IP rule covers /api/. A site's review is kept for an
-   hour in memory, so a second look costs nothing. Nothing is logged but the
-   model's cost. */
+   streams back one JSON line per stage as it finishes: the site, its checks
+   and the pages read, the company, the chat and the suggestions, then done.
+   Same-site requests only; the firewall's per-IP rule covers /api/. A site's
+   review is kept for an hour in memory, so a second look costs nothing.
+   Nothing is logged but the model's cost. */
 
 export const maxDuration = 60;
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       }
       try {
         const site = await readSite(start);
-        send({ t: "site", host: site.host, name: site.name, words: site.words, checks: site.checks });
+        send({ t: "site", host: site.host, name: site.name, words: site.words, checks: site.checks, pages: site.pages.map((p) => p.url) });
 
         const co = await findCompany(site).catch((e) => {
           if (e instanceof Busy) return { status: "none" as const };
@@ -77,6 +77,7 @@ export async function POST(request: Request) {
             ? {
                 t: "advice",
                 summary: a.summary,
+                questions: a.questions,
                 picks: a.picks.map((p) => {
                   const s = serviceFor(p.service)!;
                   const c = work.find((w) => w.slug === p.case_study);

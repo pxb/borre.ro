@@ -3,7 +3,7 @@ page: AI readiness review
 route: /try
 ---
 
-> /try: the free AI readiness review (Pedro, 2026-10-09). We read a few public pages of the visitor's site, match the company on Companies House by the registered number on the site, run fixed checks, and AI suggests two or three of our services with the closest case study. Passed checks are one short line; only misses say why they matter.
+> /try: the free AI readiness review (Pedro, 2026-10-09). We read a few public pages of the visitor's site, match the company on Companies House by the registered number on the site, and run fixed checks. Then, in one AI step, their site as a chat (the questions their customers would ask, answered only from those pages) and two or three of our services with the closest case study. Passed checks are one short line; only misses say why they matter.
 
 ## meta.title
 > Browser tab, search result and page title · max 40
@@ -11,7 +11,7 @@ AI readiness review
 
 ## lead
 > Under the title; also the page's search description · max 200
-We read your website the way an AI crawler does and tell you what's missing. Then we suggest where AI would save your team time first, from what your site says you do.
+See your website answer the questions your customers ask, the way a chat on your site could. We also check what AI crawlers can read and suggest where AI would save your team time first.
 
 ## brand
 > Top left of the card · max 30
@@ -39,7 +39,7 @@ Looking you up on Companies House
 
 ## stage.advice
 > Progress, step 3 · max 40
-Working out where to start
+Answering as your website would
 
 ## error.bad
 > When what was typed isn't a web address · max 120
@@ -72,6 +72,34 @@ Can AI tools read your site?
 ## group.customers
 > Heading over the second set of checks · max 60
 Can customers ask and book?
+
+## group.chat
+> Heading over their site as a chat. {name} is the site's name · max 60
+Ask {name}
+
+## chat.pick
+> Read out by screen readers over the question buttons · max 60
+Questions a customer might ask
+
+## chat.gap
+> The answer when their pages don't answer the question · max 160
+We couldn't find this on the pages we read. A customer asking it would have to get in touch and wait for a reply.
+
+## chat.gaps.one
+> Under the chat when one question isn't answered · max 100
+One of these isn't answered on the pages we read.
+
+## chat.gaps.many
+> Under the chat when several aren't answered. {n} and {total} are filled in · max 100
+{n} of these {total} aren't answered on the pages we read.
+
+## chat.note
+> Under the chat. {pages} lists the pages read · max 200
+We chose the questions. The answers come only from these pages: {pages}.
+
+## chat.home
+> How the homepage shows in the list of pages read · max 20
+homepage
 
 ## group.picks
 > Heading over the suggestions · max 60
@@ -175,7 +203,7 @@ Review another site
 
 ## source
 > Under the review. {host} and {date} are filled in · max 200
-Read from {host} on {date}. AI wrote the suggestions from your public pages, so treat them as a starting point. We don't save what you type.
+Read from {host} on {date}. AI wrote the answers and suggestions from your public pages, so treat them as a starting point. We don't save what you type.
 
 ## no-js
 > Shown without JavaScript · max 120

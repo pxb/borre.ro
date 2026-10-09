@@ -3,7 +3,7 @@
 import "@/components/demo/portal.css";
 import "@/components/lookup.css";
 import "./review.css";
-import { useCallback, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { words } from "@/content/copy";
 import copyTry from "@/content/copy.gen/try";
@@ -11,16 +11,18 @@ import { REVIEW_KEY, site as brand } from "@/content/site";
 
 // The AI readiness review (/try, Pedro 2026-10-09), in the portal's product
 // design. The answer streams in by stage, so each part appears as it's ready:
-// the site's checks, the company, then the suggestions. Words: copy/try.md.
+// the site's checks, the company, then the chat and the suggestions. Words:
+// copy/try.md.
 const w = words(copyTry);
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 type Check = { id: string; ok: boolean; vars?: Record<string, string | number> };
-type SiteE = { host: string; name: string; words: number; checks: { ai: Check[]; customers: Check[] } };
+type SiteE = { host: string; name: string; words: number; checks: { ai: Check[]; customers: Check[] }; pages?: string[] };
 type CompanyE = { status: "verified" | "none"; name?: string; number?: string; facts?: { sector: string | null; incorporated: string | null; town: string | null } };
 type PickE = { service: string; name: string; automation: string; why: string; case?: { slug: string; title: string } };
-type AdviceE = { off?: boolean; summary?: string; picks?: PickE[] };
+type QAE = { q: string; answer: string; page: string };
+type AdviceE = { off?: boolean; summary?: string; questions?: QAE[]; picks?: PickE[] };
 type State = { stage: 0 | 1 | 2 | 3; site?: SiteE; company?: CompanyE; advice?: AdviceE; date?: string; error?: string };
 
 const STAGES = ["stage.site", "stage.company", "stage.advice"];
@@ -163,6 +165,113 @@ function Checks({ title, list }: { title: string; list: Check[] }) {
   );
 }
 
+// The visitor's own site as a chat (Pedro, 2026-10-09): the questions their
+// customers would most likely ask, answered only from the pages we read, with
+// the page each answer came from. A question the pages don't answer shows as
+// a gap. The answer types out like the Ask demo on the homepage, at once
+// under reduced motion; the longest question and answer sit invisibly
+// underneath so the card doesn't jump between picks.
+const longest = (xs: string[]) => xs.reduce((a, b) => (b.length > a.length ? b : a), "");
+const pathOf = (u: string) => {
+  try {
+    const p = new URL(u).pathname.replace(/\/$/, "");
+    return p || w.t("chat.home");
+  } catch {
+    return u;
+  }
+};
+const say = (x: QAE) => x.answer || w.t("chat.gap");
+
+function SiteChat({ name, qs, pages }: { name: string; qs: QAE[]; pages: string[] }) {
+  const [pick, setPick] = useState(0);
+  const [n, setN] = useState(Number.MAX_SAFE_INTEGER);
+  const run = useRef(0);
+
+  const play = useCallback(
+    (i: number) => {
+      const id = ++run.current;
+      setPick(i);
+      const text = say(qs[i]);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setN(Number.MAX_SAFE_INTEGER);
+      setN(0);
+      let k = 0;
+      const step = () => {
+        if (id !== run.current) return;
+        k += 3;
+        setN(k);
+        if (k < text.length) setTimeout(step, 16);
+      };
+      setTimeout(step, 250);
+    },
+    [qs],
+  );
+
+  // The first question plays once, when the chat arrives.
+  useEffect(() => {
+    const t = setTimeout(() => play(0), 0);
+    const r = run;
+    return () => {
+      clearTimeout(t);
+      r.current++;
+    };
+  }, [play]);
+
+  const x = qs[pick];
+  const gaps = qs.filter((q) => !q.answer).length;
+  const note = [
+    gaps === 1 ? w.t("chat.gaps.one") : gaps > 1 ? fill(w.t("chat.gaps.many"), { n: gaps, total: qs.length }) : "",
+    fill(w.t("chat.note"), { pages: pages.map(pathOf).join(", ") }),
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return (
+    <>
+      <h3 className="lk-h">{fill(w.t("group.chat"), { name })}</h3>
+      <div className="rv-chat">
+        <div className="rv-qs" role="group" aria-label={w.t("chat.pick")}>
+          {qs.map((q, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`mini-q${i === pick ? " on" : ""}${q.answer ? "" : " gap"}`}
+              aria-pressed={i === pick}
+              onClick={() => play(i)}
+              data-track="review-chat-question"
+            >
+              {q.q}
+            </button>
+          ))}
+        </div>
+        {/* Screen readers get the whole exchange in one live line, not the typing. */}
+        <p className="sr-only" aria-live="polite">
+          {x.q} {say(x)} {x.page ? pathOf(x.page) : ""}
+        </p>
+        <div className="mini-chat" aria-hidden="true">
+          <p className="ask grid">
+            <span className="invisible col-start-1 row-start-1">{longest(qs.map((q) => q.q))}</span>
+            <span className="col-start-1 row-start-1">{x.q}</span>
+          </p>
+          <div className={`ans${x.answer ? "" : " gap"}`}>
+            <p className="by">{name}</p>
+            <p className="grid">
+              <span className="invisible col-start-1 row-start-1">{longest(qs.map(say))}</span>
+              <span className="col-start-1 row-start-1">{say(x).slice(0, n)}</span>
+            </p>
+            {x.page ? (
+              <ul className="ce-cites">
+                <li className={`chip dot t-ver transition-opacity duration-300 ${n >= say(x).length ? "opacity-100" : "opacity-0"}`}>
+                  {pathOf(x.page)}
+                </li>
+              </ul>
+            ) : null}
+          </div>
+        </div>
+        <p className="lk-note rv-chat-note">{note}</p>
+      </div>
+    </>
+  );
+}
+
 function Result({ s, onReset, error }: { s: State; onReset: () => void; error: string }) {
   // Focus moves to the review's heading once it is on the page.
   const heading = useCallback((el: HTMLHeadingElement | null) => el?.focus(), []);
@@ -188,12 +297,14 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
       <Checks title={w.t("group.ai")} list={site.checks.ai} />
       <Checks title={w.t("group.customers")} list={site.checks.customers} />
 
+      {s.advice?.questions?.length ? <SiteChat name={site.name} qs={s.advice.questions} pages={site.pages ?? []} /> : null}
+
       {s.advice ? (
-        s.advice.off || !s.advice.picks?.length ? (
+        s.advice.off || (!s.advice.picks?.length && !s.advice.questions?.length) ? (
           <p className="lk-none" style={{ marginTop: 20 }}>
             {w.t("advice.off")}
           </p>
-        ) : (
+        ) : !s.advice.picks?.length ? null : (
           <>
             <h3 className="lk-h">{w.t("group.picks")}</h3>
             <ol className="rv-picks">

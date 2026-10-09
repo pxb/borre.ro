@@ -155,8 +155,9 @@ Three, listed together as "Try it free" under Services in both menus (`tools` in
 readiness scorecard (above), the AI readiness review and the signal check.
 
 **AI readiness review, `/try`** (Pedro's spec, 2026-10-09). A visitor pastes a website; `/api/review`
-streams one JSON line per stage (site and checks, company, suggestions, done), so the card fills in as
-it goes. `src/lib/review.ts` reads the homepage and up to three inner pages, refusing anything that
+streams one JSON line per stage (site, checks and pages read; company; chat and suggestions; done), so
+the card fills in as it goes. `src/lib/review.ts` reads the homepage and four inner pages, two about
+the business and two customers use (help, delivery, returns, booking, contact), refusing anything that
 isn't a public web address (other schemes and ports, raw or private IPs, names resolving to private
 networks; every redirect hop checked; bodies capped). Measured checks: robots.txt, AI crawlers
 allowed (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others), llms.txt, sitemap, business
@@ -164,19 +165,33 @@ structured data, text readable without scripts, meta description, a chat widget,
 "prove you're human" page is reported as such, not reviewed. The company is confirmed **only by the
 registered number the site shows** (the law asks limited companies to), scored against the domain
 and the site's own name; a name match alone picked wrong companies and was removed. Then
-`src/lib/review-advice.ts` asks a model through OpenRouter (`src/lib/openrouter.ts`; providers that
-don't keep data; structured output) for two or three of our services with one specific automation
-each and the closest case study, and the server keeps only known slugs. Model: `REVIEW_MODEL`,
-Claude Sonnet 5.5 by default: Pedro asked for quality first, and on the 17-site eval it was the most
-specific and invented least (about 1.4p a review; DeepSeek V4.1 Flash and Claude Haiku 5.5 about
-0.1p, but generic or borrowing our own service wording as if it were theirs). `REVIEW_EFFORT` sets
-the model's thinking: `low` by default, which Sonnet 5.5 needs (it refuses `none`); DeepSeek needs
-`none` (at `low` it ran past 40 s). The summary in the answer is for checking only and isn't shown
-(it would tell visitors what their own business does). Passed checks are one short line; only
-misses say why they matter. The checks are measured; the suggestions are labelled as written by
-AI. Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the
-prospecting pack's hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a
-bot wall). Checked by `cdp-review.mjs`.
+`src/lib/review-advice.ts` makes one call to a model through OpenRouter (`src/lib/openrouter.ts`;
+providers that don't keep data; structured output) for two things:
+
+- **Their site as a chat** ("Ask {name}", Pedro's go-ahead 2026-10-09): the four questions a customer
+  would most likely ask, answered only from the pages read, each with the page it came from (the
+  schema only allows pages we read). A question the pages don't answer is shown as a gap. Phone
+  numbers and email addresses are replaced, never repeated. Typed out like the Ask demo, at once
+  under reduced motion; the longest question and answer sit invisibly underneath so it never jumps.
+- **Two or three of our services** with one specific automation each and the closest case study; the
+  server keeps only known slugs.
+
+Model: `REVIEW_MODEL`, Claude Sonnet 5.5 by default. Pedro had suggested DeepSeek V4.1 Flash; on the
+17-site eval with the chat (2026-10-09; Sonnet finished 6 sites before the account ran low) both
+stayed grounded, but DeepSeek dodged questions the pages
+couldn't answer ("book a demo" for "how long to get started"), pasted marketing paragraphs as answers
+and sometimes ignored wording rules; Sonnet asked the questions customers really ask (price, finance)
+and wrote naturally. Cost per review: Sonnet about 1.2p to 2p, DeepSeek about 0.1p. Switching is
+`REVIEW_MODEL=deepseek/deepseek-v4.1-flash` with `REVIEW_EFFORT=none`. `REVIEW_EFFORT` sets the
+model's thinking: `low` by default, which Sonnet 5.5 needs (it refuses `none`); DeepSeek needs `none`
+(at `low` it ran past 40 s). The key's own limit doesn't reserve money: the OpenRouter account's
+balance is shared with other keys, and when it runs out calls fail with 402 and the review shows its
+checks without the AI part. The summary in the answer is for checking only and isn't shown (it would
+tell visitors what their own business does). Passed checks are one short line; only misses say why
+they matter. The checks are measured; the chat and suggestions are labelled as written by AI.
+Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the prospecting pack's
+hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a bot wall).
+Checked by `cdp-review.mjs` (chat included).
 
 **Signal check** (the company lookup, on `/work/prospecting-loop#signal-check`; it was `/try` until
 2026-10-09): name any UK company, see what the prospecting system reads from the register

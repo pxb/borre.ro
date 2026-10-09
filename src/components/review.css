@@ -140,8 +140,56 @@
   outline: 2px solid var(--p-accent);
   outline-offset: 2px;
 }
+/* Their site as a chat: the Ask demo's bubbles (portal.css .mini-chat) under
+   the questions a customer would ask. Questions the pages don't answer carry
+   a warn dot, and their answer bubble a warn edge. */
+.portal .rv-chat {
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius-card);
+  background: var(--p-canvas);
+  overflow: hidden;
+}
+.portal .rv-qs {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--p-hairline);
+  background: var(--p-surface);
+}
+@media (min-width: 640px) {
+  .portal .rv-qs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.portal .rv-qs .mini-q {
+  min-height: 44px;
+  padding: 6px 10px;
+  text-align: left;
+  line-height: 1.35;
+}
+.portal .rv-qs .mini-q.gap::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--p-warn);
+  vertical-align: 0.15em;
+}
+.portal .rv-chat .mini-chat .ans.gap {
+  border-color: var(--p-warn);
+}
+.portal .rv-chat .mini-chat .ans.gap .by {
+  color: var(--p-warn) !important;
+}
+.portal .rv-chat-note {
+  margin: 0;
+  padding: 0 18px 14px;
+}
 @media (prefers-reduced-motion: reduce) {
-  .portal .rv-tick {
+  .portal .rv-tick,
+  .portal .rv-chat .ce-cites .chip {
     transition: none;
   }
 }
