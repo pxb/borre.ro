@@ -177,6 +177,18 @@
   background: var(--p-warn);
   vertical-align: 0.15em;
 }
+.portal .rv-layers {
+  grid-template-columns: minmax(0, 1fr);
+}
+.portal .rv-layer {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  grid-area: 1 / 1;
+}
+.portal .rv-layer .ans {
+  justify-self: start;
+}
 .portal .rv-chat .mini-chat .ans.gap {
   border-color: var(--p-warn);
 }

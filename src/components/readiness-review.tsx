@@ -246,24 +246,34 @@ function SiteChat({ name, qs, pages }: { name: string; qs: QAE[]; pages: string[
         <p className="sr-only" aria-live="polite">
           {x.q} {say(x)} {x.page ? pathOf(x.page) : ""}
         </p>
-        <div className="mini-chat" aria-hidden="true">
-          <p className="ask grid">
-            <span className="invisible col-start-1 row-start-1">{longest(qs.map((q) => q.q))}</span>
-            <span className="col-start-1 row-start-1">{x.q}</span>
-          </p>
-          <div className={`ans${x.answer ? "" : " gap"}`}>
-            <p className="by">{name}</p>
-            <p className="grid">
-              <span className="invisible col-start-1 row-start-1">{longest(qs.map(say))}</span>
-              <span className="col-start-1 row-start-1">{say(x).slice(0, n)}</span>
-            </p>
-            {x.page ? (
-              <ul className="ce-cites">
-                <li className={`chip dot t-ver transition-opacity duration-300 ${n >= say(x).length ? "opacity-100" : "opacity-0"}`}>
-                  {pathOf(x.page)}
-                </li>
-              </ul>
-            ) : null}
+        {/* Two layers in one cell: the longest exchange, invisible, holds the
+            height; the one showing sits on top with bubbles fitted to its text. */}
+        <div className="mini-chat rv-layers" aria-hidden="true">
+          <div className="rv-layer invisible">
+            <p className="ask">{longest(qs.map((q) => q.q))}</p>
+            <div className="ans">
+              <p className="by">{name}</p>
+              <p>{longest(qs.map(say))}</p>
+              {qs.some((q) => q.page) ? (
+                <ul className="ce-cites">
+                  <li className="chip dot">{longest(qs.map((q) => (q.page ? pathOf(q.page) : "")))}</li>
+                </ul>
+              ) : null}
+            </div>
+          </div>
+          <div className="rv-layer">
+            <p className="ask">{x.q}</p>
+            <div className={`ans${x.answer ? "" : " gap"}`}>
+              <p className="by">{name}</p>
+              <p>{say(x).slice(0, n)}</p>
+              {x.page ? (
+                <ul className="ce-cites">
+                  <li className={`chip dot t-ver transition-opacity duration-300 ${n >= say(x).length ? "opacity-100" : "opacity-0"}`}>
+                    {pathOf(x.page)}
+                  </li>
+                </ul>
+              ) : null}
+            </div>
           </div>
         </div>
         <p className="lk-note rv-chat-note">{note}</p>
