@@ -309,6 +309,58 @@ Read from {host} on {date}. AI wrote the answers and suggestions from your publi
 > Shown without JavaScript · max 120
 The review needs JavaScript. Book a free call and we'll go through your site with you.
 
+## email.label
+> Over the box to email the review · max 40
+Email me this review
+
+## email.placeholder
+> Inside the empty box · max 40
+you@yourcompany.co.uk
+
+## email.go
+> The button · max 20
+Send it
+
+## email.note
+> Under the box. {from} is our email address · max 160
+It comes from {from}, and we may follow up once. Our privacy page explains what we keep.
+
+## email.sent
+> After sending. {email} is filled in · max 120
+Sent to {email}. It should arrive in a minute or two.
+
+## email.failed
+> When it couldn't be sent · max 120
+We couldn't send it just now. Try again in a minute.
+
+## email.limit
+> When that address has had a few today · max 120
+We've sent this address a few reviews today. Try again tomorrow.
+
+## error.email
+> When what was typed isn't an email address · max 80
+That doesn't look like an email address.
+
+## email.subject
+> The email's subject. {host} is filled in · max 80
+Your AI readiness review of {host}
+
+## email.intro
+> The email's first line · max 160
+Here's the AI readiness review you asked for on borre.ro.
+
+## email.outro
+> Before the link to book a call · max 160
+If you'd like to talk it through, book a free 30-minute call at
+
+## email.sign
+> The sign-off · max 60
+Pedro Borrero, borre.ro
+
+## email.footer
+> The small print at the end of the email · max 200
+You're getting this because you asked for it on borre.ro. Reply if you'd rather we didn't follow up.
+
 ## notes
 > What goes into the booking notes when they book after a review. {host} is filled in · max 80
 AI readiness review of {host}

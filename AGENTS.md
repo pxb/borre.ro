@@ -205,11 +205,31 @@ Words: `copy/try.md`. Evaluated with `Lab/borre-tools/review-eval.mjs` over the 
 hand-verified sites (2026-10-09: 16 of 17 numbers right, none wrong, the one miss a bot wall).
 Checked by `cdp-review.mjs` (chat included).
 
+**Review v2** (#624, Pedro 2026-10-10: "it reads like an SEO review"). The result leads with the
+business: the company (with its size from its accounts), "Ask {name}", "Where we'd start" with the most
+concrete suggestion drawn as a workflow (starts when, steps, your team checks, then; the model names
+which suggestion it belongs to), "What we can see you use", then the website checks folded into one
+line. Tools are read from the pages' code (`TOOLS` in `review.ts`): only signs a tool is loaded count
+(script hosts, plugin paths, form ids), never class names, because themes style for plugins they don't
+run (two test sites' theme CSS named WooCommerce). Suggestions are sized by Companies House size and
+age. A Companies House failure is never reported as "no number on your site": `Company.why` says
+no-number, not-matched, ch-off, ch-error or ch-busy, and the page says Companies House couldn't be
+reached. An empty or broken model answer gets one retry if there's time.
+
+**Email me this review** (#624). Each run stores an email version of the review (`review-email.ts`,
+same words as the page) with its run. The button (shown only with `REVIEW_EMAIL=on`) posts the review id
+and the address to `/api/review/email`, which calls the n8n workflow "borre.ro: email a readiness
+review" (`mgk7MpZExN6jdltb`, webhook `borre-review-email-1defbd0e28a4`): it finds the stored email,
+sends it with Gmail (copy to pedro@borre.ro, reply-to pedro@borre.ro), logs it in the n8n table
+`borre_review_emails`, three a day per address and fifty a day in all. Keeps no data from successful
+runs. /privacy covers the address (12 months, may follow up once).
+
 **Counting runs** (Pedro, 2026-10-10; Vercel Hobby keeps logs an hour and drops custom events): each
-review sends one anonymous line to the n8n workflow "borre.ro: readiness review runs (anonymous)"
-(`g8lscLMvhXznYBHV`), stored in the n8n data table `borre_review_runs`: outcome, company found, chat
-and suggestions returned, gaps, seconds, model cost, source (`try` or a case study slug) and
-environment. Never the address or the company, so /privacy stays true. Sent only from a deployment
+review sends one line to the n8n workflow "borre.ro: readiness review runs" (`g8lscLMvhXznYBHV`),
+stored in the n8n data table `borre_review_runs`: outcome, website, matched company, Companies House and
+AI status (`ai_status` shows `off`, `http-402` when the OpenRouter account is empty, and so on), chat
+and suggestions returned, gaps, seconds, model cost, source (`try` or a case study slug), environment,
+the review and its email. Nothing about the visitor; /privacy says what's kept (Pedro: log the website). Sent only from a deployment
 (`VERCEL_ENV`), or locally with `REVIEW_LOG=1`; filter on `env = production` for real use.
 
 **From a case study** (Pedro, 2026-10-10): each case study has a "Your business" row after Results,

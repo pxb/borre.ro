@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { BadUrl, Blocked, Slow, Unreachable, findCompany, normalise, readSite, type Company } from "@/lib/review";
 import { advise, type Advice } from "@/lib/review-advice";
+import { reviewEmail } from "@/lib/review-email";
 import { Busy } from "@/lib/lookup";
 import { serviceFor, work } from "@/content/site";
 
@@ -37,6 +38,8 @@ type Run = {
   cost_usd: number;
   model: string;
   review_json: string;
+  email_subject: string;
+  email_html: string;
 };
 const NONE: Run = {
   review_id: "",
@@ -52,6 +55,8 @@ const NONE: Run = {
   cost_usd: 0,
   model: "",
   review_json: "",
+  email_subject: "",
+  email_html: "",
 };
 
 // Only from a deployment (or locally with REVIEW_LOG=1), and never holding up the visitor for long.
@@ -125,7 +130,7 @@ export async function POST(request: Request) {
       if (hit && Date.now() - hit.at < HOUR) {
         for (const e of hit.events) controller.enqueue(enc.encode(JSON.stringify(e) + "\n"));
         // A repeat look: counted, but the stored review stays with the first run.
-        await count("done", { ...hit.run, review_id: "", review_json: "", cost_usd: 0 }, source, t0);
+        await count("done", { ...hit.run, review_id: "", review_json: "", email_subject: "", email_html: "", cost_usd: 0 }, source, t0);
         controller.close();
         return;
       }
@@ -176,7 +181,10 @@ export async function POST(request: Request) {
         });
         send(a ? { t: "advice", summary: a.summary, questions: a.questions, picks, agent: a.agent } : { t: "advice", off: true });
         const id = randomUUID().replace(/-/g, "");
-        send({ t: "done", date: new Date().toISOString().slice(0, 10), id });
+        const date = new Date().toISOString().slice(0, 10);
+        // "Email me this review" shows once the sending is switched on (REVIEW_EMAIL=on).
+        send({ t: "done", date, id, email: process.env.REVIEW_EMAIL === "on" });
+        const mail = reviewEmail(site, co, a, picks, new Date(date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }));
         run = {
           ...run,
           review_id: id,
@@ -187,6 +195,8 @@ export async function POST(request: Request) {
           cost_usd: a?.cost ?? 0,
           model: a?.model ?? "",
           review_json: record(site, co, a, picks),
+          email_subject: mail.subject,
+          email_html: mail.html,
         };
         await count("done", run, source, t0);
         // Keep only complete reviews with suggestions, so a failed AI step is retried next time.

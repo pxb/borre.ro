@@ -33,7 +33,7 @@ type AgentE = { service: string; trigger: string; steps: string[]; approve: stri
 type PickE = { service: string; name: string; automation: string; why: string; case?: { slug: string; title: string } };
 type QAE = { q: string; answer: string; page: string };
 type AdviceE = { off?: boolean; summary?: string; questions?: QAE[]; picks?: PickE[]; agent?: AgentE | null };
-type State = { stage: 0 | 1 | 2 | 3; site?: SiteE; company?: CompanyE; advice?: AdviceE; date?: string; id?: string; error?: string };
+type State = { stage: 0 | 1 | 2 | 3; site?: SiteE; company?: CompanyE; advice?: AdviceE; date?: string; id?: string; email?: boolean; error?: string };
 
 const STAGES = ["stage.site", "stage.company", "stage.advice"];
 
@@ -89,7 +89,7 @@ export function ReadinessReview() {
           else if (ev.t === "company") set({ stage: 2, company: ev });
           else if (ev.t === "advice") set({ stage: 3, advice: ev });
           else if (ev.t === "done") {
-            set({ date: ev.date, id: ev.id });
+            set({ date: ev.date, id: ev.id, email: ev.email === true });
             try {
               sessionStorage.setItem(REVIEW_KEY, fill(w.t("notes"), { host: state.site?.host ?? "" }));
             } catch {}
@@ -244,6 +244,60 @@ function Agent({ a }: { a: AgentE }) {
         ) : null}
       </ol>
     </div>
+  );
+}
+
+// "Email me this review" (#624): the review as it was written when it ran,
+// sent from Pedro's address with a copy to him. Shown once sending is on.
+function EmailForm({ id }: { id: string }) {
+  const [to, setTo] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "failed" | "limit" | "bad">("idle");
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!to.trim() || state === "sending") return;
+    setState("sending");
+    try {
+      const res = await fetch("/api/review/email", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, email: to.trim() }) });
+      const d = (await res.json().catch(() => null)) as { ok?: boolean; code?: string } | null;
+      setState(d?.ok ? "sent" : d?.code === "limit" ? "limit" : d?.code === "bad" ? "bad" : "failed");
+    } catch {
+      setState("failed");
+    }
+  }
+  if (state === "sent") {
+    return (
+      <p className="rv-email-done" role="status">
+        {fill(w.t("email.sent"), { email: to.trim() })}
+      </p>
+    );
+  }
+  return (
+    <form onSubmit={submit} className="rv-email lk-form">
+      <label htmlFor="rv-email" className="lk-label">
+        {w.t("email.label")}
+      </label>
+      <div className="lk-row">
+        <input
+          id="rv-email"
+          className="p-search lk-input"
+          type="email"
+          autoComplete="email"
+          spellCheck={false}
+          placeholder={w.t("email.placeholder")}
+          maxLength={254}
+          required
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+        />
+        <button type="submit" className="p-btn on lk-go" disabled={state === "sending"} data-track="review-email">
+          {w.t("email.go")}
+        </button>
+      </div>
+      <p className="lk-note">{fill(w.t("email.note"), { from: brand.email })}</p>
+      <p className="lk-status" role="status" aria-live="polite">
+        {state === "failed" ? w.t("email.failed") : state === "limit" ? w.t("email.limit") : state === "bad" ? w.t("error.email") : ""}
+      </p>
+    </form>
   );
 }
 
@@ -445,6 +499,8 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
       {site.tools?.length ? <Tools tools={site.tools} /> : null}
 
       <Fold checks={site.checks} />
+
+      {s.date && s.id && s.email && !s.advice?.off ? <EmailForm id={s.id} /> : null}
 
       {error ? <p className="lk-status">{error}</p> : null}
 

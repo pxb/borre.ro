@@ -297,6 +297,19 @@
   margin: 0;
 }
 
+/* #624: "Email me this review", under the folded checks. */
+.portal .rv-email {
+  margin-top: 24px;
+}
+.portal .rv-email-done {
+  margin: 24px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--p-accent);
+  border-radius: var(--p-radius-card);
+  background: var(--p-surface);
+  color: var(--p-ink);
+}
+
 /* #624: the website checks, folded into one line at the end. */
 .portal .rv-fold {
   margin-top: 24px;

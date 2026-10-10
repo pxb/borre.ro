@@ -215,11 +215,13 @@ const BOOK_LINK = /<a\b[^>]*>[^<]{0,40}\b(book|schedule|arrange)\b[^<]{0,30}\b(c
 // Booking tools, and contact forms: a plain form with an email field or a
 // message box, or one a form tool draws with script (a HubSpot form isn't in
 // the page's HTML at all; one test site was told it had no form, 2026-10-09).
-const BOOKING = /calendly\.com|cal\.com\/|meetings(-eu1)?\.hubspot\.com|acuityscheduling|youcanbook\.me|outlook\.office\.com\/bookwithme|bookings\.office|simplybook|setmore|squareup\.com\/appointments|tidycal|savvycal|opentable|resdiary|fresha\.com|treatwell|hsforms|hbspt\.forms|hs-form|typeform\.com|jotform|tally\.so|forms\.office\.com|docs\.google\.com\/forms|wpforms|gform_wrapper|wpcf7|ninja-forms|fluentform|forminator|elementor-form|frm_form|wufoo|cognitoforms|paperform|webforms\.pipedrive|<form\b[\s\S]*?(type=["']?email|<textarea)/i;
+const BOOKING = /calendly\.com|cal\.com\/|meetings(-eu1)?\.hubspot\.com|acuityscheduling\.com|youcanbook\.me|outlook\.office\.com\/bookwithme|bookings\.office|simplybook\.(me|it|cc)|setmore\.com|squareup\.com\/appointments|tidycal\.com|savvycal\.com|opentable\.(com|co\.uk)|resdiary\.com|fresha\.com|treatwell\.co\.uk|hsforms|hbspt\.forms|class=["'][^"']*hs-form|typeform\.com|jotform\.(com|eu)|jotfor\.ms|tally\.so|forms\.office\.com|docs\.google\.com\/forms|class=["']wpforms-container|id=["']gform_\d|class=["']wpcf7-form|class=["'][^"']*ninja-forms-form|class=["'][^"']*fluentform|class=["'][^"']*forminator-custom-form|class=["'][^"']*elementor-form|class=["'][^"']*frm_forms|wufoo\.com|cognitoforms\.com|paperform\.co|webforms\.pipedrive|<form\b[\s\S]*?(type=["']?email|<textarea)/i;
 // The software a site's code shows it runs (#624, Pedro 2026-10-10: the review
 // should be about how they work, their tools and workflows, not just their
 // website). Read from the pages' HTML only: script and asset hosts, generator
 // tags, form and widget markers. Anything run behind the scenes won't show.
+// Only signs a tool is loaded count, never a class name: themes style for
+// plugins they don't run (two test sites' theme CSS named WooCommerce).
 export type Tool = { name: string; kind: string };
 const TOOLS: [RegExp, string, string][] = [
   // website platform
@@ -242,45 +244,45 @@ const TOOLS: [RegExp, string, string][] = [
   [/activehosted\.com|trackcmp\.net/i, "ActiveCampaign", "crm"],
   [/mktdplp102cdn|dynamics\.com\/.*form/i, "Microsoft Dynamics", "crm"],
   [/typeform\.com/i, "Typeform", "crm"],
-  [/jotform/i, "Jotform", "crm"],
-  [/gform_wrapper/i, "Gravity Forms", "crm"],
-  [/wpforms/i, "WPForms", "crm"],
-  [/wpcf7/i, "Contact Form 7", "crm"],
+  [/jotform\.(com|eu)|jotfor\.ms/i, "Jotform", "crm"],
+  [/plugins\/gravityforms\/|id=["']gform_\d/i, "Gravity Forms", "crm"],
+  [/plugins\/wpforms|class=["']wpforms-container/i, "WPForms", "crm"],
+  [/plugins\/contact-form-7\/|class=["']wpcf7-form/i, "Contact Form 7", "crm"],
   // email marketing
   [/chimpstatic\.com|list-manage\.com/i, "Mailchimp", "email"],
   [/static\.klaviyo\.com|klaviyo\.com\/onsite/i, "Klaviyo", "email"],
   [/sibforms\.com|sendinblue\.com|brevo\.com\/js/i, "Brevo", "email"],
   [/ctctcdn\.com|constantcontact\.com/i, "Constant Contact", "email"],
   [/campaignmonitor|createsend\.com/i, "Campaign Monitor", "email"],
-  [/mailerlite/i, "MailerLite", "email"],
+  [/mailerlite\.com|mlcdn\.com/i, "MailerLite", "email"],
   // booking
   [/calendly\.com/i, "Calendly", "booking"],
   [/cal\.com\//i, "Cal.com", "booking"],
   [/meetings(-eu1)?\.hubspot\.com/i, "HubSpot meetings", "booking"],
-  [/acuityscheduling/i, "Acuity", "booking"],
+  [/acuityscheduling\.com/i, "Acuity", "booking"],
   [/outlook\.office\.com\/bookwithme|bookings\.office/i, "Microsoft Bookings", "booking"],
-  [/simplybook/i, "SimplyBook", "booking"],
-  [/setmore/i, "Setmore", "booking"],
+  [/simplybook\.(me|it|cc)/i, "SimplyBook", "booking"],
+  [/setmore\.com/i, "Setmore", "booking"],
   [/youcanbook\.me/i, "YouCanBook.me", "booking"],
   [/fresha\.com/i, "Fresha", "booking"],
-  [/treatwell/i, "Treatwell", "booking"],
-  [/opentable/i, "OpenTable", "booking"],
-  [/resdiary/i, "ResDiary", "booking"],
+  [/treatwell\.co\.uk/i, "Treatwell", "booking"],
+  [/opentable\.(com|co\.uk)/i, "OpenTable", "booking"],
+  [/resdiary\.com/i, "ResDiary", "booking"],
   // shop and payments
-  [/woocommerce|wc-block|wc-ajax/i, "WooCommerce", "shop"],
+  [/plugins\/woocommerce\/|wc-cart-fragments|[?&]wc-ajax=|add_to_cart_button/i, "WooCommerce", "shop"],
   [/js\.stripe\.com/i, "Stripe", "shop"],
   [/paypal\.com\/sdk|paypalobjects\.com/i, "PayPal", "shop"],
   [/squareup\.com|square\.site/i, "Square", "shop"],
-  [/klarna/i, "Klarna", "shop"],
-  [/bigcommerce/i, "BigCommerce", "shop"],
-  [/mage\/cookies|magento/i, "Magento", "shop"],
+  [/klarnacdn|klarnaservices/i, "Klarna", "shop"],
+  [/cdn\d*\.bigcommerce\.com/i, "BigCommerce", "shop"],
+  [/mage\/cookies|Magento_Ui\//i, "Magento", "shop"],
   // reviews
   [/widget\.trustpilot\.com|trustpilot\.com\/review/i, "Trustpilot", "reviews"],
-  [/feefo/i, "Feefo", "reviews"],
+  [/feefo\.com/i, "Feefo", "reviews"],
   [/reviews\.io|reviews\.co\.uk/i, "Reviews.io", "reviews"],
-  [/checkatrade/i, "Checkatrade", "reviews"],
-  [/trustatrader/i, "TrustATrader", "reviews"],
-  [/yotpo/i, "Yotpo", "reviews"],
+  [/checkatrade\.com/i, "Checkatrade", "reviews"],
+  [/trustatrader\.com/i, "TrustATrader", "reviews"],
+  [/yotpo\.com/i, "Yotpo", "reviews"],
   // analytics and ads
   [/googletagmanager\.com\/gtag|google-analytics\.com\/(analytics|ga)\.js/i, "Google Analytics", "analytics"],
   [/googletagmanager\.com\/gtm\.js|GTM-[A-Z0-9]{4,}/, "Google Tag Manager", "analytics"],
@@ -295,7 +297,7 @@ const TOOLS: [RegExp, string, string][] = [
   [/boards\.greenhouse\.io/i, "Greenhouse", "hiring"],
   [/jobs\.lever\.co/i, "Lever", "hiring"],
   [/bamboohr\.com/i, "BambooHR", "hiring"],
-  [/teamtailor/i, "Teamtailor", "hiring"],
+  [/teamtailor\.com|teamtailor-cdn/i, "Teamtailor", "hiring"],
   // help desk
   [/zdassets\.com|zendesk\.com\/embeddable/i, "Zendesk", "support"],
   [/freshdesk\.com|freshworks\.com\/widget/i, "Freshdesk", "support"],
