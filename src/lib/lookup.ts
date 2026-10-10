@@ -20,6 +20,7 @@ const CH = "https://api.company-information.service.gov.uk";
 const KEY = (process.env.CH_API_KEY ?? "").trim();
 
 export class Busy extends Error {}
+export const chOn = () => Boolean(KEY);
 export class Unavailable extends Error {}
 
 // ------------------------------------------------------------------ budget and cache

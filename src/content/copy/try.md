@@ -77,6 +77,26 @@ Something went wrong on our side, not yours. Try again in a minute.
 > No registered number found on the pages read · max 200
 We couldn't find your company number on the pages we read. Limited companies have to show it on their website, and buyers use it to check who they're dealing with.
 
+## company.unreachable
+> A number was on the site but Companies House couldn't be reached · max 160
+We found a company number on your site but couldn't check it with Companies House just now.
+
+## company.unmatched
+> The numbers on the site belong to other companies · max 200
+The company numbers on your site don't belong to a company with your name, so we've left Companies House out.
+
+## size.micro
+> Before the company's line of business, from its accounts · max 30
+Micro company
+
+## size.small
+> As above · max 30
+Small company
+
+## size.medium
+> As above · max 30
+Medium-sized company
+
 ## group.ai
 > Heading over the first set of checks · max 60
 Can AI tools read your site?
@@ -84,6 +104,58 @@ Can AI tools read your site?
 ## group.customers
 > Heading over the second set of checks · max 60
 Can customers ask and book?
+
+## checks.summary
+> The folded website checks at the end. {ok} and {total} are filled in · max 60
+Website checks: {ok} of {total} pass
+
+## group.tools
+> Heading over the tools their pages' code shows · max 60
+What we can see you use
+
+## tools.note
+> Under the tools · max 160
+Read from your pages' code, so anything you use behind the scenes won't show here.
+
+## tool.site
+> Tool group label · max 24
+Website
+
+## tool.crm
+> Tool group label · max 24
+CRM and forms
+
+## tool.email
+> Tool group label · max 24
+Email marketing
+
+## tool.booking
+> Tool group label · max 24
+Booking
+
+## tool.chat
+> Tool group label · max 24
+Chat
+
+## tool.shop
+> Tool group label · max 24
+Shop and payments
+
+## tool.reviews
+> Tool group label · max 24
+Reviews
+
+## tool.analytics
+> Tool group label · max 24
+Analytics and ads
+
+## tool.hiring
+> Tool group label · max 24
+Hiring
+
+## tool.support
+> Tool group label · max 24
+Help desk
 
 ## group.chat
 > Heading over their site as a chat. {name} is the site's name · max 60
@@ -193,9 +265,25 @@ We didn't find a booking link or contact form on the pages we read.
 > Before the case study link under a suggestion · max 30
 Similar work
 
+## agent.title
+> Over the first suggestion drawn as a workflow · max 40
+How it would work
+
+## agent.starts
+> Label on the workflow's first stop · max 20
+Starts when
+
+## agent.checks
+> Label on the stop where a person checks it · max 24
+Your team checks
+
+## agent.ends
+> Label on the last stop · max 20
+Then
+
 ## advice.off
 > When the suggestions can't be written right now · max 160
-The suggestions didn't come through this time. The checks above still stand, and we can go through them on a call.
+The answers and suggestions didn't come through this time. The checks below still stand, and we can go through them on a call.
 
 ## next.title
 > Above the next step · max 60
@@ -215,7 +303,7 @@ Review another site
 
 ## source
 > Under the review. {host} and {date} are filled in · max 200
-Read from {host} on {date}. AI wrote the answers and suggestions from your public pages, so treat them as a starting point. We don't save what you type.
+Read from {host} on {date}. AI wrote the answers and suggestions from your public pages, so treat them as a starting point. We keep a copy of this review, as our privacy page explains.
 
 ## no-js
 > Shown without JavaScript · max 120

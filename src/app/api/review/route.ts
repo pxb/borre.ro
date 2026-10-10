@@ -1,24 +1,58 @@
-import { BadUrl, Blocked, Slow, Unreachable, findCompany, normalise, readSite } from "@/lib/review";
-import { advise } from "@/lib/review-advice";
+import { randomUUID } from "node:crypto";
+import { BadUrl, Blocked, Slow, Unreachable, findCompany, normalise, readSite, type Company } from "@/lib/review";
+import { advise, type Advice } from "@/lib/review-advice";
 import { Busy } from "@/lib/lookup";
 import { serviceFor, work } from "@/content/site";
 
 /* The AI readiness review (/try, 2026-10-09). POST { url } and the answer
-   streams back one JSON line per stage as it finishes: the site, its checks
-   and the pages read, the company, the chat and the suggestions, then done.
-   Same-site requests only; the firewall's per-IP rule covers /api/. A site's
-   review is kept for an hour in memory, so a second look costs nothing.
-   Nothing is logged but the model's cost. Each run also sends one anonymous
-   line to an n8n table (Pedro, 2026-10-10: Vercel's own logs last an hour):
-   outcome, whether the company, chat and suggestions came back, gaps, time,
-   cost, where the visitor came from, environment. Never the address. */
+   streams back one JSON line per stage as it finishes: the site, its checks,
+   its tools and the pages read; the company; the chat, the suggestions and
+   the first one as a workflow; then done, with the review's id (for "Email
+   me this review"). Same-site requests only; the firewall's per-IP rule
+   covers /api/. A site's review is kept for an hour in memory, so a second
+   look costs nothing.
+
+   Each run sends one line to an n8n table (Pedro, 2026-10-10: Vercel's own
+   logs last an hour; "log the website": yes, /privacy says so): outcome,
+   website, matched company, whether the chat and suggestions came back and
+   why not, time, cost, where the visitor came from, environment, and the
+   review itself so it can be emailed. Nothing about the visitor. */
 
 export const maxDuration = 60;
 // The AI step gets what's left of this, so the whole review ends in time.
 const BUDGET = 55_000;
 const SINK = "https://n8n.borre.ro/webhook/borre-review-a5e851656e47";
-type Run = { company_found: boolean; chat: boolean; suggestions: boolean; gaps: number; cost_usd: number; model: string };
-const NONE: Run = { company_found: false, chat: false, suggestions: false, gaps: 0, cost_usd: 0, model: "" };
+
+type Run = {
+  review_id: string;
+  site: string;
+  company_number: string;
+  company_name: string;
+  ch_status: string;
+  ai_status: string;
+  company_found: boolean;
+  chat: boolean;
+  suggestions: boolean;
+  gaps: number;
+  cost_usd: number;
+  model: string;
+  review_json: string;
+};
+const NONE: Run = {
+  review_id: "",
+  site: "",
+  company_number: "",
+  company_name: "",
+  ch_status: "",
+  ai_status: "",
+  company_found: false,
+  chat: false,
+  suggestions: false,
+  gaps: 0,
+  cost_usd: 0,
+  model: "",
+  review_json: "",
+};
 
 // Only from a deployment (or locally with REVIEW_LOG=1), and never holding up the visitor for long.
 async function count(outcome: string, run: Run, source: string, t0: number) {
@@ -31,6 +65,20 @@ async function count(outcome: string, run: Run, source: string, t0: number) {
     body: JSON.stringify({ outcome, ...run, seconds, source, env }),
     signal: AbortSignal.timeout(3000),
   }).catch(() => {});
+}
+
+// The review as the email will show it: what the visitor saw, nothing more.
+function record(site: { host: string; name: string; checks: unknown; tools: unknown }, co: Company, a: Advice | null, picks: unknown[]) {
+  return JSON.stringify({
+    host: site.host,
+    name: site.name,
+    company: co.status === "verified" ? { name: co.name, number: co.number } : null,
+    checks: site.checks,
+    tools: site.tools,
+    questions: a?.questions ?? [],
+    picks,
+    agent: a?.agent ?? null,
+  }).slice(0, 20_000);
 }
 
 type Event = Record<string, unknown>;
@@ -76,22 +124,24 @@ export async function POST(request: Request) {
       const hit = cache.get(key);
       if (hit && Date.now() - hit.at < HOUR) {
         for (const e of hit.events) controller.enqueue(enc.encode(JSON.stringify(e) + "\n"));
-        await count("done", { ...hit.run, cost_usd: 0 }, source, t0);
+        // A repeat look: counted, but the stored review stays with the first run.
+        await count("done", { ...hit.run, review_id: "", review_json: "", cost_usd: 0 }, source, t0);
         controller.close();
         return;
       }
-      let run = NONE;
+      let run: Run = { ...NONE, site: new URL(start).hostname.replace(/^www\./, "") };
       try {
         const site = await readSite(start);
-        send({ t: "site", host: site.host, name: site.name, words: site.words, checks: site.checks, pages: site.pages.map((p) => p.url) });
+        run.site = site.host;
+        send({ t: "site", host: site.host, name: site.name, words: site.words, checks: site.checks, tools: site.tools, pages: site.pages.map((p) => p.url) });
 
-        const co = await findCompany(site).catch((e) => {
-          if (e instanceof Busy) return { status: "none" as const };
+        const co: Company = await findCompany(site).catch((e) => {
+          if (e instanceof Busy) return { status: "none", why: "ch-busy" } as const;
           throw e;
         });
         send(
           co.status === "none"
-            ? { t: "company", status: "none" }
+            ? { t: "company", status: "none", why: co.why }
             : {
                 t: "company",
                 status: co.status,
@@ -100,36 +150,43 @@ export async function POST(request: Request) {
                 facts: { sector: co.brief.sector, size: co.brief.size, incorporated: co.brief.incorporated, town: co.brief.town },
               },
         );
-
-        const a = await advise(site, co, until - Date.now() - 1_000, from);
-        send(
-          a
-            ? {
-                t: "advice",
-                summary: a.summary,
-                questions: a.questions,
-                picks: a.picks.map((p) => {
-                  const s = serviceFor(p.service)!;
-                  const c = work.find((w) => w.slug === p.case_study);
-                  return {
-                    service: s.slug,
-                    name: s.name,
-                    automation: p.automation,
-                    why: p.why,
-                    ...(c ? { case: { slug: c.slug, title: c.title } } : {}),
-                  };
-                }),
-              }
-            : { t: "advice", off: true },
-        );
-        send({ t: "done", date: new Date().toISOString().slice(0, 10) });
         run = {
+          ...run,
+          ch_status: co.status === "verified" ? "ok" : co.why,
           company_found: co.status === "verified",
+          company_number: co.status === "verified" ? co.number : "",
+          company_name: co.status === "verified" ? co.name : "",
+        };
+
+        let { advice: a, status } = await advise(site, co, until - Date.now() - 1_000, from);
+        // An empty or broken answer, or a provider error, gets one more go if there's time.
+        if (!a && /^(empty|unparsed|http-5)/.test(status) && until - Date.now() > 20_000) {
+          ({ advice: a, status } = await advise(site, co, until - Date.now() - 1_000, from));
+        }
+        const picks = (a?.picks ?? []).map((p) => {
+          const s = serviceFor(p.service)!;
+          const c = work.find((w) => w.slug === p.case_study);
+          return {
+            service: s.slug,
+            name: s.name,
+            automation: p.automation,
+            why: p.why,
+            ...(c ? { case: { slug: c.slug, title: c.title } } : {}),
+          };
+        });
+        send(a ? { t: "advice", summary: a.summary, questions: a.questions, picks, agent: a.agent } : { t: "advice", off: true });
+        const id = randomUUID().replace(/-/g, "");
+        send({ t: "done", date: new Date().toISOString().slice(0, 10), id });
+        run = {
+          ...run,
+          review_id: id,
+          ai_status: status,
           chat: !!a?.questions.length,
           suggestions: !!a?.picks.length,
           gaps: a?.questions.filter((q) => !q.answer).length ?? 0,
           cost_usd: a?.cost ?? 0,
           model: a?.model ?? "",
+          review_json: record(site, co, a, picks),
         };
         await count("done", run, source, t0);
         // Keep only complete reviews with suggestions, so a failed AI step is retried next time.

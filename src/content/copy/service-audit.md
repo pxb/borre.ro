@@ -69,6 +69,14 @@ We take you through the plan and agree what to do next.
 > One commercial term beside the price; the detail is in the scope sheet · max 110
 If you go ahead with a build from the plan, the audit fee comes off its price.
 
+## start.q
+> Under the price: a pointer to the free review · max 40
+Not sure where to start?
+
+## start.link
+> The link to the free review, after start.q · max 40
+Try our free AI readiness review
+
 ## faq.1.q
 > Question 1 · max 70
 Can someone else build it?

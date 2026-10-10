@@ -76,7 +76,7 @@
   display: grid;
   gap: 10px;
 }
-.portal .rv-picks li {
+.portal .rv-picks > li {
   padding: 14px 16px;
   border: 1px solid var(--p-hairline);
   border-radius: var(--p-radius-card);
@@ -204,4 +204,140 @@
   .portal .rv-chat .ce-cites .chip {
     transition: none;
   }
+}
+
+/* #624: the first suggestion as a workflow. A thin line joins the stops; the
+   person who checks it gets the filled accent dot, the start and end the ink. */
+.portal .rv-flow {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--p-hairline);
+}
+.portal .rv-flow-h {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--p-muted);
+}
+.portal .rv-flow ol {
+  display: grid;
+  gap: 8px;
+}
+.portal .rv-flow li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--p-ink);
+}
+.portal .rv-flow li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.45em;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--p-accent);
+  border-radius: 50%;
+  background: var(--p-surface);
+}
+.portal .rv-flow li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: calc(0.45em + 10px);
+  bottom: -8px;
+  width: 1px;
+  background: var(--p-hairline);
+}
+.portal .rv-flow li.start::before,
+.portal .rv-flow li.end::before {
+  border-color: var(--p-ink);
+  background: var(--p-ink);
+}
+.portal .rv-flow li.person::before {
+  background: var(--p-accent);
+}
+.portal .rv-flow-k {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--p-muted);
+}
+
+/* #624: the tools their pages' code shows, grouped by what they do. */
+.portal .rv-tools {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius-card);
+  background: var(--p-surface);
+}
+.portal .rv-tools > div {
+  display: grid;
+  gap: 4px;
+}
+@media (min-width: 640px) {
+  .portal .rv-tools > div {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 12px;
+    align-items: baseline;
+  }
+}
+.portal .rv-tools dt {
+  font-size: 12.5px;
+  color: var(--p-muted);
+}
+.portal .rv-tools dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+/* #624: the website checks, folded into one line at the end. */
+.portal .rv-fold {
+  margin-top: 24px;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius-card);
+  background: var(--p-surface);
+}
+.portal .rv-fold > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--p-ink);
+  cursor: pointer;
+  list-style: none;
+}
+.portal .rv-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.portal .rv-fold > summary::after {
+  content: "+";
+  font-weight: 400;
+  color: var(--p-muted);
+}
+.portal .rv-fold[open] > summary::after {
+  content: "\2212";
+}
+.portal .rv-fold > summary:focus-visible {
+  outline: 2px solid var(--p-accent);
+  outline-offset: 2px;
+}
+.portal .rv-fold[open] {
+  padding-bottom: 14px;
+}
+.portal .rv-fold .lk-h,
+.portal .rv-fold .rv-checks {
+  margin-inline: 14px;
+}
+.portal .rv-fold .lk-h:first-of-type {
+  margin-top: 4px;
 }

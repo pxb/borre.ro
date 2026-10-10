@@ -1,6 +1,6 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
-import { brief, companyNumber, type Brief } from "@/lib/lookup";
+import { Busy, brief, chOn, companyNumber, type Brief } from "@/lib/lookup";
 
 /* The AI readiness review behind /try (Pedro, 2026-10-09, #622): read a few
    public pages of a site, check whether AI assistants can find and read it,
@@ -216,11 +216,109 @@ const BOOK_LINK = /<a\b[^>]*>[^<]{0,40}\b(book|schedule|arrange)\b[^<]{0,30}\b(c
 // message box, or one a form tool draws with script (a HubSpot form isn't in
 // the page's HTML at all; one test site was told it had no form, 2026-10-09).
 const BOOKING = /calendly\.com|cal\.com\/|meetings(-eu1)?\.hubspot\.com|acuityscheduling|youcanbook\.me|outlook\.office\.com\/bookwithme|bookings\.office|simplybook|setmore|squareup\.com\/appointments|tidycal|savvycal|opentable|resdiary|fresha\.com|treatwell|hsforms|hbspt\.forms|hs-form|typeform\.com|jotform|tally\.so|forms\.office\.com|docs\.google\.com\/forms|wpforms|gform_wrapper|wpcf7|ninja-forms|fluentform|forminator|elementor-form|frm_form|wufoo|cognitoforms|paperform|webforms\.pipedrive|<form\b[\s\S]*?(type=["']?email|<textarea)/i;
+// The software a site's code shows it runs (#624, Pedro 2026-10-10: the review
+// should be about how they work, their tools and workflows, not just their
+// website). Read from the pages' HTML only: script and asset hosts, generator
+// tags, form and widget markers. Anything run behind the scenes won't show.
+export type Tool = { name: string; kind: string };
+const TOOLS: [RegExp, string, string][] = [
+  // website platform
+  [/wp-content\/|wp-includes\/|<meta[^>]+generator[^>]+wordpress/i, "WordPress", "site"],
+  [/cdn\.shopify\.com|myshopify\.com/i, "Shopify", "site"],
+  [/static\.wixstatic\.com|parastorage\.com/i, "Wix", "site"],
+  [/static1\.squarespace\.com|squarespace-cdn\.com/i, "Squarespace", "site"],
+  [/data-wf-(page|site)=|assets\.website-files\.com|webflow\.com\/css/i, "Webflow", "site"],
+  [/framerusercontent\.com/i, "Framer", "site"],
+  [/<meta[^>]+generator[^>]+drupal|\/sites\/default\/files\//i, "Drupal", "site"],
+  [/<meta[^>]+generator[^>]+joomla/i, "Joomla", "site"],
+  [/img1\.wsimg\.com/i, "GoDaddy", "site"],
+  [/editmysite\.com|weebly\.com/i, "Weebly", "site"],
+  [/<meta[^>]+generator[^>]+hubspot|hs-sites\.com/i, "HubSpot CMS", "site"],
+  // CRM, forms and marketing automation
+  [/js(-eu1)?\.hs-scripts\.com|hsforms\.(net|com)|hbspt\.forms|hubspotusercontent|hs-analytics\.net/i, "HubSpot", "crm"],
+  [/pardot\.com|\.force\.com|webto(lead|case)|salesforceliveagent/i, "Salesforce", "crm"],
+  [/zohopublic|salesiq\.zoho|zoho\.(com|eu)\/(crm|forms)/i, "Zoho", "crm"],
+  [/webforms\.pipedrive|pipedrivewebforms/i, "Pipedrive", "crm"],
+  [/activehosted\.com|trackcmp\.net/i, "ActiveCampaign", "crm"],
+  [/mktdplp102cdn|dynamics\.com\/.*form/i, "Microsoft Dynamics", "crm"],
+  [/typeform\.com/i, "Typeform", "crm"],
+  [/jotform/i, "Jotform", "crm"],
+  [/gform_wrapper/i, "Gravity Forms", "crm"],
+  [/wpforms/i, "WPForms", "crm"],
+  [/wpcf7/i, "Contact Form 7", "crm"],
+  // email marketing
+  [/chimpstatic\.com|list-manage\.com/i, "Mailchimp", "email"],
+  [/static\.klaviyo\.com|klaviyo\.com\/onsite/i, "Klaviyo", "email"],
+  [/sibforms\.com|sendinblue\.com|brevo\.com\/js/i, "Brevo", "email"],
+  [/ctctcdn\.com|constantcontact\.com/i, "Constant Contact", "email"],
+  [/campaignmonitor|createsend\.com/i, "Campaign Monitor", "email"],
+  [/mailerlite/i, "MailerLite", "email"],
+  // booking
+  [/calendly\.com/i, "Calendly", "booking"],
+  [/cal\.com\//i, "Cal.com", "booking"],
+  [/meetings(-eu1)?\.hubspot\.com/i, "HubSpot meetings", "booking"],
+  [/acuityscheduling/i, "Acuity", "booking"],
+  [/outlook\.office\.com\/bookwithme|bookings\.office/i, "Microsoft Bookings", "booking"],
+  [/simplybook/i, "SimplyBook", "booking"],
+  [/setmore/i, "Setmore", "booking"],
+  [/youcanbook\.me/i, "YouCanBook.me", "booking"],
+  [/fresha\.com/i, "Fresha", "booking"],
+  [/treatwell/i, "Treatwell", "booking"],
+  [/opentable/i, "OpenTable", "booking"],
+  [/resdiary/i, "ResDiary", "booking"],
+  // shop and payments
+  [/woocommerce|wc-block|wc-ajax/i, "WooCommerce", "shop"],
+  [/js\.stripe\.com/i, "Stripe", "shop"],
+  [/paypal\.com\/sdk|paypalobjects\.com/i, "PayPal", "shop"],
+  [/squareup\.com|square\.site/i, "Square", "shop"],
+  [/klarna/i, "Klarna", "shop"],
+  [/bigcommerce/i, "BigCommerce", "shop"],
+  [/mage\/cookies|magento/i, "Magento", "shop"],
+  // reviews
+  [/widget\.trustpilot\.com|trustpilot\.com\/review/i, "Trustpilot", "reviews"],
+  [/feefo/i, "Feefo", "reviews"],
+  [/reviews\.io|reviews\.co\.uk/i, "Reviews.io", "reviews"],
+  [/checkatrade/i, "Checkatrade", "reviews"],
+  [/trustatrader/i, "TrustATrader", "reviews"],
+  [/yotpo/i, "Yotpo", "reviews"],
+  // analytics and ads
+  [/googletagmanager\.com\/gtag|google-analytics\.com\/(analytics|ga)\.js/i, "Google Analytics", "analytics"],
+  [/googletagmanager\.com\/gtm\.js|GTM-[A-Z0-9]{4,}/, "Google Tag Manager", "analytics"],
+  [/googleadservices\.com|["']AW-\d{6,}/i, "Google Ads", "analytics"],
+  [/connect\.facebook\.net\/[^"']*fbevents|fbq\(\s*["']init/i, "Meta Pixel", "analytics"],
+  [/snap\.licdn\.com|_linkedin_partner_id/i, "LinkedIn Insight", "analytics"],
+  [/static\.hotjar\.com/i, "Hotjar", "analytics"],
+  [/clarity\.ms\/tag/i, "Microsoft Clarity", "analytics"],
+  [/analytics\.tiktok\.com/i, "TikTok Pixel", "analytics"],
+  // hiring
+  [/apply\.workable\.com|workable\.com\/api/i, "Workable", "hiring"],
+  [/boards\.greenhouse\.io/i, "Greenhouse", "hiring"],
+  [/jobs\.lever\.co/i, "Lever", "hiring"],
+  [/bamboohr\.com/i, "BambooHR", "hiring"],
+  [/teamtailor/i, "Teamtailor", "hiring"],
+  // help desk
+  [/zdassets\.com|zendesk\.com\/embeddable/i, "Zendesk", "support"],
+  [/freshdesk\.com|freshworks\.com\/widget/i, "Freshdesk", "support"],
+  [/beacon-v2\.helpscout\.net/i, "Help Scout", "support"],
+];
+
+function toolsIn(html: string, chat: string | undefined): Tool[] {
+  const out: Tool[] = TOOLS.filter(([re]) => re.test(html)).map(([, name, kind]) => ({ name, kind }));
+  // The chat widget found by the check above, unless it's HubSpot's own (counted as HubSpot).
+  if (chat && !out.some((t) => chat.startsWith(t.name))) out.push({ name: chat, kind: "chat" });
+  // HubSpot's site platform counts as HubSpot already.
+  return out.filter((t, i) => out.findIndex((o) => o.name === t.name) === i).slice(0, 24);
+}
+
 const BUSINESS = /"@type"\s*:\s*\[?\s*"(Organization|Corporation|LocalBusiness|ProfessionalService|Store|Restaurant|[A-Za-z]*Business|[A-Za-z]*Service|Hotel|Dentist|Physician|LegalService|AccountingService|RealEstateAgent|AutoDealer|EducationalOrganization|NGO)"/;
 
 // ------------------------------------------------------------------ the company
 
-export type Company = { status: "verified"; number: string; name: string; brief: Brief } | { status: "none" };
+// Why there's no company: no number on the pages, numbers that didn't match
+// the site, or Companies House not reachable (no key, an error, busy). The
+// last three mean the number may well be there, so the review says so.
+export type NoCompany = "no-number" | "not-matched" | "ch-off" | "ch-error" | "ch-busy";
+export type Company = { status: "verified"; number: string; name: string; brief: Brief } | { status: "none"; why: NoCompany };
 
 const NUMBER = /(?:company|registration|registered|reg\.?)\s*(?:no\.?|number|num\.?|#)?[^0-9a-z]{0,12}(?:in england(?: and wales)?|in scotland|in northern ireland)?[^0-9a-z]{0,12}(?:no\.?|number)?[^0-9a-z]{0,6}((?:SC|NI|OC|SO|NC)?\s?\d{6,8})\b/gi;
 
@@ -265,14 +363,20 @@ function siteName(html: string, host: string) {
 // one that scores at all wins.
 async function company(allText: string, own: string): Promise<Company> {
   let best: { score: number; c: Company } | null = null;
-  for (const [n, before] of numbersIn(allText)) {
-    const b = await brief(n).catch(() => null);
+  const found = numbersIn(allText);
+  if (found.length && !chOn()) return { status: "none", why: "ch-off" };
+  let failed: NoCompany | "" = "";
+  for (const [n, before] of found) {
+    const b = await brief(n).catch((e) => {
+      failed = e instanceof Busy ? "ch-busy" : "ch-error";
+      return null;
+    });
     if (!b) continue;
     const ws = stems(b.name);
     const score = (ws.some((x) => own.includes(x)) ? 2 : 0) + (ws.some((x) => before.includes(x)) ? 1 : 0);
     if (score && (!best || score > best.score)) best = { score, c: { status: "verified", number: n, name: b.name, brief: b } };
   }
-  return best?.c ?? { status: "none" };
+  return best?.c ?? { status: "none", why: failed || (found.length ? "not-matched" : "no-number") };
 }
 
 // ------------------------------------------------------------------ the whole read
@@ -285,6 +389,7 @@ export type SiteRead = {
   description: string;
   words: number;
   checks: { ai: Check[]; customers: Check[] };
+  tools: Tool[];
   pages: { url: string; text: string }[];
   // Server only, never sent to the browser: the homepage as fetched and every
   // page's text with its header and footer, where the registered number sits.
@@ -349,6 +454,7 @@ export async function readSite(start: string): Promise<SiteRead> {
     words: n,
     pages,
     homeHtml: home.body,
+    tools: toolsIn(allHtml, chat),
     fullText: [home.body, ...inner.map((p) => p?.body ?? "")].map((h) => text(h, true)).join(" "),
     checks: {
       ai: [
@@ -391,9 +497,12 @@ export async function findCompany(site: SiteRead): Promise<Company> {
   const own = `${site.host.split(".")[0]} ${site.name}`.toLowerCase();
   // The number usually sits in the footer of the pages already read.
   const first = await company(site.fullText, own);
-  if (first.status === "verified") return first;
+  // Found, or Companies House can't be reached (more pages won't help).
+  if (first.status === "verified" || first.why.startsWith("ch-")) return first;
   // If not, the legal pages.
   const legal = await Promise.all(legalPages(site).map((u) => get(u, 8000)));
   const more = legal.filter((l) => l && l.status < 400).map((l) => text(l!.body, true)).join(" ");
-  return more ? company(more, own) : first;
+  if (!more) return first;
+  const second = await company(more, own);
+  return second.status === "verified" || second.why !== "no-number" ? second : first;
 }

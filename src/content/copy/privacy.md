@@ -34,7 +34,9 @@ What we collect and why
 - When you book a call: your name, email address and anything you add, to arrange and hold the call. Lawful basis: steps you ask us to take before entering into a contract.
 - When you email us: your email address and message, to reply. Lawful basis: our legitimate interests in answering enquiries.
 - When you visit: page views counted without cookies, and server logs including your IP address, to run and secure the site. Lawful basis: our legitimate interests.
-- When you use a free tool: the company or website you type. We check Companies House and, for a readiness review, send the site's public pages to an AI provider. Nothing is kept. Lawful basis: our legitimate interests.
+- When you use a free tool: the company or website you type. We check Companies House and, for a readiness review, send the site's public pages to an AI provider. Lawful basis: our legitimate interests.
+- After a readiness review: the website, the company we matched and the review, to see how the review is used and improve it. Lawful basis: our legitimate interests.
+- If you ask us to email a review: your email address, to send it and follow up once. Lawful basis: our legitimate interests in answering your request.
 
 ## cookies
 > Cookies · max 160
@@ -46,7 +48,7 @@ Who handles it
 
 ## handles
 > Recipients (categories) and transfers · max 260
-The providers that host the site, run the booking calendar and our email; for the free tools, Companies House and an AI provider. Some are in the United States; transfers rely on UK adequacy regulations or standard contractual clauses. We don't sell your data.
+Our site host and our booking and email providers; for the free tools, Companies House and an AI provider. Reviews stay on our own UK server. Some providers are in the US, under UK adequacy regulations or standard contractual clauses. We don't sell your data.
 
 ## label.keep
 > Row label · max 30
@@ -55,6 +57,7 @@ How long we keep it
 ## keep
 > Retention, one line each · max 90
 - Bookings and emails: up to two years after our last contact.
+- Readiness reviews, and any email address left with one: 12 months.
 - Site statistics: one month.
 - Server logs: the short period our host keeps them.
 

@@ -57,9 +57,18 @@ async function call(a: Ask, structured: boolean): Promise<Response> {
   });
 }
 
+/** The model's text, or why there isn't any: "off" (no key), "http-402" (out
+    of credit), "http-<status>", "empty-<finish reason>", "TimeoutError". */
+export type Outcome = { answer: Answer } | { error: string };
+
 /** The model's text, or null when off, out of credit, failed or refused. */
 export async function ask(a: Ask): Promise<Answer | null> {
-  if (!KEY) return null;
+  const o = await attempt(a);
+  return "answer" in o ? o.answer : null;
+}
+
+export async function attempt(a: Ask): Promise<Outcome> {
+  if (!KEY) return { error: "off" };
   try {
     let res = await call(a, true);
     // No provider for this model can do structured output: ask for plain JSON.
@@ -69,24 +78,27 @@ export async function ask(a: Ask): Promise<Answer | null> {
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       console.warn(JSON.stringify({ event: "openrouter-error", status: res.status, model: a.model, error: body.slice(0, 300) }));
-      return null;
+      return { error: `http-${res.status}` };
     }
     const d = await res.json();
     const text: string = d?.choices?.[0]?.message?.content ?? "";
     if (!text.trim()) {
       console.warn(JSON.stringify({ event: "openrouter-empty", model: a.model, finish: d?.choices?.[0]?.finish_reason, tokensOut: d?.usage?.completion_tokens }));
-      return null;
+      return { error: `empty-${d?.choices?.[0]?.finish_reason ?? "none"}` };
     }
     return {
-      text,
-      model: d?.model ?? a.model,
-      cost: d?.usage?.cost,
-      tokensIn: d?.usage?.prompt_tokens,
-      tokensOut: d?.usage?.completion_tokens,
+      answer: {
+        text,
+        model: d?.model ?? a.model,
+        cost: d?.usage?.cost,
+        tokensIn: d?.usage?.prompt_tokens,
+        tokensOut: d?.usage?.completion_tokens,
+      },
     };
   } catch (e) {
-    console.warn(JSON.stringify({ event: "openrouter-failed", model: a.model, error: e instanceof Error ? e.name : "unknown" }));
-    return null;
+    const name = e instanceof Error ? e.name : "unknown";
+    console.warn(JSON.stringify({ event: "openrouter-failed", model: a.model, error: name }));
+    return { error: name };
   }
 }
 

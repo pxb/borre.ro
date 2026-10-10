@@ -12,6 +12,7 @@ export type ServicePage = {
   problem: string; // the buyer's situation, in their terms
   steps: { t: string; d: string }[]; // how it runs, 3 or 4 steps
   priceNote?: string; // one commercial term beside the price; the detail is in the scope sheet
+  start?: { q: string; link: string }; // a pointer to the free review (the audit, Pedro 2026-10-10, #563)
   next: string; // the service a buyer usually moves on to (Tenhaw pattern, #583)
   faqs: { q: string; a: string }[];
 };
@@ -50,6 +51,7 @@ function servicePage(page: Page, next: string, dataFaq = false): ServicePage {
     problem: w.t("problem"),
     steps,
     ...(w.has("price-note") ? { priceNote: w.t("price-note") } : {}),
+    ...(w.has("start.q") ? { start: { q: w.t("start.q"), link: w.t("start.link") } } : {}),
     faqs: dataFaq ? [...faqs, DATA_FAQ] : faqs,
   };
 }

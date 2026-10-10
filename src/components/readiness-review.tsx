@@ -10,20 +10,30 @@ import copyTry from "@/content/copy.gen/try";
 import { REVIEW_KEY, site as brand, work } from "@/content/site";
 
 // The AI readiness review (/try, Pedro 2026-10-09), in the portal's product
-// design. The answer streams in by stage, so each part appears as it's ready:
-// the site's checks, the company, then the chat and the suggestions. Words:
-// copy/try.md.
+// design. It leads with the business (#624, 2026-10-10): the company, their
+// site as a chat, where we'd start with the first job drawn as a workflow, and
+// the tools we can see they use; the website checks come last, folded into one
+// line. The answer streams in by stage; while the AI works, the progress list
+// holds the place the chat will take. Words: copy/try.md.
 const w = words(copyTry);
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 type Check = { id: string; ok: boolean; vars?: Record<string, string | number> };
-type SiteE = { host: string; name: string; words: number; checks: { ai: Check[]; customers: Check[] }; pages?: string[] };
-type CompanyE = { status: "verified" | "none"; name?: string; number?: string; facts?: { sector: string | null; incorporated: string | null; town: string | null } };
+type Tool = { name: string; kind: string };
+type SiteE = { host: string; name: string; words: number; checks: { ai: Check[]; customers: Check[] }; tools?: Tool[]; pages?: string[] };
+type CompanyE = {
+  status: "verified" | "none";
+  why?: string;
+  name?: string;
+  number?: string;
+  facts?: { sector: string | null; size?: string; incorporated: string | null; town: string | null };
+};
+type AgentE = { service: string; trigger: string; steps: string[]; approve: string; result: string };
 type PickE = { service: string; name: string; automation: string; why: string; case?: { slug: string; title: string } };
 type QAE = { q: string; answer: string; page: string };
-type AdviceE = { off?: boolean; summary?: string; questions?: QAE[]; picks?: PickE[] };
-type State = { stage: 0 | 1 | 2 | 3; site?: SiteE; company?: CompanyE; advice?: AdviceE; date?: string; error?: string };
+type AdviceE = { off?: boolean; summary?: string; questions?: QAE[]; picks?: PickE[]; agent?: AgentE | null };
+type State = { stage: 0 | 1 | 2 | 3; site?: SiteE; company?: CompanyE; advice?: AdviceE; date?: string; id?: string; error?: string };
 
 const STAGES = ["stage.site", "stage.company", "stage.advice"];
 
@@ -79,7 +89,7 @@ export function ReadinessReview() {
           else if (ev.t === "company") set({ stage: 2, company: ev });
           else if (ev.t === "advice") set({ stage: 3, advice: ev });
           else if (ev.t === "done") {
-            set({ date: ev.date });
+            set({ date: ev.date, id: ev.id });
             try {
               sessionStorage.setItem(REVIEW_KEY, fill(w.t("notes"), { host: state.site?.host ?? "" }));
             } catch {}
@@ -140,24 +150,99 @@ export function ReadinessReview() {
           </form>
         ) : null}
 
-        {/* The steps show while it works, and go once the review is done. */}
-        {busy ? (
-          <ol className="rv-stages" aria-label="Progress">
-            {STAGES.map((k, i) => {
-              const st = s!.stage > i ? "done" : s!.stage === i && !s!.error ? "now" : "todo";
-              return (
-                <li key={k} className={st}>
-                  <span className="rv-tick" aria-hidden="true" />
-                  {w.t(k)}
-                  {st === "now" ? <span className="lk-dots" aria-hidden="true" /> : null}
-                </li>
-              );
-            })}
-          </ol>
-        ) : null}
+        {/* Before the site arrives the steps sit under the box; after, they
+            hold the place in the result where the chat will appear. */}
+        {busy && !s?.site ? <Stages stage={s!.stage} /> : null}
 
         {s?.site ? <Result s={s} onReset={reset} error={error} /> : null}
       </div>
+    </div>
+  );
+}
+
+function Stages({ stage }: { stage: number }) {
+  return (
+    <ol className="rv-stages" aria-label="Progress">
+      {STAGES.map((k, i) => {
+        const st = stage > i ? "done" : stage === i ? "now" : "todo";
+        return (
+          <li key={k} className={st}>
+            <span className="rv-tick" aria-hidden="true" />
+            {w.t(k)}
+            {st === "now" ? <span className="lk-dots" aria-hidden="true" /> : null}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+// The website checks, last and folded (#624): one line with the score, the
+// two lists inside.
+function Fold({ checks }: { checks: { ai: Check[]; customers: Check[] } }) {
+  const all = [...checks.ai, ...checks.customers];
+  return (
+    <details className="rv-fold">
+      <summary>{fill(w.t("checks.summary"), { ok: all.filter((c) => c.ok).length, total: all.length })}</summary>
+      <Checks title={w.t("group.ai")} list={checks.ai} />
+      <Checks title={w.t("group.customers")} list={checks.customers} />
+    </details>
+  );
+}
+
+// The software their pages' code shows they run, grouped by what it does.
+const KINDS = ["site", "crm", "email", "booking", "chat", "shop", "reviews", "analytics", "hiring", "support"];
+function Tools({ tools }: { tools: Tool[] }) {
+  const groups = KINDS.map((k) => ({ k, names: tools.filter((t) => t.kind === k).map((t) => t.name) })).filter((g) => g.names.length);
+  return (
+    <>
+      <h3 className="lk-h">{w.t("group.tools")}</h3>
+      <dl className="rv-tools">
+        {groups.map((g) => (
+          <div key={g.k}>
+            <dt>{w.t(`tool.${g.k}`)}</dt>
+            <dd>
+              {g.names.map((n) => (
+                <span key={n} className="chip">
+                  {n}
+                </span>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="lk-note">{w.t("tools.note")}</p>
+    </>
+  );
+}
+
+// The first suggestion as a workflow: what starts it, what it does, where a
+// person checks it, where it ends up.
+function Agent({ a }: { a: AgentE }) {
+  return (
+    <div className="rv-flow">
+      <p className="rv-flow-h">{w.t("agent.title")}</p>
+      <ol>
+        <li className="start">
+          <span className="rv-flow-k">{w.t("agent.starts")}</span>
+          {a.trigger}
+        </li>
+        {a.steps.map((x, i) => (
+          <li key={i}>{x}</li>
+        ))}
+        {a.approve ? (
+          <li className="person">
+            <span className="rv-flow-k">{w.t("agent.checks")}</span>
+            {a.approve}
+          </li>
+        ) : null}
+        {a.result ? (
+          <li className="end">
+            <span className="rv-flow-k">{w.t("agent.ends")}</span>
+            {a.result}
+          </li>
+        ) : null}
+      </ol>
     </div>
   );
 }
@@ -302,7 +387,12 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
   const heading = useCallback((el: HTMLHeadingElement | null) => el?.focus(), []);
   const site = s.site!;
   const co = s.company;
-  const facts = co?.facts ? [co.facts.sector, co.facts.incorporated ? `since ${co.facts.incorporated.slice(0, 4)}` : "", co.facts.town].filter(Boolean).join(" · ") : "";
+  const size = co?.facts?.size && ["micro", "small", "medium"].includes(co.facts.size) ? w.t(`size.${co.facts.size}`) : "";
+  const facts = co?.facts ? [size, co.facts.sector, co.facts.incorporated ? `since ${co.facts.incorporated.slice(0, 4)}` : "", co.facts.town].filter(Boolean).join(" · ") : "";
+  // No company: no number on the pages, numbers that aren't theirs, or
+  // Companies House out of reach (then the number may well be there).
+  const none = co?.why?.startsWith("ch-") ? "company.unreachable" : co?.why === "not-matched" ? "company.unmatched" : "company.none";
+  const busy = !s.error && !s.date;
   return (
     <div className="lk-brief" aria-live="polite">
       <button type="button" className="p-back" onClick={onReset}>
@@ -314,13 +404,12 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
       <p className="p-sub">{site.host}</p>
       {co ? (
         <p className={`rv-company ${co.status}`}>
-          {co.status === "none" ? w.t("company.none") : fill(w.t(`company.${co.status}`), { name: co.name ?? "", number: co.number ?? "" })}
+          {co.status === "none" ? w.t(none) : fill(w.t(`company.${co.status}`), { name: co.name ?? "", number: co.number ?? "" })}
           {facts ? <span className="p-sub"> {facts}</span> : null}
         </p>
       ) : null}
 
-      <Checks title={w.t("group.ai")} list={site.checks.ai} />
-      <Checks title={w.t("group.customers")} list={site.checks.customers} />
+      {busy && !s.advice ? <Stages stage={s.stage} /> : null}
 
       {s.advice?.questions?.length ? <SiteChat name={site.name} qs={s.advice.questions} pages={site.pages ?? []} /> : null}
 
@@ -340,6 +429,7 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
                   </Link>
                   <p className="rv-what">{p.automation}</p>
                   <p className="rv-why">{p.why}</p>
+                  {s.advice?.agent?.service === p.service ? <Agent a={s.advice.agent} /> : null}
                   {p.case ? (
                     <p className="rv-case">
                       {w.t("pick.similar")}: <Link href={`/work/${p.case.slug}`}>{p.case.title}</Link>
@@ -351,6 +441,10 @@ function Result({ s, onReset, error }: { s: State; onReset: () => void; error: s
           </>
         )
       ) : null}
+
+      {site.tools?.length ? <Tools tools={site.tools} /> : null}
+
+      <Fold checks={site.checks} />
 
       {error ? <p className="lk-status">{error}</p> : null}
 

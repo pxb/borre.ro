@@ -153,6 +153,20 @@ export default async function Service({ params }: { params: Promise<{ slug: stri
           {s.price} <span className="font-normal text-ink-soft">· {s.duration}</span>
         </p>
         {page.priceNote ? <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink">{page.priceNote}</p> : null}
+        {/* The free review as the first step (Pedro, 2026-10-10: keep it simple). */}
+        {page.start ? (
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink">
+            {page.start.q}{" "}
+            <Link
+              href="/try"
+              data-track="try"
+              data-track-where={`service-${slug}`}
+              className="text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              {page.start.link}
+            </Link>
+          </p>
+        ) : null}
         <p className="mt-3 text-sm text-ink-soft">{site.vatNote}</p>
       </Row>
 

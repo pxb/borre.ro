@@ -1,4 +1,4 @@
-import { ask, aiOn, parseJson } from "@/lib/openrouter";
+import { attempt, aiOn, parseJson } from "@/lib/openrouter";
 import { serviceCategories, work } from "@/content/site";
 import type { Company, SiteRead } from "@/lib/review";
 
@@ -24,7 +24,10 @@ let used = 0;
 
 export type Pick = { service: string; automation: string; why: string; case_study: string };
 export type QA = { q: string; answer: string; page: string };
-export type Advice = { summary: string; questions: QA[]; picks: Pick[]; model: string; cost?: number };
+// The first suggestion as a workflow: what starts it, what it does, what a
+// person checks, where it ends up (#624).
+export type Agent = { service: string; trigger: string; steps: string[]; approve: string; result: string };
+export type Advice = { summary: string; questions: QA[]; picks: Pick[]; agent: Agent | null; model: string; cost?: number };
 
 const SERVICES = serviceCategories.map((s) => `${s.slug}: ${s.name}. ${s.what} Includes: ${s.includes.join("; ")}.`).join("\n");
 const CASES = work.map((c) => `${c.slug}: ${c.title}. ${c.tagline} ${c.does.join("; ")}.`).join("\n");
@@ -52,6 +55,9 @@ Job 2, the suggestions. Pick the two or three of our services that would help th
 - why: one sentence pointing to something specific on their pages, at most 25 words.
 - case_study: the slug of our closest case study, or an empty string if none is close.
 - Use each service at most once.
+- The tools we can see in their site's code are listed. Where a suggestion connects to one of them, name it (for example "each HubSpot form enquiry"). Never assume a tool that isn't listed.
+- Size the suggestions to the company. A micro company (a handful of people) starts with one job: training, setting up tools they already pay for, or a single workflow; leave the company AI platform and the managed service out unless their pages show a bigger operation. A small company starts with one workflow or the Context Engine. Medium-sized and larger companies can start wider. A company less than two years old starts small too.
+- agent: the most concrete automation among your picks, drawn as a workflow, each line at most 15 words. service: that pick's service slug. trigger: what starts it. steps: the two to four things it does between the trigger and the check, in order, without repeating either. approve: what a person on their team checks before anything goes out. result: where the result ends up. Name their tools where they appear.
 - summary: one sentence on what they do, from their pages. It is for checking only and is not shown.
 
 For both: plain UK English and short sentences, like a practical person talking, not marketing. Spell product and place names exactly as the pages and the record do. No hype, no exclamation marks, no dashes as punctuation, no promised results or percentages. Never use these words: streamline, seamless, leverage, empower, unlock, robust, elevate, harness, ensure, enhance, effortless, journey, cutting-edge, game-changer, single source of truth, at scale.`;
@@ -60,7 +66,7 @@ For both: plain UK English and short sentences, like a practical person talking,
 const schema = (pages: string[]) => ({
   type: "object",
   additionalProperties: false,
-  required: ["questions", "summary", "picks"],
+  required: ["questions", "summary", "picks", "agent"],
   properties: {
     questions: {
       type: "array",
@@ -76,6 +82,18 @@ const schema = (pages: string[]) => ({
       },
     },
     summary: { type: "string" },
+    agent: {
+      type: "object",
+      additionalProperties: false,
+      required: ["service", "trigger", "steps", "approve", "result"],
+      properties: {
+        service: { type: "string", enum: serviceCategories.map((s) => s.slug) },
+        trigger: { type: "string" },
+        steps: { type: "array", items: { type: "string" } },
+        approve: { type: "string" },
+        result: { type: "string" },
+      },
+    },
     picks: {
       type: "array",
       items: {
@@ -112,6 +130,7 @@ function facts(site: SiteRead, co: Company, from = "") {
           `${co.name}, company ${co.number}`,
           co.brief.sector ? `line of business: ${co.brief.sector}` : "",
           co.brief.incorporated ? `incorporated ${co.brief.incorporated.slice(0, 4)}` : "",
+          ["micro", "small", "medium"].includes(co.brief.size) ? `size by its accounts: ${co.brief.size}` : "",
           co.brief.town ? `registered office in ${co.brief.town}` : "",
         ]
           .filter(Boolean)
@@ -121,27 +140,28 @@ function facts(site: SiteRead, co: Company, from = "") {
   const start = c
     ? `\n\nThey came from our case study "${c.title}" (${c.slug}): ${c.tagline} If similar work would fit this business, make it your first pick and name that case study. If it wouldn't fit, pick what fits best instead.`
     : "";
-  return `Business: ${site.name} (${site.host})\nCompanies House: ${reg}\n\nTheir web pages:\n${pages}\n\nOur services (slug: name, what it does, what it includes):\n${SERVICES}\n\nOur case studies (slug: title, what it did):\n${CASES}${start}`;
+  const tools = site.tools.length ? site.tools.map((t) => `${t.name} (${t.kind})`).join(", ") : "none we can see";
+  return `Business: ${site.name} (${site.host})\nCompanies House: ${reg}\nTools we can see in their site's code: ${tools}\n\nTheir web pages:\n${pages}\n\nOur services (slug: name, what it does, what it includes):\n${SERVICES}\n\nOur case studies (slug: title, what it did):\n${CASES}${start}`;
 }
 
 export const adviceOn = aiOn;
 
-/** The chat and two or three suggestions, or null when off, capped, failed or unusable. */
-export async function advise(site: SiteRead, co: Company, budgetMs = 40_000, from = ""): Promise<Advice | null> {
-  if (!aiOn()) return null;
+/** The chat and two or three suggestions, or null with the reason (for the run log). */
+export async function advise(site: SiteRead, co: Company, budgetMs = 40_000, from = ""): Promise<{ advice: Advice | null; status: string }> {
+  if (!aiOn()) return { advice: null, status: "off" };
   // Whatever time the request has left; too little and the review goes out without it.
   if (budgetMs < 8_000) {
     console.warn(JSON.stringify({ event: "review-advice-no-time", budgetMs }));
-    return null;
+    return { advice: null, status: "no-time" };
   }
   const today = new Date().toISOString().slice(0, 10);
   if (today !== day) {
     day = today;
     used = 0;
   }
-  if (used >= DAILY) return null;
+  if (used >= DAILY) return { advice: null, status: "capped" };
   used++;
-  const r = await ask({
+  const o = await attempt({
     model: MODEL,
     system: SYSTEM,
     user: facts(site, co, from),
@@ -150,11 +170,12 @@ export async function advise(site: SiteRead, co: Company, budgetMs = 40_000, fro
     effort: EFFORT,
     timeoutMs: Math.min(40_000, budgetMs),
   });
-  if (!r) return null;
-  const d = parseJson<{ summary?: unknown; questions?: unknown; picks?: unknown }>(r.text);
+  if ("error" in o) return { advice: null, status: o.error };
+  const r = o.answer;
+  const d = parseJson<{ summary?: unknown; questions?: unknown; picks?: unknown; agent?: Record<string, unknown> }>(r.text);
   if (!d) {
     console.warn(JSON.stringify({ event: "review-advice-unparsed", model: r.model, chars: r.text.length }));
-    return null;
+    return { advice: null, status: "unparsed" };
   }
   const known = new Set(serviceCategories.map((s) => s.slug));
   const cases = new Set(work.map((c) => c.slug));
@@ -181,12 +202,20 @@ export async function advise(site: SiteRead, co: Company, budgetMs = 40_000, fro
     questions.push({ q, answer, page });
     if (questions.length === 4) break;
   }
+  const ag = d.agent;
+  const steps = Array.isArray(ag?.steps) ? ag.steps.map((x) => clean(x, 140)).filter(Boolean).slice(0, 5) : [];
+  // Drawn under the pick it belongs to; one that isn't among the picks is dropped.
+  const agentFor = clean(ag?.service, 40);
+  const agent: Agent | null =
+    ag && picks.some((p) => p.service === agentFor) && clean(ag.trigger) && steps.length >= 2
+      ? { service: agentFor, trigger: clean(ag.trigger, 140), steps, approve: clean(ag.approve, 140), result: clean(ag.result, 140) }
+      : null;
   if (!picks.length && !questions.length) {
     console.warn(JSON.stringify({ event: "review-advice-empty", model: r.model }));
-    return null;
+    return { advice: null, status: "empty" };
   }
   // Cost at the point of the call: model, spend and counts only, never the site.
   const gaps = questions.filter((x) => !x.answer).length;
   console.log(JSON.stringify({ event: "readiness-review", model: r.model, cost: r.cost, tokensIn: r.tokensIn, tokensOut: r.tokensOut, picks: picks.length, questions: questions.length, gaps }));
-  return { summary: clean(d.summary, 240), questions, picks, model: r.model, cost: r.cost };
+  return { advice: { summary: clean(d.summary, 240), questions, picks, agent, model: r.model, cost: r.cost }, status: "ok" };
 }
