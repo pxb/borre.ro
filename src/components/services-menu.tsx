@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { navLabel, serviceFor, serviceGroups, tools, ui } from "@/content/site";
 
-const ITEM =
-  "block py-1.5 text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+// Styled once in globals.css (.menu-link).
+const ITEM = "menu-link";
 
 // The header's Services link with its menu on screens from 1024px: the three
 // groups and every service, opened by hover or by keyboard focus (CSS only, no

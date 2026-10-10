@@ -142,39 +142,12 @@ export const work: CaseStudy[] = [
 ];
 
 
-// Public evidence. Each source was fetched and checked (#565; 2026-09-24).
-// 2026-10-08: each claim now names its source's frame. techUK: "Lack of
-// expertise is the top barrier (35%)", from over 1,000 UK IT decision-makers.
-// Slide 01: each barrier with our answer to it, so the slide ends on the fix
-// rather than the fear (Pedro, 2026-09-24).
-export const evidence = [
-  {
-    stat: "35%",
-    claim: home.t("problem.figure.1.claim"),
-    answer: home.t("problem.figure.1.answer"),
-    source: "ANS and YouGov, via techUK, 2025",
-    href: "https://www.techuk.org/resource/major-barriers-to-ai-adoption-remain-for-uk-businesses-despite-growing-demand-new-report-reveals.html",
-  },
-  // Zapier: "More than 3 in 4 enterprises (78%) are struggling to integrate
-  // AI with their existing systems"; 500+ enterprise leaders, October 2025.
-  {
-    stat: "78%",
-    claim: home.t("problem.figure.2.claim"),
-    answer: home.t("problem.figure.2.answer"),
-    source: "Zapier survey, 2025",
-    href: "https://zapier.com/blog/ai-resistance-survey/",
-  },
-  {
-    stat: "40%",
-    claim: home.t("problem.figure.3.claim"),
-    answer: home.t("problem.figure.3.answer"),
-    // Gartner press release, 25 June 2025: "Over 40% of agentic AI projects
-    // will be canceled by the end of 2027, due to escalating costs, unclear
-    // business value or inadequate risk controls". Checked 2026-10-01.
-    source: "Gartner, 2025",
-    href: "https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027",
-  },
-];
+// Slide 01: three problems in the owner's words, each with our answer, and no
+// survey figures (Pedro, 2026-10-10: competitors open with the problem or their
+// work, not stats, and the figures' frames made the slide hard to read). The
+// figures moved, in full, to /research (src/content/research.ts).
+export const problems = [1, 2, 3].map((i) => ({ problem: home.t(`problem.${i}`), answer: home.t(`problem.${i}.answer`) }));
+export const problemsMore = home.t("problem.research");
 
 // Slide 05: what AI done properly is worth, in general rather than per client
 // (client results live on /work). Sources checked 2026-09-24.
@@ -191,20 +164,6 @@ export const startWhy = {
   answer: svc.t("start-why.answer"),
 };
 
-// The upside at the foot of the Problem slide (05 Value folded into it,
-// 2026-09-30). PwC measures labour productivity, not revenue. Press release,
-// 15 June 2026: "The top 20% of the most AI-exposed companies achieved average
-// labour productivity growth of 163% relative to 2018 – nearly five times
-// higher than the most AI-exposed companies overall". The other two Value
-// figures: Brynjolfsson et al. 14% (in git history) and Microsoft's 67%
-// (now `startWhy`, on /services).
-export const upside = {
-  stat: "163%",
-  claim: home.t("problem.upside.claim"),
-  answer: home.t("problem.upside.answer"),
-  source: "PwC Global AI Jobs Barometer, 2026",
-  href: "https://www.pwc.com/gx/en/news-room/press-releases/2026/pwc-2026-ai-jobs-barometer.html",
-};
 
 export const costNotes = [1, 2, 3].map((i) => ({ title: svc.t(`pricing.${i}.title`), body: svc.t(`pricing.${i}.text`) }));
 

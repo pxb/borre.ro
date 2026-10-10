@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BuiltStrip } from "@/components/built-strip";
 import { NetBackdrop } from "@/components/hero/net-backdrop";
 import { HeroHeadline } from "@/components/hero-headline";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -13,8 +14,8 @@ import { pageMeta } from "@/lib/meta";
 
 export const metadata = pageMeta({ description: site.summary, path: "/" });
 
-// Hero (the hook), then one story that unfolds Problem -> Plan -> Idea ->
-// Execution -> Results as you scroll, with an example at each step (#569).
+// Hero (the hook), what we've built, then one story that unfolds Problem ->
+// Review -> Method -> Engagement as you scroll, with an example at each step (#569).
 export default function Home() {
   return (
     <>
@@ -54,6 +55,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <BuiltStrip />
 
       <HowWeWork />
     </>

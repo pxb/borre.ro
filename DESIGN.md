@@ -33,8 +33,8 @@ service.
 The accent means **act here** or **a good result**. Nothing else.
 
 - The primary CTA ground, once per view.
-- Figures that are results or value: case-study results, /work, the upside figure at the foot of slide 01. Problem figures
-  (slide 01) are ink, so the good number reads as the good number.
+- Figures that are results or value: case-study results, /work, "What we've built" under the hero. Survey figures
+  (/research, the /services Start figure) are ink, so the good number reads as the good number.
 - The accent mark: a 4px by 40px bar over the items a page is built on: the ways to start (/services
   Start) and our commitments (/about).
 - **Our answer**: the arrow that leads into each answer on slide 01. The problem is ink; the fix
@@ -76,10 +76,10 @@ A thing in a list (a service, a case study, a stop on the call track):
 
 - **A problem is always followed by our answer.** Slide 01 pairs each barrier with the line that fixes
   it, so the story turns from the fear to the fix. No figure is there only to frighten.
-- **Why now, why us.** Slide 01 ends on the value of doing AI properly in general terms, with a source
-  (a fourth row after the three problems, same shape, figure in the accent, the takeaway where the
-  answers sit; under the paragraph was tried and read oddly); client-specific results stay on
-  /work and the case studies. /services carries one market figure under Start, in the problem form.
+- **Why now, why us.** Slide 01 has no survey figures since 2026-10-10: the problems in the owner's
+  words, our answers, and a link to /research, where every sourced figure sits in full with who was
+  asked and when. Our own results open the page instead ("What we've built"). /services carries one
+  market figure under Start, in the problem form.
 
 ## Headers
 

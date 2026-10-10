@@ -5,13 +5,12 @@ import { animate, motion, useAnimate, useMotionValue, useTransform } from "motio
 import Link from "next/link";
 import { ArrowRight, Repeat } from "lucide-react";
 import { AskDemo } from "@/components/ask-demo";
-import { Figure } from "@/components/figure";
 import { After, DrawLine, DrawRing, useMotionOn } from "@/components/draw";
 import { servicePages } from "@/content/service-pages";
 import { words } from "@/content/copy";
 import copyServices from "@/content/copy.gen/services";
 import copyHome from "@/content/copy.gen/home";
-import { evidence, upside } from "@/content/site";
+import { problems, problemsMore } from "@/content/site";
 
 // The right-hand side of each story slide (#584). One frame, a heading over a
 // 2px ink rule, and inside it a shape that matches what the slide says:
@@ -152,60 +151,27 @@ export function Example({ id, at = null }: { id: string; at?: number | null }) {
   return <Ladder at={at} />;
 }
 
-// 01 Problem: each barrier with our answer under it, so the slide turns from
-// the fear to the fix, then the upside when it's done properly (the old 05
-// Value slide, folded in 2026-09-30), its figure in the accent as a result. Figures in ink: these are problems, not results; the
-// accent is the arrow that leads into each answer.
-type Evidence = (typeof evidence)[number];
-
-function Source({ e }: { e: { source: string; href: string } }) {
-  return (
-    <a
-      href={e.href}
-      target="_blank"
-      rel="noreferrer"
-      className={`text-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink ${FOCUS}`}
-    >
-      {e.source}
-    </a>
-  );
-}
-
-const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
+// 01 Problem: three problems in the owner's words, each with our answer under
+// it, so the slide turns from the problem to the fix (Pedro, 2026-09-24). No
+// survey figures since 2026-10-10: they moved, with who was asked and when,
+// to /research, linked under the rows. The accent is the arrow into each answer.
 function Gap() {
   return (
     <Frame>
       <ul className="grid gap-6 [@media(max-height:800px)]:gap-4">
-        {evidence.map((e: Evidence) => (
-          <li key={e.stat}>
-            <Figure value={e.stat} beside tone="ink" count>
-              <p className="text-ink-soft">
-                <span>{sentence(e.claim)}.</span> <Source e={e} />
-              </p>
-              <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
-                <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
-                {e.answer}
-              </p>
-            </Figure>
-          </li>
-        ))}
-        {/* The upside, the old 05 Value slide folded in (2026-09-30): the same
-            row shape as the problems, the figure in the accent as a result and
-            the takeaway where the answers sit. Tried under the paragraph on the
-            left, which read oddly (Pedro). */}
-        <li className="border-t border-rule pt-6 [@media(max-height:800px)]:pt-4">
-          <Figure value={upside.stat} beside count>
-            <p className="text-ink-soft">
-              <span>{sentence(upside.claim)}.</span> <Source e={upside} />
-            </p>
+        {problems.map((p) => (
+          <li key={p.answer} className="border-l-2 border-rule pl-4">
+            <p className="text-lg leading-snug text-pretty text-ink">{p.problem}</p>
             <p className="mt-1.5 flex items-start gap-1.5 font-medium text-pretty text-ink">
               <ArrowRight aria-hidden className="mt-[0.3em] size-4 shrink-0 text-accent" />
-              {upside.answer}
+              {p.answer}
             </p>
-          </Figure>
-        </li>
+          </li>
+        ))}
       </ul>
+      <p className="mt-8 [@media(max-height:800px)]:mt-5">
+        <DetailLink href="/research">{problemsMore}</DetailLink>
+      </p>
     </Frame>
   );
 }

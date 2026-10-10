@@ -109,6 +109,10 @@ Privacy
 > Footer link · max 20
 Security
 
+## footer.research
+> Footer link to /research, the sourced figures · max 20
+Research
+
 ## crumb.home
 > The first breadcrumb on inner pages · max 12
 Home

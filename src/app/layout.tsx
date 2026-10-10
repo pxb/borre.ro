@@ -128,7 +128,7 @@ function FooterCol({
           <li key={l.label}>
             <Link
               href={l.href}
-              className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+              className="foot-link"
             >
               {l.label}
             </Link>
@@ -181,7 +181,7 @@ function Footer() {
                   href="/contact"
                   data-track="cta"
                   data-track-where="footer-link"
-                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+                  className="foot-link"
                 >
                   {ui.t("footer.book")}
                 </Link>
@@ -189,7 +189,7 @@ function Footer() {
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+                  className="foot-link"
                 >
                   {site.email}
                 </a>
@@ -199,7 +199,7 @@ function Footer() {
                   href={site.linkedin}
                   rel="me noreferrer"
                   target="_blank"
-                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+                  className="foot-link"
                 >
                   {ui.t("footer.linkedin")}
                 </a>
@@ -207,7 +207,7 @@ function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="inline-flex min-h-11 items-center text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
+                  className="foot-link"
                 >
                   {ui.t("footer.about-link")}
                 </Link>
@@ -237,6 +237,9 @@ function Footer() {
               className="inline-flex min-h-11 items-center underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-action focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:min-h-0"
             >
               {ui.t("footer.security")}
+            </Link>
+            <Link href="/research" className="foot-link underline decoration-rule underline-offset-4 hover:decoration-action">
+              {ui.t("footer.research")}
             </Link>
             <a
               href="/llms.txt"

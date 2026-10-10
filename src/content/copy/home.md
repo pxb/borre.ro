@@ -41,6 +41,26 @@ Case studies
 > The link under the hero buttons, to the AI readiness review (/try) · max 40
 Get a free AI readiness review
 
+## built.label
+> Over the case studies straight after the hero · max 30
+What we've built
+
+## built.1
+> Under the Context Engine's figure (1 day) · max 50
+from their data to a first working version
+
+## built.2
+> Under outbound prospecting's figure (20 to 30 min) · max 50
+of research saved on each lead, estimated
+
+## built.3
+> Under lead enrichment's figure (20 to 40 min) · max 50
+of rep time saved on each new lead, estimated
+
+## built.4
+> Under post-call's figure (4 jobs) · max 50
+ready for review after each sales call
+
 ## problem.label
 > Story step: the name in the step bar · max 12
 Problem
@@ -91,37 +111,33 @@ Sized to your business.
 > The paragraph under the title · max 240
 From a half-day workshop to a full build, each engagement is scoped to what you need and priced before we start.
 
-## problem.figure.1.claim
-> Under the figure 35% (kept in code with its source, ANS and YouGov, via techUK, 2025). Shown sentence-cased with a full stop · max 110
-of UK IT decision-makers say not having the expertise is the biggest barrier to using AI
+## problem.1
+> Slide 01, first problem, in the owner's words · max 80
+Your AI tools don't talk to your CRM, inbox or accounts.
 
-## problem.figure.1.answer
-> Our answer, after the arrow. Keep it to one line on a laptop · max 45
+## problem.1.answer
+> Our answer, after the arrow. Keep it to one line on a laptop · max 50
+We connect them to the systems you already use.
+
+## problem.2
+> Second problem · max 80
+Nobody has the time or know-how to set it up properly.
+
+## problem.2.answer
+> Our answer, after the arrow · max 50
 We bring the expertise and train your team.
 
-## problem.figure.2.claim
-> Under the figure 78% (kept in code with its source, Zapier survey, 2025). Shown sentence-cased with a full stop · max 110
-of enterprises are struggling to connect AI to the systems they already run
+## problem.3
+> Third problem · max 80
+You can't tell what any of it is worth.
 
-## problem.figure.2.answer
-> Our answer, after the arrow. Keep it to one line on a laptop · max 45
-We connect it to the systems you already use.
-
-## problem.figure.3.claim
-> Under the figure 40% (kept in code with its source, Gartner). Shown sentence-cased with a full stop · max 110
-of AI agent projects are expected to be cancelled by 2027, over unclear business value
-
-## problem.figure.3.answer
-> Our answer, after the arrow. Keep it to one line on a laptop · max 45
+## problem.3.answer
+> Our answer, after the arrow · max 50
 We agree the value up front, then measure it.
 
-## problem.upside.claim
-> Under the figure 163% (kept in code with its source, PwC Global AI Jobs Barometer, 2026) · max 140
-labour productivity growth since 2018 at the top fifth of the companies most exposed to AI, nearly five times that group's average
-
-## problem.upside.answer
-> The takeaway, after the arrow · max 45
-Done properly, AI pulls you ahead.
+## problem.research
+> The link under the problems to /research · max 40
+The research behind this
 
 ## review.call.label
 > Read by screen readers: the name of the call's set of stops · max 30

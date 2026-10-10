@@ -67,12 +67,13 @@ Voice follows the vault skill `00 Meta/Skills/pedro-writing-style.md`. Plain, di
 
 ## Homepage story
 
-Hero, then a horizontal pinned story (vertical below 1024px and under reduced motion) of four steps (2026-09-30, when the homepage felt endless on a phone: 06 Support came off, the managed service is on /services; 05 Value folded into 01 Problem as its upside figure):
+Hero, then "What we've built" (#624, 2026-10-10: the case studies, each with one figure of its own,
+never a target; `built-strip.tsx`, short labels in home.md `built.*`), then a horizontal pinned story (vertical below 1024px and under reduced motion) of four steps (2026-09-30, when the homepage felt endless on a phone: 06 Support came off, the managed service is on /services; 05 Value folded into 01 Problem as its upside figure):
 01 Problem, 02 Review (the free 30-minute call; "Discovery" read as a sales stage and is a paid phase
 elsewhere in this market), 03 Method (AI³: Context × Agents × Evals, with
 the live Ask-the-Context-Engine demo), 04 Engagement (ways to start, audit to full build, with prices).
 Content and
-step ids live in `src/components/how-we-work.tsx`, the figures in `evidence` and `upside` in `site.ts`.
+step ids live in `src/components/how-we-work.tsx`, slide 01's rows in `problems` in `site.ts`.
 
 **Slide standard (#584, 2026-09-24; labels and accents per DESIGN.md):** left, the title and one
 short paragraph. Right, one `Frame`: a 2px ink rule, a label only where it names something the title
@@ -80,7 +81,7 @@ doesn't, no boxed or tinted backgrounds. Inside the frame each
 slide has its own shape, matched to what it says, in `src/components/story-forms.tsx`: Problem as
 three barriers in ink, each followed by our answer (the fear, then the fix), Review as a 0 to 30 minute timeline, Method as the Context × Agents × Evals
 formula over the Ask demo, Engagement as a ladder of entry points that runs on, dashed, into "Then we keep it running" (a link to /services/support),
-Problem ends on the upside: a fourth row after the three problems, same shape, the figure (`upside` in site.ts, PwC 163%) in the accent and "Done properly, AI pulls you ahead." where the answers sit. Every pinned slide must fit above the offer bar down to 1280x720 (`Lab/borre-tools/cdp-slide-fit.mjs`); short screens tighten the slide padding and the Method slide (`max-height` variants). No prices on the slides. The six were all one row list
+Since 2026-10-10 (#624) Problem has no survey figures: three problems in the owner's words, each with our answer, then "The research behind this" linking to /research. Pedro found the figures distracting, and no competitor opens with industry stats (they open with the problem or their own work); naming who each survey asked, as accuracy demands, made every line long. /research carries every sourced figure in full: who was asked, when, the source and our answer (`src/content/research.ts`, `copy/research.md`); it's in the footer and the sitemap. Every pinned slide must fit above the offer bar down to 1280x720 (`Lab/borre-tools/cdp-slide-fit.mjs`); short screens tighten the slide padding and the Method slide (`max-height` variants). No prices on the slides. The six were all one row list
 before and read as text-heavy and identical.
 
 The ladder draws the staircase above and sets every label on one baseline under it; labels hung
