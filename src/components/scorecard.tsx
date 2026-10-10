@@ -3,12 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Figure } from "@/components/figure";
-import { questions, result, SCORECARD_KEY, scorecardWords as w, SHARE, type Answers } from "@/content/scorecard";
+import { questions, result, SCORECARD_KEY, scorecardWords as w, SHARE, WEEKS, type Answers } from "@/content/scorecard";
 import { fill } from "@/components/fill";
 import { servicePages } from "@/content/service-pages";
 import { ctaFor, serviceFor } from "@/content/site";
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;
+const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
+// A service's published starting price ("From £1,500 per workflow" is 1500).
+const startPrice = (price: string) => Number(price.match(/£([\d,]+)/)?.[1]?.replace(/,/g, "") ?? 0);
 
 // Native radios, so the questions read and work without JavaScript; the
 // result needs it. A picked answer fills its circle in the accent, like the
@@ -20,6 +23,13 @@ export function Scorecard() {
   const r = done ? result(a) : null;
   const s = r ? serviceFor(r.service) : undefined;
   const cta = r ? ctaFor(`/services/${r.service}`) : null;
+  // The recommended service's starting price in weeks of the time it gives back.
+  const price = s ? startPrice(s.price) : 0;
+  const fast = r && price ? Math.max(1, Math.ceil(price / (r.high * r.rate))) : 0;
+  const slow = r && price ? Math.max(1, Math.ceil(price / (r.low * r.rate))) : 0;
+  const payback = r && s && price
+    ? fill(w.t(slow <= 1 ? "result.payback.week" : fast === slow ? "result.payback.one" : "result.payback"), { service: s.name, price: gbp(price), a: String(fast), b: String(slow) })
+    : null;
 
   // Log each finished set of answers once, anonymously (/api/scorecard), after
   // a pause so a reader changing answers sends only where they settle.
@@ -43,7 +53,7 @@ export function Scorecard() {
   const remember = () => {
     if (!r || !s) return;
     try {
-      sessionStorage.setItem(SCORECARD_KEY, `AI value calculator: ${r.band.name}, about ${r.low} to ${r.high} hours a week back`);
+      sessionStorage.setItem(SCORECARD_KEY, `AI ROI calculator: ${r.band.name}, about ${r.low} to ${r.high} hours a week back, ${gbp(r.valueLow)} to ${gbp(r.valueHigh)} a year`);
     } catch {}
   };
 
@@ -98,6 +108,21 @@ export function Scorecard() {
               </Figure>
             </div>
 
+            <div className="mt-10 max-w-md">
+              <Figure value={`${gbp(r.valueLow)} to ${gbp(r.valueHigh)}`}>
+                <span className="block text-sm text-ink-soft">
+                  {fill(w.t("result.value"), {
+                    rate: gbp(r.rate),
+                    weeks: (
+                      <a href={WEEKS.source} target="_blank" rel="noreferrer" className="underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                        {fill(w.t("result.weeks"), { n: String(WEEKS.n) })}
+                      </a>
+                    ),
+                  })}
+                </span>
+              </Figure>
+            </div>
+
             <p className="label mt-12">{w.t("result.start")}</p>
             <p className="mt-3 text-xl font-medium tracking-[-0.01em] text-ink">
               <Link
@@ -108,6 +133,7 @@ export function Scorecard() {
               </Link>
             </p>
             <p className="mt-2 max-w-xl leading-relaxed text-ink-soft">{servicePages[s.slug]?.line}</p>
+            {payback ? <p className="mt-3 max-w-xl leading-relaxed text-ink">{payback}</p> : null}
             <Link
               href={cta.href}
               onClick={remember}

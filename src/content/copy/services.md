@@ -87,8 +87,8 @@ Managed service
 Not sure where to start?
 
 ## scorecard.link
-> The AI value calculator link (/scorecard) · max 40
-Try the AI value calculator
+> The AI ROI calculator link (/scorecard) · max 40
+Try the AI ROI calculator
 
 ## pricing.heading
 > Pricing section heading · max 20

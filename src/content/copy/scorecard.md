@@ -1,17 +1,17 @@
 ---
-page: AI value calculator
+page: AI ROI calculator
 route: /scorecard
 ---
 
-> /scorecard: eight questions, then a result. The scoring, the estimate's arithmetic and which service is recommended stay in code. The answers to questions 1 and 2 are number ranges the estimate is calculated from, so they stay in code too. Keep each list of answers in the same order and the same length: the order is how the answers are scored.
+> /scorecard: nine questions, then a result. The scoring, the estimate's arithmetic and which service is recommended stay in code. The answers to questions 1 and 2 are number ranges the estimate is calculated from, and the hourly costs in q.cost are numbers in code too (15, 25, 40, 60), so keep their order. Keep each list of answers in the same order and the same length: the order is how the answers are scored.
 
 ## title
 > The page title; also the browser tab and search result title · max 40
-AI value calculator
+AI ROI calculator
 
 ## lead
 > Under the title; also the search and share description · max 200
-Eight questions about how your business works today. You get an estimate of the hours AI could give back each week, a readiness score and where to start.
+Nine questions about how your business works today. You get an estimate of the time and money AI could give back, a readiness score and where to start.
 
 ## q.1
 > Question 1. Its answers (1 or 2, 3 to 10, 11 to 25, More than 25) are in code · max 140
@@ -20,6 +20,17 @@ How many people spend time on repeated admin, such as research, call notes, CRM 
 ## q.2
 > Question 2. Its answers (Under 2, 2 to 5, 5 to 10, More than 10 hours) are in code · max 140
 Roughly how many hours a week does each of them spend on it?
+
+## q.cost
+> Question 3: what an hour of that time costs. Shown third · max 140
+Roughly what does an hour of their time cost you, with employer costs?
+
+## q.cost.answers
+> Its answers, in this order; the amounts behind them (15, 25, 40, 60) are in code
+- About £15
+- About £25
+- About £40
+- £60 or more
 
 ## q.3
 > Question 3 · max 140
@@ -113,6 +124,26 @@ Your result
 ## result.estimate
 > Under the hours figure. {weekly}, {low} and {high} come from the calculation; {source} is the link below · max 260
 hours a week back, estimated. About {weekly} hours of repeated admin a week, assuming {low} to {high} of it moves to software. McKinsey puts what current AI and other technology could automate at {source}.
+
+## result.value
+> Under the money figure. {rate} is the hourly cost picked; {weeks} is the link below · max 200
+a year, estimated: those hours at {rate} an hour, over {weeks}.
+
+## result.weeks
+> The link to gov.uk's holiday entitlement page. {n} is filled in · max 60
+the {n} working weeks left after statutory holiday
+
+## result.payback
+> Under the recommended service. {service}, {price}, {a} and {b} are filled in · max 200
+{service} starts at {price}. At these numbers, that's about {a} to {b} weeks of the time AI could give back.
+
+## result.payback.one
+> As above, when the range is a single number · max 200
+{service} starts at {price}. At these numbers, that's about {a} weeks of the time AI could give back.
+
+## result.payback.week
+> As above, when it's a week or less · max 200
+{service} starts at {price}, which is about a week of the time AI could give back at these numbers.
 
 ## result.source
 > The link to McKinsey's study. The figure is theirs: keep it as it is · max 40

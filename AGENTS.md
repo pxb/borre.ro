@@ -126,10 +126,13 @@ gives it to the page header, the footer band and the offer bar on that service's
 `/contact?service=<slug>`; `BookingFrame` passes the service name into Cal.com's notes field
 (`notes=` prefill, checked 2026-09-29). Clicks carry `data-track-service`.
 
-## AI value calculator, `/scorecard` (#581, 2026-09-30)
+## AI ROI calculator, `/scorecard` (#581, 2026-09-30)
 
-Called the readiness scorecard until 2026-10-09, when Pedro renamed it so it no longer shares "AI
-readiness" with the paid audit and the review. The address stays `/scorecard` so links keep working.
+Called the readiness scorecard until 2026-10-09 and the AI value calculator until 2026-10-10 (#624), when
+Pedro asked for the pounds version: a ninth question prices an hour of the admin (wages plus employer
+costs, bands of about £15, £25, £40 and £60), the hours back become pounds a year over 46 working weeks
+(52 less 5.6 weeks' statutory holiday, gov.uk), and the recommended service's published starting price
+is shown as weeks of the time it gives back. The address stays `/scorecard` so links keep working.
 
 `/scorecard`: eight multiple-choice questions (`src/content/scorecard.ts`), native radios in
 `src/components/scorecard.tsx`. Two questions size the repeated admin (people x hours, at midpoints);
@@ -155,7 +158,7 @@ Linked from /services, the footer and the header's Services menu.
 ## Free tools (#622, 2026-10-09)
 
 Three, listed together as "Try it free" under Services in both menus (`tools` in `site.ts`): the
-AI value calculator (above), the AI readiness review and the signal check.
+AI ROI calculator (above), the AI readiness review and the signal check.
 
 **AI readiness review, `/try`** (Pedro's spec, 2026-10-09). A visitor pastes a website; `/api/review`
 streams one JSON line per stage (site, checks and pages read; company; chat and suggestions; done), so

@@ -295,7 +295,7 @@ Most of the time AI saves is in work your website doesn't show, like quotes, fol
 
 ## next.scorecard
 > Link to the scorecard · max 60
-Or answer eight questions about how you work
+Or work out your return with the AI ROI calculator
 
 ## again
 > Start over · max 30
